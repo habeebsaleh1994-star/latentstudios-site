@@ -35,15 +35,19 @@ export const onRequestPost = async ({ request, env }) => {
   // Honeypot: a hidden field real people never fill. Pretend success, drop it.
   if (String(data.website || "").trim() !== "") return json({ ok: true });
 
+  // The production secret is stored under the name "Latent" (Cloudflare does
+  // not allow renaming a secret, so we accept it under either name).
+  const apiKey = env.BUTTONDOWN_API_KEY || env.Latent;
+
   if (!EMAIL_RE.test(email)) return json({ ok: false, error: "invalid_email" }, 400);
-  if (!env.BUTTONDOWN_API_KEY) return json({ ok: false, error: "not_configured" }, 500);
+  if (!apiKey) return json({ ok: false, error: "not_configured" }, 500);
 
   let res;
   try {
     res = await fetch("https://api.buttondown.com/v1/subscribers", {
       method: "POST",
       headers: {
-        Authorization: `Token ${env.BUTTONDOWN_API_KEY}`,
+        Authorization: `Token ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
