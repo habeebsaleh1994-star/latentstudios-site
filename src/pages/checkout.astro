@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { paddle } from '../config/paddle';
+
+const token = paddle.clientToken;
+---
+
+<Base
+  title="Checkout — Latent"
+  description="Pay for Latent on the web. Paddle.com is the Merchant of Record."
+>
+  <Fragment slot="head">
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+  </Fragment>
+  <Nav />
+  <main class="legal" id="main">
+    <div class="legal-label">Checkout</div>
+    <h1>Checkout</h1>
+    <p class="legal-lead">
+      Purchases on this site are taken by Paddle.com, our Merchant of Record.
+    </p>
+    <p>
+      If you arrived here from a receipt or a payment link, checkout opens on its own.
+      If nothing appears, write to
+      <a href="mailto:support@latentritual.com">support@latentritual.com</a>.
+    </p>
+    <p>
+      <a href="/terms">Terms</a>
+      &ensp;&middot;&ensp;
+      <a href="/privacy">Privacy</a>
+      &ensp;&middot;&ensp;
+      <a href="/refund">Refunds</a>
+    </p>
+    <a class="legal-back" href="/">← Back to Latent</a>
+  </main>
+  <Footer />
+
+  {token && (
+    <script is:inline define:vars={{ token }}>
+      if (window.Paddle) {
+        window.Paddle.Initialize({ token: token });
+      }
+    </script>
+  )}
+
+  <style>
+    .legal { max-width: 720px; margin: 0 auto; padding: 140px 24px 120px; }
+    .legal-label { font-family: var(--font-label); font-weight: 300; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--amber-dim); margin-bottom: 20px; }
+    .legal h1 { font-family: var(--font-display); font-weight: 300; font-size: 40px; letter-spacing: -0.01em; color: var(--text-bright); margin-bottom: 12px; }
+    .legal-lead { font-size: 18px !important; line-height: 1.75 !important; color: var(--text) !important; }
+    .legal p { font-family: var(--font-body); font-weight: 300; font-size: 16px; line-height: 1.7; color: var(--text-muted); margin-bottom: 14px; }
+    .legal a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--border-light); transition: color 0.3s ease, text-shadow 0.6s ease, border-color 0.6s ease; }
+    .legal a:hover { color: var(--text-bright); text-shadow: 0 0 16px rgba(232, 196, 160, 0.5); border-color: transparent; }
+    .legal-back { display: inline-block; margin-top: 48px; font-family: var(--font-label); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--amber-dim); border-bottom: none; }
+    .legal-back:hover { color: var(--text-bright); text-shadow: 0 0 16px rgba(232, 196, 160, 0.5); }
+  </style>
+</Base>
