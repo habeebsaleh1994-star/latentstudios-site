@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base
+  title="Refunds — Latent"
+  description="30-day money-back on website purchases. Paddle.com is the Merchant of Record and handles returns."
+>
+  <Nav />
+  <main class="legal" id="main">
+    <div class="legal-label">Refunds</div>
+    <h1>Refund Policy</h1>
+    <p class="legal-updated">Last updated 22 August 2026</p>
+
+    <p class="legal-lead">If a purchase from this website is not what you needed, we will refund it.</p>
+
+    <p>You have 30 days from the date of purchase. No questions asked. Write to us at <a href="mailto:support@latentritual.com">support@latentritual.com</a>, or use the link in your receipt, and you will receive a full refund.</p>
+
+    <p>Our order process is conducted by our online reseller Paddle.com. Paddle.com is the Merchant of Record for all our orders. Paddle provides all customer service inquiries and handles returns.</p>
+
+    <p>Paddle will send the refund to the original payment method, usually within 14 days of approving the request. You can also reach Paddle directly at <a href="https://paddle.net">paddle.net</a>.</p>
+
+    <p>This policy applies to purchases made on latentritual.com, including The Lab&rsquo;s DaVinci Resolve plugin. App Store purchases follow Apple&rsquo;s refund process, not this page.</p>
+
+    <p>If something is wrong with the software itself, write to us anyway. We would rather fix it or refund it than leave you stuck.</p>
+
+    <a class="legal-back" href="/">← Back to Latent</a>
+  </main>
+  <Footer />
+
+  <style>
+    .legal { max-width: 720px; margin: 0 auto; padding: 140px 24px 120px; }
+    .legal-label { font-family: var(--font-label); font-weight: 300; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--amber-dim); margin-bottom: 20px; }
+    .legal h1 { font-family: var(--font-display); font-weight: 300; font-size: 40px; letter-spacing: -0.01em; color: var(--text-bright); margin-bottom: 12px; }
+    .legal-updated { font-family: var(--font-body); font-style: italic; font-size: 14px; color: var(--text-ghost); margin-bottom: 48px; }
+    .legal-lead { font-size: 18px !important; line-height: 1.75 !important; color: var(--text) !important; }
+    .legal h2 { font-family: var(--font-display); font-weight: 400; font-size: 21px; color: var(--text-bright); margin: 40px 0 12px; }
+    .legal p { font-family: var(--font-body); font-weight: 300; font-size: 16px; line-height: 1.7; color: var(--text-muted); margin-bottom: 14px; }
+    .legal a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--border-light); transition: color 0.3s ease, text-shadow 0.6s ease, border-color 0.6s ease; }
+    .legal a:hover { color: var(--text-bright); text-shadow: 0 0 16px rgba(232, 196, 160, 0.5); border-color: transparent; }
+    .legal-back { display: inline-block; margin-top: 48px; font-family: var(--font-label); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--amber-dim); border-bottom: none; }
+    .legal-back:hover { color: var(--text-bright); text-shadow: 0 0 16px rgba(232, 196, 160, 0.5); }
+  </style>
+</Base>
