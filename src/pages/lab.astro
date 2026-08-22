@@ -9,6 +9,7 @@ import Nav from '../components/Nav.astro';
 import FooterMini from '../components/FooterMini.astro';
 import StatusChip from '../components/StatusChip.astro';
 import { truth } from '../config/truth';
+import { labCommerce } from '../config/lab';
 
 // The controlled fixture: one frame, developed several ways, with the decoded
 // source kept alongside. looks[0] leads and doubles as the frame's thumbnail;
@@ -51,7 +52,7 @@ const frames = [
   ogImage="/og-lab.png?v=1"
   ogImageAlt="The Lab — the moving-image print engine, in DaVinci Resolve and on iPhone"
 >
-  <Nav cta={{ label: 'Join the waitlist', href: '#join' }} />
+  <Nav cta={{ label: 'Seven days free, then from $199', href: '#join' }} />
   <main id="main">
 
     <!-- HERO -->
@@ -246,16 +247,29 @@ const frames = [
 
     <!-- CLOSE -->
     <section class="close" id="join">
-      <h2 class="close-heading reveal reveal-heading">In development, honestly.</h2>
+      <h2 class="close-heading reveal reveal-heading">A printing machine, not a LUT.</h2>
       <p class="close-body reveal" style="--reveal-delay: 80ms">
-        The Lab is in active development. The phone app arrives through the App
-        Store; the Resolve plugin as a signed installer, and that one is
-        further out. The waitlist gets the word when each is ready &mdash; and
-        nothing is sold before it is real.
+        Seven days with the Resolve plugin. Then a year, or forever.
+        The signed installer is not for sale until it is real. When it is,
+        these two doors open.
       </p>
-      <div class="close-actions reveal" style="--reveal-delay: 160ms">
+      <div class="plans reveal" style="--reveal-delay: 120ms">
+        <article class="plan">
+          <div class="plan-name">A year</div>
+          <div class="plan-price">${labCommerce.yearlyUsd}</div>
+          <div class="plan-cadence">per year</div>
+          <p class="plan-note">{labCommerce.trialDays} days free, then this.</p>
+        </article>
+        <article class="plan plan-forever">
+          <div class="plan-name">Forever</div>
+          <div class="plan-price">${labCommerce.lifetimeUsd}</div>
+          <div class="plan-cadence">once</div>
+          <p class="plan-note">The printing machine, yours.</p>
+        </article>
+      </div>
+      <div class="close-actions reveal" style="--reveal-delay: 200ms">
         <StatusChip label={truth.labStatus} />
-        <a class="btn-amber" href="/beta?app=lab">Join the waitlist</a>
+        <a class="btn-amber" href={labCommerce.waitlistHref}>Get the trial when it ships</a>
       </div>
     </section>
   </main>
@@ -263,6 +277,9 @@ const frames = [
     links={[
       { label: 'The Ritual', href: '/ritual' },
       { label: 'The Moment', href: '/moment' },
+      { label: 'Privacy', href: '/privacy' },
+      { label: 'Terms', href: '/terms' },
+      { label: 'Refunds', href: '/refund' },
     ]}
   />
 
@@ -579,6 +596,53 @@ const frames = [
       color: var(--text-muted);
       margin: 0;
     }
+
+    .plans {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      width: min(560px, 100%);
+    }
+    .plan {
+      border: 1px solid var(--border);
+      padding: 28px 22px 24px;
+      text-align: center;
+    }
+    .plan-forever {
+      border-color: var(--amber-dim);
+    }
+    .plan-name {
+      font-family: var(--font-label);
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--amber-dim);
+      margin-bottom: 14px;
+    }
+    .plan-price {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: 40px;
+      letter-spacing: -0.02em;
+      color: var(--text-bright);
+      line-height: 1;
+    }
+    .plan-cadence {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 13px;
+      color: var(--text-ghost);
+      margin: 8px 0 16px;
+    }
+    .plan-note {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin: 0;
+    }
     .close-actions {
       display: flex;
       align-items: center;
@@ -591,6 +655,7 @@ const frames = [
     @media (max-width: 900px) {
       .lab-h2 { font-size: 36px; }
       .close-heading { font-size: 32px; }
+      .plans { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 640px) {
