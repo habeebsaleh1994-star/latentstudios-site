@@ -1,0 +1,277 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const filename = 'Latent-Print-Engine-0.1.170-Beta-Full.pkg';
+---
+
+<Base
+  title="Latent Print Engine — Private Beta"
+  description="A private testing release of Latent Print Engine for DaVinci Resolve on Mac."
+  ogImageAlt="Latent Print Engine — private beta"
+>
+  <Fragment slot="head">
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+  </Fragment>
+
+  <main class="release" id="main">
+    <div class="release-glow" aria-hidden="true"></div>
+
+    <section class="release-card" aria-labelledby="release-title">
+      <div class="mark" aria-hidden="true">
+        <span class="mark-disc"></span>
+        <span class="mark-light"></span>
+        <span class="mark-pivot"></span>
+      </div>
+
+      <p class="eyebrow">Private beta · macOS</p>
+      <h1 id="release-title">Latent Print Engine</h1>
+      <p class="version">Version 0.1.170</p>
+      <p class="lead">
+        One negative-to-print engine inside DaVinci Resolve. This invitation
+        includes the engine, License Manager, and full film-gate plate library.
+      </p>
+
+      <div class="release-state" data-release-state aria-live="polite">
+        <span class="state-dot" aria-hidden="true"></span>
+        <span data-state-copy>Checking your invitation…</span>
+      </div>
+
+      <a class="download" data-download aria-disabled="true">
+        <span>Download for Mac</span>
+        <small>Notarized installer · 963 MB</small>
+      </a>
+
+      <div class="instructions">
+        <p><span>1</span> Download and open the installer.</p>
+        <p><span>2</span> Restart DaVinci Resolve after installation.</p>
+        <p><span>3</span> Add Latent Print Engine, then enter your personal beta code under License.</p>
+      </div>
+
+      <p class="note">
+        Your invitation link opens the installer. Your personal beta code
+        activates one Mac; keep the two together and do not forward them.
+      </p>
+
+      <p class="filename">{filename}</p>
+    </section>
+  </main>
+
+  <script>
+    const state = document.querySelector('[data-release-state]');
+    const copy = document.querySelector('[data-state-copy]');
+    const download = document.querySelector('[data-download]');
+    const access = new URLSearchParams(window.location.search).get('access');
+
+    const setState = (kind, message) => {
+      state?.setAttribute('data-kind', kind);
+      if (copy) copy.textContent = message;
+    };
+
+    if (!access) {
+      setState('closed', 'A private invitation is required.');
+    } else {
+      const endpoint = `/api/print-engine/download?access=${encodeURIComponent(access)}`;
+      fetch(endpoint, { method: 'HEAD', cache: 'no-store' })
+        .then((response) => {
+          if (!response.ok) throw new Error('Invitation unavailable');
+          if (download instanceof HTMLAnchorElement) {
+            download.href = endpoint;
+            download.removeAttribute('aria-disabled');
+          }
+          setState('ready', 'Your invitation is ready.');
+        })
+        .catch(() => setState('closed', 'This invitation is unavailable or has expired.'));
+    }
+  </script>
+
+  <style>
+    .release {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 64px 24px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.012), transparent 34%),
+        var(--bg-deep);
+    }
+    .release-glow {
+      position: absolute;
+      width: min(880px, 130vw);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,196,160,.085), transparent 64%);
+      pointer-events: none;
+    }
+    .release-card {
+      position: relative;
+      width: min(100%, 620px);
+      margin: 0;
+      padding: 64px 58px 46px;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--bg-elev) 78%, transparent);
+      box-shadow: 0 32px 100px rgba(0,0,0,.36);
+    }
+    .mark {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 30px;
+    }
+    .mark-disc {
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(232,196,160,.55);
+      border-radius: 50%;
+      background: linear-gradient(135deg, #9c6945 0%, #452d20 56%, #191412 100%);
+    }
+    .mark-light {
+      position: absolute;
+      left: 35px;
+      top: 8px;
+      width: 30px;
+      height: 27px;
+      clip-path: polygon(0 82%, 100% 0, 22% 100%);
+      background: linear-gradient(135deg, #f4d6ad, rgba(244,214,173,.05));
+    }
+    .mark-pivot {
+      position: absolute;
+      left: 29px;
+      top: 29px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #f0cfaa;
+      box-shadow: 0 0 0 2px rgba(26,22,20,.7);
+    }
+    .eyebrow {
+      font-family: var(--font-label);
+      font-size: 10px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--amber-dim);
+    }
+    h1 {
+      margin: 18px 0 0;
+      font-family: var(--font-display);
+      font-size: clamp(34px, 7vw, 52px);
+      font-weight: 250;
+      line-height: 1.05;
+      letter-spacing: .035em;
+      color: var(--text-bright);
+    }
+    .version {
+      margin-top: 12px;
+      font-family: var(--font-label);
+      font-size: 10px;
+      letter-spacing: .18em;
+      color: var(--text-ghost);
+      text-transform: uppercase;
+    }
+    .lead {
+      max-width: 470px;
+      margin: 27px auto 0;
+      font-size: 17px;
+      line-height: 1.68;
+      color: var(--text-muted);
+    }
+    .release-state {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin: 32px 0 18px;
+      font-family: var(--font-label);
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .state-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--amber-dim);
+      box-shadow: 0 0 12px rgba(232,196,160,.3);
+    }
+    .release-state[data-kind='ready'] { color: var(--amber); }
+    .release-state[data-kind='ready'] .state-dot { background: #9fbd89; box-shadow: 0 0 12px rgba(159,189,137,.45); }
+    .release-state[data-kind='closed'] .state-dot { background: var(--text-ghost); box-shadow: none; }
+    .download {
+      display: flex;
+      min-height: 68px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      border-radius: 9px;
+      background: var(--amber);
+      color: var(--bg-deep);
+      font-family: var(--font-label);
+      font-size: 12px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background .2s ease, transform .12s ease, opacity .2s ease;
+    }
+    .download:hover { background: var(--text-bright); }
+    .download:active { transform: scale(.995); }
+    .download[aria-disabled='true'] { pointer-events: none; opacity: .28; }
+    .download small {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: .01em;
+      text-transform: none;
+      opacity: .7;
+    }
+    .instructions {
+      display: grid;
+      gap: 12px;
+      margin: 38px 0 0;
+      padding-top: 30px;
+      border-top: 1px solid var(--border);
+      text-align: left;
+    }
+    .instructions p {
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 12px;
+      align-items: baseline;
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .instructions span {
+      font-family: var(--font-label);
+      font-size: 9px;
+      color: var(--amber-dim);
+    }
+    .note {
+      margin: 30px auto 0;
+      max-width: 450px;
+      font-size: 12px;
+      line-height: 1.65;
+      color: var(--text-ghost);
+    }
+    .filename {
+      margin-top: 24px;
+      font-family: var(--font-label);
+      font-size: 8px;
+      letter-spacing: .07em;
+      color: color-mix(in srgb, var(--text-ghost) 60%, transparent);
+      overflow-wrap: anywhere;
+    }
+    @media (max-width: 620px) {
+      .release { padding: 20px 14px; }
+      .release-card { padding: 48px 24px 34px; border-radius: 14px; }
+      .lead { font-size: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .download { transition: none; }
+    }
+  </style>
+</Base>
