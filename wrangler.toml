@@ -3,8 +3,6 @@ name = "latentritual-site"
 pages_build_output_dir = "dist"
 compatibility_date = "2026-05-12"
 
-[env.production]
-
-[[r2_buckets]]
+[[env.production.r2_buckets]]
 binding = "LATENT_RELEASES"
 bucket_name = "latent-software-releases"
