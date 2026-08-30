@@ -60,16 +60,20 @@ import Base from '../../layouts/Base.astro';
     const copy = document.querySelector('[data-state-copy]');
     const download = document.querySelector('[data-download]');
     const access = new URLSearchParams(window.location.search).get('access');
+    const invitation = /^\/beta\/([A-Za-z0-9_-]{22})\/?$/u.exec(window.location.pathname)?.[1];
 
     const setState = (kind, message) => {
       state?.setAttribute('data-kind', kind);
       if (copy) copy.textContent = message;
     };
 
-    if (!access) {
+    if (!access && !invitation) {
       setState('closed', 'A private invitation is required.');
     } else {
-      const endpoint = `/api/print-engine/download?access=${encodeURIComponent(access)}`;
+      const parameter = access
+        ? `access=${encodeURIComponent(access)}`
+        : `invite=${encodeURIComponent(invitation)}`;
+      const endpoint = `/api/print-engine/download?${parameter}`;
       fetch(endpoint, { method: 'HEAD', cache: 'no-store' })
         .then((response) => {
           if (!response.ok) throw new Error('Invitation unavailable');

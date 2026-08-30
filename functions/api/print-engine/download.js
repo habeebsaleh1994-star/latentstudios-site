@@ -1,27 +1,13 @@
+import {
+  invitationMatches,
+  legacyAccessMatches,
+} from '../../../src/server/print-engine-invitation.js';
+
 const RELEASE = Object.freeze({
   key: 'print-engine/beta/0.1.170/Latent-Print-Engine-0.1.170-Beta-Full.pkg',
   filename: 'Latent-Print-Engine-0.1.170-Beta-Full.pkg',
   sha256: '22705054e4d237999f440f4970180eab6f409371a3ea7def397182d2c93425ef',
 });
-
-const encoder = new TextEncoder();
-
-async function tokensMatch(candidate, expected) {
-  if (!candidate || !expected) return false;
-
-  const [candidateHash, expectedHash] = await Promise.all([
-    crypto.subtle.digest('SHA-256', encoder.encode(candidate)),
-    crypto.subtle.digest('SHA-256', encoder.encode(expected)),
-  ]);
-
-  const left = new Uint8Array(candidateHash);
-  const right = new Uint8Array(expectedHash);
-  let difference = 0;
-  for (let index = 0; index < left.length; index += 1) {
-    difference |= left[index] ^ right[index];
-  }
-  return difference === 0;
-}
 
 function parseRange(value, size) {
   if (!value) return null;
@@ -66,8 +52,15 @@ async function serve(context) {
     return new Response('Not found', { status: 404 });
   }
 
-  const access = new URL(request.url).searchParams.get('access');
-  if (!(await tokensMatch(access, env.LATENT_BETA_DOWNLOAD_TOKEN))) {
+  const url = new URL(request.url);
+  const access = url.searchParams.get('access');
+  const invitation = url.searchParams.get('invite');
+  const [legacyAuthorized, invitationAuthorized] = await Promise.all([
+    legacyAccessMatches(access, env.LATENT_BETA_DOWNLOAD_TOKEN),
+    invitationMatches(invitation, env.LATENT_BETA_DOWNLOAD_TOKEN),
+  ]);
+  const authorized = legacyAuthorized || invitationAuthorized;
+  if (!authorized) {
     return new Response('Not found', { status: 404 });
   }
 
