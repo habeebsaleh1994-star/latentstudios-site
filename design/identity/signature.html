@@ -1,0 +1,56 @@
+<title>Latent Studios Signature</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400&display=swap">
+<style>
+  :root { --paper: #f3efe6; --ink: #1d1a16; --muted: #7b7368; --rule: #d9d2c4; }
+  html { color-scheme: light; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; }
+  .stage { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; padding: 40px 24px; box-sizing: border-box; }
+  .frame { width: clamp(120px, 22vw, 200px); height: auto; display: block; }
+  .frame path { fill: none; stroke: var(--ink); stroke-width: 14; stroke-dasharray: 830; stroke-dashoffset: 830; }
+  .frame circle { fill: var(--ink); opacity: 0; }
+  .name { font-size: clamp(22px, 3.2vw, 34px); font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0; transform: translateY(6px); }
+  .line { font-size: clamp(16px, 1.8vw, 20px); font-style: italic; color: var(--muted); opacity: 0; transform: translateY(6px); text-align: center; max-width: 34ch; text-wrap: balance; }
+  .controls { position: fixed; bottom: 20px; left: 0; right: 0; display: flex; justify-content: center; gap: 24px; font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .controls button { all: unset; cursor: pointer; padding: 6px 2px; border-bottom: 1px solid var(--rule); }
+  .controls button:hover, .controls button:focus-visible { color: var(--ink); border-bottom-color: var(--ink); outline: none; }
+
+  .play .frame path { animation: draw 2.2s cubic-bezier(0.2, 0.6, 0.2, 1) forwards; }
+  .play .frame circle { animation: dot 0.5s ease-out 2.0s forwards; }
+  .play .name { animation: rise 0.9s ease-out 2.3s forwards; }
+  .play .line { animation: rise 0.9s ease-out 2.9s forwards; }
+
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes dot { to { opacity: 1; } }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .frame path { stroke-dashoffset: 0; }
+    .frame circle, .name, .line { opacity: 1; transform: none; }
+    .play .frame path, .play .frame circle, .play .name, .play .line { animation: none; }
+  }
+</style>
+
+<div class="stage play" id="stage">
+  <svg class="frame" viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg" aria-label="Latent Studios">
+    <path d="M 120 70 L 290 70 L 290 290 L 70 290 L 70 120" stroke-linecap="butt" stroke-linejoin="miter"></path>
+    <circle cx="90" cy="84" r="9"></circle>
+  </svg>
+  <div class="name">Latent Studios</div>
+  <div class="line">Instruments for developing photographs, and places for living with them.</div>
+</div>
+
+<div class="controls">
+  <button type="button" id="again">Play again</button>
+</div>
+
+<script>
+  (function () {
+    var stage = document.getElementById('stage');
+    document.getElementById('again').addEventListener('click', function () {
+      stage.classList.remove('play');
+      // Force a reflow so the animation restarts from the beginning.
+      void stage.offsetWidth;
+      stage.classList.add('play');
+    });
+  })();
+</script>

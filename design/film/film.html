@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Latent Studios Film</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400&display=swap">
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  #stage { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: #000; }
+  #film { position: relative; width: min(100vw, calc(100vh * 16 / 9)); height: min(100vh, calc(100vw * 9 / 16)); overflow: hidden; background: #000; }
+  canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .words { position: absolute; inset: 0; pointer-events: none; font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; }
+  .cap { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; will-change: opacity, transform; }
+  .cap.big { top: 50%; transform: translateY(-50%); font-style: italic; font-size: 5.2cqw; line-height: 1.1; padding: 0 8%; letter-spacing: -0.01em; }
+  .cap.line { top: 50%; transform: translateY(-50%); font-style: italic; font-size: 3.4cqw; line-height: 1.3; padding: 0 12%; }
+  .cap.low { bottom: 9%; font-size: 2.6cqw; font-style: italic; letter-spacing: 0.01em; }
+  .cap.label { bottom: 6%; font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; font-size: 1.1cqw; letter-spacing: 0.3em; text-transform: uppercase; }
+  .cap.name { top: 71%; font-size: 2.6cqw; font-weight: 500; letter-spacing: 0.28em; text-transform: uppercase; }
+  .cap.tag { top: 78.5%; font-size: 1.9cqw; font-style: italic; }
+  .cap.end { top: 50%; transform: translateY(-50%); font-size: 3cqw; font-style: italic; }
+  .cap.name.studio { top: 60%; }
+  .cap.tag.studio { top: 68%; }
+  .cap.url { bottom: 8%; font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; font-size: 1.1cqw; letter-spacing: 0.3em; text-transform: uppercase; }
+  #film { container-type: inline-size; }
+  #hud { position: fixed; left: 16px; bottom: 12px; font: 11px/1 'Instrument Sans', system-ui, sans-serif; letter-spacing: 0.2em; text-transform: uppercase; color: #8a7d70; cursor: pointer; user-select: none; }
+  #hud.hidden { display: none; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="film">
+    <canvas id="c" width="1280" height="720"></canvas>
+    <div class="words" id="words"></div>
+  </div>
+</div>
+<div id="hud">click to play again · space to pause</div>
+
+<script>
+// ─── LATENT STUDIOS · the film, in code ────────────────────────────────
+// A timeline of scenes drawn to one canvas, with words laid over it.
+// Everything is a function of T (seconds), so it can play live or be
+// rendered frame by frame (open with ?render=1 and call __film.setTime).
+
+const DURATION = 56;
+const W = 1280, H = 720;
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d', { alpha: false });
+const RENDER = new URLSearchParams(location.search).has('render');
+
+// Palette. The darkroom and its amber; the paper and its ink.
+const PAPER = [243, 239, 230], INK = [29, 26, 22], AMBER = [232, 196, 160], DARK = [26, 22, 20];
+
+// ─── Images ────────────────────────────────────────────────────────────
+const SRC = { before: 'assets/before.jpg', after: 'assets/after.jpg', after2: 'assets/after2.jpg', lab: 'assets/lab.jpg' };
+const img = {};
+function load(name, src) {
+  return new Promise((res) => { const i = new Image(); i.onload = () => { img[name] = i; res(); }; i.onerror = () => res(); i.src = src; });
+}
+
+// Offscreen buffers at working resolution.
+const RW = 640, RH = 360;
+function buffer(w = RW, h = RH) { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
+const bufA = buffer(), bufB = buffer(), bufOut = buffer();
+const ctxA = bufA.getContext('2d'), ctxB = bufB.getContext('2d'), ctxOut = bufOut.getContext('2d');
+
+function cover(c, image, w, h, zoom = 1, dx = 0, dy = 0) {
+  if (!image) { c.fillStyle = '#222'; c.fillRect(0, 0, w, h); return; }
+  const s = Math.max(w / image.width, h / image.height) * zoom;
+  const iw = image.width * s, ih = image.height * s;
+  c.drawImage(image, (w - iw) / 2 + dx, (h - ih) / 2 + dy, iw, ih);
+}
+
+// Deterministic noise so rendering frame by frame matches live play.
+let seed = 1;
+function rnd() { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }
+function noiseField(n, salt) { seed = salt >>> 0 || 1; const a = new Float32Array(n); for (let i = 0; i < n; i++) a[i] = rnd(); return a; }
+const STATIC = noiseField(RW * RH, 7);
+
+const ease = (t) => t < 0 ? 0 : t > 1 ? 1 : t * t * (3 - 2 * t);
+const clamp01 = (t) => Math.max(0, Math.min(1, t));
+const lerp = (a, b, t) => a + (b - a) * t;
+const mix = (c1, c2, t) => [lerp(c1[0], c2[0], t), lerp(c1[1], c2[1], t), lerp(c1[2], c2[2], t)];
+const css = (c) => `rgb(${c[0] | 0},${c[1] | 0},${c[2] | 0})`;
+
+// ─── Grain: animated silver over anything ──────────────────────────────
+function grain(target, amount, salt, ground) {
+  // Draws grain into the working buffer: for a dark ground, bright specks;
+  // for paper, ink specks. amount 0..1 is density.
+  const id = target.getImageData(0, 0, RW, RH), d = id.data;
+  const field = noiseField(RW * RH, salt);
+  const g = ground === 'paper';
+  for (let i = 0, p = 0; i < RW * RH; i++, p += 4) {
+    const n = field[i];
+    if (n < amount) {
+      const k = g ? -90 * (1 - n / amount) : 110 * (1 - n / amount);
+      d[p] = clamp255(d[p] + k); d[p + 1] = clamp255(d[p + 1] + k * 0.92); d[p + 2] = clamp255(d[p + 2] + k * 0.8);
+    }
+  }
+  target.putImageData(id, 0, 0);
+}
+function clamp255(v) { return v < 0 ? 0 : v > 255 ? 255 : v; }
+
+// ─── Reveal: an image arriving through the silver ──────────────────────
+// progress 0..1: pixels whose static noise is below progress show the
+// image; the rest stay the ground. A soft edge keeps it from stippling.
+function reveal(out, image, progress, ground, warmth, salt) {
+  cover(ctxA, image, RW, RH);
+  const src = ctxA.getImageData(0, 0, RW, RH).data;
+  const id = out.getImageData(0, 0, RW, RH), d = id.data;
+  const field = noiseField(RW * RH, salt);
+  for (let i = 0, p = 0; i < RW * RH; i++, p += 4) {
+    const th = STATIC[i] * 0.85 + field[i] * 0.15;
+    let a = clamp01((progress - th) / 0.12);
+    a = a * a;
+    const r = src[p] * (1 - warmth) + (src[p] * 0.9 + AMBER[0] * 0.1) * warmth;
+    const g = src[p + 1] * (1 - warmth) + (src[p + 1] * 0.86 + AMBER[1] * 0.08) * warmth;
+    const b = src[p + 2] * (1 - warmth) + (src[p + 2] * 0.78) * warmth;
+    d[p] = ground[0] + (r - ground[0]) * a;
+    d[p + 1] = ground[1] + (g - ground[1]) * a;
+    d[p + 2] = ground[2] + (b - ground[2]) * a;
+    d[p + 3] = 255;
+  }
+  out.putImageData(id, 0, 0);
+}
+
+// ─── Ripple: an image seen through developer in a tray ─────────────────
+function ripple(out, image, t, amp) {
+  cover(ctxA, image, RW, RH, 1.04);
+  out.fillStyle = css(DARK); out.fillRect(0, 0, RW, RH);
+  for (let y = 0; y < RH; y += 2) {
+    const off = Math.sin(y * 0.045 + t * 2.1) * amp + Math.sin(y * 0.013 - t * 1.3) * amp * 0.6;
+    out.drawImage(bufA, 0, y, RW, 2, off, y, RW, 2);
+  }
+}
+
+// ─── Frame: the mark, drawn as it develops ─────────────────────────────
+function frame(c, x, y, size, progress, color, width) {
+  // Path: top edge from x+size*0.28 to right, down, bottom leftwards, up
+  // the left to y+size*0.28. Total length 3.44*size, drawn by progress.
+  const L = size * 3.44, drawn = L * ease(progress);
+  const pts = [[x + size * 0.28, y], [x + size, y], [x + size, y + size], [x, y + size], [x, y + size * 0.28]];
+  c.strokeStyle = color; c.lineWidth = width; c.lineCap = 'butt'; c.lineJoin = 'miter';
+  c.beginPath(); let left = drawn; c.moveTo(pts[0][0], pts[0][1]);
+  for (let i = 1; i < pts.length && left > 0; i++) {
+    const [ax, ay] = pts[i - 1], [bx, by] = pts[i];
+    const seg = Math.hypot(bx - ax, by - ay);
+    if (left >= seg) { c.lineTo(bx, by); left -= seg; }
+    else { c.lineTo(ax + (bx - ax) * left / seg, ay + (by - ay) * left / seg); left = 0; }
+  }
+  c.stroke();
+}
+
+// ─── The words ─────────────────────────────────────────────────────────
+// [text, class, in, out]. Opacity rises over 0.9s and falls over 0.7s.
+const CUES = [
+  ['The photograph is already there.', 'big', 2.0, 6.0],
+  ['Development does not invent it.', 'line', 7.5, 10.4],
+  ['It brings into view what was already latent.', 'line', 10.8, 14.0],
+  ['The Moment', 'name', 15.6, 20.0],
+  ['catches.', 'tag', 16.2, 20.0],
+  ['The Ritual', 'name', 21.6, 27.0],
+  ['lets you sit with the work.', 'tag', 22.2, 27.0],
+  ['The Lab', 'name', 28.6, 34.0],
+  ['carries the process through motion.', 'tag', 29.2, 34.0],
+  ['Versos', 'name', 36.0, 42.0],
+  ['hands one photograph to someone who looks.', 'tag', 36.6, 42.0],
+  ['Latent Studios', 'name studio', 45.2, 51.5],
+  ['Instruments for developing photographs, and places for living with them.', 'tag studio', 46.0, 51.5],
+  ['The experiments continue.', 'end', 52.4, 55.4],
+  ['latentstudios.art', 'url', 52.8, 55.6],
+];
+const words = document.getElementById('words');
+const cueEls = CUES.map(([text, cls]) => { const el = document.createElement('div'); el.className = 'cap ' + cls; el.textContent = text; words.appendChild(el); return el; });
+function drawWords(T, onPaper) {
+  CUES.forEach(([, cls, a, b], i) => {
+    const o = Math.min(ease((T - a) / 0.9), ease((b - T) / 0.7));
+    const el = cueEls[i]; el.style.opacity = o.toFixed(3);
+    el.style.color = cls.includes('url') ? (onPaper ? '#7b7368' : '#8a7d70') : onPaper ? css(INK) : '#efe6d8';
+  });
+}
+
+// ─── The scenes ────────────────────────────────────────────────────────
+function draw(T) {
+  let onPaper = false;
+
+  if (T < 5) {
+    // Prologue: black, and silver gathering.
+    ctxOut.fillStyle = '#000'; ctxOut.fillRect(0, 0, RW, RH);
+    grain(ctxOut, 0.002 + ease(T / 5) * 0.06, 100 + Math.floor(T * 24), 'dark');
+  } else if (T < 14) {
+    // Latent: the raw frame arrives through the silver, then warms into the print.
+    const t = (T - 5) / 9;
+    const which = t < 0.55 ? img.before : img.after;
+    const progress = t < 0.55 ? ease(t / 0.55) * 0.75 : 0.75 + ease((t - 0.55) / 0.45) * 0.35;
+    const warmth = ease((t - 0.5) / 0.5);
+    reveal(ctxOut, which, progress, DARK, warmth, 200 + Math.floor(T * 24));
+    grain(ctxOut, 0.05 * (1 - ease((t - 0.7) / 0.3)) + 0.01, 300 + Math.floor(T * 24), 'dark');
+  } else if (T < 20) {
+    // The Moment: a river of light, and one frame that catches.
+    const t = (T - 14) / 6;
+    const g = mix(DARK, PAPER, ease(t / 0.35));
+    ctxOut.fillStyle = css(g); ctxOut.fillRect(0, 0, RW, RH);
+    // streaks of light, drifting
+    seed = 11;
+    for (let i = 0; i < 140; i++) {
+      const y = rnd() * RH, len = 40 + rnd() * 160, sp = 60 + rnd() * 240, ph = rnd() * RW * 3;
+      const x = ((ph + T * sp) % (RW + len)) - len;
+      const a = 0.06 + rnd() * 0.14;
+      ctxOut.fillStyle = `rgba(${AMBER[0]},${AMBER[1]},${AMBER[2]},${(a * (1 - ease((t - 0.6) / 0.4) * 0.7)).toFixed(3)})`;
+      ctxOut.fillRect(x, y, len, 1.2);
+    }
+    // the catch: a frame snaps and holds a still inside it
+    const s = ease((t - 0.42) / 0.12);
+    if (s > 0) {
+      const size = 132, x = RW / 2 - size / 2, y = RH * 0.40 - size / 2;
+      ctxOut.save(); ctxOut.beginPath(); ctxOut.rect(x, y, size, size); ctxOut.clip();
+      ctxOut.globalAlpha = s;
+      const im = img.after2, sc = Math.max(size / im.width, size / im.height) * 1.15;
+      ctxOut.drawImage(im, x + (size - im.width * sc) / 2, y + (size - im.height * sc) / 2, im.width * sc, im.height * sc);
+      ctxOut.restore();
+      frame(ctxOut, x, y, size, s, css(INK), 4);
+    }
+    onPaper = t > 0.3;
+  } else if (T < 27) {
+    // The Ritual: a print rising in the tray, the room amber.
+    const t = (T - 20) / 7;
+    ripple(ctxOut, img.after, T, 6 * (1 - ease(t)) + 1.2);
+    // amber safelight and darkness at the edges, lifting slowly
+    const id = ctxOut.getImageData(0, 0, RW, RH), d = id.data, lift = ease(t);
+    for (let i = 0, p = 0; i < RW * RH; i++, p += 4) {
+      const y = (i / RW) | 0, x = i - y * RW;
+      const vx = (x / RW - 0.5) * 2, vy = (y / RH - 0.5) * 2, v = 1 - Math.min(1, (vx * vx + vy * vy) * 0.6);
+      const k = (0.15 + 0.85 * lift) * (0.35 + 0.65 * v);
+      d[p] = clamp255(d[p] * k * 1.05); d[p + 1] = clamp255(d[p + 1] * k * 0.9); d[p + 2] = clamp255(d[p + 2] * k * 0.72);
+    }
+    ctxOut.putImageData(id, 0, 0);
+    grain(ctxOut, 0.02, 400 + Math.floor(T * 24), 'dark');
+  } else if (T < 34) {
+    // The Lab: the still becomes motion; grain alive frame after frame.
+    const t = (T - 27) / 7;
+    cover(ctxOut, img.lab, RW, RH, 1 + t * 0.12, -t * 30, 0);
+    grain(ctxOut, 0.09, 500 + Math.floor(T * 24), 'dark');
+    // halation: a soft bloom on the brightest band
+    const gr = ctxOut.createRadialGradient(RW * 0.62, RH * 0.35, 10, RW * 0.62, RH * 0.35, RW * 0.5);
+    gr.addColorStop(0, 'rgba(232,196,160,0.22)'); gr.addColorStop(1, 'rgba(232,196,160,0)');
+    ctxOut.fillStyle = gr; ctxOut.fillRect(0, 0, RW, RH);
+    // frame ticks along the bottom edge, like sprocket time
+    ctxOut.fillStyle = 'rgba(232,196,160,0.55)';
+    const n = Math.floor(T * 24) % 24;
+    for (let i = 0; i < 24; i++) ctxOut.fillRect(RW * 0.1 + i * (RW * 0.8 / 24), RH - 14, 6, i === n ? 6 : 2);
+  } else if (T < 42) {
+    // Versos: paper, a wall of prints arriving one by one; one is turned over.
+    const t = (T - 34) / 8;
+    ctxOut.fillStyle = css(PAPER); ctxOut.fillRect(0, 0, RW, RH);
+    const cols = 7, rows = 3, gw = RW * 0.8 / cols, gh = gw * 0.72, ox = RW * 0.1, oy = RH * 0.09;
+    seed = 5;
+    const order = []; for (let i = 0; i < cols * rows; i++) order.push(i);
+    for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+    const shown = Math.floor(ease(t / 0.55) * order.length);
+    order.forEach((cell, k) => {
+      if (k >= shown) return;
+      const r = (cell / cols) | 0, c = cell - r * cols;
+      const x = ox + c * gw + 6, y = oy + r * (gh + 12), w = gw - 12, h = gh - 8;
+      const a = clamp01((ease(t / 0.55) * order.length - k) / 1);
+      const im = [img.after, img.after2, img.lab, img.before][cell % 4];
+      ctxOut.save(); ctxOut.globalAlpha = a; ctxOut.beginPath(); ctxOut.rect(x, y, w, h); ctxOut.clip();
+      const s = Math.max(w / im.width, h / im.height) * 1.5;
+      const sx = x + (w - im.width * s) / 2 + ((cell % 5) - 2) * (w * 0.18);
+      ctxOut.drawImage(im, sx, y + (h - im.height * s) / 2, im.width * s, im.height * s);
+      ctxOut.restore();
+      ctxOut.strokeStyle = 'rgba(29,26,22,0.12)'; ctxOut.lineWidth = 1; ctxOut.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1);
+    });
+    // one print is chosen: it turns over to paper with a line on its back
+    const u = ease((t - 0.62) / 0.3);
+    if (u > 0) {
+      const cw = 170, ch = 132, cx = RW / 2, cy = RH * 0.40;
+      const flip = Math.cos(u * Math.PI); // 1 -> -1
+      const w = Math.abs(flip) * cw + 1;
+      ctxOut.save(); ctxOut.translate(cx, cy);
+      ctxOut.shadowColor = 'rgba(30,25,18,0.35)'; ctxOut.shadowBlur = 30; ctxOut.shadowOffsetY = 14;
+      if (flip > 0) {
+        ctxOut.fillStyle = '#e9e3d6'; ctxOut.fillRect(-w / 2, -ch / 2, w, ch);
+        ctxOut.beginPath(); ctxOut.rect(-w / 2, -ch / 2, w, ch); ctxOut.clip();
+        const im = img.after, s = Math.max(cw / im.width, ch / im.height);
+        ctxOut.drawImage(im, -im.width * s / 2 * (w / cw), -im.height * s / 2, im.width * s * (w / cw), im.height * s);
+      } else {
+        ctxOut.fillStyle = css(PAPER); ctxOut.fillRect(-w / 2, -ch / 2, w, ch);
+        ctxOut.shadowColor = 'transparent';
+        ctxOut.fillStyle = css(INK); ctxOut.font = `italic ${13 * (w / cw)}px "Cormorant Garamond", Georgia, serif`; ctxOut.textAlign = 'center';
+        ctxOut.fillText('The stairwell has no window', 0, -8);
+        ctxOut.fillText('I ever noticed.', 0, 10);
+        ctxOut.font = `${8 * (w / cw)}px "Instrument Sans", sans-serif`; ctxOut.fillStyle = '#7b7368';
+        ctxOut.fillText('AMIRA HADDAD · BEIRUT', 0, 44);
+      }
+      ctxOut.restore();
+    }
+    onPaper = true;
+  } else if (T < 52) {
+    // The frame draws itself. The name arrives (in the words layer).
+    const t = (T - 42) / 10;
+    ctxOut.fillStyle = css(PAPER); ctxOut.fillRect(0, 0, RW, RH);
+    const size = 96, x = RW / 2 - size / 2, y = RH * 0.44 - size / 2 - 14;
+    frame(ctxOut, x, y, size, ease(t / 0.28), css(INK), 5);
+    const dot = ease((t - 0.26) / 0.06);
+    if (dot > 0) { ctxOut.fillStyle = css(INK); ctxOut.beginPath(); ctxOut.arc(x + size * 0.09, y + size * 0.07, 3.2 * dot, 0, Math.PI * 2); ctxOut.fill(); }
+    onPaper = true;
+  } else {
+    // Coda: paper, the faintest grain, the last line.
+    ctxOut.fillStyle = css(PAPER); ctxOut.fillRect(0, 0, RW, RH);
+    grain(ctxOut, 0.012, 900 + Math.floor(T * 24), 'paper');
+    const fade = ease((T - 55.2) / 0.8);
+    if (fade > 0) { ctxOut.fillStyle = `rgba(243,239,230,${fade})`; ctxOut.fillRect(0, 0, RW, RH); }
+    onPaper = true;
+  }
+
+  // Scale the working buffer onto the canvas.
+  ctx.imageSmoothingEnabled = true;
+  ctx.drawImage(bufOut, 0, 0, W, H);
+  drawWords(T, onPaper);
+}
+
+// ─── Playback ──────────────────────────────────────────────────────────
+let start = 0, paused = false, pausedAt = 0, raf = 0;
+function loop(now) {
+  if (paused) return;
+  const T = Math.min(DURATION, (now - start) / 1000);
+  draw(T);
+  if (T < DURATION) raf = requestAnimationFrame(loop);
+}
+function play() { cancelAnimationFrame(raf); paused = false; start = performance.now(); raf = requestAnimationFrame(loop); }
+
+Promise.all(Object.entries(SRC).map(([k, v]) => load(k, v))).then(() => {
+  if (RENDER) {
+    document.getElementById('hud').classList.add('hidden');
+    window.__film = { setTime: (t) => { draw(t); return true; }, duration: DURATION };
+    draw(0);
+  } else {
+    play();
+    document.getElementById('hud').addEventListener('click', play);
+    document.getElementById('film').addEventListener('click', play);
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (!paused) { paused = true; pausedAt = performance.now() - start; }
+        else { paused = false; start = performance.now() - pausedAt; raf = requestAnimationFrame(loop); }
+      }
+    });
+  }
+});
+</script>
+</body>
+</html>
