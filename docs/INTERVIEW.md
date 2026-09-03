@@ -248,3 +248,24 @@ gaining its orange. Colour returning to the world, literally. The room
 (candlelight, the table) survives as the place it happens; the road
 survives as where the painter looks. And it is the truest picture of
 Latent's method: film modelled as pigment and dye, not as a filter.
+
+## 12. The shape of the film
+
+> The film should be fast cuts until it reaches the birth. It can start a
+> bit slower, but then there is a climax somewhere in the middle, then
+> there is the birth. It is better to stay in a more abstract place like
+> #12 and #4. I like the image is coming alive and it is textured and
+> tactile, but also very abstract, like #12, and this is the thing in
+> common between these and the ones I left for you as inspiration. So it
+> is more of an animation and not real life. Something from this world but
+> out of this world too. Something latent, but has full presence, like a
+> burst.
+
+*Note:* the structure is development itself: nothing, nothing, nothing,
+then everything at once. Slow opening; acceleration; cut on cut toward a
+climax; then the birth, a burst of colour and texture with full presence;
+then stillness and the frame. Abstract throughout: pigment, paper, dye,
+grain, silver, wash and chalk, animated, never real life. From this
+world (materials you can touch) and out of it (nothing is a photograph
+of a place). The road and the room become glimpses inside the
+acceleration, not chapters.
