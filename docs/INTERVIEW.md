@@ -217,3 +217,34 @@ old things". It is watching texture being born: a smooth grey surface,
 the surface of a screen, gaining grain, fibre, warmth, colour, until it
 is paper and light. The negative is the stage where texture lives; the
 positive is where it is usually lost.
+
+## 11. The inspiration folder (23 images from Europeana and Cleveland)
+
+*What is in it:* almost no photographs. Paintings, drawings and paper:
+impressionist oils of gardens, beaches, orchards and skies; marbled
+endpapers in wavering stripes of rose, ochre and blue; a watercolour
+landscape dissolving into washes; a red-chalk figure study; a plaster
+bust drawn in graphite; pastel and oil portraits; birds and hens; an
+engraving of a family on a sofa; a monochrome etching of boats on a
+tidal beach with one small figure; a pierrot in white and rose; a plate
+of white impasto with an orange bloom, texture and nothing else.
+
+*What they share:* colour that lives in a material. Pigment on paper,
+oil on board, dye in marbling. Every one shows its making: the brush,
+the wash, the chalk line, the plate. Light and airy far more than dark;
+skies and gardens; pinks, greens, ochres, pale blues, cream. People are
+present but painted, at a distance or in a study, never a photograph's
+stare.
+
+*Habib's favourites among our stills:* 12, the birth of texture (dye
+spreading into paper, "even the palette"), and 4, silver growing on the
+plate. Both are a material coming into being.
+
+*What it changes:* the world is a painter's world, not a candlelit
+archive. The film's material is pigment, paper, wash and chalk, and its
+motion is their birth: marbling forming, a watercolour blooming, a chalk
+line arriving, an oil sky building stroke by stroke, a plate of impasto
+gaining its orange. Colour returning to the world, literally. The room
+(candlelight, the table) survives as the place it happens; the road
+survives as where the painter looks. And it is the truest picture of
+Latent's method: film modelled as pigment and dye, not as a filter.
