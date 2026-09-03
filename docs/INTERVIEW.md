@@ -155,3 +155,15 @@ geography.
 - **The founder:** one with the studio while here; the studio built to
   outlive him. Sensibility as constitution, not portrait as logo.
 - **Place:** none. A child of the world.
+
+## Postscript, the brief in one line
+
+> Maybe Latent Studios should be like if Barry Lyndon had a website, and
+> blend with these: clevelandart and europeana.
+
+*Note:* candlelight and daylight, compositions built like paintings,
+patience; blended with the open archives of a museum and of Europe's
+heritage: engravings, plates, textiles, sketches on paper. Both archives
+are free to use and alter (Cleveland's open access is public domain;
+Europeana's Unsplash images carry the Unsplash licence). Not a gimmick,
+not a slope: the material of the identity is the archive coming alive.
