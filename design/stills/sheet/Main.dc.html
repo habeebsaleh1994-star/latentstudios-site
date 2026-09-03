@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400&display=swap">
+  <style>
+    body { margin: 0; background: #f3efe6; color: #1d1a16; font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; }
+    a { color: #8a4a2a; } a:hover { color: #5e3019; }
+    .label { font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #7b7368; }
+    .print { box-shadow: 0 1px 2px rgba(30,25,18,0.18), 0 14px 30px -14px rgba(30,25,18,0.4); background: #e9e3d6; overflow: hidden; }
+    .print img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .note { font-size: 17px; line-height: 1.45; color: #3d372f; text-wrap: pretty; }
+  </style>
+</helmet>
+<div style="width: 1400px; min-height: 1900px; background: #f3efe6; padding: 48px 64px 72px; box-sizing: border-box; display: flex; flex-direction: column; gap: 36px;">
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #d9d2c4; padding-bottom: 16px;">
+    <div style="font-size: 26px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;">Latent Studios</div>
+    <div class="label">Stills · the world, first try · 3 September 2026</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 5fr 7fr; gap: 48px; align-items: end;">
+    <div style="font-size: 40px; line-height: 1.1; font-style: italic; text-wrap: balance;">If Barry Lyndon had a website, blended with the archives.</div>
+    <div class="note">Seven frames from the interview, made with image models, no photograph of ours in them. They test one thing: whether this is the world. Candlelight and window light, paper and its fibre, engravings, sketches, textiles, and inside them the studio's own forms: the image born before the act, the negative, the sheet turning, the seam, the frame.</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 36px;">
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="print" style="aspect-ratio: 16 / 9;"><img src="01b-sheet.webp"></div>
+      <div class="label">1 · The image, born before the act</div>
+      <div class="note">A sheet on a table by candlelight, and a tree already in it, faint, as if it had always been there. This is the belief in one frame. The bare version, no window, no plaque, is the stronger one.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="print" style="aspect-ratio: 16 / 9;"><img src="01a-sheet.webp"></div>
+      <div class="label">1, second take · with a window</div>
+      <div class="note">Same idea in daylight. The museum plaque is a mistake the model made, and a lesson: the world should never label itself. Kept for the light, which is right.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="print" style="aspect-ratio: 16 / 9;"><img src="02-negative.webp"></div>
+      <div class="label">2 · The negative over the plate</div>
+      <div class="note">An engraving of leaves and, laid over it, their negative in silver. The archive and the photograph as one object. This is the Ritual's whole argument without a screenshot.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="print" style="aspect-ratio: 16 / 9;"><img src="03-leaf.webp"></div>
+      <div class="label">3 · The leaf, turning</div>
+      <div class="note">A sketch on the recto, a line on the verso, caught in the air. Versos, and the book. The candlelit room behind is Barry Lyndon's.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="print" style="aspect-ratio: 16 / 9;"><img src="04-silver.webp"></div>
+      <div class="label">4 · Silver, growing on the archive</div>
+      <div class="note">The material of photography crystallising over a botanical plate. Texture and imperfection carried with elegance. This is what grain should look like in the film: structure, not specks.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="print" style="aspect-ratio: 16 / 9;"><img src="05-seam.webp"></div>
+      <div class="label">5 · The seam</div>
+      <div class="note">Candlelight and daylight in one room, divided by a window. Raw and developed, before and after, as light. The gilt frame the model added is another lesson: the archive doesn't need a frame around it. Ours is the only frame.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="print" style="aspect-ratio: 16 / 9;"><img src="06-frame.webp"></div>
+      <div class="label">6 · The frame among the archive</div>
+      <div class="note">The mark, drawn in ink on paper, open at one corner, with an engraving, a red-chalk figure, batik and a glass negative around it. The studio's one hard edge inside the soft world. The film ends here.</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 14px; justify-content: center; padding: 8px 12px;">
+      <div class="label">What the seven say</div>
+      <div class="note">The world holds. Warm without being dark, archival without being dusty, and none of it looks like software. Two corrections for the next pass: never let the image label itself, and never let it frame itself. What's missing on purpose: any product, any screen, any caption.</div>
+      <div class="note">If this is right, the film is these frames coming alive, and the site is the room they hang in.</div>
+    </div>
+
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
