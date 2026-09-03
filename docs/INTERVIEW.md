@@ -167,3 +167,28 @@ heritage: engravings, plates, textiles, sketches on paper. Both archives
 are free to use and alter (Cleveland's open access is public domain;
 Europeana's Unsplash images carry the Unsplash licence). Not a gimmick,
 not a slope: the material of the identity is the archive coming alive.
+
+## 9. Abbas Kiarostami
+
+> I like Abbas Kiarostami too. In the images we kind of focused more on
+> paintings and papers, which I don't mind, I actually like what is
+> happening and the mood, and I think Latent Studios in my heart is
+> something like that. But what does it change, knowing now that I like
+> Abbas?
+
+*Note:* it adds the other half of the world. Everything in the first
+seven stills is indoors: the room, the table, the candle, paper. That is
+where the image is developed. Kiarostami is where the image is born: a
+road winding up a bare hill, one tree in snow, a landscape through a
+windshield, ordinary places held until they become sacred. His
+photographs are almost drawings, which is why the engraved tree on the
+candlelit sheet and his tree in a white field are the same tree.
+
+So the identity has two rooms. The room (archive, paper, candlelight:
+Barry Lyndon, Cleveland, Europeana) and the road (landscape, distance,
+haze, daylight: Kiarostami). The film moves from the road to the room:
+it opens where the image waits and ends at the table where it is
+developed and the frame closes. The pace slows to his: a shot held until
+you stop waiting for a cut. The frame gains a second meaning, a window
+on the world before it is a print. The palette widens by one step: pale
+winter white, hazy green, road dust, beside the cream and amber.
