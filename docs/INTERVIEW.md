@@ -192,3 +192,28 @@ developed and the frame closes. The pace slows to his: a shot held until
 you stop waiting for a cut. The frame gains a second meaning, a window
 on the world before it is a print. The palette widens by one step: pale
 winter white, hazy green, road dust, beside the cream and amber.
+
+## 10. Two more things: presence, and the birth of texture
+
+> One, the human absence from all of these. Not necessarily a close-up or a
+> portrait, but some human presence would be nice. Two, if we are going to
+> portray Latent, and the negative idea: also how things had texture, and
+> digital was a way that made texture disappear. It is like we are
+> watching the birth of the texture. Latent Studios are bringing texture
+> back, and bringing colours back to the world. Something like that.
+
+*Note:* presence at two scales and never the face: a figure small on the
+road, walking away; a hand turning the leaf, placing a print, resting on
+the table. The world becomes a place someone lives in, not a museum
+after hours.
+
+The birth of texture is the thesis of the film. Digital gave the clean
+positive: smooth, sharp, complete, and dead. Texture disappeared, and
+with it the colour that lived in materials, in paper, dye, and grain,
+rather than in pixels. Latent's method (film as behaviour, emulsions
+modelled from their dye response and their failures) is texture and
+colour brought back into the digital world. So the film is not "look at
+old things". It is watching texture being born: a smooth grey surface,
+the surface of a screen, gaining grain, fibre, warmth, colour, until it
+is paper and light. The negative is the stage where texture lives; the
+positive is where it is usually lost.
