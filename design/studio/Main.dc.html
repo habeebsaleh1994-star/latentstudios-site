@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400;500&display=swap">
+  <style>
+    body { margin: 0; background: #f3efe6; color: #1d1a16; font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; }
+    a { color: #8a4a2a; text-decoration: none; } a:hover { color: #5e3019; }
+    .label { font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #7b7368; }
+    .print { box-shadow: 0 1px 2px rgba(30,25,18,0.18), 0 14px 30px -14px rgba(30,25,18,0.4); background: #e9e3d6; overflow: hidden; }
+    .dark { background: #1A1614; }
+  </style>
+</helmet>
+<div style="width: 1200px; min-height: 2500px; background: #f3efe6; padding: 36px 72px 96px; box-sizing: border-box; display: flex; flex-direction: column;">
+
+  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d9d2c4; padding-bottom: 16px;">
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <svg width="22" height="22" viewBox="0 0 360 360"><path d="M 120 70 L 290 70 L 290 290 L 70 290 L 70 120" fill="none" stroke="#1d1a16" stroke-width="30"></path><circle cx="90" cy="84" r="16" fill="#1d1a16"></circle></svg>
+      <div style="font-size: 22px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;">Latent Studios</div>
+    </div>
+    <div style="display: flex; gap: 32px;">
+      <a class="label" href="#">The Ritual</a>
+      <a class="label" href="#">The Moment</a>
+      <a class="label" href="#">The Lab</a>
+      <a class="label" href="#">Versos</a>
+      <a class="label" href="#">About</a>
+      <a class="label" href="#" style="color: #1d1a16;">Letters</a>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 7fr 5fr; gap: 48px; align-items: end; padding: 88px 0 72px;">
+    <div style="display: flex; flex-direction: column; gap: 26px;">
+      <div class="label">An independent photographic studio · Beirut</div>
+      <div style="font-size: 78px; line-height: 1.02; font-style: italic; letter-spacing: -0.01em; text-wrap: balance;">The photograph is already there.</div>
+      <div style="font-size: 22px; line-height: 1.45; color: #3d372f; max-width: 30ch; text-wrap: pretty;">We make instruments for developing photographs, and places for living with them. Nothing we make competes with the picture. It accompanies it.</div>
+    </div>
+    <div class="print" style="aspect-ratio: 4 / 5;">
+      <img src="hero.webp" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+    </div>
+  </div>
+  <div class="label" style="text-align: right; margin-top: -60px; padding-bottom: 60px;">Fuji Pro 800Z, pulled one stop, on Crystal Archive Maxima · developed in the Ritual</div>
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid #d9d2c4; padding: 44px 0 30px;">
+    <div style="font-size: 30px; font-style: italic;">What the studio makes</div>
+    <div class="label">Three instruments on one engine, and a prize</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 36px;">
+
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <div class="print dark" style="aspect-ratio: 16 / 10;"><img src="ritual.webp" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
+      <div class="label">The Ritual · Mac and iPad · private beta</div>
+      <div style="font-size: 30px; line-height: 1.1;">The Ritual</div>
+      <div style="font-size: 18px; line-height: 1.5; color: #3d372f; text-wrap: pretty;">A complete photographic workroom. Gather a body of work, develop the negative, make the print, and return to it over time.</div>
+      <a href="#" style="font-style: italic; font-size: 17px;">Enter the workroom →</a>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <div class="print dark" style="aspect-ratio: 16 / 10; display: flex; align-items: flex-end; justify-content: center; padding: 28px 0 0;"><img src="moment.webp" style="width: 34%; display: block; border-radius: 14px 14px 0 0;"></div>
+      <div class="label">The Moment · iPhone · in beta</div>
+      <div style="font-size: 30px; line-height: 1.1;">The Moment</div>
+      <div style="font-size: 18px; line-height: 1.5; color: #3d372f; text-wrap: pretty;">A camera and photographer's journal. Photographs, places, words, and the days they belonged to.</div>
+      <a href="#" style="font-style: italic; font-size: 17px;">Open the journal →</a>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <div class="print dark" style="aspect-ratio: 16 / 10;"><img src="lab.webp" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
+      <div class="label">The Lab · DaVinci Resolve and iPhone · in development</div>
+      <div style="font-size: 30px; line-height: 1.1;">The Lab</div>
+      <div style="font-size: 18px; line-height: 1.5; color: #3d372f; text-wrap: pretty;">The moving-image print engine. The same practice, carried into motion.</div>
+      <a href="#" style="font-style: italic; font-size: 17px;">See the Lab →</a>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <div class="print" style="aspect-ratio: 16 / 10; background: #f3efe6; box-shadow: 0 1px 2px rgba(30,25,18,0.18), 0 14px 30px -14px rgba(30,25,18,0.4), inset 0 0 0 1px #d9d2c4;"><img src="versos.webp" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
+      <div class="label">Versos · a prize, once a month · first call soon</div>
+      <div style="font-size: 30px; line-height: 1.1;">Versos</div>
+      <div style="font-size: 18px; line-height: 1.5; color: #3d372f; text-wrap: pretty;">One line. One photograph each, any camera, a line on its verso. A named photographer chooses. Nothing is counted.</div>
+      <a href="#" style="font-style: italic; font-size: 17px;">See the call →</a>
+    </div>
+
+  </div>
+
+  <div style="display: grid; grid-template-columns: 4fr 8fr; gap: 48px; border-top: 1px solid #d9d2c4; margin-top: 88px; padding-top: 44px;">
+    <div style="font-size: 30px; font-style: italic;">One engine, one habit</div>
+    <div style="display: flex; flex-direction: column; gap: 18px;">
+      <div style="font-size: 26px; line-height: 1.4; font-style: italic; color: #2b2721; text-wrap: pretty;">The Moment catches. The Ritual lets you sit with the work. The Lab carries the process through motion. Versos hands one photograph to someone who looks.</div>
+      <div style="font-size: 18px; line-height: 1.5; color: #3d372f; max-width: 58ch; text-wrap: pretty;">Different things, one habit. A developer that reveals instead of corrects. A wall where a person looks instead of a machine. Slow down, look again, let the photograph say what it already knows.</div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 4fr 8fr; gap: 48px; border-top: 1px solid #d9d2c4; margin-top: 64px; padding-top: 44px;">
+    <div style="font-size: 30px; font-style: italic;">The shared world</div>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="font-size: 26px; line-height: 1.3; text-wrap: pretty;">Some photographs remain with us. Others are handed on.</div>
+      <div style="font-size: 18px; line-height: 1.5; color: #3d372f; max-width: 58ch; text-wrap: pretty;">Keep them in a Circle, or place them in the Field. Once a month, hang one on the wall. The rest belongs to whoever stops to look.</div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 4fr 8fr; gap: 48px; border-top: 1px solid #d9d2c4; margin-top: 64px; padding-top: 44px;">
+    <div style="font-size: 30px; font-style: italic;">Letters</div>
+    <div style="display: flex; flex-direction: column; gap: 16px; max-width: 520px;">
+      <div style="font-size: 18px; line-height: 1.5; color: #3d372f;">Occasional letters from the studio. New work, and the word when something is ready.</div>
+      <div style="display: flex; gap: 12px; align-items: flex-end;">
+        <div style="flex: 1; border-bottom: 1px solid #d9d2c4; padding: 8px 0; font-size: 20px; font-style: italic; color: #a8a093;">your email</div>
+        <div style="height: 44px; padding: 0 22px; background: #1d1a16; color: #f3efe6; display: inline-flex; align-items: center; font-style: italic; font-size: 17px; border-radius: 2px;">Subscribe</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid #d9d2c4; margin-top: 96px; padding-top: 22px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <svg width="14" height="14" viewBox="0 0 360 360"><path d="M 120 70 L 290 70 L 290 290 L 70 290 L 70 120" fill="none" stroke="#7b7368" stroke-width="36"></path></svg>
+      <span class="label">Latent Studios · Habib Saleh, founder and photographer · © 2026</span>
+    </div>
+    <span class="label">Contact · Instagram · Privacy · Terms · Refunds</span>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

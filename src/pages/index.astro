@@ -1,590 +1,307 @@
 ---
-// The Latent Studios homepage — one studio, four rooms.
+// The Latent Studios homepage — the studio on paper.
 //
-// The hero is the Develop seam (Hero.astro); below it the page introduces the
-// principle, the three instruments and the prize, the shared engine, and the shared world.
-// Release truth (status chips, CTA label, community gate) comes only from
-// src/config/truth.ts.
+// The studio is a lit room: the belief, one print on the wall, the four
+// rooms the studio makes, and the passages that make them one house.
+// The instruments keep their darkrooms on their own pages; this page is
+// where you stand before you enter one. Release truth (status chips, CTA
+// label, community gate) comes only from src/config/truth.ts.
+//
+// The previous homepage, the Develop seam over a full-bleed photograph,
+// lives in git history (commit 2de45f9) and may return on the Ritual's page.
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
-import Hero from '../components/Hero.astro';
-import Inscription from '../components/Inscription.astro';
 import Footer from '../components/Footer.astro';
 import StatusChip from '../components/StatusChip.astro';
 import { truth } from '../config/truth';
+
+const VERSOS_URL = 'https://versos.latentstudios.art';
 ---
 
 <Base
+  room="paper"
   title="Latent Studios — instruments for developing photographs, and places for living with them"
   description="An independent photographic studio. The Ritual on Mac and iPad, The Moment on iPhone, The Lab in DaVinci Resolve, and Versos, a photography prize once a month."
 >
   <Fragment slot="head">
-    {/* The hero's first frame is the LCP image — fetch it before layout asks. */}
-    <link
-      rel="preload"
-      as="image"
-      href="/develop-3-after-3840.webp"
-      imagesrcset="/develop-3-after.webp 2048w, /develop-3-after-3840.webp 3840w, /develop-3-after-5120.jpg 5120w"
-      imagesizes="100vw"
-      fetchpriority="high"
-    />
+    <link rel="preload" as="image" href="/develop-3-after.webp" fetchpriority="high" />
   </Fragment>
 
-  <Nav />
-  <main id="main">
-    <Hero />
+  <Nav cta={{ label: 'Letters', href: '#letters' }} />
+  <main id="main" class="studio">
 
-    <!-- THE PRINCIPLE -->
-    <section class="principle">
-      <div class="eyebrow reveal">The principle</div>
-      <h2 class="principle-heading reveal reveal-heading" style="--reveal-delay: 80ms">The photograph is already there.</h2>
-      <p class="principle-body reveal" style="--reveal-delay: 200ms">
-        Development does not invent it.<br />
-        It brings into view what was already latent.
-      </p>
-    </section>
-
-    <!-- THE INSTRUMENTS -->
-    <section class="instruments">
-      <div class="instruments-header">
-        <div class="eyebrow reveal">What the studio makes</div>
-        <h2 class="instruments-heading reveal reveal-heading" style="--reveal-delay: 80ms">One studio. Three instruments, and a prize.</h2>
+    <!-- THE BELIEF, beside one print on the wall -->
+    <section class="belief">
+      <div class="belief-text">
+        <div class="eyebrow reveal">An independent photographic studio &middot; Beirut</div>
+        <h1 class="belief-line reveal reveal-heading" style="--reveal-delay: 80ms">The photograph is already there.</h1>
+        <p class="belief-body reveal" style="--reveal-delay: 200ms">
+          We make instruments for developing photographs, and places for
+          living with them. Nothing we make competes with the picture.
+          It accompanies it.
+        </p>
       </div>
-
-      <div class="row" id="ritual">
-        <div class="row-text">
-          <div class="eyebrow reveal">The Ritual &middot; Mac and iPad</div>
-          <h3 class="row-title reveal reveal-heading" style="--reveal-delay: 80ms">The Ritual</h3>
-          <p class="row-role reveal" style="--reveal-delay: 140ms">The complete photographic workroom.</p>
-          <p class="row-body reveal" style="--reveal-delay: 200ms">
-            A place to gather a body of work, develop the negative, make the
-            print, and return to it over time.
-          </p>
-          <div class="row-foot reveal" style="--reveal-delay: 260ms">
-            <StatusChip label={truth.ritualStatus} />
-            <a class="door-link" href="/ritual">Enter the workroom &rarr;</a>
-          </div>
-        </div>
-        <div class="row-media capture-ritual reveal reveal-media" style="--reveal-delay: 200ms">
+      <figure class="belief-print reveal reveal-media" style="--reveal-delay: 160ms">
+        <div class="print">
           <img
-            src="/ritual-darkroom-2560.webp"
-            srcset="/ritual-darkroom-1280.webp 1280w, /ritual-darkroom-2560.webp 2560w"
-            sizes="(max-width: 900px) 100vw, 56vw"
-            width="5120"
-            height="2598"
-            loading="lazy"
-            alt="The Darkroom in The Ritual on Mac — a photograph from Joun developing on Supra Endura, among its develop controls"
+            src="/develop-3-after.webp"
+            srcset="/develop-3-after.webp 2048w, /develop-3-after-3840.webp 3840w"
+            sizes="(max-width: 900px) 100vw, 42vw"
+            width="2048"
+            height="1365"
+            alt="Children on a carousel at a fair, developed on Crystal Archive Maxima"
           />
         </div>
+        <figcaption class="eyebrow">Fuji Pro 800Z, pulled one stop, on Crystal Archive Maxima &middot; developed in the Ritual</figcaption>
+      </figure>
+    </section>
+
+    <!-- WHAT THE STUDIO MAKES -->
+    <section class="rooms">
+      <div class="rooms-head">
+        <h2 class="h-italic reveal reveal-heading">What the studio makes</h2>
+        <div class="eyebrow reveal" style="--reveal-delay: 80ms">Three instruments on one engine, and a prize</div>
       </div>
 
-      <div class="row row-moment" id="moment">
-        <div class="row-media phone-media reveal reveal-media" style="--reveal-delay: 200ms">
-          <div class="capture-phone">
-            {/* The journal, not the viewfinder: this row is the whole
-                instrument's one image, and a camera is the half you'd assume. */}
+      <div class="rooms-grid">
+        <article class="room reveal" id="ritual">
+          <a class="print room-media dark" href="/ritual" aria-label="The Ritual">
+            <img
+              src="/ritual-darkroom-1280.webp"
+              srcset="/ritual-darkroom-1280.webp 1280w, /ritual-darkroom-2560.webp 2560w"
+              sizes="(max-width: 900px) 100vw, 40vw"
+              width="5120"
+              height="2598"
+              loading="lazy"
+              alt="The Darkroom in The Ritual on Mac"
+            />
+          </a>
+          <div class="eyebrow">The Ritual &middot; Mac and iPad</div>
+          <h3 class="room-title">The Ritual</h3>
+          <p class="room-body">A complete photographic workroom. Gather a body of work, develop the negative, make the print, and return to it over time.</p>
+          <div class="room-foot">
+            <StatusChip label={truth.ritualStatus} />
+            <a class="door" href="/ritual">Enter the workroom &rarr;</a>
+          </div>
+        </article>
+
+        <article class="room reveal" id="moment" style="--reveal-delay: 80ms">
+          <a class="print room-media light room-media-phone" href="/moment" aria-label="The Moment">
             <img
               src="/moment-journal-900.webp"
               srcset="/moment-journal-600.webp 600w, /moment-journal-900.webp 900w"
-              sizes="(max-width: 428px) 70vw, 300px"
+              sizes="220px"
               width="900"
               height="1956"
               loading="lazy"
-              alt="A day in the journal of The Moment on iPhone — Friday, 17 July, “a summer evening”, with the day’s photographs gathered beneath the note"
+              alt="A day in the journal of The Moment on iPhone"
             />
-          </div>
-        </div>
-        <div class="row-text">
-          <div class="eyebrow reveal">The Moment &middot; iPhone</div>
-          <h3 class="row-title moment-voice reveal reveal-heading" style="--reveal-delay: 80ms">The Moment</h3>
-          <p class="row-role moment-voice reveal" style="--reveal-delay: 140ms">A camera and photographer&rsquo;s journal.</p>
-          <p class="row-body moment-voice reveal" style="--reveal-delay: 200ms">
-            Photographs, places, words, and the days they belonged to.
-          </p>
-          <div class="row-foot reveal" style="--reveal-delay: 260ms">
+          </a>
+          <div class="eyebrow">The Moment &middot; iPhone</div>
+          <h3 class="room-title">The Moment</h3>
+          <p class="room-body">A camera and photographer&rsquo;s journal. Photographs, places, words, and the days they belonged to.</p>
+          <div class="room-foot">
             <StatusChip label={truth.momentStatus} />
-            <a class="door-link" href="/moment">Open the journal &rarr;</a>
+            <a class="door" href="/moment">Open the journal &rarr;</a>
           </div>
-        </div>
-      </div>
+        </article>
 
-      <div class="row row-lab" id="lab">
-        <div class="row-text">
-          <div class="eyebrow reveal">The Lab &middot; DaVinci Resolve and iPhone</div>
-          <h3 class="row-title reveal reveal-heading" style="--reveal-delay: 80ms">The Lab</h3>
-          <p class="row-role reveal" style="--reveal-delay: 140ms">The moving-image print engine.</p>
-          <p class="row-body reveal" style="--reveal-delay: 200ms">
-            The same practice, carried into motion.
-          </p>
-          <div class="row-foot reveal" style="--reveal-delay: 260ms">
+        <article class="room reveal" id="lab" style="--reveal-delay: 160ms">
+          <a class="print room-media dark" href="/lab" aria-label="The Lab">
+            <video data-autoplay muted loop playsinline preload="none" poster="/lab-reel-poster.webp" width="1280" height="720" aria-label="A reel of moving images developed through the Latent print engine">
+              <source src="/lab-reel-1280.webm" type="video/webm" />
+              <source src="/lab-reel-1280.mp4" type="video/mp4" />
+            </video>
+          </a>
+          <div class="eyebrow">The Lab &middot; DaVinci Resolve and iPhone</div>
+          <h3 class="room-title">The Lab</h3>
+          <p class="room-body">The moving-image print engine. The same practice, carried into motion.</p>
+          <div class="room-foot">
             <StatusChip label={truth.labStatus} />
-            <a class="door-link" href="/lab">See the Lab &rarr;</a>
+            <a class="door" href="/lab">See the Lab &rarr;</a>
           </div>
-        </div>
-        {/* The one moving frame on the page, and it belongs to the instrument
-            that carries the process through motion. A web-weight derivative of
-            the Lab reel — preload="none" so it costs nothing until you reach
-            it; quiet.js starts it on entry and pauses it on the way out. */}
-        <div class="row-media capture-lab reveal reveal-media" style="--reveal-delay: 200ms">
-          <video
-            data-autoplay
-            muted
-            loop
-            playsinline
-            preload="none"
-            poster="/lab-reel-poster.webp"
-            width="1280"
-            height="720"
-            aria-label="A reel of moving images developed through the Latent print engine"
-          >
-            <source src="/lab-reel-1280.webm" type="video/webm" />
-            <source src="/lab-reel-1280.mp4" type="video/mp4" />
-          </video>
-        </div>
-      </div>
+        </article>
 
-      <div class="row row-versos" id="versos">
-        <div class="row-media capture-versos reveal reveal-media" style="--reveal-delay: 200ms">
-          <img
-            src="/versos-wall-1200.webp"
-            srcset="/versos-wall-600.webp 600w, /versos-wall-1200.webp 1200w"
-            sizes="(max-width: 900px) 100vw, 56vw"
-            width="1200"
-            height="630"
-            loading="lazy"
-            alt="The first call of Versos on paper: The light you didn't wait for."
-          />
-        </div>
-        <div class="row-text">
-          <div class="eyebrow reveal">Versos &middot; a prize, once a month</div>
-          <h3 class="row-title reveal reveal-heading" style="--reveal-delay: 80ms">Versos</h3>
-          <p class="row-role reveal" style="--reveal-delay: 140ms">One line. One photograph each.</p>
-          <p class="row-body reveal" style="--reveal-delay: 200ms">
-            Any camera, a line on its verso. A named photographer chooses.
-            Nothing is counted.
-          </p>
-          <div class="row-foot reveal" style="--reveal-delay: 260ms">
+        <article class="room reveal" id="versos" style="--reveal-delay: 240ms">
+          <a class="print room-media paper" href="/versos" aria-label="Versos">
+            <img
+              src="/versos-wall-1200.webp"
+              srcset="/versos-wall-600.webp 600w, /versos-wall-1200.webp 1200w"
+              sizes="(max-width: 900px) 100vw, 40vw"
+              width="1200"
+              height="630"
+              loading="lazy"
+              alt="The first call of Versos on paper: The light you didn't wait for."
+            />
+          </a>
+          <div class="eyebrow">Versos &middot; a prize, once a month</div>
+          <h3 class="room-title">Versos</h3>
+          <p class="room-body">One line. One photograph each, any camera, a line on its verso. A named photographer chooses. Nothing is counted.</p>
+          <div class="room-foot">
             <StatusChip label={truth.versosStatus} />
-            <a class="door-link" href="/versos">See the call &rarr;</a>
+            <a class="door" href="/versos">See the call &rarr;</a>
           </div>
-        </div>
+        </article>
       </div>
     </section>
 
-    <Inscription />
-
-    <!-- ONE ENGINE -->
-    <section
-      class="engine"
-      data-recipe="Vision3 50D, pushed half a stop, on Fuji Eterna-CP"
-    >
-      <img
-        class="engine-photo"
-        src="/develop-6-after-3840.webp"
-        srcset="/develop-6-after.webp 2048w, /develop-6-after-3840.webp 3840w"
-        sizes="100vw"
-        width="3840"
-        height="2560"
-        loading="lazy"
-        alt=""
-        draggable="false"
-      />
-      <div class="engine-scrim" aria-hidden="true"></div>
-      <div class="engine-inner">
-        <div class="engine-rule reveal" aria-hidden="true"></div>
-        <div class="eyebrow engine-eyebrow reveal" style="--reveal-delay: 80ms">One engine &middot; one habit</div>
-        <p class="engine-lines reveal" style="--reveal-delay: 160ms">
-          The Moment catches.<br />
-          The Ritual lets you sit with the work.<br />
-          The Lab carries the process through motion.<br />
-          Versos hands one photograph to someone who looks.
+    <!-- ONE ENGINE, ONE HABIT -->
+    <section class="passage">
+      <h2 class="h-italic reveal reveal-heading">One engine, one habit</h2>
+      <div class="passage-text">
+        <p class="passage-lines reveal" style="--reveal-delay: 80ms">
+          The Moment catches. The Ritual lets you sit with the work. The Lab
+          carries the process through motion. Versos hands one photograph to
+          someone who looks.
         </p>
-        <div class="engine-rule reveal" style="--reveal-delay: 240ms" aria-hidden="true"></div>
+        <p class="passage-body reveal" style="--reveal-delay: 160ms">
+          Different things, one habit. A developer that reveals instead of
+          corrects. A wall where a person looks instead of a machine. Slow
+          down, look again, let the photograph say what it already knows.
+        </p>
       </div>
     </section>
 
     <!-- THE SHARED WORLD -->
     {truth.showCommunity && (
-      <section class="world">
-        <div class="eyebrow reveal">The shared world</div>
-        <h2 class="world-heading reveal reveal-heading" style="--reveal-delay: 80ms">
-          Some photographs remain with us.<br />Others are handed on.
-        </h2>
-        <p class="world-body reveal" style="--reveal-delay: 200ms">
-          Keep them in a <strong>Circle</strong>, or place them in the
-          <strong>Field</strong>. Once a month, hang one on the
-          <a href="/versos"><strong>wall</strong></a>. The rest belongs to whoever stops to look.
-        </p>
-        <p class="world-doors reveal" style="--reveal-delay: 280ms">The doors open with the beta</p>
+      <section class="passage">
+        <h2 class="h-italic reveal reveal-heading">The shared world</h2>
+        <div class="passage-text">
+          <p class="passage-lines reveal" style="--reveal-delay: 80ms">Some photographs remain with us. Others are handed on.</p>
+          <p class="passage-body reveal" style="--reveal-delay: 160ms">
+            Keep them in a <strong>Circle</strong>, or place them in the
+            <strong>Field</strong>. Once a month, hang one on the
+            <a href={VERSOS_URL}><strong>wall</strong></a>. The rest belongs to
+            whoever stops to look.
+          </p>
+        </div>
       </section>
     )}
-
-    <!-- CODA — the page returns to the line it opened with. -->
-    <section class="coda" id="house">
-      <div class="coda-rule reveal" aria-hidden="true"></div>
-      <p class="coda-house reveal" style="--reveal-delay: 80ms">Independent photographic studio.</p>
-      <p class="coda-body reveal" style="--reveal-delay: 160ms">
-        We build instruments for developing photographs and places for living
-        with them.
-      </p>
-      <p class="coda-lead reveal" style="--reveal-delay: 240ms">Everything we make begins with one belief.</p>
-      <h2 class="coda-line reveal" style="--reveal-delay: 320ms">The photograph is already there.</h2>
-      <div class="coda-rule reveal" style="--reveal-delay: 400ms" aria-hidden="true"></div>
-    </section>
   </main>
   <Footer />
 
   <style>
-    /* Shared eyebrow — mono caps in dim amber. */
-    .eyebrow {
-      font-family: var(--font-label);
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--amber-dim);
-    }
+    .studio { max-width: 1200px; margin: 0 auto; padding: 0 72px; }
 
-    /* THE PRINCIPLE */
-    .principle {
-      padding: 200px 24px 160px;
-      max-width: 980px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .principle .eyebrow { margin-bottom: 32px; }
-    .principle-heading {
+    .h-italic {
       font-family: var(--font-display);
-      font-weight: 300;
-      font-size: 52px;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 30px;
       line-height: 1.2;
-      letter-spacing: -0.005em;
-      color: var(--text);
-      margin: 0 0 48px;
-    }
-    .principle-body {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-size: 19px;
-      line-height: 1.75;
-      color: var(--text-muted);
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    /* THE INSTRUMENTS */
-    .instruments {
-      padding: 100px 24px 160px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-    .instruments-header {
-      text-align: center;
-      margin-bottom: 110px;
-    }
-    .instruments-header .eyebrow { margin-bottom: 32px; }
-    .instruments-heading {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: 56px;
-      line-height: 1.1;
-      letter-spacing: -0.01em;
       color: var(--text);
       margin: 0;
     }
 
-    .row {
+    /* THE BELIEF */
+    .belief {
       display: grid;
-      grid-template-columns: 1fr 1.4fr;
-      gap: 80px;
-      align-items: center;
-      margin-bottom: 140px;
+      grid-template-columns: 7fr 5fr;
+      gap: 48px;
+      align-items: end;
+      padding: 150px 0 24px;
     }
-    .row-moment { grid-template-columns: 1.4fr 1fr; }
-    .row-versos { margin-bottom: 0; }
-    .row-text { padding: 0 24px; }
-    .row-text .eyebrow { margin-bottom: 24px; }
-    .row-title {
+    .belief-text { display: flex; flex-direction: column; gap: 26px; padding-bottom: 36px; }
+    .belief-line {
       font-family: var(--font-display);
-      font-weight: 300;
-      font-size: 52px;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(44px, 6.4vw, 78px);
+      line-height: 1.02;
       letter-spacing: -0.01em;
-      line-height: 1;
       color: var(--text);
-      margin: 0 0 16px;
+      margin: 0;
+      text-wrap: balance;
     }
-    .row-role {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-style: italic;
-      font-size: 18px;
+    .belief-body {
+      font-size: 22px;
+      line-height: 1.45;
       color: var(--text-muted);
-      margin: 0 0 28px;
+      max-width: 30ch;
+      margin: 0;
+      text-wrap: pretty;
     }
-    .row-body {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-size: 18px;
-      line-height: 1.7;
-      color: var(--text-muted);
-      margin: 0 0 32px;
-    }
-    .row-foot {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
+    .belief-print { margin: 0; display: flex; flex-direction: column; gap: 12px; }
+    .belief-print .print { aspect-ratio: 4 / 5; }
+    .belief-print figcaption { text-align: right; }
 
-    /* The Moment speaks Lora. */
-    .row-title.moment-voice {
-      font-family: 'Lora', Georgia, serif;
-      font-weight: 500;
-      font-size: 48px;
-      color: var(--text-bright);
-    }
-    .row-role.moment-voice,
-    .row-body.moment-voice {
-      font-family: 'Lora', Georgia, serif;
-      font-weight: 400;
-    }
-
-    .capture-ritual {
-      aspect-ratio: 5120 / 2598;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.05);
-      background: var(--bg-deep);
-    }
-    .capture-ritual img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    /* Versos hangs as a card on the studio's wall: paper on the dark room. */
-    .row-versos { grid-template-columns: 1.4fr 1fr; }
-    .capture-versos {
-      aspect-ratio: 1200 / 630;
-      border-radius: 4px;
-      overflow: hidden;
-      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.08);
-      background: #f3efe6;
-    }
-    .capture-versos img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .phone-media {
+    /* THE ROOMS */
+    .rooms { padding: 72px 0 0; }
+    .rooms-head {
       display: flex;
-      justify-content: center;
-      gap: 32px;
+      justify-content: space-between;
+      align-items: baseline;
+      border-top: 1px solid var(--border);
+      padding: 44px 0 30px;
     }
-    .capture-phone {
-      width: min(300px, 70vw);
-      aspect-ratio: 9 / 19.5;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.07);
-      background: var(--bg-deep);
+    .rooms-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 48px 36px;
     }
-    .capture-phone img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .capture-lab {
-      aspect-ratio: 16 / 9;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.05);
-      background: var(--bg-deep);
-    }
-    .capture-lab video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* ONE ENGINE */
-    .engine {
-      position: relative;
-      padding: 0;
-      overflow: hidden;
-      background: var(--bg-deep);
-    }
-    .engine-photo {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.35;
-      display: block;
-    }
-    .engine-scrim {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        var(--bg) 0%,
-        rgba(26, 22, 20, 0.35) 30%,
-        rgba(26, 22, 20, 0.35) 70%,
-        var(--bg) 100%
-      );
-    }
-    .engine-inner {
-      position: relative;
-      z-index: 2;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 220px 24px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 40px;
-    }
-    .engine-rule {
-      width: 60px;
-      height: 1px;
-      background: rgba(232, 196, 160, 0.4);
-    }
-    .engine-eyebrow { color: var(--amber-dim); }
-    .engine-lines {
+    .room { display: flex; flex-direction: column; gap: 14px; }
+    .room-media { display: block; aspect-ratio: 16 / 10; }
+    .room-media.dark { background: #1A1614; }
+    .room-media.light { background: #efe7db; }
+    .room-media.paper { background: #f3efe6; box-shadow: 0 1px 2px rgba(30,25,18,0.18), 0 14px 30px -14px rgba(30,25,18,0.4), inset 0 0 0 1px var(--border); display: flex; align-items: center; }
+    .room-media.paper img { object-fit: contain; }
+    .room-media-phone { display: flex; align-items: flex-end; justify-content: center; padding-top: 28px; }
+    .room-media-phone img { width: 34%; height: auto; object-fit: contain; border-radius: 14px 14px 0 0; }
+    .room-title {
       font-family: var(--font-display);
-      font-weight: 300;
-      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 400;
+      font-size: 30px;
+      line-height: 1.1;
+      color: var(--text);
+      margin: 0;
+    }
+    .room-body {
+      font-size: 18px;
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin: 0;
+      text-wrap: pretty;
+    }
+    .room-foot { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .door { font-style: italic; font-size: 17px; }
+
+    /* PASSAGES */
+    .passage {
+      display: grid;
+      grid-template-columns: 4fr 8fr;
+      gap: 48px;
+      border-top: 1px solid var(--border);
+      margin-top: 72px;
+      padding-top: 40px;
+    }
+    .passage + .passage { margin-top: 48px; }
+    .passage-text { display: flex; flex-direction: column; gap: 18px; }
+    .passage-lines {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 26px;
       line-height: 1.4;
-      letter-spacing: -0.005em;
-      color: var(--text-bright);
-      margin: 0;
-      text-shadow: 0 1px 24px rgba(13, 11, 10, 0.8);
-    }
-
-    /* THE SHARED WORLD */
-    .world {
-      padding: 200px 24px;
-      max-width: 980px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .world .eyebrow { margin-bottom: 32px; }
-    .world-heading {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: 44px;
-      line-height: 1.25;
-      letter-spacing: -0.005em;
       color: var(--text);
-      margin: 0 0 48px;
+      margin: 0;
+      text-wrap: pretty;
     }
-    .world-body {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-size: 19px;
-      line-height: 1.75;
+    .passage-body {
+      font-size: 18px;
+      line-height: 1.5;
       color: var(--text-muted);
-      max-width: 680px;
-      margin: 0 auto 40px;
-    }
-    .world-body strong {
-      color: var(--text);
-      font-weight: 400;
-    }
-    .world-doors {
-      font-family: var(--font-label);
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--text-ghost);
+      max-width: 58ch;
       margin: 0;
+      text-wrap: pretty;
     }
+    .passage-body strong { font-weight: 500; color: var(--text); }
 
-    /* CODA */
-    .coda {
-      padding: 60px 24px 180px;
-      max-width: 720px;
-      margin: 0 auto;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 36px;
-    }
-    .coda-rule {
-      width: 60px;
-      height: 1px;
-      background: var(--border-light);
-    }
-    /* The belief is the last and largest thing on the page. */
-    .coda-line {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-style: italic;
-      font-size: clamp(24px, 3.4vw, 30px);
-      letter-spacing: 0.005em;
-      color: var(--text-bright);
-      margin: 0;
-    }
-    .coda-house {
-      font-family: var(--font-label);
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: var(--amber-dim);
-      margin: 0;
-    }
-    .coda-body {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-size: 16px;
-      line-height: 1.7;
-      color: var(--text-muted);
-      max-width: 520px;
-      margin: 0;
-    }
-    .coda-lead {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-size: 15px;
-      color: var(--text-ghost);
-      margin: 0;
-    }
-
-    /* Responsive — the old repo's breakpoint discipline. */
     @media (max-width: 900px) {
-      .row,
-      .row-moment {
-        grid-template-columns: 1fr;
-        gap: 40px;
-        margin-bottom: 100px;
-      }
-      .row-lab { margin-bottom: 0; }
-      /* Single column: capture first, text second — except the Ritual row,
-         which leads with its text. */
-      .row-lab .row-media { order: -1; }
-      .row-text { padding: 0; }
-      .principle-heading { font-size: 38px; }
-      .instruments-heading { font-size: 40px; }
-      .row-title { font-size: 42px; }
-      .row-title.moment-voice { font-size: 40px; }
-      .world-heading { font-size: 34px; }
-      .instruments-header { margin-bottom: 72px; }
-      .engine-inner { padding: 160px 24px; }
-    }
-
-    @media (max-width: 640px) {
-      .principle { padding: 140px 20px 100px; }
-      .instruments { padding: 60px 20px 100px; }
-      .world { padding: 140px 20px; }
-      .coda { padding: 40px 20px 120px; }
+      .studio { padding: 0 24px; }
+      .belief { grid-template-columns: 1fr; gap: 32px; padding-top: 120px; }
+      .belief-text { padding-bottom: 0; }
+      .rooms-grid { grid-template-columns: 1fr; gap: 44px; }
+      .passage { grid-template-columns: 1fr; gap: 16px; margin-top: 64px; }
+      .rooms-head { flex-direction: column; gap: 8px; align-items: flex-start; }
     }
   </style>
 </Base>

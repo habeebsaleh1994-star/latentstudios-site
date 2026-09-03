@@ -21,6 +21,87 @@
   --font-whisper: 'JetBrains Mono', monospace;
 }
 
+
+/* ─── THE STUDIO'S PAPER ───────────────────────────────────────────── */
+
+/* The studio is a lit room: paper, a serif, air. Pages that belong to the
+   studio (home, about, Versos, letters, legal) set body.room-paper and
+   inherit these tokens. The instruments keep the darkroom above. The
+   lamplit evening does not apply to paper. */
+body.room-paper {
+  --bg: #f3efe6;
+  --bg-deep: #e9e3d6;
+  --bg-elev: #faf7f1;
+  --text: #1d1a16;
+  --text-bright: #1d1a16;
+  --text-muted: #3d372f;
+  --text-ghost: #a8a093;
+  --amber: #8a4a2a;
+  --amber-dim: #5e3019;
+  --border: #d9d2c4;
+  --border-light: #d9d2c4;
+  --paper-label: #7b7368;
+
+  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-body: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-label: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  --font-whisper: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+}
+body.room-paper .label,
+body.room-paper .section-label,
+body.room-paper .eyebrow {
+  font-family: var(--font-label);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper-label);
+}
+body.room-paper .print {
+  box-shadow: 0 1px 2px rgba(30, 25, 18, 0.18), 0 14px 30px -14px rgba(30, 25, 18, 0.4);
+  background: var(--bg-deep);
+  overflow: hidden;
+}
+body.room-paper .print img,
+body.room-paper .print video { display: block; width: 100%; height: 100%; object-fit: cover; }
+body.room-paper a { color: var(--amber); }
+body.room-paper a:hover { color: var(--amber-dim); }
+
+/* Nav and footer on paper: the frosted bar becomes paper, the labels the
+   studio's sans, no amber glow. */
+body.room-paper nav {
+  background: rgba(243, 239, 230, 0.82);
+  border-bottom-color: rgba(217, 210, 196, 0.8);
+}
+body.room-paper nav .wordmark {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+body.room-paper nav .wordmark svg { display: block; }
+body.room-paper nav ul a { font-weight: 400; font-size: 11px; letter-spacing: 0.14em; color: var(--paper-label); }
+body.room-paper nav ul a:hover,
+body.room-paper nav ul a:focus-visible { color: var(--text); text-shadow: none; }
+body.room-paper nav ul a.cta,
+body.room-paper nav ul a.is-active { color: var(--text); font-weight: 500; }
+body.room-paper .nav-menu-btn { color: var(--text); }
+body.room-paper .nav-overlay { background: var(--bg); }
+body.room-paper footer#letters { border-top-color: var(--border); }
+body.room-paper .footer-mark { font-weight: 500; letter-spacing: 0.2em; text-indent: 0; font-size: 18px; }
+body.room-paper .footer-line { font-weight: 400; font-style: italic; font-size: 17px; color: var(--text-muted); }
+body.room-paper .footer-links a { font-weight: 400; font-size: 11px; letter-spacing: 0.14em; color: var(--paper-label); }
+body.room-paper .footer-links a:hover { color: var(--text); }
+body.room-paper [data-lamp], body.room-paper .footer-lamp { display: none; }
+
 /* ─── THE LAMPLIT EVENING ──────────────────────────────────────────── */
 
 /* After local sunset (quiet.js sets the class; the footer lamp overrides it)
@@ -81,7 +162,11 @@ nav .wordmark {
   letter-spacing: 0.32em;
   color: var(--text);
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
 }
+nav .wordmark svg { display: block; flex: none; }
 
 nav ul {
   display: flex;

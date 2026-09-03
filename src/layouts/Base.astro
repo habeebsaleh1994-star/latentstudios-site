@@ -6,6 +6,8 @@ interface Props {
   description?: string;
   ogImage?: string;
   ogImageAlt?: string;
+  /** Which light the page lives in: the studio's paper, or an instrument's darkroom. */
+  room?: 'paper' | 'dark';
 }
 
 const {
@@ -13,6 +15,7 @@ const {
   description = 'An independent photographic studio. The Ritual on Mac and iPad, The Moment on iPhone, The Lab in DaVinci Resolve, and Versos, a photography prize once a month.',
   ogImage = '/og.png?v=4',
   ogImageAlt = 'Latent Studios — one studio, four rooms',
+  room = 'dark',
 } = Astro.props;
 
 const ogImageURL = `https://latentritual.com${ogImage}`;
@@ -33,7 +36,7 @@ const jsonLd = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#1A1614" />
+    <meta name="theme-color" content={room === 'paper' ? '#f3efe6' : '#1A1614'} />
     <link rel="canonical" href={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -73,7 +76,7 @@ const jsonLd = {
     </script>
   </head>
 
-  <body>
+  <body class={room === 'paper' ? 'room-paper' : ''}>
     <a class="skip-link" href="#main">Skip to content</a>
     <slot />
     <script>

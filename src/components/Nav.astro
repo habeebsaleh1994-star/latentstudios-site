@@ -14,11 +14,13 @@ import { truth } from '../config/truth';
 
 interface Props {
   cta?: { label: string; href: string };
+  /** The page opens with a full-bleed hero the nav should sit over transparently. */
+  overHero?: boolean;
 }
 
-const { cta = { label: truth.ctaLabel, href: '/beta' } } = Astro.props;
+const { cta = { label: truth.ctaLabel, href: '/beta' }, overHero = false } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isHome = path === '/';
+const isHome = overHero;
 
 const links = [
   { label: 'The Ritual', href: '/ritual' },
@@ -30,7 +32,7 @@ const links = [
 ---
 
 <nav class={isHome ? 'over-hero' : ''} data-nav>
-  <a class="wordmark" href="/">LATENT STUDIOS</a>
+  <a class="wordmark" href="/"><svg class="wordmark-frame" width="16" height="16" viewBox="0 0 360 360" aria-hidden="true"><path d="M 120 70 L 290 70 L 290 290 L 70 290 L 70 120" fill="none" stroke="currentColor" stroke-width="34"></path><circle cx="90" cy="84" r="18" fill="currentColor"></circle></svg>LATENT STUDIOS</a>
   <ul>
     {links.map((l) => (
       <li><a href={l.href} class={path === l.href ? 'is-active' : ''} aria-current={path === l.href ? 'page' : undefined}>{l.label}</a></li>

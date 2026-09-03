@@ -1,0 +1,11 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1200, "h": 1500, "title": "Direction A · the frame" },
+    { "file": "DirectionB.dc.html", "x": 1300, "y": 0, "w": 760, "h": 900, "title": "Direction B · the seam" },
+    { "file": "DirectionC.dc.html", "x": 1300, "y": 1020, "w": 760, "h": 900, "title": "Direction C · grain" }
+  ],
+  "annotations": [
+    { "id": "read-me", "x": 0, "y": -150, "w": 520, "text": "Three directions for the studio's mark. A is the one I'd build: a frame that develops, the parent of the L and the ring the products already carry. B and C are sketches on purpose. Nothing in the palette is new; it makes official what the instruments and Versos already use." }
+  ],
+  "launch": { "view": "canvas" }
+}
