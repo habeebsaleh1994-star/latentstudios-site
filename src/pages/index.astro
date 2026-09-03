@@ -1,8 +1,8 @@
 ---
-// The Latent house homepage — one house, three instruments.
+// The Latent Studios homepage — one studio, four rooms.
 //
 // The hero is the Develop seam (Hero.astro); below it the page introduces the
-// principle, the three instruments, the shared engine, and the shared world.
+// principle, the three instruments and the prize, the shared engine, and the shared world.
 // Release truth (status chips, CTA label, community gate) comes only from
 // src/config/truth.ts.
 import Base from '../layouts/Base.astro';
@@ -15,8 +15,8 @@ import { truth } from '../config/truth';
 ---
 
 <Base
-  title="Latent — a photographic developer for the digital age"
-  description="A house of three instruments, one negative-to-print engine: The Ritual on Mac and iPad, The Moment on iPhone, The Lab in DaVinci Resolve."
+  title="Latent Studios — instruments for developing photographs, and places for living with them"
+  description="An independent photographic studio. The Ritual on Mac and iPad, The Moment on iPhone, The Lab in DaVinci Resolve, and Versos, a photography prize once a month."
 >
   <Fragment slot="head">
     {/* The hero's first frame is the LCP image — fetch it before layout asks. */}
@@ -47,8 +47,8 @@ import { truth } from '../config/truth';
     <!-- THE INSTRUMENTS -->
     <section class="instruments">
       <div class="instruments-header">
-        <div class="eyebrow reveal">The instruments</div>
-        <h2 class="instruments-heading reveal reveal-heading" style="--reveal-delay: 80ms">One house. Three instruments.</h2>
+        <div class="eyebrow reveal">What the studio makes</div>
+        <h2 class="instruments-heading reveal reveal-heading" style="--reveal-delay: 80ms">One studio. Three instruments, and a prize.</h2>
       </div>
 
       <div class="row" id="ritual">
@@ -142,6 +142,33 @@ import { truth } from '../config/truth';
           </video>
         </div>
       </div>
+
+      <div class="row row-versos" id="versos">
+        <div class="row-media capture-versos reveal reveal-media" style="--reveal-delay: 200ms">
+          <img
+            src="/versos-wall-1200.webp"
+            srcset="/versos-wall-600.webp 600w, /versos-wall-1200.webp 1200w"
+            sizes="(max-width: 900px) 100vw, 56vw"
+            width="1200"
+            height="630"
+            loading="lazy"
+            alt="The first call of Versos on paper: The light you didn't wait for."
+          />
+        </div>
+        <div class="row-text">
+          <div class="eyebrow reveal">Versos &middot; a prize, once a month</div>
+          <h3 class="row-title reveal reveal-heading" style="--reveal-delay: 80ms">Versos</h3>
+          <p class="row-role reveal" style="--reveal-delay: 140ms">One line. One photograph each.</p>
+          <p class="row-body reveal" style="--reveal-delay: 200ms">
+            Any camera, a line on its verso. A named photographer chooses.
+            Nothing is counted.
+          </p>
+          <div class="row-foot reveal" style="--reveal-delay: 260ms">
+            <StatusChip label={truth.versosStatus} />
+            <a class="door-link" href="/versos">See the call &rarr;</a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <Inscription />
@@ -165,11 +192,12 @@ import { truth } from '../config/truth';
       <div class="engine-scrim" aria-hidden="true"></div>
       <div class="engine-inner">
         <div class="engine-rule reveal" aria-hidden="true"></div>
-        <div class="eyebrow engine-eyebrow reveal" style="--reveal-delay: 80ms">One engine &middot; three relationships to time</div>
+        <div class="eyebrow engine-eyebrow reveal" style="--reveal-delay: 80ms">One engine &middot; one habit</div>
         <p class="engine-lines reveal" style="--reveal-delay: 160ms">
           The Moment catches.<br />
           The Ritual lets you sit with the work.<br />
-          The Lab carries the process through motion.
+          The Lab carries the process through motion.<br />
+          Versos hands one photograph to someone who looks.
         </p>
         <div class="engine-rule reveal" style="--reveal-delay: 240ms" aria-hidden="true"></div>
       </div>
@@ -184,7 +212,8 @@ import { truth } from '../config/truth';
         </h2>
         <p class="world-body reveal" style="--reveal-delay: 200ms">
           Keep them in a <strong>Circle</strong>, or place them in the
-          <strong>Field</strong>. The rest belongs to whoever stops to look.
+          <strong>Field</strong>. Once a month, hang one on the
+          <a href="/versos"><strong>wall</strong></a>. The rest belongs to whoever stops to look.
         </p>
         <p class="world-doors reveal" style="--reveal-delay: 280ms">The doors open with the beta</p>
       </section>
@@ -193,7 +222,7 @@ import { truth } from '../config/truth';
     <!-- CODA — the page returns to the line it opened with. -->
     <section class="coda" id="house">
       <div class="coda-rule reveal" aria-hidden="true"></div>
-      <p class="coda-house reveal" style="--reveal-delay: 80ms">Independent photographic house.</p>
+      <p class="coda-house reveal" style="--reveal-delay: 80ms">Independent photographic studio.</p>
       <p class="coda-body reveal" style="--reveal-delay: 160ms">
         We build instruments for developing photographs and places for living
         with them.
@@ -272,7 +301,7 @@ import { truth } from '../config/truth';
       margin-bottom: 140px;
     }
     .row-moment { grid-template-columns: 1.4fr 1fr; }
-    .row-lab { margin-bottom: 0; }
+    .row-versos { margin-bottom: 0; }
     .row-text { padding: 0 24px; }
     .row-text .eyebrow { margin-bottom: 24px; }
     .row-title {
@@ -328,6 +357,21 @@ import { truth } from '../config/truth';
       background: var(--bg-deep);
     }
     .capture-ritual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* Versos hangs as a card on the studio's wall: paper on the dark room. */
+    .row-versos { grid-template-columns: 1.4fr 1fr; }
+    .capture-versos {
+      aspect-ratio: 1200 / 630;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.08);
+      background: #f3efe6;
+    }
+    .capture-versos img {
       width: 100%;
       height: 100%;
       object-fit: cover;

@@ -24,12 +24,13 @@ const links = [
   { label: 'The Ritual', href: '/ritual' },
   { label: 'The Moment', href: '/moment' },
   { label: 'The Lab', href: '/lab' },
+  { label: 'Versos', href: '/versos' },
   { label: 'About', href: '/about' },
 ];
 ---
 
 <nav class={isHome ? 'over-hero' : ''} data-nav>
-  <a class="wordmark" href="/">LATENT</a>
+  <a class="wordmark" href="/">LATENT STUDIOS</a>
   <ul>
     {links.map((l) => (
       <li><a href={l.href} class={path === l.href ? 'is-active' : ''} aria-current={path === l.href ? 'page' : undefined}>{l.label}</a></li>

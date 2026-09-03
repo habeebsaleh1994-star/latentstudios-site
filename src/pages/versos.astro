@@ -1,0 +1,176 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import StatusChip from '../components/StatusChip.astro';
+import { truth } from '../config/truth';
+
+// Versos has its own site. This page is the studio's door to it: what the
+// prize is, in the studio's voice, and one way through.
+const VERSOS_URL = 'https://versos.latentstudios.art';
+---
+
+<Base
+  title="Versos — a photography prize, once a month — Latent Studios"
+  description="One line. One photograph each, any camera, a line on its verso. A named photographer chooses. Nothing is counted. A prize by Latent Studios."
+  ogImage="/versos-wall-1200.webp"
+  ogImageAlt="The first call of Versos: The light you didn't wait for."
+>
+  <Nav cta={{ label: 'See the call', href: VERSOS_URL }} />
+  <main class="versos" id="main">
+
+    <section class="versos-hero">
+      <div class="section-label reveal">Versos &middot; a prize, once a month</div>
+      <h1 class="versos-title reveal reveal-heading" style="--reveal-delay: 80ms">One line.<br />One photograph each.</h1>
+      <p class="versos-lead reveal" style="--reveal-delay: 200ms">
+        On the first of the month a single written line goes out. It is the
+        whole challenge. You answer with one photograph, from any camera, and
+        write a line on its verso. When the wall closes, a named photographer
+        chooses one, and writes to its maker.
+      </p>
+      <div class="versos-foot reveal" style="--reveal-delay: 280ms">
+        <StatusChip label={truth.versosStatus} />
+        <a class="versos-door" href={VERSOS_URL}>See the call &rarr;</a>
+      </div>
+    </section>
+
+    <section class="versos-card reveal reveal-media" style="--reveal-delay: 160ms">
+      <a href={VERSOS_URL} aria-label="Open Versos">
+        <img
+          src="/versos-wall-1200.webp"
+          srcset="/versos-wall-600.webp 600w, /versos-wall-1200.webp 1200w"
+          sizes="(max-width: 900px) 100vw, 900px"
+          width="1200"
+          height="630"
+          loading="lazy"
+          alt="The first call of Versos on paper: The light you didn't wait for."
+        />
+      </a>
+    </section>
+
+    <section class="versos-block">
+      <div class="versos-prose reveal">
+        <p>
+          Most competitions ask for a genre. Versos asks a question, and the
+          answer has to be a photograph. The line is about life, not about
+          photography, so a fisherman, a teenager with a phone, and a working
+          photographer can all answer it honestly.
+        </p>
+        <p>
+          The wall hangs every print in the order it arrived, with the
+          photographer&rsquo;s name and face. There are no likes, no ranks, no
+          counts. The words wait on the back of the print, like turning it
+          over. One sentence is plenty; nobody grades the writing.
+        </p>
+        <p>
+          A machine never judges a photograph here. It only stands at the door
+          and asks whether something is a photograph at all. A person looks.
+          The juror&rsquo;s note is read by everyone who entered, and that is
+          how the place gets better without anyone being lectured.
+        </p>
+        <p>
+          The prize is a fixed amount printed on the call before it opens.
+          Sometimes a sponsor gives it, and their name sits beside it. It goes
+          to the photographer of the chosen print. Every call becomes a
+          permanent page, and every photographer a page that grows with each
+          call they answer.
+        </p>
+      </div>
+    </section>
+
+    <section class="versos-turn">
+      <div class="versos-rule reveal" aria-hidden="true"></div>
+      <p class="versos-line reveal" style="--reveal-delay: 80ms">
+        A developer that reveals instead of corrects.<br />
+        A wall where a person looks instead of a machine.
+      </p>
+      <div class="versos-rule reveal" style="--reveal-delay: 160ms" aria-hidden="true"></div>
+      <p class="versos-close reveal" style="--reveal-delay: 240ms">
+        Versos lives at <a href={VERSOS_URL}>versos.latentstudios.art</a>. Any camera. Come and answer the line.
+      </p>
+    </section>
+
+  </main>
+  <Footer />
+
+  <style>
+    .versos-hero { max-width: 820px; margin: 0 auto; padding: 172px 24px 56px; text-align: center; }
+    .versos-title {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(40px, 8vw, 74px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text-bright);
+      margin: 0;
+    }
+    .versos-lead {
+      font-size: 19px;
+      line-height: 1.75;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 30px auto 0;
+    }
+    .versos-foot {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+    .versos-door {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--text-bright);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 2px;
+    }
+    .versos-door:hover { border-bottom-color: var(--text-bright); }
+
+    .versos-card { max-width: 900px; margin: 0 auto; padding: 24px 24px 80px; }
+    .versos-card a {
+      display: block;
+      aspect-ratio: 1200 / 630;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #f3efe6;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.08);
+    }
+    .versos-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .versos-block { max-width: 660px; margin: 0 auto; padding: 0 24px 56px; }
+    .versos-prose p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin: 0 0 28px;
+    }
+    .versos-prose p:last-child { margin-bottom: 0; }
+
+    .versos-turn { max-width: 760px; margin: 0 auto; padding: 24px 24px 120px; text-align: center; }
+    .versos-rule { width: 60px; height: 1px; background: var(--border-light); margin: 0 auto; }
+    .versos-line {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(24px, 3.4vw, 34px);
+      line-height: 1.35;
+      color: var(--text-bright);
+      margin: 36px 0;
+    }
+    .versos-close {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin: 36px auto 0;
+      max-width: 520px;
+    }
+    .versos-close a { color: var(--text-bright); }
+
+    @media (max-width: 640px) {
+      .versos-hero { padding-top: 132px; }
+      .versos-turn { padding-bottom: 80px; }
+    }
+  </style>
+</Base>

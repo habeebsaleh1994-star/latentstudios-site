@@ -9,10 +9,10 @@ interface Props {
 }
 
 const {
-  title = 'Latent — a photographic developer for the digital age',
-  description = 'A house of three instruments, one negative-to-print engine: The Ritual on Mac and iPad, The Moment on iPhone, The Lab in DaVinci Resolve.',
+  title = 'Latent Studios — instruments for developing photographs, and places for living with them',
+  description = 'An independent photographic studio. The Ritual on Mac and iPad, The Moment on iPhone, The Lab in DaVinci Resolve, and Versos, a photography prize once a month.',
   ogImage = '/og.png?v=4',
-  ogImageAlt = 'Latent — one house, three instruments',
+  ogImageAlt = 'Latent Studios — one studio, four rooms',
 } = Astro.props;
 
 const ogImageURL = `https://latentritual.com${ogImage}`;
@@ -20,10 +20,8 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://latentritual.com').hre
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'SoftwareApplication',
-  name: 'Latent',
-  applicationCategory: 'MultimediaApplication',
-  operatingSystem: 'macOS, iPadOS, iOS',
+  '@type': 'Organization',
+  name: 'Latent Studios',
   description,
   url: 'https://latentritual.com',
 };

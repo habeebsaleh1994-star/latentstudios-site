@@ -5,6 +5,7 @@ export const truth = {
   ritualStatus: 'Private beta',
   momentStatus: 'In beta',
   labStatus: 'In development',
+  versosStatus: 'First call soon',
   ctaLabel: 'Join the beta',
   showCommunity: true, // false hides the shared-world / Company sections
 };
