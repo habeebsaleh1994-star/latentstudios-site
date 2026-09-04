@@ -317,3 +317,25 @@ dissolves, forms that are almost something and then are something else.
 It matches the book exactly: "There are things that do not survive being
 named. You can circle them with language... but the thing itself stays
 where it is." The film circles. It never lands, until the frame.
+
+## 15. Three thoughts before we begin
+
+> "There are things that cannot be put into words. They make themselves
+> manifest. They are what is mystical."
+>
+> "No matter how vivid the colors of poetry or how carefully one chooses
+> their words, descriptions always fall short of capturing the true
+> essence of reality. However detailed or lively the imagination, it can
+> never come close to the raw, sometimes absurd intensity of what actually
+> exists."
+>
+> "Our fundamental existence cannot be grasped or captured by words. We can
+> never be equated with any words, because we are prior to words."
+
+*Note:* the first is Wittgenstein's closing of the Tractatus (6.522),
+the other two are Habib's own. Together they are the film's licence and
+its warning. Licence: the film may make something manifest without
+explaining it; that is what the abstraction is for. Warning: the film
+will fall short of the real thing, as every description does, so it must
+not pretend to be the thing. It circles. It confirms that the place
+exists. The last line stays: "We are prior to our words."
