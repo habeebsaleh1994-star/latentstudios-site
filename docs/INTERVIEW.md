@@ -297,3 +297,23 @@ a plant in the dark, or a photograph. It is the creation of the world,
 told as the birth of a single present moment: from nothing, through
 everything, to now. A movement needs a founding image the way a religion
 needs a creation story. This is it.
+
+## 14. How a thought imagines a thought
+
+> This film cannot be shot with a camera, otherwise I would have shot it
+> myself. This film is too abstract, like a thought too. The film is how
+> a thought can imagine the thought. So it is too abstract, but at the
+> same time it makes sense what Latent Studios stand for. A thought is
+> clear but not clear at the same time, because when you think of a
+> thought, now you are thinking, and you have a thought about the
+> thought, so the thought you are thinking about is now gone and replaced
+> by another thought, which is the thought about the thought.
+
+*Note:* this is the film's form, not just its subject. Nothing on screen
+may be held: the moment an image becomes clear enough to name, it is
+already becoming the next one. Every shot is the thought about the shot
+before it. Clear and not clear at once: focus that resolves and
+dissolves, forms that are almost something and then are something else.
+It matches the book exactly: "There are things that do not survive being
+named. You can circle them with language... but the thing itself stays
+where it is." The film circles. It never lands, until the frame.
