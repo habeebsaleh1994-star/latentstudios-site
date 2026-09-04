@@ -269,3 +269,31 @@ grain, silver, wash and chalk, animated, never real life. From this
 world (materials you can touch) and out of it (nothing is a photograph
 of a place). The road and the room become glimpses inside the
 acceleration, not chapters.
+
+## 13. What Latent Studios is, finally
+
+> It is more like the creation of the world. More like the big bang. More
+> like where thoughts are born, where the whole history of a thing leads
+> to its present moment and its present thoughts and feelings. Art is not
+> just about the creation of a thing; art gets created from the whole
+> thing. You create something because of everything you have been
+> through, from the moment you become a creature inside the womb to the
+> second I am writing this to you now.
+>
+> Latent Studios is about creation, but it is about philosophy and
+> existential experience too. Everything in it is one. We are not
+> teaching or creating just tools. We are creating a world that has a
+> philosophy, and inside this world we are doing the arts, and our
+> activities happen in there. I hate to say it, but we are more like a
+> religion, but in the art sense. We are creating a new movement in the
+> world of art.
+
+*Note:* this is the answer the film has been waiting for. Latent Studios
+is not a company that makes art things. It is a world with a philosophy,
+and the arts happen inside it. Latency is cosmogony: everything that
+ever happened leads to the instant a thought is born, and a work is made
+out of the whole of that. The film is therefore not about materials, or
+a plant in the dark, or a photograph. It is the creation of the world,
+told as the birth of a single present moment: from nothing, through
+everything, to now. A movement needs a founding image the way a religion
+needs a creation story. This is it.
