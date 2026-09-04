@@ -339,3 +339,33 @@ explaining it; that is what the abstraction is for. Warning: the film
 will fall short of the real thing, as every description does, so it must
 not pretend to be the thing. It circles. It confirms that the place
 exists. The last line stays: "We are prior to our words."
+
+## 16. Rooted
+
+> But also Latent Studios is rooted into reality, and rooted into everyday
+> life. It is hard to explain it, but it is also easy to feel it.
+
+*Note:* the creation of the world must feel like it could be happening on
+a kitchen table. Cosmic and domestic at once: the big bang, and the way
+light falls in a particular room at a particular hour. A "first light"
+still that reads as a galaxy is wrong (space is nameable); one that
+reads as warmth through a curtain seen through closed eyes is right.
+The archive flashes, the hand on the page, the road, are how the
+ordinary stays inside the abstraction.
+
+## 17. The two extremes, and what plays between them
+
+> It exists before the world and before the thought, but it also leads to
+> a final thing. It can manifest into a real thing. As much as it is
+> abstract, it is also too real. It is like it joins two extremes, but
+> also in what is between them it plays.
+
+*Note:* this is the shape of the film exactly. One end: before the world,
+before the thought, unnameable. The other end: a real thing, a print you
+can hold, a frame with a hard edge. Latent Studios is the joining of the
+two and the play between them. So the film must reach both ends. It
+cannot stay abstract to the last frame; the last frame is the manifest
+thing, sharp, real, held. And the middle is where it plays: clear and
+not clear, cosmic and domestic, the archive of the ordinary flashing
+inside the becoming. The frame at the end is not decoration. It is the
+real thing the whole film has been leading to.
