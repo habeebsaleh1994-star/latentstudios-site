@@ -388,3 +388,24 @@ to one end: a person's thought becoming a real thing. In the film, this
 is the frame: the studio's hand that holds what was born before it was
 made, so that it can exist in the world. The audience that did not
 exist is now the artists the studio serves.
+
+## 19. The reference film, watched in full (the Fable 5.1 short)
+
+*What it does:* a real bird on a real branch, held. Then, through a
+circular eyepiece, a fast run of plates and instruments of knowing: a
+bird engraving, a blue bird plate, a botanical plate with handwritten
+names, a geological map, a microscope slide, an engineering drawing, the
+moon through a telescope. Then the real sky with the moon. Then the name
+in a serif over clouds. About twenty-seven seconds.
+
+*Its grammar:* one device (the eyepiece); real footage at the two ends,
+archive in the middle; the archive cut fast, each plate a second or
+less; nothing explained; the name over the sky, once.
+
+*What it confirms for Latent:* fast flashes of archive material in the
+middle work, and read as "everything that led here". One device carries
+the whole film. Real, unnameable footage at the ends grounds the
+archive. Our difference: their archive is knowledge (maps, cells,
+machines, the moon); ours is feeling and making (pigment, paper, light,
+plates, textiles). Their device is a lens that looks out; ours should be
+whatever the studio does: it brings things into being.
