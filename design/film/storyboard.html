@@ -1,0 +1,148 @@
+<title>Latent Storyboard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400&display=swap">
+<style>
+  :root { --paper: #f3efe6; --ink: #1d1a16; --muted: #7b7368; --rule: #d9d2c4; --dark: #1a1614; --amber: #e8c4a0; --rose: #d9a3a3; --ochre: #c9a45a; --sage: #9ba98e; --indigo: #8a93b8; }
+  html { color-scheme: light; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif; }
+  .page { max-width: 1240px; margin: 0 auto; padding: 40px 32px 96px; }
+  .label { font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .top { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--rule); padding-bottom: 14px; }
+  h1 { font-style: italic; font-weight: 400; font-size: 44px; margin: 40px 0 8px; line-height: 1.05; }
+  .lede { font-size: 20px; color: #3d372f; max-width: 60ch; margin: 0 0 16px; }
+  h2 { font-style: italic; font-weight: 400; font-size: 26px; margin: 56px 0 6px; }
+  .mv { font-size: 16px; color: var(--muted); font-style: italic; margin: 0 0 18px; }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px 24px; }
+  .shot { display: flex; flex-direction: column; gap: 8px; }
+  .frame { aspect-ratio: 16 / 9; border: 1px solid var(--ink); background: var(--paper); overflow: hidden; position: relative; }
+  .frame svg { display: block; width: 100%; height: 100%; }
+  .t { display: flex; justify-content: space-between; align-items: baseline; }
+  .t .n { font-size: 19px; }
+  .t .d { font-family: 'Instrument Sans', sans-serif; font-size: 11px; letter-spacing: 0.1em; color: var(--muted); }
+  .what { font-size: 16px; line-height: 1.4; color: #3d372f; }
+  .snd { font-size: 14px; font-style: italic; color: var(--muted); }
+  .bar { margin-top: 64px; border-top: 1px solid var(--rule); padding-top: 18px; }
+  .timeline { display: flex; height: 34px; margin-top: 12px; border: 1px solid var(--ink); }
+  .timeline div { border-right: 1px solid var(--ink); display: flex; align-items: center; justify-content: center; font-family: 'Instrument Sans', sans-serif; font-size: 10px; letter-spacing: 0.08em; color: var(--ink); }
+  .timeline div:last-child { border-right: 0; }
+  @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+</style>
+
+<div class="page">
+  <div class="top">
+    <div style="font-size: 22px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;">Latent Studios</div>
+    <div class="label">The film · storyboard · drawn before anything is made</div>
+  </div>
+
+  <h1>The creation of the world, as the birth of one thought.</h1>
+  <p class="lede">Sixty seconds. Nothing whole, nothing named, until the very end. Each drawing is a note toward a shot, not the shot: the film will be made of materials and light, and these are only the rhythm and the intention on paper.</p>
+  <p class="label">Ink on paper. Tint marks the light of each movement. Duration and sound under every frame.</p>
+
+  <!-- I -->
+  <h2>I · Nothing</h2>
+  <p class="mv">Before anything. The audience that did not yet exist.</p>
+  <div class="grid">
+    <div class="shot">
+      <div class="frame"><svg viewBox="0 0 160 90"><rect width="160" height="90" fill="#221e1b"/><rect width="160" height="90" fill="url(#g1)" opacity="0.5"/><defs><radialGradient id="g1" cx="0.5" cy="0.55" r="0.7"><stop offset="0" stop-color="#2b2622"/><stop offset="1" stop-color="#171412"/></radialGradient></defs></svg></div>
+      <div class="t"><span class="n">1 · Before</span><span class="d">0:00 – 0:05</span></div>
+      <div class="what">Not black. A deep grey with the faintest movement, like the inside of closed eyes. No edges.</div>
+      <div class="snd">nothing, then the room</div>
+    </div>
+    <div class="shot">
+      <div class="frame"><svg viewBox="0 0 160 90"><rect width="160" height="90" fill="#1d1916"/><ellipse cx="68" cy="50" rx="34" ry="24" fill="url(#g2)"/><defs><radialGradient id="g2"><stop offset="0" stop-color="#6b4a33" stop-opacity="0.85"/><stop offset="1" stop-color="#1d1916" stop-opacity="0"/></radialGradient></defs></svg></div>
+      <div class="t"><span class="n">2 · The first warmth</span><span class="d">0:05 – 0:09</span></div>
+      <div class="what">Somewhere in the dark, a warmth. Not a light, the memory of one. Amber, without a source. It breathes once.</div>
+      <div class="snd">a single low tone, far away</div>
+    </div>
+    <div class="shot">
+      <div class="frame"><svg viewBox="0 0 160 90"><rect width="160" height="90" fill="#1d1916"/><ellipse cx="72" cy="48" rx="46" ry="34" fill="url(#g3)"/><g fill="#e8c4a0" opacity="0.5"><circle cx="60" cy="40" r="0.6"/><circle cx="84" cy="56" r="0.5"/><circle cx="78" cy="34" r="0.4"/><circle cx="66" cy="60" r="0.5"/><circle cx="92" cy="44" r="0.4"/></g><defs><radialGradient id="g3"><stop offset="0" stop-color="#e8c4a0" stop-opacity="0.75"/><stop offset="0.5" stop-color="#b07a52" stop-opacity="0.35"/><stop offset="1" stop-color="#1d1916" stop-opacity="0"/></radialGradient></defs></svg></div>
+      <div class="t"><span class="n">3 · First light</span><span class="d">0:09 – 0:15</span></div>
+      <div class="what">The warmth breaks. Light leaking through something like gelatin, halation blooming, the first grain. It never becomes a shape.</div>
+      <div class="snd">the tone opens into a breath</div>
+    </div>
+  </div>
+
+  <!-- II -->
+  <h2>II · Everything</h2>
+  <p class="mv">What was waiting. Faster and faster, toward the pulse.</p>
+  <div class="grid">
+    <div class="shot">
+      <div class="frame"><svg viewBox="0 0 160 90"><rect width="160" height="90" fill="#221e1b"/><g stroke="#cfc6b8" stroke-width="0.6" fill="none" opacity="0.9"><path d="M80 50 l-12 -9 l-8 -3 M80 50 l-10 -14 l-4 -9 M80 50 l6 -15 l3 -8 M80 50 l14 -8 l9 -2 M80 50 l12 6 l9 5 M80 50 l-6 12 l-3 9 M80 50 l-15 3 l-9 4"/><path d="M68 41 l-3 -5 M70 36 l-5 -2 M86 35 l4 -4 M94 42 l5 1 M92 56 l5 4 M74 62 l-4 3 M65 53 l-5 5" stroke-width="0.4"/></g></svg></div>
+      <div class="t"><span class="n">4 · Matter</span><span class="d">0:15 – 0:20</span></div>
+      <div class="what">Grain thickens into structure: silver crystallising, branching, reaching. Then it softens before it can be called frost.</div>
+      <div class="snd">ticks and creaks, the sound of growing</div>
+    </div>
+    <div class="shot">
+      <div class="frame"><svg viewBox="0 0 160 90"><rect width="160" height="90" fill="#e9e3d6"/><path d="M95 0 Q80 30 92 50 Q104 70 90 90 L160 90 L160 0 Z" fill="#c9a45a" opacity="0.55"/><path d="M110 0 Q100 40 112 90 L160 90 L160 0 Z" fill="#d9a3a3" opacity="0.5"/><path d="M92 20 Q86 45 96 60" stroke="#8a93b8" stroke-width="5" fill="none" opacity="0.5" stroke-linecap="round"/></svg></div>
+      <div class="t"><span class="n">5 · Water and dye</span><span class="d">0:20 – 0:24</span></div>
+      <div class="what">The structure dissolves into liquid: colour soaking into fibre, rose and ochre and indigo feathering outward.</div>
+      <div class="snd">water, close</div>
+    </div>
+    <div class="shot">
+      <div class="frame"><svg viewBox="0 0 160 90"><rect width="160" height="90" fill="#e9e3d6"/><ellipse cx="80" cy="45" rx="42" ry="30" fill="#d9a3a3" opacity="0.4"/><ellipse cx="80" cy="45" rx="30" ry="21" fill="#c9a45a" opacity="0.35"/><ellipse cx="80" cy="45" rx="18" ry="12" fill="#e8c4a0" opacity="0.6"/><path d="M10 78 h20 l4 -10 l4 20 l4 -14 l3 8 h10 M60 78 h14 l3 -12 l4 22 l3 -14 l3 6 h14 M112 78 h10 l3 -13 l4 24 l3 -15 l3 7 h12" stroke="#1d1a16" stroke-width="0.6" fill="none" opacity="0.6"/></svg></div>
+      <div class="t"><span class="n">6 · A pulse begins</span><span class="d">0:24 – 0:27</span></div>
+      <div class="what">The washes begin to beat, slowly, like a heart heard from inside. Each beat brings a glimpse.</div>
+      <div class="snd">the pulse, felt more than heard</div>
+    </div>
+    <div class="shot">
+      <div class="frame"><svg viewBox="0 0 160 90"><rect width="160" height="90" fill="#e9e3d6"/><g opacity="0.8"><rect x="6" y="8" width="44" height="28" fill="#8a93b8" opacity="0.5"/><rect x="58" y="4" width="40" height="30" fill="#c9a45a" opacity="0.55"/><rect x="104" y="10" width="48" height="26" fill="#9ba98e" opacity="0.5"/><rect x="14" y="44" width="50" height="34" fill="#d9a3a3" opacity="0.5"/><rect x="70" y="40" width="34" height="40" fill="#e8c4a0" opacity="0.6"/><rect x="110" y="46" width="44" height="34" fill="#8a93b8" opacity="0.4"/></g><g stroke="#1d1a16" stroke-width="0.5" opacity="0.5" fill="none"><path d="M6 8 h44 v28 h-44 z M58 4 h40 v30 h-40 z M104 10 h48 v26 h-48 z M14 44 h50 v34 h-50 z M70 40 h34 v40 h-34 z M110 46 h44 v34 h-44 z"/></g></svg></div>
+      <div class="t"><span class="n">7 · Everything that led here</span><span class="d">0:27 – 0:33</span></div>
+      <div class="what">On each beat, faster each time, a fragment of the inspiration folder comes alive for a fraction of a second and dissolves into the next. Never held long enough to name. By the end, several at once.</div>
+      <div class="snd">the pulse quickening into a rhythm, a rising chord beneath</div>
+    </div>
+    <div class="shot">
+      <div class="frame"><svg viewBox="0 0 160 90"><rect width="160" height="90" fill="#e9e3d6"/><g fill="none" stroke="#1d1a16" stroke-width="0.7"><rect x="20" y="11" width="120" height="68"/><rect x="42" y="23" width="76" height="43" opacity="0.7"/><rect x="58" y="32" width="44" height="25" opacity="0.5"/><rect x="68" y="38" width="24" height="13" opacity="0.35"/></g><rect x="20" y="11" width="120" height="68" fill="#d9a3a3" opacity="0.18"/><rect x="42" y="23" width="76" height="43" fill="#c9a45a" opacity="0.18"/><rect x="58" y="32" width="44" height="25" fill="#8a93b8" opacity="0.2"/></svg></div>
+      <div class="t"><span class="n">8 · The thought about the thought</span><span class="d">0:33 – 0:36</span></div>
+      <div class="what">The fragments fold inward: the image contains itself, the same becoming beginning again inside, smaller, then inside that.</div>
+      <div class="snd">everything at once, then cut</div>
+    </div>
+    <div class="shot">
+      <div class="frame"><svg viewBox="0 0 160 90"><rect width="160" height="90" fill="#1a1614"/></svg></div>
+      <div class="t"><span class="n">9 · Prior to the words</span><span class="d">0:36 – 0:39</span></div>
+      <div class="what">Hard cut to the dark of shot 1. Nothing moves. Three seconds, which in a film is a very long time.</div>
+      <div class="snd">absolute silence</div>
+    </div>
+  </div>
+
+  <!-- IV, V -->
+  <h2>IV · The thought &nbsp;&nbsp;·&nbsp;&nbsp; V · The world</h2>
+  <p class="mv">Born, with everything behind it. Then a world with an edge.</p>
+  <div class="grid">
+    <div class="shot">
+      <div class="frame"><svg viewBox="0 0 160 90"><defs><linearGradient id="g10" x1="0" x2="1"><stop offset="0" stop-color="#9c9b98"/><stop offset="0.35" stop-color="#e9e3d6"/><stop offset="0.6" stop-color="#e8c4a0"/><stop offset="0.8" stop-color="#d9a3a3"/><stop offset="1" stop-color="#9ba98e"/></linearGradient></defs><rect width="160" height="90" fill="url(#g10)"/><path d="M62 0 q8 20 -2 45 q-8 25 4 45" stroke="#8a93b8" stroke-width="3" fill="none" opacity="0.5"/><path d="M70 10 q10 15 2 30 M74 50 q10 12 0 30" stroke="#c9a45a" stroke-width="2" fill="none" opacity="0.6"/></svg></div>
+      <div class="t"><span class="n">10 · Born</span><span class="d">0:39 – 0:52</span></div>
+      <div class="what">One shot, slow, unbroken. From a single point, presence arrives: colour and texture and warmth spreading to fill the frame. Almost clear at the end, and stopping just short.</div>
+      <div class="snd">silence, then one held warm note arriving with the colour</div>
+    </div>
+    <div class="shot">
+      <div class="frame"><svg viewBox="0 0 160 90"><rect width="160" height="90" fill="#f3efe6"/><path d="M76 27 L100 27 L100 63 L60 63 L60 37" fill="none" stroke="#1d1a16" stroke-width="2.2"/><circle cx="63" cy="29" r="1.4" fill="#1d1a16"/></svg></div>
+      <div class="t"><span class="n">11 · The frame</span><span class="d">0:52 – 0:57</span></div>
+      <div class="what">The colour settles into paper. The frame draws itself, open at one corner: the first and only hard edge, fully sharp.</div>
+      <div class="snd">the note fades; paper</div>
+    </div>
+    <div class="shot">
+      <div class="frame"><svg viewBox="0 0 160 90"><rect width="160" height="90" fill="#f3efe6"/><path d="M76 22 L98 22 L98 54 L62 54 L62 31" fill="none" stroke="#1d1a16" stroke-width="2"/><circle cx="65" cy="24" r="1.2" fill="#1d1a16"/><text x="80" y="66" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="6.5" letter-spacing="1.6" fill="#1d1a16">LATENT STUDIOS</text><text x="80" y="76" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-style="italic" font-size="4.6" fill="#7b7368">We are prior to our words.</text></svg></div>
+      <div class="t"><span class="n">12 · The name</span><span class="d">0:57 – 1:00</span></div>
+      <div class="what">Latent Studios, beneath the frame. Then, small, one line from the founder's book. Cut to paper.</div>
+      <div class="snd">nothing</div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="label">The rhythm, as a line · sixty seconds</div>
+    <div class="timeline">
+      <div style="flex: 5; background: #2b2622; color: #cfc6b8;">1</div>
+      <div style="flex: 4; background: #3a2c22; color: #e8c4a0;">2</div>
+      <div style="flex: 6; background: #6b4a33; color: #f3efe6;">3</div>
+      <div style="flex: 5; background: #4a4643; color: #f3efe6;">4</div>
+      <div style="flex: 4; background: #d9a3a3;">5</div>
+      <div style="flex: 3; background: #e8c4a0;">6</div>
+      <div style="flex: 6; background: repeating-linear-gradient(90deg, #8a93b8 0 6px, #c9a45a 6px 11px, #9ba98e 11px 15px, #d9a3a3 15px 18px);">7</div>
+      <div style="flex: 3; background: #c9a45a;">8</div>
+      <div style="flex: 3; background: #1a1614; color: #7b7368;">9</div>
+      <div style="flex: 13; background: linear-gradient(90deg, #9c9b98, #e8c4a0, #d9a3a3, #9ba98e);">10</div>
+      <div style="flex: 5; background: #f3efe6;">11</div>
+      <div style="flex: 3; background: #f3efe6;">12</div>
+    </div>
+    <p class="what" style="margin-top: 14px; max-width: 70ch;">Slow, then faster, then a pulse, then a hard stop, then one long breath of arrival, then the edge. Every generated clip will be made to fit one of these slots exactly; nothing gets made without a slot.</p>
+  </div>
+</div>
