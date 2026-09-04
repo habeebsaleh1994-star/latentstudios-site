@@ -369,3 +369,22 @@ thing, sharp, real, held. And the middle is where it plays: clear and
 not clear, cosmic and domestic, the archive of the ordinary flashing
 inside the becoming. The frame at the end is not decoration. It is the
 real thing the whole film has been leading to.
+
+## 18. Not under the god
+
+> It is like Latent Studios is the god of the art world. It helps people
+> and artists manifest their thoughts, and helps them even build their
+> thoughts and turn these into real things, with our instruments and our
+> manifesto and our understanding of the world and of the human and of
+> history. We help create people, reach their artistic potential. This is
+> why I am saying we are not under the god, we are the gods.
+
+*Note:* read with *The Unfinished God* in the book: a god who makes for
+an audience that does not yet exist, whose need to be seen preceded
+seeing. Latent Studios takes the other side of that story: it is the
+one who helps others manifest. Not a tool-maker; a maker of makers. The
+instruments, the manifesto, the understanding of history are all means
+to one end: a person's thought becoming a real thing. In the film, this
+is the frame: the studio's hand that holds what was born before it was
+made, so that it can exist in the world. The audience that did not
+exist is now the artists the studio serves.
