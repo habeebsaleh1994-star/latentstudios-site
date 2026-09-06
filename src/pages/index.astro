@@ -1,307 +1,164 @@
 ---
-// The Latent Studios homepage — the studio on paper.
+// The Latent Studios homepage — words on silk, a painted peony that opens as the page is read.
 //
-// The studio is a lit room: the belief, one print on the wall, the four
-// rooms the studio makes, and the passages that make them one house.
-// The instruments keep their darkrooms on their own pages; this page is
-// where you stand before you enter one. Release truth (status chips, CTA
-// label, community gate) comes only from src/config/truth.ts.
+// Ground: /public/peony/000.webp … 095.webp (96 frames, 1080×1920), scrubbed by scroll on a
+// canvas, feathered into the silk with a CSS mask. Words are set directly on the silk in two
+// columns that never exceed 27vw, so the plant in the middle stays clear.
 //
-// The previous homepage, the Develop seam over a full-bleed photograph,
-// lives in git history (commit 2de45f9) and may return on the Ritual's page.
+// Truth lives in the labels below — keep them honest:
+//   Nera: not yet open · The Moment: on the App Store · The Ritual: public beta · The Lab: coming soon
 import Base from '../layouts/Base.astro';
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
-import StatusChip from '../components/StatusChip.astro';
-import { truth } from '../config/truth';
+import '../styles/home.css';
 
-const VERSOS_URL = 'https://versos.latentstudios.art';
+const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 ---
 
 <Base
+  title="Latent Studios"
+  description="Born before the act. Latent Studios is an art house making instruments that help artists understand and realize themselves — Nera, The Moment, The Ritual, The Lab, and Versos."
   room="paper"
-  title="Latent Studios — instruments for developing photographs, and places for living with them"
-  description="An independent photographic studio. The Ritual on Mac and iPad, The Moment on iPhone, The Lab in DaVinci Resolve, and Versos, a photography prize once a month."
+  themeColor="#dccbba"
+  quiet={false}
 >
   <Fragment slot="head">
-    <link rel="preload" as="image" href="/develop-3-after.webp" fetchpriority="high" />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/cormorant-500-normal-latin.woff2" />
+    <link rel="preload" as="image" href="/peony/000.webp" />
   </Fragment>
-
-  <Nav cta={{ label: 'Letters', href: '#letters' }} />
-  <main id="main" class="studio">
-
-    <!-- THE BELIEF, beside one print on the wall -->
-    <section class="belief">
-      <div class="belief-text">
-        <div class="eyebrow reveal">An independent photographic studio</div>
-        <h1 class="belief-line reveal reveal-heading" style="--reveal-delay: 80ms">The photograph is already there.</h1>
-        <p class="belief-body reveal" style="--reveal-delay: 200ms">
-          We make instruments for developing photographs, and places for
-          living with them. Nothing we make competes with the picture.
-          It accompanies it.
-        </p>
+  <div id="top" class="home">
+    <div class="home-ground" aria-hidden="true">
+      <div class="home-weave"></div>
+      <div class="home-peony" data-peony>
+        <canvas data-frames="/peony/" data-frame-count="96"></canvas>
       </div>
-      <figure class="belief-print reveal reveal-media" style="--reveal-delay: 160ms">
-        <div class="print">
-          <img
-            src="/develop-3-after.webp"
-            srcset="/develop-3-after.webp 2048w, /develop-3-after-3840.webp 3840w"
-            sizes="(max-width: 900px) 100vw, 42vw"
-            width="2048"
-            height="1365"
-            alt="Children on a carousel at a fair, developed on Crystal Archive Maxima"
-          />
+    </div>
+
+    <header class="home-header">
+      <a class="home-mark" href="#top">Latent Studios<span class="home-berry" aria-hidden="true"></span></a>
+      <nav class="home-nav" aria-label="Rooms">
+        <a href="#nera">Nera</a>
+        <a href="/moment">The Moment</a>
+        <a href="/ritual">The Ritual</a>
+        <a href="/lab">The Lab</a>
+        <a href="/versos">Versos</a>
+        <a href="#letters">Letters</a>
+      </nav>
+    </header>
+
+    <main id="main" class="home-main">
+
+      <section class="home-belief">
+        <h1 class="home-title" data-reveal>Born before the act.</h1>
+        <p class="home-belief-line" data-reveal>A work begins before it takes form. To make is to reveal what is already there.</p>
+      </section>
+
+      <section class="row row-left">
+        <p class="col home-studio" data-reveal>Latent Studios is an art house, founded by Habib Saleh. We make instruments that help artists understand and realize themselves &mdash; and the places and occasions to bring the work into the world.</p>
+      </section>
+
+      <section class="home-rooms">
+        <div class="row row-right">
+          <div class="col right" data-reveal>
+            <div class="label">What is open</div>
+            <p class="small">Each one is a place to make, or a place to put what was made.</p>
+          </div>
         </div>
-        <figcaption class="eyebrow">Fuji Pro 800Z, pulled one stop, on Crystal Archive Maxima &middot; developed in the Ritual</figcaption>
-      </figure>
-    </section>
 
-    <!-- WHAT THE STUDIO MAKES -->
-    <section class="rooms">
-      <div class="rooms-head">
-        <h2 class="h-italic reveal reveal-heading">What the studio makes</h2>
-        <div class="eyebrow reveal" style="--reveal-delay: 80ms">Three instruments on one engine, and a prize</div>
-      </div>
-
-      <div class="rooms-grid">
-        <article class="room reveal" id="ritual">
-          <a class="print room-media dark" href="/ritual" aria-label="The Ritual">
-            <img
-              src="/ritual-darkroom-1280.webp"
-              srcset="/ritual-darkroom-1280.webp 1280w, /ritual-darkroom-2560.webp 2560w"
-              sizes="(max-width: 900px) 100vw, 40vw"
-              width="5120"
-              height="2598"
-              loading="lazy"
-              alt="The Darkroom in The Ritual on Mac"
-            />
+        <div class="row row-left">
+          <a id="nera" class="col room" href="#nera" data-reveal>
+            <div class="label">An instrument &middot; a listening companion &middot; not yet open</div>
+            <h2 class="room-name room-name-lead">Nera</h2>
+            <p class="line">&ldquo;Let me speak until I can see what I mean.&rdquo;</p>
+            <p class="fact">You speak; she follows the thought as it develops, asks useful questions, and brings the conversation into a clearer account &mdash; keeping your uncertainty, your changes of mind, and your authorship.</p>
+            <span class="door">Speak to Nera &rarr;</span>
           </a>
-          <div class="eyebrow">The Ritual &middot; Mac and iPad</div>
-          <h3 class="room-title">The Ritual</h3>
-          <p class="room-body">A complete photographic workroom. Gather a body of work, develop the negative, make the print, and return to it over time.</p>
-          <div class="room-foot">
-            <StatusChip label={truth.ritualStatus} />
-            <a class="door" href="/ritual">Enter the workroom &rarr;</a>
-          </div>
-        </article>
+        </div>
 
-        <article class="room reveal" id="moment" style="--reveal-delay: 80ms">
-          <a class="print room-media light room-media-phone" href="/moment" aria-label="The Moment">
-            <img
-              src="/moment-journal-900.webp"
-              srcset="/moment-journal-600.webp 600w, /moment-journal-900.webp 900w"
-              sizes="220px"
-              width="900"
-              height="1956"
-              loading="lazy"
-              alt="A day in the journal of The Moment on iPhone"
-            />
+        <div class="row row-right">
+          <a id="moment" class="col room right" href="/moment" data-reveal>
+            <div class="label">An instrument &middot; a camera, a pocket darkroom, a journal &middot; iPhone and iPad &middot; on the App Store</div>
+            <h2 class="room-name">The Moment</h2>
+            <p class="line">Notice, make, and keep a record you can return to.</p>
+            <p class="fact">A camera and a photographic journal that keeps photographs and moving images alongside their places, words and days &mdash; the same development practice, carried into everyday life.</p>
+            <span class="door">Open the journal &rarr;</span>
           </a>
-          <div class="eyebrow">The Moment &middot; iPhone</div>
-          <h3 class="room-title">The Moment</h3>
-          <p class="room-body">A camera and photographer&rsquo;s journal. Photographs, places, words, and the days they belonged to.</p>
-          <div class="room-foot">
-            <StatusChip label={truth.momentStatus} />
-            <a class="door" href="/moment">Open the journal &rarr;</a>
-          </div>
-        </article>
+        </div>
 
-        <article class="room reveal" id="lab" style="--reveal-delay: 160ms">
-          <a class="print room-media dark" href="/lab" aria-label="The Lab">
-            <video data-autoplay muted loop playsinline preload="none" poster="/lab-reel-poster.webp" width="1280" height="720" aria-label="A reel of moving images developed through the Latent print engine">
-              <source src="/lab-reel-1280.webm" type="video/webm" />
-              <source src="/lab-reel-1280.mp4" type="video/mp4" />
-            </video>
+        <div class="row row-left">
+          <a id="ritual" class="col room" href="/ritual" data-reveal>
+            <div class="label">An instrument &middot; a photographic workroom &middot; Mac and iPad &middot; public beta</div>
+            <h2 class="room-name">The Ritual</h2>
+            <p class="line">A place to return to photographs over time, and to discover how they belong together.</p>
+            <p class="fact">The life of a body of work in one room: gathering photographs, selecting and sequencing them, developing the negative, shaping the light, and making the print.</p>
+            <span class="door">Enter the workroom &rarr;</span>
           </a>
-          <div class="eyebrow">The Lab &middot; DaVinci Resolve and iPhone</div>
-          <h3 class="room-title">The Lab</h3>
-          <p class="room-body">The moving-image print engine. The same practice, carried into motion.</p>
-          <div class="room-foot">
-            <StatusChip label={truth.labStatus} />
-            <a class="door" href="/lab">See the Lab &rarr;</a>
-          </div>
-        </article>
+        </div>
 
-        <article class="room reveal" id="versos" style="--reveal-delay: 240ms">
-          <a class="print room-media paper" href="/versos" aria-label="Versos">
-            <img
-              src="/versos-wall-1200.webp"
-              srcset="/versos-wall-600.webp 600w, /versos-wall-1200.webp 1200w"
-              sizes="(max-width: 900px) 100vw, 40vw"
-              width="1200"
-              height="630"
-              loading="lazy"
-              alt="The first call of Versos on paper: The light you didn't wait for."
-            />
+        <div class="row row-right">
+          <a id="lab" class="col room right" href="/lab" data-reveal>
+            <div class="label">An instrument &middot; a workroom for film &middot; Mac and DaVinci Resolve &middot; coming soon</div>
+            <h2 class="room-name room-name-small">The Lab</h2>
+            <p class="line">Latent&rsquo;s photographic practice, carried into film.</p>
+            <p class="fact">A complete passage from source footage to finished film &mdash; the same negative-to-print engine, frame after frame.</p>
+            <span class="door">See the Lab &rarr;</span>
           </a>
-          <div class="eyebrow">Versos &middot; a prize, once a month</div>
-          <h3 class="room-title">Versos</h3>
-          <p class="room-body">One line. One photograph each, any camera, a line on its verso. A named photographer chooses. Nothing is counted.</p>
-          <div class="room-foot">
-            <StatusChip label={truth.versosStatus} />
-            <a class="door" href="/versos">See the call &rarr;</a>
+        </div>
+
+        <div class="row row-left">
+          <a id="versos" class="col room" href="/versos" data-reveal>
+            <div class="label">An occasion &middot; the courtyard &middot; once a month &middot; the first call is coming</div>
+            <h2 class="room-name">Versos</h2>
+            <p class="line">One line of poetry is the call. One work in answer, and a line on its back. A named maker chooses. Nothing is counted.</p>
+            <p class="fact">Open to anyone. A named judge chooses; the chosen work hangs on a public wall for a month.</p>
+            <span class="door">See the call &rarr;</span>
+          </a>
+        </div>
+
+        <div class="row row-right">
+          <div class="col right" data-reveal>
+            <div class="label label-muted">Intended</div>
+            <p class="small">Not yet made. We name them so you know where the studio is going.</p>
+            <div class="pencil">
+              <div>Books <span>&middot; the press</span></div>
+              <div>Workshops <span>&middot; an occasion</span></div>
+              <div>Cameras <span>&middot; one that gives a negative</span></div>
+              <div>Production</div>
+            </div>
           </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ONE ENGINE, ONE HABIT -->
-    <section class="passage">
-      <h2 class="h-italic reveal reveal-heading">One engine, one habit</h2>
-      <div class="passage-text">
-        <p class="passage-lines reveal" style="--reveal-delay: 80ms">
-          The Moment catches. The Ritual lets you sit with the work. The Lab
-          carries the process through motion. Versos hands one photograph to
-          someone who looks.
-        </p>
-        <p class="passage-body reveal" style="--reveal-delay: 160ms">
-          Different things, one habit. A developer that reveals instead of
-          corrects. A wall where a person looks instead of a machine. Slow
-          down, look again, let the photograph say what it already knows.
-        </p>
-      </div>
-    </section>
-
-    <!-- THE SHARED WORLD -->
-    {truth.showCommunity && (
-      <section class="passage">
-        <h2 class="h-italic reveal reveal-heading">The shared world</h2>
-        <div class="passage-text">
-          <p class="passage-lines reveal" style="--reveal-delay: 80ms">Some photographs remain with us. Others are handed on.</p>
-          <p class="passage-body reveal" style="--reveal-delay: 160ms">
-            Keep them in a <strong>Circle</strong>, or place them in the
-            <strong>Field</strong>. Once a month, hang one on the
-            <a href={VERSOS_URL}><strong>wall</strong></a>. The rest belongs to
-            whoever stops to look.
-          </p>
         </div>
       </section>
-    )}
-  </main>
-  <Footer />
 
-  <style>
-    .studio { max-width: 1200px; margin: 0 auto; padding: 0 72px; }
+      <section class="home-belief-again">
+        <h2 class="home-belief-again-line" data-reveal>A work begins before it takes form.</h2>
+      </section>
 
-    .h-italic {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-weight: 400;
-      font-size: 30px;
-      line-height: 1.2;
-      color: var(--text);
-      margin: 0;
-    }
+      <section id="letters" class="home-letters" data-reveal>
+        <div class="home-letters-desk" data-newsletter>
+          <p class="line">Occasional letters from the studio. A room when it opens. A call when it comes. Nothing else.</p>
+          <form class="home-letters-form" action={SUBSCRIBE_ENDPOINT} method="post" data-newsletter-form>
+            <label class="visually-hidden" for="newsletter-email">Email address</label>
+            <input id="newsletter-email" type="email" name="email" required autocomplete="email" placeholder="your address" />
+            <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+                   style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
+            <button type="submit" class="door">Write to us</button>
+          </form>
+          <p class="home-letters-note" data-newsletter-error hidden role="alert">That email doesn't look right.</p>
+          <p class="home-letters-note" data-newsletter-done hidden role="status" aria-live="polite">You&rsquo;re on the list. Letters will be rare.</p>
+        </div>
+        <div class="home-letters-colophon">
+          <nav aria-label="Site">
+            <a href="#nera">Nera</a>
+            <a href="/moment">The Moment</a>
+            <a href="/ritual">The Ritual</a>
+            <a href="/lab">The Lab</a>
+            <a href="/versos">Versos</a>
+            <a href="mailto:contact@latentstudios.art">Contact</a>
+            <a href="https://instagram.com/bylatentstudios" target="_blank" rel="noopener noreferrer">Instagram</a>
+          </nav>
+          <p class="home-mark home-mark-foot">Latent Studios<span class="home-berry" aria-hidden="true"></span> &nbsp;&middot;&nbsp; &copy; 2026</p>
+        </div>
+      </section>
+    </main>
+  </div>
 
-    /* THE BELIEF */
-    .belief {
-      display: grid;
-      grid-template-columns: 7fr 5fr;
-      gap: 48px;
-      align-items: end;
-      padding: 150px 0 24px;
-    }
-    .belief-text { display: flex; flex-direction: column; gap: 26px; padding-bottom: 36px; }
-    .belief-line {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-weight: 400;
-      font-size: clamp(44px, 6.4vw, 78px);
-      line-height: 1.02;
-      letter-spacing: -0.01em;
-      color: var(--text);
-      margin: 0;
-      text-wrap: balance;
-    }
-    .belief-body {
-      font-size: 22px;
-      line-height: 1.45;
-      color: var(--text-muted);
-      max-width: 30ch;
-      margin: 0;
-      text-wrap: pretty;
-    }
-    .belief-print { margin: 0; display: flex; flex-direction: column; gap: 12px; }
-    .belief-print .print { aspect-ratio: 4 / 5; }
-    .belief-print figcaption { text-align: right; }
-
-    /* THE ROOMS */
-    .rooms { padding: 72px 0 0; }
-    .rooms-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      border-top: 1px solid var(--border);
-      padding: 44px 0 30px;
-    }
-    .rooms-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 48px 36px;
-    }
-    .room { display: flex; flex-direction: column; gap: 14px; }
-    .room-media { display: block; aspect-ratio: 16 / 10; }
-    .room-media.dark { background: #1A1614; }
-    .room-media.light { background: #efe7db; }
-    .room-media.paper { background: #f3efe6; box-shadow: 0 1px 2px rgba(30,25,18,0.18), 0 14px 30px -14px rgba(30,25,18,0.4), inset 0 0 0 1px var(--border); display: flex; align-items: center; }
-    .room-media.paper img { object-fit: contain; }
-    .room-media-phone { display: flex; align-items: flex-end; justify-content: center; padding-top: 28px; }
-    .room-media-phone img { width: 34%; height: auto; object-fit: contain; border-radius: 14px 14px 0 0; }
-    .room-title {
-      font-family: var(--font-display);
-      font-weight: 400;
-      font-size: 30px;
-      line-height: 1.1;
-      color: var(--text);
-      margin: 0;
-    }
-    .room-body {
-      font-size: 18px;
-      line-height: 1.5;
-      color: var(--text-muted);
-      margin: 0;
-      text-wrap: pretty;
-    }
-    .room-foot { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-    .door { font-style: italic; font-size: 17px; }
-
-    /* PASSAGES */
-    .passage {
-      display: grid;
-      grid-template-columns: 4fr 8fr;
-      gap: 48px;
-      border-top: 1px solid var(--border);
-      margin-top: 72px;
-      padding-top: 40px;
-    }
-    .passage + .passage { margin-top: 48px; }
-    .passage-text { display: flex; flex-direction: column; gap: 18px; }
-    .passage-lines {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: 26px;
-      line-height: 1.4;
-      color: var(--text);
-      margin: 0;
-      text-wrap: pretty;
-    }
-    .passage-body {
-      font-size: 18px;
-      line-height: 1.5;
-      color: var(--text-muted);
-      max-width: 58ch;
-      margin: 0;
-      text-wrap: pretty;
-    }
-    .passage-body strong { font-weight: 500; color: var(--text); }
-
-    @media (max-width: 900px) {
-      .studio { padding: 0 24px; }
-      .belief { grid-template-columns: 1fr; gap: 32px; padding-top: 120px; }
-      .belief-text { padding-bottom: 0; }
-      .rooms-grid { grid-template-columns: 1fr; gap: 44px; }
-      .passage { grid-template-columns: 1fr; gap: 16px; margin-top: 64px; }
-      .rooms-head { flex-direction: column; gap: 8px; align-items: flex-start; }
-    }
-  </style>
+  <script src="../scripts/home.js"></script>
 </Base>

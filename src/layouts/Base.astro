@@ -8,14 +8,20 @@ interface Props {
   ogImageAlt?: string;
   /** Which light the page lives in: the studio's paper, or an instrument's darkroom. */
   room?: 'paper' | 'dark';
+  /** Browser chrome colour; defaults to the room's ground. The homepage's silk is darker than the studio's paper. */
+  themeColor?: string;
+  /** Load quiet.js (reveals, safelight, autoplay discipline). The homepage carries its own motion and opts out. */
+  quiet?: boolean;
 }
 
 const {
-  title = 'Latent Studios — instruments for developing photographs, and places for living with them',
-  description = 'An independent photographic studio. The Ritual on Mac and iPad, The Moment on iPhone, The Lab in DaVinci Resolve, and Versos, a photography prize once a month.',
+  title = 'Latent Studios',
+  description = 'Born before the act. Latent Studios is an art house making instruments that help artists understand and realize themselves — Nera, The Moment, The Ritual, The Lab, and Versos.',
   ogImage = '/og.png?v=4',
-  ogImageAlt = 'Latent Studios — one studio, four rooms',
+  ogImageAlt = 'Latent Studios',
   room = 'dark',
+  themeColor = room === 'paper' ? '#f3efe6' : '#1A1614',
+  quiet = true,
 } = Astro.props;
 
 const ogImageURL = `https://latentritual.com${ogImage}`;
@@ -36,7 +42,7 @@ const jsonLd = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content={room === 'paper' ? '#f3efe6' : '#1A1614'} />
+    <meta name="theme-color" content={themeColor} />
     <link rel="canonical" href={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -56,8 +62,9 @@ const jsonLd = {
     <link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png?v=4" />
     <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png?v=4" />
 
-    <!-- Fonts are self-hosted (styles/fonts.css) — no third-party requests. -->
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/outfit-latin.woff2" />
+    <!-- Fonts are self-hosted (styles/fonts.css) — no third-party requests.
+         The darkroom's display face is preloaded; paper pages preload their own via the head slot. -->
+    {room !== 'paper' && <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/outfit-latin.woff2" />}
     <slot name="head" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
@@ -76,7 +83,7 @@ const jsonLd = {
     </script>
   </head>
 
-  <body class={room === 'paper' ? 'room-paper' : ''}>
+  <body class={room === 'paper' ? 'room-paper' : ''} data-no-quiet={quiet ? undefined : ''}>
     <a class="skip-link" href="#main">Skip to content</a>
     <slot />
     <script>

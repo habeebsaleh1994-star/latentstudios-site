@@ -9,25 +9,22 @@ const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 
 <footer id="letters">
   <div class="footer-mark reveal">LATENT STUDIOS</div>
-  <p class="footer-line reveal" style="--reveal-delay: 80ms">Instruments for developing photographs, and places for living with them.</p>
-
   <div class="footer-links reveal" style="--reveal-delay: 160ms">
     <a href="/ritual">The Ritual</a>
     <a href="/moment">The Moment</a>
     <a href="/lab">The Lab</a>
     <a href="/versos">Versos</a>
     <a href="/about">About</a>
-    <a href="mailto:contact@latentritual.com">Contact</a>
-    <a href="https://instagram.com/latentritual" target="_blank" rel="noopener noreferrer">Instagram</a>
+    <a href="mailto:contact@latentstudios.art">Contact</a>
+    <a href="https://instagram.com/bylatentstudios" target="_blank" rel="noopener noreferrer">Instagram</a>
     <a href="/privacy">Privacy</a>
     <a href="/terms">Terms</a>
-    <a href="/refund">Refunds</a>
   </div>
 
   <div class="footer-subscribe reveal" id="notify" style="--reveal-delay: 240ms" data-newsletter>
     <p class="footer-subscribe-line">
-      Occasional letters from the studio. Notes from the house, new work, and
-      the word when something is ready.
+      Occasional letters from the studio. A room when it is built. A call
+      when it opens. Nothing else.
     </p>
     <form
       class="footer-subscribe-form"
@@ -43,11 +40,11 @@ const SUBSCRIBE_ENDPOINT = '/api/subscribe';
         name="email"
         required
         autocomplete="email"
-        placeholder="your email"
+        placeholder="your address"
       />
       <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
              style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
-      <button type="submit" class="footer-subscribe-submit">Subscribe</button>
+      <button type="submit" class="footer-subscribe-submit">Write to me</button>
     </form>
     <p class="footer-subscribe-error" data-newsletter-error hidden role="alert">
       That email doesn't look right.
@@ -57,7 +54,7 @@ const SUBSCRIBE_ENDPOINT = '/api/subscribe';
     </p>
   </div>
 
-  <p class="footer-meta reveal" style="--reveal-delay: 320ms">Habib Saleh, founder and photographer. &copy; 2026.</p>
+  <p class="footer-meta reveal" style="--reveal-delay: 320ms">Founded by Habib Saleh. &copy; 2026.</p>
 
   <button class="footer-lamp" type="button" data-lamp aria-pressed="false" title="Warm the room after dark">Lamplight</button>
 </footer>

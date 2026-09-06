@@ -3,6 +3,10 @@
 // the Materials heading toward the hovered film stock.
 
 (() => {
+  // A page that carries its own motion (the homepage) sets data-no-quiet on
+  // <body> through Base.astro's `quiet={false}` and gets none of this.
+  if (document.body.hasAttribute('data-no-quiet')) return;
+
   // Respect prefers-reduced-motion. The CSS already shows the static
   // final state under that media query, so we just bail (after wiring the
   // lamplight, which is a tone shift, not motion).
