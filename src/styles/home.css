@@ -168,7 +168,10 @@ body.room-paper .home .label-muted { color: var(--ink-soft); }
 [data-reveal].is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { [data-reveal] { opacity: 1; transform: none; transition: none; } }
 
-/* narrow screens: the two columns fold into one, the plant recedes behind */
+/* narrow screens: the two columns fold into one, the plant recedes behind.
+   The header stops being fixed and becomes a strip that scrolls away; the
+   long gaps of the desktop page close up; labels tighten so they hold to
+   two lines. */
 @media (max-width: 720px) {
   .home { --col: 100%; }
   .home-title, .home-belief-line, .home-belief-again-line, .home-letters-desk, .home-letters-colophon { flex-basis: 100%; }
@@ -176,7 +179,21 @@ body.room-paper .home .label-muted { color: var(--ink-soft); }
   .row-right { justify-content: flex-start; }
   .pencil { align-items: flex-start; }
   .home-letters-colophon nav { align-items: flex-start; }
-  .home-peony { opacity: 0.55; height: 140vh; }
-  .home-header { flex-direction: column; align-items: flex-start; gap: 10px; }
-  .home-nav { justify-content: flex-start; }
+  .home-peony { opacity: 0.5; height: 140vh; }
+
+  .home-header {
+    position: relative; z-index: 20; flex-direction: column; align-items: flex-start; gap: 12px;
+    padding: 22px 20px 0; background: none;
+  }
+  .home-nav { justify-content: flex-start; gap: 6px 14px; font-size: 10px; letter-spacing: 0.16em; }
+
+  .home-main { gap: clamp(56px, 9vh, 90px); padding-bottom: 60px; }
+  .home-belief { min-height: calc(100svh - 110px); padding: 10vh 0 8vh; }
+  .home-title { font-size: clamp(46px, 13vw, 60px); }
+  .home-rooms { gap: clamp(48px, 8vh, 80px); }
+  .home-belief-again { min-height: 0; padding: clamp(40px, 8vh, 80px) 0 0; }
+  .home-belief-again-line { flex-basis: 100%; font-size: clamp(34px, 10vw, 48px); }
+  .label { font-size: 10px; letter-spacing: 0.14em; margin-bottom: 12px; }
+  body.room-paper .home .label { font-size: 10px; letter-spacing: 0.14em; }
+  .home-letters { gap: 36px; padding-top: 10px; }
 }

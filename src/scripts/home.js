@@ -31,6 +31,10 @@
   if (!c) return;
   const base = c.dataset.frames;
   const N = parseInt(c.dataset.frameCount, 10);
+  // On a phone the plant sits behind the words at half opacity, so every
+  // second frame is enough: half the download, and the scrub still reads.
+  const step = window.matchMedia('(max-width: 720px)').matches ? 2 : 1;
+  const snap = (i) => Math.min(N - 1, Math.round(i / step) * step);
   const stage = c.parentElement;
   const g = c.getContext('2d');
   let want = 0, shown = -1, raf = 0;
@@ -48,6 +52,7 @@
   const frames = Array.from({ length: N }, (_, i) => {
     const im = new Image();
     im.decoding = 'async';
+    if (i !== snap(i)) return im; // skipped on this viewport
     im.onload = () => { if (i === want && i !== shown) draw(i); };
     im.src = `${base}${String(i).padStart(3, '0')}.webp`;
     return im;
@@ -59,7 +64,7 @@
       raf = 0;
       const travel = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       const p = reduce ? 1 : Math.min(1, Math.max(0, (window.scrollY || 0) / travel));
-      want = Math.round(p * (N - 1));
+      want = snap(Math.round(p * (N - 1)));
       if (want !== shown) draw(want);
       if (stage && !reduce) {
         stage.style.transform = `translate(-50%, ${(-44 - p * 4).toFixed(2)}%) scale(${(1.08 - p * 0.08).toFixed(4)})`;
