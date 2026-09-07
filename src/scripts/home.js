@@ -31,6 +31,9 @@
   if (!c) return;
   const base = c.dataset.frames;
   const N = parseInt(c.dataset.frameCount, 10);
+  // Bumped whenever the frames are regenerated: the files keep their names, so
+  // without this the CDN keeps serving the previous set from its cache.
+  const ver = c.dataset.framesVersion ? `?v=${c.dataset.framesVersion}` : '';
   const narrow = window.matchMedia('(max-width: 720px)').matches;
   // Scroll travel is measured once per layout, not per scroll: on a phone the
   // address bar collapsing changes innerHeight mid-scroll, and re-measuring
@@ -56,7 +59,7 @@
     const im = new Image();
     im.decoding = 'async';
     im.onload = () => { if (i === want && i !== shown) draw(i); };
-    im.src = `${base}${String(i).padStart(3, '0')}.webp`;
+    im.src = `${base}${String(i).padStart(3, '0')}.webp${ver}`;
     return im;
   });
 
