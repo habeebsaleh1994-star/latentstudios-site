@@ -31,10 +31,12 @@
   if (!c) return;
   const base = c.dataset.frames;
   const N = parseInt(c.dataset.frameCount, 10);
-  // On a phone the plant sits behind the words at half opacity, so every
-  // second frame is enough: half the download, and the scrub still reads.
-  const step = window.matchMedia('(max-width: 720px)').matches ? 2 : 1;
-  const snap = (i) => Math.min(N - 1, Math.round(i / step) * step);
+  const narrow = window.matchMedia('(max-width: 720px)').matches;
+  // Scroll travel is measured once per layout, not per scroll: on a phone the
+  // address bar collapsing changes innerHeight mid-scroll, and re-measuring
+  // there makes the plant jump. A width change (rotation) re-measures.
+  let travel = 1, measuredAt = 0;
+  const measure = () => { measuredAt = window.innerWidth; travel = Math.max(1, document.documentElement.scrollHeight - window.innerHeight); };
   const stage = c.parentElement;
   const g = c.getContext('2d');
   let want = 0, shown = -1, raf = 0;
@@ -52,7 +54,6 @@
   const frames = Array.from({ length: N }, (_, i) => {
     const im = new Image();
     im.decoding = 'async';
-    if (i !== snap(i)) return im; // skipped on this viewport
     im.onload = () => { if (i === want && i !== shown) draw(i); };
     im.src = `${base}${String(i).padStart(3, '0')}.webp`;
     return im;
@@ -62,16 +63,20 @@
     if (raf) return;
     raf = requestAnimationFrame(() => {
       raf = 0;
-      const travel = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      if (measuredAt !== window.innerWidth) measure();
       const p = reduce ? 1 : Math.min(1, Math.max(0, (window.scrollY || 0) / travel));
-      want = snap(Math.round(p * (N - 1)));
+      want = Math.round(p * (N - 1));
       if (want !== shown) draw(want);
       if (stage && !reduce) {
-        stage.style.transform = `translate(-50%, ${(-44 - p * 4).toFixed(2)}%) scale(${(1.08 - p * 0.08).toFixed(4)})`;
+        // On a phone the plant is centred and only breathes; on the desktop it drifts up and settles.
+        stage.style.transform = narrow
+          ? `translate(-50%, -50%) scale(${(1.04 - p * 0.04).toFixed(4)})`
+          : `translate(-50%, ${(-44 - p * 4).toFixed(2)}%) scale(${(1.08 - p * 0.08).toFixed(4)})`;
       }
     });
   };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', () => { shown = -1; onScroll(); });
+  window.addEventListener('resize', () => { shown = -1; if (measuredAt !== window.innerWidth) measure(); onScroll(); });
+  window.addEventListener('load', () => { measure(); onScroll(); });
 })();
