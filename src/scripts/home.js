@@ -72,10 +72,10 @@
       want = Math.round(p * (N - 1));
       if (want !== shown) draw(want);
       if (stage && !reduce) {
-        // On a phone the plant is centred and only breathes; on the desktop it drifts up and settles.
-        stage.style.transform = narrow
-          ? `translate(-50%, -50%) scale(${(1.04 - p * 0.04).toFixed(4)})`
-          : `translate(-50%, ${(-44 - p * 4).toFixed(2)}%) scale(${(1.08 - p * 0.08).toFixed(4)})`;
+        // The same drift and settle everywhere; the phone starts from centre so the
+        // whole plant stays on one screen.
+        const from = narrow ? -48 : -44;
+        stage.style.transform = `translate(-50%, ${(from - p * 4).toFixed(2)}%) scale(${(1.08 - p * 0.08).toFixed(4)})`;
       }
     });
   };

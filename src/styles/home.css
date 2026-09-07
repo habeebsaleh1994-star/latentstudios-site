@@ -178,7 +178,7 @@ body.room-paper .home .label-muted { color: var(--ink-soft); }
   .home-letters-colophon nav { align-items: flex-start; }
   /* The whole plant, head to toe, inside one phone screen: never wider than
      the viewport, centred, a shade lighter so the words read over it. */
-  .home-peony { opacity: 0.5; height: min(94svh, 168vw); transform: translate(-50%, -50%); }
+  .home-peony { opacity: 0.72; height: min(94svh, 168vw); transform: translate(-50%, -48%) scale(1.08); }
 
   .home-header {
     position: relative; z-index: 20; flex-direction: column; align-items: flex-start; gap: 12px;
