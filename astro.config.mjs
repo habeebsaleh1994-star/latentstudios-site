@@ -1,12 +1,13 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import { siteOrigin } from './src/config/site.js';
 
 export default defineConfig({
-  site: 'https://latentritual.com',
+  site: siteOrigin,
   output: 'static',
   integrations: [
     sitemap({
-      filter: (page) => page !== 'https://latentritual.com/print-engine/beta/',
+      filter: (page) => !['/print-engine/beta', '/checkout'].includes(new URL(page).pathname.replace(/\/$/, '')),
     }),
   ],
 });

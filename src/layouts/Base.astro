@@ -24,15 +24,15 @@ const {
   quiet = true,
 } = Astro.props;
 
-const ogImageURL = `https://latentritual.com${ogImage}`;
-const canonicalURL = new URL(Astro.url.pathname, 'https://latentritual.com').href;
+const ogImageURL = new URL(ogImage, Astro.site).href;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Latent Studios',
   description,
-  url: 'https://latentritual.com',
+  url: Astro.site.href,
 };
 ---
 

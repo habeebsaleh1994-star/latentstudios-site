@@ -2,28 +2,25 @@
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import { paddle } from '../config/paddle';
-
-const token = paddle.clientToken;
 ---
 
 <Base
-  title="Checkout — Latent"
-  description="Pay for Latent on the web. Paddle.com is the Merchant of Record."
+  title="Checkout — Latent Studios"
+  description="Web purchases are not open yet at Latent Studios."
 >
   <Fragment slot="head">
-    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+    <meta name="robots" content="noindex" />
   </Fragment>
   <Nav />
   <main class="legal" id="main">
     <div class="legal-label">Checkout</div>
     <h1>Checkout</h1>
     <p class="legal-lead">
-      Purchases on this site are taken by Paddle.com, our Merchant of Record.
+      Web purchases are not open yet.
     </p>
     <p>
-      If you arrived here from a receipt or a payment link, checkout opens on its own.
-      If nothing appears, write to
+      Explore <a href="/ritual">The Ritual</a> or <a href="/">the studio</a>.
+      For questions about an earlier link, write to
       <a href="mailto:support@latentritual.com">support@latentritual.com</a>.
     </p>
     <p>
@@ -36,14 +33,6 @@ const token = paddle.clientToken;
     <a class="legal-back" href="/">← Back to Latent</a>
   </main>
   <Footer />
-
-  {token && (
-    <script is:inline define:vars={{ token }}>
-      if (window.Paddle) {
-        window.Paddle.Initialize({ token: token });
-      }
-    </script>
-  )}
 
   <style>
     .legal { max-width: 720px; margin: 0 auto; padding: 140px 24px 120px; }

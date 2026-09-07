@@ -1,4 +1,0 @@
-# Cloudflare Pages redirects.
-# The Lab moved from /resolve to /lab with the house restructure.
-/resolve /lab 301
-/resolve/ /lab 301
