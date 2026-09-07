@@ -47,6 +47,7 @@
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     const w = Math.round(c.clientWidth * dpr), h = Math.round(c.clientHeight * dpr);
     if (c.width !== w || c.height !== h) { c.width = w; c.height = h; }
+    g.clearRect(0, 0, w, h); // the frames are transparent around the flower
     g.drawImage(im, 0, 0, w, h);
     shown = i;
   };
