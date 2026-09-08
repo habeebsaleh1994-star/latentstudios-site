@@ -42,26 +42,47 @@
   const measure = () => { measuredAt = window.innerWidth; travel = Math.max(1, document.documentElement.scrollHeight - window.innerHeight); };
   const stage = c.parentElement;
   const g = c.getContext('2d');
-  let want = 0, shown = -1, raf = 0;
+  let want = 0, shown = -1, shownFull = false, raf = 0;
+
+  // Two tiers of the same frames: a small set (540×960) that arrives in a moment, so the
+  // flower is on the silk with the page, and the full set (1620×2880, near-lossless) that
+  // replaces each frame as it lands. Fetched a few at a time in the order the scroll will
+  // want them, so our order holds rather than the browser's.
+  const pad = (i) => String(i).padStart(3, '0');
+  const small = Array.from({ length: N }, () => new Image());
+  const full = Array.from({ length: N }, () => new Image());
+  const ready = (im) => im.complete && im.naturalWidth > 0;
+  const best = (i) => (ready(full[i]) ? full[i] : ready(small[i]) ? small[i] : null);
 
   const draw = (i) => {
-    const im = frames[i];
-    if (!im.complete || !im.naturalWidth) return;
+    const im = best(i);
+    if (!im) return;
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     const w = Math.round(c.clientWidth * dpr), h = Math.round(c.clientHeight * dpr);
     if (c.width !== w || c.height !== h) { c.width = w; c.height = h; }
     g.clearRect(0, 0, w, h); // the frames are transparent around the flower
     g.drawImage(im, 0, 0, w, h);
-    shown = i;
+    shown = i; shownFull = im === full[i];
   };
 
-  const frames = Array.from({ length: N }, (_, i) => {
-    const im = new Image();
-    im.decoding = 'async';
-    im.onload = () => { if (i === want && i !== shown) draw(i); };
-    im.src = `${base}${String(i).padStart(3, '0')}.webp${ver}`;
-    return im;
-  });
+  const order = Array.from({ length: N }, (_, i) => i); // the page opens at the top
+  const queue = [...order.map((i) => [small, i]), ...order.map((i) => [full, i])];
+  let inflight = 0;
+  const pump = () => {
+    while (inflight < 4 && queue.length) {
+      const [tier, i] = queue.shift();
+      const im = tier[i];
+      inflight++;
+      im.decoding = 'async';
+      im.onload = im.onerror = () => {
+        inflight--;
+        if (i === want && (i !== shown || (tier === full && !shownFull))) draw(i);
+        pump();
+      };
+      im.src = `${base}${tier === small ? 'small/' : ''}${pad(i)}.webp${ver}`;
+    }
+  };
+  pump();
 
   const onScroll = () => {
     if (raf) return;

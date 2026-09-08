@@ -29,29 +29,50 @@
   const base = c.dataset.frames;
   const N = parseInt(c.dataset.frameCount, 10);
   const g = c.getContext('2d');
-  let shown = -1;
+  let shown = -1, shownFull = false, want = 26;
+
+  // Two tiers of the same frames: a small set (540×960) that arrives in a moment, so she is
+  // on the silk with the page, and the full set (1620×2880, near-lossless) that replaces
+  // each frame as it lands. Fetched a few at a time, from the bud's first loosening outward,
+  // so what she is about to show is always what arrives next.
+  const pad = (i) => String(i).padStart(3, '0');
+  const small = Array.from({ length: N }, () => new Image());
+  const full = Array.from({ length: N }, () => new Image());
+  const ready = (im) => im.complete && im.naturalWidth > 0;
+  const best = (i) => (ready(full[i]) ? full[i] : ready(small[i]) ? small[i] : null);
 
   const draw = (i) => {
-    const im = frames[i];
-    if (!im.complete || !im.naturalWidth) return;
+    const im = best(i);
+    if (!im) return;
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     const w = Math.round(c.clientWidth * dpr), h = Math.round(c.clientHeight * dpr);
     if (c.width !== w || c.height !== h) { c.width = w; c.height = h; }
     g.clearRect(0, 0, w, h);
     g.drawImage(im, 0, 0, w, h);
-    shown = i;
+    shown = i; shownFull = im === full[i];
   };
 
-  const frames = Array.from({ length: N }, (_, i) => {
-    const im = new Image();
-    im.decoding = 'async';
-    im.src = `${base}${String(i).padStart(3, '0')}.webp`;
-    return im;
-  });
+  const order = [26];
+  for (let d = 1; d < N; d++) { if (26 + d < N) order.push(26 + d); if (26 - d >= 0) order.push(26 - d); }
+  const queue = [...order.map((i) => [small, i]), ...order.map((i) => [full, i])];
+  let inflight = 0;
+  const pump = () => {
+    while (inflight < 4 && queue.length) {
+      const [tier, i] = queue.shift();
+      const im = tier[i];
+      inflight++;
+      im.decoding = 'async';
+      im.onload = im.onerror = () => {
+        inflight--;
+        if (i === want && (i !== shown || (tier === full && !shownFull))) draw(i);
+        pump();
+      };
+      im.src = `${base}${tier === small ? 'small/' : ''}${pad(i)}.webp`;
+    }
+  };
+  pump();
 
-  // She appears at the bud's first loosening, whichever frame decodes first.
-  frames[26].onload = () => { if (shown < 0) draw(26); };
-  if (reduce) { frames[50].onload = () => draw(50); return; }
+  if (reduce) { want = 50; draw(50); return; }
 
   // The breath. Frame is a continuous value 0…95; target moves with a 4.6 s inhale and a
   // "voice" that comes and goes. Attack 6/s, release 2.2/s — she leans in and lets go slowly.
@@ -65,7 +86,8 @@
       const k = 1 - Math.exp(-(target > frame ? 6 : 2.2) * dt);
       frame = Math.max(0, Math.min(N - 1, frame + (target - frame) * k));
       const i = Math.round(frame);
-      if (i !== shown) draw(i);
+      want = i;
+      if (i !== shown || (!shownFull && ready(full[i]))) draw(i);
     } else {
       last = now;
     }
