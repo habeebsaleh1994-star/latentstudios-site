@@ -41,6 +41,7 @@
 
       const action = form.getAttribute('action') || '/api/subscribe';
       const tagField = form.querySelector('input[name="tag"]');
+      const listField = form.querySelector('input[name="list"]');
       const hpField = form.querySelector('input[name="website"]');
 
       try {
@@ -50,6 +51,7 @@
           body: JSON.stringify({
             email: input.value.trim(),
             tag: tagField ? tagField.value : '',
+            list: listField ? listField.value : '',
             website: hpField ? hpField.value : '',
           }),
         });

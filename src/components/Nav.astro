@@ -23,6 +23,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isHome = overHero;
 
 const links = [
+  { label: 'Nera', href: '/nera' },
   { label: 'The Ritual', href: '/ritual' },
   { label: 'The Moment', href: '/moment' },
   { label: 'The Lab', href: '/lab' },
@@ -32,7 +33,7 @@ const links = [
 ---
 
 <nav class={isHome ? 'over-hero' : ''} data-nav>
-  <a class="wordmark" href="/"><svg class="wordmark-frame" width="16" height="16" viewBox="0 0 360 360" aria-hidden="true"><path d="M 120 70 L 290 70 L 290 290 L 70 290 L 70 120" fill="none" stroke="currentColor" stroke-width="34"></path><circle cx="90" cy="84" r="18" fill="currentColor"></circle></svg>LATENT STUDIOS</a>
+  <a class="wordmark" href="/">LATENT STUDIOS</a>
   <ul>
     {links.map((l) => (
       <li><a href={l.href} class={path === l.href ? 'is-active' : ''} aria-current={path === l.href ? 'page' : undefined}>{l.label}</a></li>

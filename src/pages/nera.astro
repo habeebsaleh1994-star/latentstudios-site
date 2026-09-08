@@ -1,0 +1,118 @@
+---
+// Nera — the listener's page, on silk. Same shell as the homepage (header, silk, weave,
+// letters desk); a different posture: one centred column, and the peony is not scrubbed by
+// scroll — it breathes, the way it does in the app.
+//
+// Truth: Nera is not yet open. The letters desk here is her waitlist.
+import Base from '../layouts/Base.astro';
+import '../styles/home.css';
+import '../styles/nera.css';
+
+const SUBSCRIBE_ENDPOINT = '/api/subscribe';
+---
+
+<Base
+  title="Nera — Latent Studios"
+  description="Let me speak until I can see what I mean. Nera is a listener for people who make things: you think aloud, she follows the thought as it develops and hands back a clearer account. Not yet open."
+  room="paper"
+  themeColor="#dccbba"
+  quiet={false}
+>
+  <Fragment slot="head">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/cormorant-500-normal-latin.woff2" />
+  </Fragment>
+  <div class="home nera">
+    <div class="home-ground" aria-hidden="true">
+      <div class="home-weave"></div>
+      <div class="home-peony nera-peony" data-peony>
+        <canvas data-frames="/peony/" data-frame-count="96" data-breathes></canvas>
+      </div>
+    </div>
+
+    <header class="home-header">
+      <a class="home-mark" href="/">Latent Studios<span class="home-berry" aria-hidden="true"></span></a>
+      <nav class="home-nav" aria-label="Rooms">
+        <a href="/nera" aria-current="page">Nera</a>
+        <a href="/moment">The Moment</a>
+        <a href="/ritual">The Ritual</a>
+        <a href="/lab">The Lab</a>
+        <a href="/versos">Versos</a>
+        <a href="#letters">Letters</a>
+      </nav>
+    </header>
+
+    <main id="top" class="home-main nera-main">
+
+      <section class="nera-hero">
+        <div class="nera-stack" data-reveal>
+          <div class="label nowrap">An instrument &middot; a listener &middot; not yet open</div>
+          <h1 class="nera-name">Nera</h1>
+          <p class="nera-sentence">&ldquo;Let me speak until I can see what I mean.&rdquo;</p>
+        </div>
+      </section>
+
+      <section class="nera-room">
+        <p class="nera-kept" data-reveal>Earlier today, kept. &ldquo;You stopped calling it a feature and started calling it a room.&rdquo;</p>
+        <div class="nera-door" data-reveal aria-hidden="true">Listen<span class="home-berry nera-door-berry"></span></div>
+        <p class="label" data-reveal>This is the whole app. A room, one word, and her.</p>
+      </section>
+
+      <section class="nera-passages">
+        <div class="nera-passage" data-reveal>
+          <p class="line">You speak for as long as you need. She listens. Nothing is corrected, and the original is always kept.</p>
+          <p class="fact">Nera is a listener for people who make things. You think aloud, twenty minutes if you need them, and she follows the thought as it develops. When you stop, she hands back a clearer account of what you said: your turns, your changes of mind, the moments you marked, and your authorship intact.</p>
+        </div>
+        <div class="nera-passage" data-reveal>
+          <div class="label">Who she is</div>
+          <p class="line">Attentive, plainspoken, quietly warm, with a mind of her own.</p>
+          <p class="fact">She reads the whole thought, including the ending, and answers what it actually needs: a reflection, a connection, a useful question, or room when a fragment needs it. Their words before hers. She never renames an idea, never claims to hear a tone in a voice, and can say she does not know.</p>
+        </div>
+        <div class="nera-passage" data-reveal>
+          <div class="label">The original</div>
+          <p class="line">The recording and every word of the transcript stay. The account is always one tap from its source.</p>
+          <p class="fact">Everything is kept on your iPhone. She remembers you on one page, in plain sentences you can read and strike; nothing is written there without you.</p>
+        </div>
+        <div class="nera-passage" data-reveal>
+          <div class="label">Her name</div>
+          <p class="fact"><em>Nera</em> is black in Italian, and a hair from <em>nur</em>, light. Both ends of the darkroom in one word: the negative that keeps the original, and the light it is finally read by. She does not resolve which. That is her stance.</p>
+        </div>
+      </section>
+
+      <section class="nera-house">
+        <div class="nera-stack" data-reveal>
+          <div class="label">In the house</div>
+          <h2 class="nera-house-line">The Ritual develops the negative. Nera develops the thought.</h2>
+          <p class="fact">She is the instrument that comes before the act, the one you reach for when the work has not taken form yet.</p>
+        </div>
+      </section>
+
+      <section id="letters" class="nera-letters" data-reveal>
+        <div class="home-letters-desk nera-desk" data-newsletter>
+          <div class="label">Not yet open</div>
+          <p class="line">Nera is being built. Leave an address and a letter will come the day she opens. Nothing else.</p>
+          <form class="home-letters-form" action={SUBSCRIBE_ENDPOINT} method="post" data-newsletter-form>
+            <label class="visually-hidden" for="newsletter-email">Email address</label>
+            <input id="newsletter-email" type="email" name="email" required autocomplete="email" placeholder="your address" />
+            <input type="hidden" name="list" value="nera" />
+            <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+                   style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
+            <button type="submit" class="door">Write to me</button>
+          </form>
+          <p class="home-letters-note" data-newsletter-error hidden role="alert">That email doesn't look right.</p>
+          <p class="home-letters-note" data-newsletter-done hidden role="status" aria-live="polite">You&rsquo;re on the list. One letter, when she opens.</p>
+        </div>
+        <nav class="nera-colophon-nav" aria-label="Site">
+          <a href="/moment">The Moment</a>
+          <a href="/ritual">The Ritual</a>
+          <a href="/lab">The Lab</a>
+          <a href="/versos">Versos</a>
+          <a href="mailto:contact@latentstudios.art">Contact</a>
+          <a href="https://instagram.com/bylatentstudios" target="_blank" rel="noopener noreferrer">Instagram</a>
+        </nav>
+        <p class="home-mark home-mark-foot">Latent Studios<span class="home-berry" aria-hidden="true"></span> &nbsp;&middot;&nbsp; &copy; 2026</p>
+      </section>
+    </main>
+  </div>
+
+  <script src="../scripts/nera.js"></script>
+</Base>

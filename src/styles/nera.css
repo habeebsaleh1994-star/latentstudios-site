@@ -1,0 +1,85 @@
+/* ─── NERA — her page, on the homepage's shell ───────────────────────
+   Loaded after home.css; everything here is additive. One centred column; the
+   flower is her, so it is not scrubbed by scroll (nera.js). */
+
+.nera-peony {
+  /* a little larger than the homepage's stage, and centred lower, so the bud sits
+     behind her name and the open head behind the passages */
+  height: clamp(74vh, 82vw, 128vh);
+  transform: translate(-50%, -46%);
+}
+
+.nera-main {
+  align-items: center;
+  gap: clamp(110px, 20vh, 240px);
+}
+.nowrap { white-space: nowrap; }
+
+.nera-stack { display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center; }
+.nera-stack .label { margin-bottom: 0; }
+
+.nera-hero {
+  min-height: 100svh; width: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+  padding: 20vh 0 12vh;
+}
+.nera-name {
+  font-weight: 500; font-size: clamp(64px, 9vw, 132px); line-height: 0.92; letter-spacing: -0.03em;
+  margin: 0; color: var(--peony);
+}
+.nera-sentence {
+  font-weight: 500; font-size: clamp(22px, 2.2vw, 30px); line-height: 1.3; margin: 0;
+  color: var(--ink); text-wrap: balance; max-width: 30ch;
+}
+
+/* the quiet room, as it is in the app */
+.nera-room { width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 28px; }
+.nera-room .label { margin-bottom: 0; }
+.nera-kept {
+  font-style: italic; font-weight: 500; font-size: clamp(19px, 1.9vw, 24px); line-height: 1.45; margin: 0;
+  color: var(--ink-body); max-width: 34ch; text-wrap: pretty;
+}
+.nera-door {
+  display: flex; align-items: baseline; gap: 10px;
+  font-style: italic; font-weight: 500; font-size: clamp(30px, 3.4vw, 46px); letter-spacing: -0.01em; color: var(--ink);
+}
+.nera-door-berry { width: 9px; height: 9px; margin-left: 0; transform: translateY(-3px); vertical-align: baseline; }
+
+.home .nera-passages { width: 100%; max-width: 560px; display: flex; flex-direction: column; gap: clamp(60px, 10vh, 120px); }
+.nera-passage { display: flex; flex-direction: column; gap: 12px; }
+.nera-passage .label { margin-bottom: 4px; }
+.nera-passage .line { font-size: clamp(20px, 1.9vw, 24px); line-height: 1.42; margin: 0; }
+.nera-passage .fact { margin: 0; }
+
+.nera-house {
+  min-height: 50svh; width: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+}
+.nera-house .nera-stack { gap: 18px; }
+.nera-house-line {
+  font-weight: 500; font-size: clamp(30px, 3.8vw, 56px); line-height: 1.06; letter-spacing: -0.02em;
+  margin: 0; color: var(--ink); text-wrap: balance; max-width: 30ch;
+}
+.nera-house .fact { max-width: 40ch; }
+
+/* letters: centred, one column */
+.home .nera-letters {
+  width: 100%; max-width: 560px;
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 22px;
+  padding-top: clamp(30px, 5vh, 60px);
+}
+.nera-desk { flex-basis: auto; width: 100%; align-items: center; text-align: center; gap: 22px; }
+.nera-desk .label { margin-bottom: 0; }
+.nera-desk .line { max-width: 34ch; }
+.nera-colophon-nav {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; margin-top: 30px;
+  font-family: var(--sans); font-weight: 500; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+}
+.nera-colophon-nav a { white-space: nowrap; color: var(--ink-body); text-decoration: none; }
+.nera-colophon-nav a:hover { color: var(--door); }
+.nera .home-mark-foot { margin: 0; }
+
+@media (max-width: 720px) {
+  .nera-peony { height: 140vh; opacity: 0.55; }
+  .nera-hero, .nera-house { align-items: center; }
+}
