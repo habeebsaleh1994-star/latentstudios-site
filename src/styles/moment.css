@@ -1,0 +1,101 @@
+/* ─── THE MOMENT — her page, on the homepage's shell ───────────────────
+   Loaded after home.css. The app's own two grounds: the Journal's parchment by day
+   and the Evening after dark. The house's copper for this room's berry and doors. */
+
+.moment {
+  --paper: #f3eee6;          /* the Journal, as in the app */
+  --night: #0d0c0a;          /* the Evening */
+  --night-ink: #ece7dc;
+  --night-soft: #a8977c;
+  --day-soft: #6b5a4e;
+  --copper: #c0714f;         /* the Moment's berry */
+  --copper-deep: #a8624a;    /* its door word */
+  background: var(--paper);
+  color: var(--ink);
+}
+body.room-paper:has(.moment) { background: #f3eee6; }
+.moment .home-berry { background: var(--copper); }
+.moment .home-nav a[aria-current="page"] { color: inherit; opacity: 1; }
+
+/* header reads on both grounds */
+.moment-header { background: none; mix-blend-mode: difference; color: #d4d1cd; }
+.moment-header .home-mark, .moment-header .home-nav a { color: inherit; }
+.moment-header .home-nav a:not([aria-current]) { opacity: 0.7; }
+
+.moment-main { position: relative; z-index: 1; }
+.moment-wrap { max-width: 1360px; margin: 0 auto; }
+
+/* grounds */
+.day { background: var(--paper); color: var(--ink); }
+.night { background: var(--night); color: var(--night-ink); }
+.night .label { color: var(--night-soft); }
+.night .moment-words p { color: var(--night-soft); }
+.day .label { color: var(--day-soft); }
+.day .moment-words p { color: var(--day-soft); }
+
+/* hero */
+.moment-hero { padding: 22vh clamp(20px, 4vw, 56px) clamp(60px, 10vh, 120px); }
+.moment-hero-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 40px 60px; }
+.moment-hero-lead { flex: 1 1 380px; min-width: 0; max-width: 620px; }
+.moment-hero-lead .label { margin-bottom: 22px; }
+.moment-title { font-weight: 500; font-size: clamp(56px, 8vw, 116px); line-height: 0.94; letter-spacing: -0.028em; margin: 0 0 28px; }
+.moment-lede { font-weight: 500; font-size: clamp(21px, 2.1vw, 28px); line-height: 1.38; margin: 0; max-width: 30ch; text-wrap: pretty; }
+.moment-hero-aside { flex: 0 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+.moment-hero-aside .fact, .moment-hero-aside .label { margin: 0; }
+
+/* the door: a word, in italic, with the berry after */
+.moment-door {
+  display: inline-flex; align-items: baseline; gap: 10px;
+  font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 30px; letter-spacing: -0.01em;
+  color: var(--ink); text-decoration: none;
+}
+.moment-door:hover { color: var(--copper-deep); }
+.moment-door-berry { width: 9px; height: 9px; margin-left: 0; transform: translateY(-3px); vertical-align: baseline; }
+
+/* scenes: words one side, the screen the other */
+.moment-scene { padding: clamp(60px, 10vh, 120px) clamp(20px, 4vw, 56px); }
+.moment-scene.first { padding-top: clamp(90px, 14vh, 160px); }
+.moment-scene.last { padding-bottom: clamp(90px, 14vh, 160px); }
+.moment-row { display: flex; flex-wrap: wrap; align-items: center; gap: 40px clamp(40px, 6vw, 110px); }
+.moment-row.reverse { flex-wrap: wrap-reverse; }
+.moment-words { flex: 1 1 300px; min-width: 0; max-width: 460px; display: flex; flex-direction: column; gap: 18px; }
+.moment-row.reverse .moment-words { margin-left: auto; }
+.moment-row:not(.reverse) .moment-screen { margin-left: auto; }
+.moment-words h2 { font-weight: 500; font-size: clamp(34px, 4vw, 58px); line-height: 1.02; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+.moment-words p { font-style: italic; font-weight: 500; font-size: clamp(19px, 1.8vw, 23px); line-height: 1.42; margin: 0; text-wrap: pretty; }
+
+/* a screen, not a bezel: rounded at the top, dissolving into the ground at the foot */
+.moment-screen {
+  flex: 0 1 380px; min-width: 240px; margin: 0;
+  border-radius: 44px 44px 0 0; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+}
+.moment-screen img { display: block; width: 100%; height: auto; }
+
+/* terms */
+.moment-terms { padding: clamp(90px, 14vh, 160px) clamp(20px, 4vw, 56px) clamp(60px, 10vh, 120px); }
+.moment-terms-row { display: flex; flex-wrap: wrap; gap: 40px clamp(40px, 6vw, 110px); }
+.moment-term { flex: 1 1 300px; min-width: 0; max-width: 460px; }
+.moment-term + .moment-term { margin-left: auto; }
+.moment-term .label { margin-bottom: 16px; }
+.moment-term .line { font-size: clamp(19px, 1.8vw, 23px); line-height: 1.44; margin: 0 0 14px; }
+.moment-term .fact { margin: 0; }
+
+/* letters */
+.moment-letters { padding: clamp(40px, 6vh, 80px) clamp(20px, 4vw, 56px) clamp(70px, 10vh, 130px); }
+.moment-letters-row {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 40px;
+  padding-top: clamp(30px, 5vh, 60px); border-top: 1px solid rgba(43,38,34,0.18);
+}
+.moment-letters .home-letters-desk { flex-basis: 420px; }
+.moment-letters .home-letters-desk .fact { margin: 0; max-width: 34ch; }
+.moment .home-letters-form .door { color: var(--copper-deep); }
+
+@media (max-width: 720px) {
+  .moment-row, .moment-row.reverse { flex-wrap: wrap; }
+  .moment-row.reverse .moment-screen { order: 2; }
+  .moment-screen { flex-basis: 100%; max-width: 360px; margin: 0 auto !important; }
+  .moment-words, .moment-term + .moment-term { margin-left: 0; }
+  .moment-hero { padding-top: 18vh; }
+}

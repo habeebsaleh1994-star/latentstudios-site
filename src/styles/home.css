@@ -29,7 +29,10 @@ body.room-paper:has(.home) { background: #dccbba; }
 /* global.css gives every section darkroom padding and a 1400px cap, and sets
    paper-page links amber and `.label` in the paper label style — all at a
    higher specificity than the scoped rules below. Reset them here. */
-.home section { padding: 0; max-width: none; margin: 0; }
+.home section { max-width: none; margin: 0; }
+/* The homepage and Nera lay sections out with no padding of their own; the Moment's bands
+   (moment.css) carry theirs at single-class specificity, so the reset must not reach them. */
+.home:not(.moment) section { padding: 0; }
 body.room-paper .home nav {
   position: static; inset: auto; z-index: auto; padding: 0;
   background: none; border: 0; backdrop-filter: none; -webkit-backdrop-filter: none;
