@@ -28,6 +28,15 @@ const screens = {
   field:     { src: '/moment/08-field.webp',     alt: 'The Field: latest, in time order' },
   evening:   { src: '/moment/09-evening.webp',   alt: 'The Evening: earlier, July; 2025, 2024' },
 };
+
+// The iPad set from the same listing, cropped to the tablet's edge (1600 wide); the page rounds the corners.
+const IPAD_W = 1600;
+const IPAD_H = 1194;
+const ipads = {
+  shelf:    { src: '/moment/ipad-shelf.webp',    alt: 'The Moments shelf on iPad: rolls, a Cartridge and a Tape, four across' },
+  darkroom: { src: '/moment/ipad-darkroom.webp', alt: 'The darkroom on iPad: the print under the lamp, the develop deck open beside it' },
+  field:    { src: '/moment/ipad-field.webp',    alt: 'The Field on iPad: two prints wide, latest first' },
+};
 ---
 
 <Base
@@ -155,13 +164,27 @@ const screens = {
         </div>
       </section>
 
-      <section class="moment-scene night last">
+      <section class="moment-scene night">
         <div class="moment-wrap moment-row">
           <div class="moment-words" data-reveal>
             <h2>The album ages as you do.</h2>
             <p>Two rooms. The Journal by day, the Evening after dark.</p>
           </div>
           <figure class="moment-screen" data-reveal><img src={screens.evening.src} alt={screens.evening.alt} width={SCREEN_W} height={SCREEN_H} loading="lazy" /></figure>
+        </div>
+      </section>
+
+      <section class="moment-scene moment-ipad night last">
+        <div class="moment-wrap">
+          <div class="moment-words" data-reveal>
+            <h2>And on iPad, a wider bench.</h2>
+            <p>The shelf four across, the darkroom open flat, the Field two prints wide. The same journal; nothing hidden behind a swipe.</p>
+          </div>
+          <div class="moment-ipad-row">
+            <figure class="moment-ipad-screen" data-reveal><img src={ipads.shelf.src} alt={ipads.shelf.alt} width={IPAD_W} height={IPAD_H} loading="lazy" /></figure>
+            <figure class="moment-ipad-screen" data-reveal><img src={ipads.darkroom.src} alt={ipads.darkroom.alt} width={IPAD_W} height={IPAD_H} loading="lazy" /></figure>
+            <figure class="moment-ipad-screen" data-reveal><img src={ipads.field.src} alt={ipads.field.alt} width={IPAD_W} height={IPAD_H} loading="lazy" /></figure>
+          </div>
         </div>
       </section>
 
@@ -220,6 +243,10 @@ const screens = {
     /* Apple's own badge (their marketing SVG, untouched), at its 40px minimum, with its clear space. */
     .moment-badge { display: inline-block; line-height: 0; margin-top: 4px; }
     .moment-badge img { display: block; height: 40px; width: auto; }
+    /* iPad: the words above, three tablets in a row beneath; the artwork carries its own corners and shadow. */
+    .moment-ipad-row { display: flex; flex-wrap: wrap; gap: clamp(20px, 3vw, 40px); margin-top: clamp(40px, 6vh, 72px); }
+    .moment-ipad-screen { flex: 1 1 300px; min-width: 0; margin: 0; border-radius: clamp(10px, 1.6vw, 22px); overflow: hidden; }
+    .moment-ipad-screen img { display: block; width: 100%; height: auto; }
   </style>
 
   <!-- newsletter.js is already loaded by Base.astro; only the reveal is this page's own. -->
