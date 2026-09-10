@@ -70,6 +70,7 @@ const screens = {
             <p class="fact">A camera and a photographer&rsquo;s journal. Capture, film development, motion, notes and sharing in one quiet place. Free to download; a membership opens the whole shelf.</p>
             <a class="moment-door" href={APP_STORE_URL}>Open the journal<span class="home-berry moment-door-berry" aria-hidden="true"></span></a>
             <div class="label">On the App Store</div>
+            <a class="moment-badge" href={APP_STORE_URL}><img src="/moment/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" /></a>
           </div>
         </div>
       </section>
@@ -183,6 +184,7 @@ const screens = {
           <div class="home-letters-desk" data-newsletter>
             <a class="moment-door" href={APP_STORE_URL}>Open the journal<span class="home-berry moment-door-berry" aria-hidden="true"></span></a>
             <p class="fact">On the App Store for iPhone and iPad. Occasional letters from the studio, if you leave an address.</p>
+            <a class="moment-badge" href={APP_STORE_URL}><img src="/moment/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" /></a>
             <form class="home-letters-form" action={SUBSCRIBE_ENDPOINT} method="post" data-newsletter-form>
               <label class="visually-hidden" for="newsletter-email">Email address</label>
               <input id="newsletter-email" type="email" name="email" required autocomplete="email" placeholder="your address" />
@@ -215,6 +217,9 @@ const screens = {
        moment.css's .moment-door (0,1,0). The door is a word in ink; only its berry is copper. */
     body.room-paper .moment .moment-door { color: var(--ink); }
     body.room-paper .moment .moment-door:hover { color: var(--copper-deep); }
+    /* Apple's own badge (their marketing SVG, untouched), at its 40px minimum, with its clear space. */
+    .moment-badge { display: inline-block; line-height: 0; margin-top: 4px; }
+    .moment-badge img { display: block; height: 40px; width: auto; }
   </style>
 
   <!-- newsletter.js is already loaded by Base.astro; only the reveal is this page's own. -->
