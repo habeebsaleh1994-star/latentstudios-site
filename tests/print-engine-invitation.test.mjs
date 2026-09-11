@@ -10,6 +10,10 @@ import {
   onRequestHead as downloadHead,
 } from '../functions/api/print-engine/download.js';
 import {
+  onRequestGet as publicDownloadGet,
+  onRequestHead as publicDownloadHead,
+} from '../functions/download/print-engine.js';
+import {
   onRequestGet as invitationPage,
 } from '../functions/beta/[invite].js';
 
@@ -59,6 +63,42 @@ test('download gate accepts either authority and rejects invalid invitations', a
     request: new Request('https://example.test/api/print-engine/download?invite=AAAAAAAAAAAAAAAAAAAAAA', { method: 'HEAD' }),
   });
   assert.equal(invalidResponse.status, 404);
+});
+
+test('public preview serves the same immutable release with range support and no private token', async () => {
+  const size = 1010067496;
+  const body = new Uint8Array([1, 2, 3, 4]);
+  const env = {
+    LATENT_RELEASES: {
+      async head() {
+        return { size, httpEtag: 'test-etag' };
+      },
+      async get(key, options) {
+        assert.equal(key, 'print-engine/beta/0.1.170/Latent-Print-Engine-0.1.170-Beta-Full.pkg');
+        assert.deepEqual(options, { range: { offset: 10, length: 10 } });
+        return { body, httpEtag: 'test-etag' };
+      },
+    },
+  };
+
+  const headResponse = await publicDownloadHead({
+    env,
+    request: new Request('https://example.test/download/print-engine', { method: 'HEAD' }),
+  });
+  assert.equal(headResponse.status, 200);
+  assert.equal(headResponse.headers.get('Content-Length'), String(size));
+  assert.equal(headResponse.headers.get('Cache-Control'), 'public, max-age=3600');
+  assert.equal(headResponse.headers.get('X-Latent-Release-SHA256'), '22705054e4d237999f440f4970180eab6f409371a3ea7def397182d2c93425ef');
+
+  const rangeResponse = await publicDownloadGet({
+    env,
+    request: new Request('https://example.test/download/print-engine', {
+      headers: { Range: 'bytes=10-19' },
+    }),
+  });
+  assert.equal(rangeResponse.status, 206);
+  assert.equal(rangeResponse.headers.get('Content-Range'), `bytes 10-19/${size}`);
+  assert.equal(rangeResponse.headers.get('Content-Length'), '10');
 });
 
 test('clean invitation route serves the existing page without redirecting', async () => {

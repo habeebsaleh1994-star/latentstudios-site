@@ -3,7 +3,7 @@
 // no other release truth may be hardcoded in page copy.
 export const truth = {
   ritualStatus: 'Private beta',
-  labStatus: 'In development',
+  labStatus: 'Public beta',
   versosStatus: 'First call soon',
   ctaLabel: 'Join the beta',
   showCommunity: true, // false hides the shared-world / Company sections

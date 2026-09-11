@@ -52,7 +52,7 @@ const frames = [
   ogImage="/og-lab.png?v=1"
   ogImageAlt="The Lab — the moving-image print engine, in DaVinci Resolve and on iPhone"
 >
-  <Nav cta={{ label: 'Seven days free, then from $199', href: '#join' }} />
+  <Nav cta={{ label: 'Download the public beta', href: '#join' }} />
   <main id="main">
 
     <!-- HERO -->
@@ -249,11 +249,23 @@ const frames = [
     <section class="close" id="join">
       <h2 class="close-heading reveal reveal-heading">A printing machine, not a LUT.</h2>
       <p class="close-body reveal" style="--reveal-delay: 80ms">
-        Seven days with the Resolve plugin. Then a year, or forever.
-        The signed installer is not for sale until it is real. When it is,
-        these two doors open.
+        The complete Resolve engine is open as a public beta. The signed,
+        notarized installer runs the full treatment; until clean beta access
+        is invited, every render carries the permanent LATENT preview mark.
       </p>
-      <div class="plans reveal" style="--reveal-delay: 120ms">
+      <div class="beta-actions reveal" style="--reveal-delay: 120ms">
+        <a class="btn-amber" href={labCommerce.publicPreviewHref}>Download for macOS</a>
+        <a class="beta-request" href={labCommerce.waitlistHref}>Request clean beta access</a>
+      </div>
+      <p class="beta-note reveal" style="--reveal-delay: 160ms">
+        Version 0.1.170 &middot; DaVinci Resolve for macOS &middot; 963 MB<br />
+        Quit Resolve before installing. In Resolve: Open FX &rarr; Film Emulation &rarr; Latent Print Engine.
+      </p>
+      <div class="commerce-intro reveal" style="--reveal-delay: 180ms">
+        <div class="eyebrow">Planned commercial release</div>
+        <p>Not for sale yet. When purchase activation is live and verified, these two doors open.</p>
+      </div>
+      <div class="plans reveal" style="--reveal-delay: 200ms">
         <article class="plan">
           <div class="plan-name">A year</div>
           <div class="plan-price">${labCommerce.yearlyUsd}</div>
@@ -267,9 +279,8 @@ const frames = [
           <p class="plan-note">The printing machine, yours.</p>
         </article>
       </div>
-      <div class="close-actions reveal" style="--reveal-delay: 200ms">
+      <div class="close-actions reveal" style="--reveal-delay: 240ms">
         <StatusChip label={truth.labStatus} />
-        <a class="btn-amber" href={labCommerce.waitlistHref}>Get the trial when it ships</a>
       </div>
     </section>
   </main>
@@ -602,6 +613,49 @@ const frames = [
       grid-template-columns: 1fr 1fr;
       gap: 16px;
       width: min(560px, 100%);
+    }
+    .beta-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+    .beta-request {
+      font-family: var(--font-label);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-light);
+      padding: 10px 0 8px;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .beta-request:hover,
+    .beta-request:focus-visible {
+      color: var(--text-bright);
+      border-color: var(--amber-dim);
+    }
+    .beta-note {
+      max-width: 620px;
+      margin: -18px auto 24px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-ghost);
+    }
+    .commerce-intro {
+      max-width: 560px;
+      margin: 28px auto -12px;
+      text-align: center;
+    }
+    .commerce-intro .eyebrow { margin-bottom: 16px; }
+    .commerce-intro p {
+      margin: 0;
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-muted);
     }
     .plan {
       border: 1px solid var(--border);

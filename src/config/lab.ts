@@ -7,6 +7,7 @@ export const labCommerce = {
   lifetimeUsd: 499,
   paddleYearlyPriceId: '',
   paddleLifetimePriceId: '',
+  publicPreviewHref: '/download/print-engine',
   waitlistHref: '/beta?app=lab',
 };
 
