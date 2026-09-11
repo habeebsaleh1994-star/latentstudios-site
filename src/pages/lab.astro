@@ -1,808 +1,333 @@
 ---
 // The Lab — the moving-image print engine, in DaVinci Resolve.
 //
-// One node, the same negative-to-print engine as the apps, carried through a
-// Resolve timeline. The hero media is the reel — the only instrument page
-// whose hero moves. Release truth comes only from src/config/truth.ts.
+// Same darkroom ground and repo tokens as /ritual, in the house's shell: the homepage's
+// header and letters desk, Cormorant + Instrument Sans, left/right asymmetry, doors as
+// words. Gone: the safelight pulse, StatusChip, .btn-amber, Nav's CTA, FooterMini, the
+// centred column, the plan cards.
+//
+// The iPhone app is deliberately absent — it is not a real product yet. Do not add it back
+// until it ships; the sentence held for it is in the README.
+//
+// Engine facts (The Timer, transport, Recipe Card, Set Print, Lab Report, camera log) come
+// from LatentOFX/docs/PARAMETERS.md, CAMERA_INPUT_CONTRACT.md and CHANGELOG.md (0.1.170).
 import Base from '../layouts/Base.astro';
-import Nav from '../components/Nav.astro';
-import FooterMini from '../components/FooterMini.astro';
-import StatusChip from '../components/StatusChip.astro';
+import '../styles/home.css';
+import '../styles/ritual.css';
+import '../styles/lab.css';
 import { truth } from '../config/truth';
 import { labCommerce } from '../config/lab';
 
-// The controlled fixture: one frame, developed several ways, with the decoded
-// source kept alongside. looks[0] leads and doubles as the frame's thumbnail;
-// the switcher holds the chosen look BY NAME when you step between frames, so
-// RAW stays put and you can walk the three sources in a row.
+const SUBSCRIBE_ENDPOINT = '/api/subscribe';
+
+// One controlled fixture: three frames, each developed three ways, with the decoded source
+// kept alongside. looks[0] leads. The chosen SLOT holds when you step between frames — the
+// three looks are named differently per frame, but slot 4 is the source everywhere, so the
+// source stays put and you can walk the three in a row.
 const frames = [
-  {
-    name: 'Portrait 1',
-    looks: [
-      { name: 'Vision3 200T + 2393 Print', img: '/lab/portrait-1-vision3-200t-2393.webp' },
-      { name: 'ColorPlus 200 + Endura Metallic Print', img: '/lab/portrait-1-colorplus-200-endura-metallic.webp' },
-      { name: 'Tri-X 400 + Forte Polywarmtone Print', img: '/lab/portrait-1-trix-400-forte-polywarmtone.webp' },
-      { name: 'RAW', img: '/lab/portrait-1-raw.webp' },
-    ],
-  },
-  {
-    name: 'Garden 1',
-    looks: [
-      { name: 'Vision3 250D + Fuji Eterna-CP Print', img: '/lab/garden-1-vision3-250d-fuji-eterna.webp' },
-      { name: 'Ektar 100 + Portra Endura Print', img: '/lab/garden-1-ektar-100-portra-endura.webp' },
-      { name: 'Superia Reala + Crystal Archive Print', img: '/lab/garden-1-reala-crystal-archive.webp' },
-      { name: 'RAW', img: '/lab/garden-1-raw.webp' },
-    ],
-  },
-  {
-    name: 'Portrait 2',
-    looks: [
-      { name: 'Vision3 50D + Kodak 2383 Print', img: '/lab/portrait-2-vision3-50d-2383.webp' },
-      { name: 'Provia 400F + Lightbox Scan', img: '/lab/portrait-2-provia-400f-lightbox.webp' },
-      { name: 'Portra 400 + Supra Endura Print', img: '/lab/portrait-2-portra-400-supra-endura.webp' },
-      { name: 'RAW', img: '/lab/portrait-2-raw.webp' },
-    ],
-  },
+  { name: 'Portrait 1', looks: [
+    { name: 'Vision3 200T + 2393 Print', img: '/lab/portrait-1-vision3-200t-2393.webp' },
+    { name: 'ColorPlus 200 + Endura Metallic Print', img: '/lab/portrait-1-colorplus-200-endura-metallic.webp' },
+    { name: 'Tri-X 400 + Forte Polywarmtone Print', img: '/lab/portrait-1-trix-400-forte-polywarmtone.webp' },
+    { name: 'RAW', img: '/lab/portrait-1-raw.webp' } ] },
+  { name: 'Garden 1', looks: [
+    { name: 'Vision3 250D + Fuji Eterna-CP Print', img: '/lab/garden-1-vision3-250d-fuji-eterna.webp' },
+    { name: 'Ektar 100 + Portra Endura Print', img: '/lab/garden-1-ektar-100-portra-endura.webp' },
+    { name: 'Superia Reala + Crystal Archive Print', img: '/lab/garden-1-reala-crystal-archive.webp' },
+    { name: 'RAW', img: '/lab/garden-1-raw.webp' } ] },
+  { name: 'Portrait 2', looks: [
+    { name: 'Vision3 50D + Kodak 2383 Print', img: '/lab/portrait-2-vision3-50d-2383.webp' },
+    { name: 'Provia 400F + Lightbox Scan', img: '/lab/portrait-2-provia-400f-lightbox.webp' },
+    { name: 'Portra 400 + Supra Endura Print', img: '/lab/portrait-2-portra-400-supra-endura.webp' },
+    { name: 'RAW', img: '/lab/portrait-2-raw.webp' } ] },
 ];
+
+// The published ColorChecker reference values — not invented swatches.
+const chart = ['#735244','#c29682','#627a9d','#576c43','#8580b1','#67bdaa','#d67e2c','#505ba6','#c15a63','#5e3c6c','#9dbc40','#e0a32e','#383d96','#469449','#af363c','#e7c71f','#bb5695','#0885a1','#f3f3f2','#c8c8c8','#a0a0a0','#7a7a79','#555555','#343434'];
+// The reference strip runs warm; the timed print sits closer to neutral.
+const wedgeReference = ['#1d1714','#2e2620','#443830','#5d4d42','#7b6857','#9c8771','#c0a88e'];
+const wedgePrint = ['#1b1816','#2b2724','#3f3934','#574f48','#746a60','#948a7e','#b8ad9f'];
 ---
 
 <Base
   title="The Lab — the moving-image print engine"
-  description="Develop a moving-image negative, print it, scan it, and carry it back — in one node inside your grade in DaVinci Resolve, or on the phone that shot it. The Lab."
+  description="Develop a moving-image negative, print it, scan it, and carry it back — in one node inside your grade in DaVinci Resolve. The Lab."
   ogImage="/og-lab.png?v=1"
-  ogImageAlt="The Lab — the moving-image print engine, in DaVinci Resolve and on iPhone"
+  ogImageAlt="The Lab — the moving-image print engine, in DaVinci Resolve"
+  quiet={false}
+  evening={false}
 >
-  <Nav cta={{ label: 'Download the public beta', href: '#join' }} />
-  <main id="main">
+  <Fragment slot="head">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/cormorant-500-normal-latin.woff2" />
+  </Fragment>
+  <div class="home ritual lab">
 
-    <!-- HERO -->
-    <section class="lab-hero">
-      <div class="safelight-pulse" aria-hidden="true"></div>
-      <div class="eyebrow hero-eyebrow">The Lab &middot; DaVinci Resolve and iPhone</div>
-      <h1 class="hero-title">The moving-image print engine.</h1>
-      <p class="hero-lead">
-        Develop a moving-image negative, print it, scan it, and carry it back
-        &mdash; in one node inside your grade, or on the phone that shot it.
-      </p>
-      <div class="hero-frame">
-        {/* Web-weight derivatives of the 4K master: the hero used to pull ~13 MB
-            of a 31 MB source set before a visitor had read a line. */}
-        <video
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="metadata"
-          poster="/lab-reel-poster.webp"
-          width="1920"
-          height="1080"
-          aria-label="A reel of moving images developed through the Latent print engine"
-        >
-          <source src="/lab-reel-1920.webm" type="video/webm" />
-          <source src="/lab-reel-1920.mp4" type="video/mp4" />
-        </video>
-      </div>
-    </section>
+    <header class="home-header ritual-header">
+      <a class="home-mark" href="/">Latent Studios<span class="home-berry" aria-hidden="true"></span></a>
+      <nav class="home-nav" aria-label="Rooms">
+        <a href="/nera">Nera</a>
+        <a href="/moment">The Moment</a>
+        <a href="/ritual">The Ritual</a>
+        <a href="/lab" aria-current="page">The Lab</a>
+        <a href="/versos">Versos</a>
+        <a href="#letters">Letters</a>
+      </nav>
+    </header>
 
-    <!-- ONE NODE -->
-    <section class="node">
-      <div class="eyebrow reveal">One node</div>
-      <h2 class="lab-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Source to delivery,<br />without leaving the grade.</h2>
-      <p class="lab-body node-body reveal" style="--reveal-delay: 200ms">
-        The same negative-to-print engine as The Ritual and The Moment, carried
-        through a Resolve timeline. Managed-timeline and camera-log input paths
-        in, explicit delivery transforms out.
-      </p>
-      <div class="node-chain reveal" style="--reveal-delay: 280ms">
-        <span class="chain-step">Negative</span>
-        <span class="chain-arrow" aria-hidden="true">&rarr;</span>
-        <span class="chain-step">Print</span>
-        <span class="chain-arrow" aria-hidden="true">&rarr;</span>
-        <span class="chain-step">Scan</span>
-        <span class="chain-arrow" aria-hidden="true">&rarr;</span>
-        <span class="chain-step">Texture</span>
-        <span class="chain-arrow" aria-hidden="true">&rarr;</span>
-        <span class="chain-step">Transport</span>
-      </div>
-      <p class="node-install reveal" style="--reveal-delay: 360ms">Installed as &ldquo;Latent Print Engine&rdquo; &middot; Open FX &rarr; Film Emulation</p>
-    </section>
+    <main id="main" class="ritual-main">
 
-    <!-- THE MATERIAL -->
-    <section class="material">
-      <div class="eyebrow reveal">The material</div>
-      <h2 class="lab-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Film as behavior,<br />frame after frame.</h2>
-      <p class="lab-body reveal" style="--reveal-delay: 200ms">
-        Spectral negative response, the print and view path, scanner character,
-        fall-off, halation, and animated photographic grain &mdash; the same
-        continuous field The Ritual develops a still through, built for the
-        timeline.
-      </p>
-      <div class="fixture reveal" style="--reveal-delay: 200ms" data-fixture>
-        <div class="material-frame reveal-media is-visible" role="img" data-fixture-stage
-             aria-label={`${frames[0].name} — ${frames[0].looks[0].name}`}>
-          {frames.map((fr, fi) => fr.looks.map((lk, li) => (
-            <img
-              class:list={['fixture-img', fi === 0 && li === 0 && 'is-active']}
-              data-frame={fi}
-              data-look={li}
-              src={lk.img}
-              alt=""
-              width="1600"
-              height="900"
-              loading="lazy"
-              draggable="false"
-            />
-          )))}
-          <span class="fixture-cap" data-fixture-cap>{frames[0].looks[0].name}</span>
-        </div>
-
-        {frames.map((fr, fi) => (
-          <div
-            class:list={['fixture-looks', fi === 0 && 'is-active']}
-            data-look-group={fi}
-            role="group"
-            aria-label={`Emulsion for ${fr.name}`}
-          >
-            {fr.looks.map((lk, li) => (
-              <button
-                type="button"
-                class:list={['fixture-look', li === 0 && 'is-active']}
-                data-frame={fi}
-                data-look={li}
-              >{lk.name}</button>
-            ))}
+      <section class="ritual-hero">
+        <div class="ritual-hero-row">
+          <div class="ritual-hero-lead" data-reveal>
+            <div class="label">An instrument &middot; a print engine for moving images &middot; DaVinci Resolve</div>
+            <h1 class="ritual-title">The moving-image print engine.</h1>
+            <p class="ritual-lede">Develop a negative, print it, scan it, and carry it back.</p>
           </div>
-        ))}
-
-        <div class="fixture-thumbs" role="group" aria-label="Choose a frame">
-          {frames.map((fr, fi) => (
-            <button
-              type="button"
-              class:list={['fixture-thumb', fi === 0 && 'is-active']}
-              data-frame-btn={fi}
-              aria-label={fr.name}
-            >
-              <img src={fr.looks[0].img} alt="" width="1600" height="900" loading="lazy" draggable="false" />
-            </button>
-          ))}
+          <div class="ritual-hero-aside" data-reveal>
+            <p class="fact">One node inside your grade. The same negative-to-print engine as The Ritual and The Moment, carried frame after frame.</p>
+            <a class="ritual-door" href={labCommerce.publicPreviewHref}>Download for macOS<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
+            <div class="label">{truth.labStatus}</div>
+          </div>
         </div>
+        {/* Web-weight derivatives of the 4K master; the hero used to pull ~13 MB before a
+            visitor had read a line. */}
+        <figure class="ritual-plate wide" data-reveal>
+          <video data-autoplay muted loop playsinline preload="metadata"
+                 poster="/lab-reel-poster.webp" width="1920" height="1080"
+                 aria-label="A reel of moving images developed through the Latent print engine">
+            <source src="/lab-reel-1920.webm" type="video/webm" />
+            <source src="/lab-reel-1920.mp4" type="video/mp4" />
+          </video>
+        </figure>
+      </section>
 
-        <p class="fixture-hint">Choose an emulsion &middot; RAW shows the source it came from</p>
-      </div>
-    </section>
-
-    <!-- BUILT FOR THE TIMELINE -->
-    <section class="timeline">
-      <div class="eyebrow reveal">Built for the timeline</div>
-      <h2 class="lab-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Your color pipeline,<br />respected.</h2>
-      <p class="lab-body timeline-body reveal" style="--reveal-delay: 200ms">
-        A managed timeline or a camera-log source comes in; an explicit delivery
-        transform goes out. The node renders the whole frame &mdash; halation,
-        grain, and fall-off don&rsquo;t stop at tile edges &mdash; and heavy
-        texture is honest about the playback it costs.
-      </p>
-      <div class="timeline-items reveal" style="--reveal-delay: 280ms">
-        <span class="timeline-item">Managed timeline</span>
-        <span class="timeline-dot" aria-hidden="true">&middot;</span>
-        <span class="timeline-item">Camera log</span>
-        <span class="timeline-dot" aria-hidden="true">&middot;</span>
-        <span class="timeline-item">Explicit delivery</span>
-      </div>
-    </section>
-
-    <!-- THE POCKET LAB -->
-    <section class="pocket">
-      <div class="eyebrow reveal">Two ways in</div>
-      <h2 class="lab-h2 reveal reveal-heading" style="--reveal-delay: 80ms">The same Lab,<br />in the timeline or in your pocket.</h2>
-      <p class="lab-body reveal" style="--reveal-delay: 200ms">
-        In Resolve the engine takes a node inside your grade. On iPhone the
-        whole lab travels: a cinema negative caught frame by frame, a room to
-        cut and score it, the same colour, and a master that agrees with what
-        you watched.
-      </p>
-      <p class="pocket-law reveal" style="--reveal-delay: 280ms">
-        Every frame it catches is a negative of its own &mdash; a roll is a
-        folder of numbered photographs, not a video file.
-      </p>
-      {/* Two rooms, in the order the film moves through them — one frame could
-          not show that the whole lab travels. */}
-      <div class="pocket-phones reveal reveal-media" style="--reveal-delay: 200ms">
-        <div class="pocket-phone">
-          <img
-            src="/lab-cut-900.webp"
-            srcset="/lab-cut-600.webp 600w, /lab-cut-900.webp 900w"
-            sizes="(max-width: 720px) 42vw, 300px"
-            width="900"
-            height="1956"
-            loading="lazy"
-            alt="The Cut room in The Lab on iPhone — three clips and a music lane on a 2.39:1 timeline at 24 frames a second, cut from a RAW reel"
-          />
+      <section class="ritual-block tight">
+        <div class="ritual-words" data-reveal>
+          <div class="label">One node</div>
+          <h2>Source to delivery, without leaving the grade.</h2>
+          <p class="fact">Managed-timeline and camera-log input paths in, explicit delivery transforms out.</p>
         </div>
-        <div class="pocket-phone">
-          <img
-            src="/lab-color-900.webp"
-            srcset="/lab-color-600.webp 600w, /lab-color-900.webp 900w"
-            sizes="(max-width: 720px) 42vw, 300px"
-            width="900"
-            height="1956"
-            loading="lazy"
-            alt="The Colour room in The Lab on iPhone — the raw negative and the Portra 400 grade split across the viewer, over the house emulsions and a waveform"
-          />
+        <div class="lab-chain" data-reveal>
+          <span>Negative</span><span class="lab-arrow" aria-hidden="true">&rarr;</span>
+          <span>Print</span><span class="lab-arrow" aria-hidden="true">&rarr;</span>
+          <span>Scan</span><span class="lab-arrow" aria-hidden="true">&rarr;</span>
+          <span>Texture</span><span class="lab-arrow" aria-hidden="true">&rarr;</span>
+          <span>Transport</span>
         </div>
-      </div>
-    </section>
+        <p class="lab-install" data-reveal>Installed as &ldquo;Latent Print Engine&rdquo; &middot; Open FX &rarr; Film Emulation</p>
+      </section>
 
-    <!-- NO DRIFT -->
-    <section class="drift">
-      <div class="eyebrow reveal">One look, one engine</div>
-      <h2 class="lab-h2 reveal reveal-heading" style="--reveal-delay: 80ms">There is no second Latent.</h2>
-      <p class="lab-body reveal" style="--reveal-delay: 200ms">
-        The Lab runs the exact spectral nodes the apps run &mdash; deliberately,
-        there is no simplified approximation of them anywhere. A negative
-        developed in Resolve, one developed on the phone, and one developed in
-        The Ritual pass through the same emulsion, the same print, the same
-        scanner. The look cannot drift.
-      </p>
-    </section>
+      <section class="ritual-block">
+        <div class="ritual-words" data-reveal>
+          <div class="label">The material</div>
+          <h2>Film as behaviour, frame after frame.</h2>
+          <p class="fact">Spectral negative response, the print and view path, scanner character, fall-off, halation and animated photographic grain &mdash; the same continuous field The Ritual develops a still through, built for the timeline.</p>
+          <p class="fact">The print room is a print room: paper grades nought to five, printer lights in points (twelve to the stop), preflash, ENR silver retention, a second exposure with its Mackie lines, and copy generations. An exposure meter reads the light reaching the emulsion in stops from midgray, so you can judge the negative before you judge the print.</p>
+        </div>
+        <div class="lab-fixture" data-reveal>
+          <figure class="ritual-plate lab-fixture-plate">
+            {/* A literal src, set imperatively afterwards: a hole here would be fetched
+                literally while the template streams and 404 before any value exists. */}
+            <img data-fixture-plate src={frames[0].looks[0].img} alt={`${frames[0].name} — ${frames[0].looks[0].name}`} width="1600" height="900" />
+            <figcaption data-fixture-cap>{frames[0].looks[0].name}</figcaption>
+          </figure>
+          <div class="lab-fixture-controls">
+            <div class="lab-picker">
+              <div class="label small">The frame</div>
+              <div class="lab-frames">
+                {frames.map((fr, fi) => (
+                  <button type="button" class:list={['lab-frame', fi === 0 && 'is-active']} data-fixture-frame={fi}>{fr.name}</button>
+                ))}
+              </div>
+            </div>
+            <div class="lab-looks">
+              <div class="label small">The emulsion</div>
+              {frames[0].looks.map((lk, li) => (
+                <button type="button" class:list={['lab-look', li === 3 && 'is-source', li === 0 && 'is-active']} data-fixture-look={li}>
+                  <span class="lab-look-dot" aria-hidden="true"></span>
+                  <span data-look-label={li}>{li === 3 ? 'The source it came from' : lk.name}</span>
+                </button>
+              ))}
+            </div>
+            <p class="lab-note">One frame, developed three ways, with the decoded source kept alongside. The slot holds when you step between frames, so the source stays put and you can walk the three in a row.</p>
+          </div>
+        </div>
+      </section>
 
-    <!-- CLOSE -->
-    <section class="close" id="join">
-      <h2 class="close-heading reveal reveal-heading">A printing machine, not a LUT.</h2>
-      <p class="close-body reveal" style="--reveal-delay: 80ms">
-        The complete Resolve engine is open as a public beta. The signed,
-        notarized installer runs the full treatment; until clean beta access
-        is invited, every render carries the permanent LATENT preview mark.
-      </p>
-      <div class="beta-actions reveal" style="--reveal-delay: 120ms">
-        <a class="btn-amber" href={labCommerce.publicPreviewHref}>Download for macOS</a>
-        <a class="beta-request" href={labCommerce.waitlistHref}>Request clean beta access</a>
-      </div>
-      <p class="beta-note reveal" style="--reveal-delay: 160ms">
-        Version 0.1.170 &middot; DaVinci Resolve for macOS &middot; 963 MB<br />
-        Quit Resolve before installing. In Resolve: Open FX &rarr; Film Emulation &rarr; Latent Print Engine.
-      </p>
-      <div class="commerce-intro reveal" style="--reveal-delay: 180ms">
-        <div class="eyebrow">Planned commercial release</div>
-        <p>Not for sale yet. When purchase activation is live and verified, these two doors open.</p>
-      </div>
-      <div class="plans reveal" style="--reveal-delay: 200ms">
-        <article class="plan">
-          <div class="plan-name">A year</div>
-          <div class="plan-price">${labCommerce.yearlyUsd}</div>
-          <div class="plan-cadence">per year</div>
-          <p class="plan-note">{labCommerce.trialDays} days free, then this.</p>
-        </article>
-        <article class="plan plan-forever">
-          <div class="plan-name">Forever</div>
-          <div class="plan-price">${labCommerce.lifetimeUsd}</div>
-          <div class="plan-cadence">once</div>
-          <p class="plan-note">The printing machine, yours.</p>
-        </article>
-      </div>
-      <div class="close-actions reveal" style="--reveal-delay: 240ms">
-        <StatusChip label={truth.labStatus} />
-      </div>
-    </section>
-  </main>
-  <FooterMini
-    links={[
-      { label: 'The Ritual', href: '/ritual' },
-      { label: 'The Moment', href: '/moment' },
-      { label: 'Privacy', href: '/privacy' },
-      { label: 'Terms', href: '/terms' },
-      { label: 'Refunds', href: '/refund' },
-    ]}
-  />
+      <section class="ritual-aside-right">
+        <div class="ritual-words right" data-reveal>
+          <div class="label">Built for the timeline</div>
+          <h2>Your colour pipeline, respected.</h2>
+          <p class="fact">A managed timeline or a camera-log source comes in; an explicit delivery transform goes out. The node renders the whole frame &mdash; halation, grain and fall-off don&rsquo;t stop at tile edges &mdash; and heavy texture is honest about the playback it costs.</p>
+          <p class="fact">Or bring the camera&rsquo;s log straight in: eleven exact gamut-and-curve pairs, each one shipped only once its transfer function, primaries, inverse and neutral white are proven against named references. Fujifilm and Nikon are not in that menu yet. Breadth is not evidence.</p>
+          <div class="label">Managed timeline &nbsp;&middot;&nbsp; Camera log &nbsp;&middot;&nbsp; Explicit delivery</div>
+        </div>
+      </section>
 
-  <style>
-    /* Shared eyebrow — mono caps in dim amber. Every eyebrow here sits 32px
-       above its heading, the hero's included. */
-    .eyebrow {
-      font-family: var(--font-label);
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--amber-dim);
-      margin-bottom: 32px;
-    }
+      <section class="lab-pair">
+        <div class="ritual-words" data-reveal>
+          <div class="label">The Timer</div>
+          <h2>Print to a reference you already love.</h2>
+          <p class="fact">Point it at a lab print, a film still, a frame from a film. It renders grey test strips through the real chain and moves film exposure, print exposure, the printer lights and contrast until the greys sit where the reference&rsquo;s do.</p>
+          <p class="fact">Or match a chart: twenty-four patches through the same chain, skin and greys weighted heaviest, and the remaining difference reported rather than hidden. Or match grain: amount per tonal band, granule size, silver or dye character.</p>
+          <div class="label">A reference &nbsp;&middot;&nbsp; A chart &nbsp;&middot;&nbsp; Grain</div>
+        </div>
+        <figure class="lab-card" data-reveal>
+          <div class="lab-card-head"><span>The Timer</span><span class="muted">One-Light</span></div>
+          <div class="lab-wedge">
+            <div class="label small">Reference</div>
+            <div class="lab-strip">{wedgeReference.map((c) => <span style={`background: ${c}`}></span>)}</div>
+          </div>
+          <div class="lab-wedge">
+            <div class="label small">The print</div>
+            <div class="lab-strip">{wedgePrint.map((c) => <span style={`background: ${c}`}></span>)}</div>
+          </div>
+          <div class="lab-wedge">
+            <div class="label small">Twenty-four patches</div>
+            <div class="lab-chart">{chart.map((c) => <span style={`background: ${c}`}></span>)}</div>
+          </div>
+          <figcaption>The grey strips and the twenty-four reference patches are rendered through the real chain, then read band by band and patch by patch.</figcaption>
+        </figure>
+      </section>
 
-    /* HERO */
-    .lab-hero {
-      padding: 200px 24px 120px;
-      max-width: 1400px;
-      margin: 0 auto;
-      text-align: center;
-      position: relative;
-    }
-    .hero-eyebrow {
-      opacity: 0;
-      animation: lt-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
-    }
-    .hero-title {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: clamp(40px, 5.5vw, 64px);
-      line-height: 1.1;
-      letter-spacing: -0.01em;
-      color: var(--text-bright);
-      margin: 0 0 36px;
-      opacity: 0;
-      animation: lt-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-    }
-    .hero-lead {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-size: 20px;
-      line-height: 1.65;
-      color: var(--text-muted);
-      max-width: 640px;
-      margin: 0 auto;
-      opacity: 0;
-      animation: lt-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
-    }
-    .hero-frame {
-      margin: 80px auto 0;
-      max-width: 1240px;
-      aspect-ratio: 16 / 9;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 60px 120px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(232, 196, 160, 0.05);
-      background: var(--bg-deep);
-      opacity: 0;
-      animation: lt-rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
-    }
-    .hero-frame video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      background: var(--bg-deep);
-    }
+      <section class="lab-pair reverse">
+        <figure class="lab-card" data-reveal>
+          <div class="lab-card-head"><span>Transport</span><span class="muted">35mm &middot; 24 fps</span></div>
+          {/* One frame from the fixture under the engine's own shipped dust atlas. The gate
+              mattes and burn plates are ProRes clips in the bundle — see the README. */}
+          <div class="lab-specimen">
+            <img src="/lab/portrait-2-vision3-50d-2383.webp" alt="One frame from the fixture with the engine's dust atlas over it" loading="lazy" />
+            <span class="lab-dust" aria-hidden="true"></span>
+          </div>
+          <div class="lab-edgecode"><span>5203</span><span>push 0</span><span>gen 1</span><span>0147</span></div>
+          <div class="lab-row"><span class="label small">Gate</span><span>35 &middot; 16 &middot; 8mm</span></div>
+          <div class="lab-row"><span class="label small">Damage</span><span>Reel&rsquo;s End</span></div>
+          <div class="lab-row"><span class="label small">Dust</span><span>Negative &amp; print</span></div>
+          <figcaption>One frame under the engine&rsquo;s own dust atlas, with the dailies edge code beneath it. The gate mattes and burn plates are ProRes clips inside the bundle.</figcaption>
+        </figure>
+        <div class="ritual-words right" data-reveal>
+          <div class="label">Transport and damage</div>
+          <h2>The machine the film runs through.</h2>
+          <p class="fact">Gate mattes in 8, 16 and 35mm &mdash; and 8mm wanders in the gate more than 35mm does. Lamp flicker, the projector&rsquo;s slow focus breathing, three burn plates named Reel&rsquo;s End, Light Leak and Colour Flare, dust on the negative and dirt on the print, and an amber edge code burnt along the bottom for dailies.</p>
+          <p class="fact">Every texture is seeded, so two renders of the same frame are the same frame. Bath Drift wanders density, fog, curve slope and the filter pack on a seeded walk: twenty-five reads like normal dailies variation, a hundred like an unreliable lab.</p>
+          <div class="label">Weave &nbsp;&middot;&nbsp; Flicker &nbsp;&middot;&nbsp; Breathing &nbsp;&middot;&nbsp; Dust &nbsp;&middot;&nbsp; Burn plates</div>
+        </div>
+      </section>
 
-    @keyframes lt-rise {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+      <section class="lab-pair">
+        <div class="ritual-words" data-reveal>
+          <div class="label">What leaves the room</div>
+          <h2>A print you can hand over without it drifting.</h2>
+          <p class="fact">The Recipe Card writes the whole node state to one file &mdash; stocks by name, every control, the engine version, a content fingerprint. Seal it when the print is approved and it reloads sealed, so the approved print cannot drift between review and delivery.</p>
+          <p class="fact">Set Print bakes the colour path into a 33-point cube for on-set monitors and dailies. Grain, halation and transport are deliberately left out: the set watches an honest print of the look, and the living texture stays in the develop.</p>
+          <p class="fact">The Lab Report writes one line per frame &mdash; the recipe fingerprint and the print fingerprint &mdash; so two machines can prove they made the same print.</p>
+          <div class="label">Recipe Card &nbsp;&middot;&nbsp; Sealed &nbsp;&middot;&nbsp; Set Print &nbsp;&middot;&nbsp; Lab Report</div>
+        </div>
+        <figure class="lab-card" data-reveal>
+          <div class="lab-card-head"><span>Recipe Card</span><span class="lab-seal">Sealed</span></div>
+          {/* Representative values, not a shipped preset — see the README. */}
+          <div class="lab-row"><span class="label small">Stock</span><span>Vision3 250D</span></div>
+          <div class="lab-row"><span class="label small">Push</span><span>+1</span></div>
+          <div class="lab-row"><span class="label small">Print path</span><span>Kodak 2383</span></div>
+          <div class="lab-row"><span class="label small">Paper grade</span><span>2.0</span></div>
+          <div class="lab-row"><span class="label small">Printer lights</span><span>&minus;2 &middot; 0 &middot; +3 pts</span></div>
+          <div class="lab-row"><span class="label small">Engine</span><span>0.1.170</span></div>
+          <div class="lab-row"><span class="label small">Fingerprint</span><span class="mono">f3c1 &hellip; 8ab2</span></div>
+          <div class="lab-card-foot"><span>Set Print &middot; 33-point cube</span><span>Lab Report &middot; one line per frame</span></div>
+          <figcaption>The card&rsquo;s own shape &mdash; the job ticket for a print, sealed once it is approved.</figcaption>
+        </figure>
+      </section>
 
-    /* SECTIONS — centered 980px columns under a hairline. */
-    .node,
-    .material,
-    .timeline,
-    .pocket,
-    .drift {
-      padding: 140px 24px;
-      max-width: 980px;
-      margin: 0 auto;
-      text-align: center;
-      border-top: 1px solid var(--border);
-    }
-    .lab-h2 {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: 48px;
-      line-height: 1.15;
-      letter-spacing: -0.01em;
-      color: var(--text);
-      margin: 0 0 40px;
-    }
-    .lab-body {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-size: 19px;
-      line-height: 1.75;
-      color: var(--text-muted);
-      max-width: 660px;
-      margin: 0 auto;
-    }
-    .node-body { margin: 0 auto 56px; }
-    .timeline-body { margin: 0 auto 48px; }
+      <section class="ritual-close">
+        <div class="ritual-words wide" data-reveal>
+          <div class="label">One look, one engine</div>
+          <h2 class="large">There is no second Latent.</h2>
+          <p class="fact">The Lab runs the exact spectral nodes the apps run; deliberately, there is no simplified approximation of them anywhere. A negative developed in Resolve and one developed in The Ritual pass through the same emulsion, the same print, the same scanner. The look cannot drift.</p>
+        </div>
+      </section>
 
-    /* ONE NODE — the chain, then where it lives. */
-    .node-chain {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-    .chain-step {
-      font-family: var(--font-label);
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text);
-    }
-    .chain-arrow { color: var(--text-ghost); }
-    .node-install {
-      font-family: var(--font-label);
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-ghost);
-      margin: 56px 0 0;
-    }
+      <section class="ritual-block tight">
+        <div class="ritual-words wide" data-reveal>
+          <h2 class="large">A printing machine, not a LUT.</h2>
+          <p class="fact">The complete Resolve engine is open as a public beta. The signed, notarized installer runs the full treatment; until clean beta access is invited, every render carries the permanent LATENT preview mark.</p>
+        </div>
+        <div class="lab-doors" data-reveal>
+          <a class="ritual-door" href={labCommerce.publicPreviewHref}>Download for macOS<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
+          <a class="lab-secondary" href="#letters">Request clean beta access</a>
+        </div>
+        <p class="lab-install" data-reveal>Version 0.1.170 &middot; DaVinci Resolve for macOS &middot; 963 MB<br />Quit Resolve before installing. In Resolve: Open FX &rarr; Film Emulation &rarr; Latent Print Engine.</p>
+        <div class="lab-plans" data-reveal>
+          <div class="label">Planned commercial release</div>
+          <p class="fact">Not for sale yet. When purchase activation is live and verified, these two doors open.</p>
+          <div class="lab-row"><span class="lab-plan-name">A year</span><span class="lab-plan-price">${labCommerce.yearlyUsd}</span><span class="label small right">{labCommerce.trialDays} days free</span></div>
+          <div class="lab-row"><span class="lab-plan-name">Forever</span><span class="lab-plan-price">${labCommerce.lifetimeUsd}</span><span class="label small right">Once. Yours</span></div>
+        </div>
+      </section>
 
-    /* THE MATERIAL — one frame, developed several ways. A still can't show
-       behaviour; the same negative through four emulsions can. */
-    .material-frame {
-      position: relative;
-      margin: 72px auto 0;
-      max-width: 1080px;
-      aspect-ratio: 16 / 9;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 40px 90px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.06);
-      background: var(--bg-deep);
-    }
+      <section id="letters" class="ritual-letters" data-reveal>
+        <div class="ritual-letters-row">
+          <div class="home-letters-desk" data-newsletter>
+            <div class="label">Clean beta access</div>
+            <p class="line">Leave an address and we will invite you to the build that renders without the mark.</p>
+            <form class="home-letters-form" action={SUBSCRIBE_ENDPOINT} method="post" data-newsletter-form>
+              <label class="visually-hidden" for="newsletter-email">Email address</label>
+              <input id="newsletter-email" type="email" name="email" required autocomplete="email" placeholder="your address" />
+              <input type="hidden" name="app" value="lab" />
+              <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+                     style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
+              <button type="submit" class="door">Request access</button>
+            </form>
+            <p class="home-letters-note" data-newsletter-error hidden role="alert">That email doesn't look right.</p>
+            <p class="home-letters-note" data-newsletter-done hidden role="status" aria-live="polite">You&rsquo;re on the list. The invitation comes next.</p>
+          </div>
+          <div class="home-letters-colophon">
+            <nav aria-label="Site">
+              <a href="/nera">Nera</a>
+              <a href="/moment">The Moment</a>
+              <a href="/ritual">The Ritual</a>
+              <a href="/versos">Versos</a>
+              <a href="/privacy">Privacy</a>
+              <a href="/terms">Terms</a>
+              <a href="/refund">Refunds</a>
+              <a href="mailto:contact@latentstudios.art">Contact</a>
+            </nav>
+            <p class="home-mark home-mark-foot">Latent Studios<span class="home-berry" aria-hidden="true"></span> &nbsp;&middot;&nbsp; &copy; 2026</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
 
-    /* The looks sit stacked in one frame and cross-develop between each other,
-       so the negative holds still and only the emulsion changes. */
-    .fixture-img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      opacity: 0;
-      transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .fixture-img.is-active { opacity: 1; }
-
-    .fixture-cap {
-      position: absolute;
-      left: 16px;
-      bottom: 14px;
-      z-index: 2;
-      font-family: var(--font-label);
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(232, 196, 160, 0.85);
-      text-shadow: 0 1px 8px rgba(13, 11, 10, 0.85);
-      pointer-events: none;
-    }
-
-    .fixture-looks {
-      display: none;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px 22px;
-      margin-top: 26px;
-    }
-    .fixture-looks.is-active { display: flex; }
-
-    .fixture-look {
-      background: none;
-      border: 0;
-      padding: 4px 2px;
-      cursor: pointer;
-      font-family: var(--font-label);
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.06em;
-      color: var(--text-muted);
-      transition: color 240ms ease;
-    }
-    .fixture-look:hover { color: var(--text); }
-    .fixture-look.is-active { color: var(--amber); }
-
-    .fixture-thumbs {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 26px;
-    }
-    .fixture-thumb {
-      padding: 0;
-      border: 1px solid rgba(212, 196, 176, 0.25);
-      background: none;
-      cursor: pointer;
-      border-radius: 3px;
-      overflow: hidden;
-      width: 70px;
-      height: 40px;
-      opacity: 0.45;
-      transition: opacity 240ms ease, border-color 240ms ease;
-    }
-    .fixture-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .fixture-thumb:hover { opacity: 0.8; }
-    .fixture-thumb.is-active { opacity: 1; border-color: var(--amber); }
-
-    .fixture-hint {
-      font-family: var(--font-label);
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-ghost);
-      margin: 22px 0 0;
-    }
-
-    .fixture-look:focus-visible,
-    .fixture-thumb:focus-visible {
-      outline: 2px solid var(--amber);
-      outline-offset: 2px;
-    }
-
-    /* THE POCKET LAB — the same instrument, the other surface. */
-    .pocket-law {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-style: italic;
-      font-size: 21px;
-      line-height: 1.5;
-      color: var(--text-bright);
-      max-width: 620px;
-      margin: 40px auto 0;
-    }
-    .pocket-phones {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      margin: 72px auto 0;
-    }
-    .pocket-phone {
-      width: min(300px, 42vw);
-      aspect-ratio: 9 / 19.5;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.07);
-      background: var(--bg-deep);
-    }
-    .pocket-phone img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* BUILT FOR THE TIMELINE — the three quiet facts. */
-    .timeline-items {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-    .timeline-item {
-      font-family: var(--font-label);
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    .timeline-dot { color: var(--text-ghost); }
-
-    /* CLOSE */
-    .close {
-      padding: 160px 24px 180px;
-      max-width: 720px;
-      margin: 0 auto;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 36px;
-      border-top: 1px solid var(--border);
-    }
-    .close-heading {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: 38px;
-      line-height: 1.2;
-      letter-spacing: -0.005em;
-      color: var(--text-bright);
-      margin: 0;
-    }
-    .close-body {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-size: 17px;
-      line-height: 1.7;
-      color: var(--text-muted);
-      margin: 0;
-    }
-
-    .plans {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      width: min(560px, 100%);
-    }
-    .beta-actions {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 22px;
-      flex-wrap: wrap;
-    }
-    .beta-request {
-      font-family: var(--font-label);
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      border-bottom: 1px solid var(--border-light);
-      padding: 10px 0 8px;
-      transition: color 0.2s ease, border-color 0.2s ease;
-    }
-    .beta-request:hover,
-    .beta-request:focus-visible {
-      color: var(--text-bright);
-      border-color: var(--amber-dim);
-    }
-    .beta-note {
-      max-width: 620px;
-      margin: -18px auto 24px;
-      font-family: var(--font-body);
-      font-size: 13px;
-      line-height: 1.7;
-      color: var(--text-ghost);
-    }
-    .commerce-intro {
-      max-width: 560px;
-      margin: 28px auto -12px;
-      text-align: center;
-    }
-    .commerce-intro .eyebrow { margin-bottom: 16px; }
-    .commerce-intro p {
-      margin: 0;
-      font-family: var(--font-body);
-      font-size: 14px;
-      line-height: 1.6;
-      color: var(--text-muted);
-    }
-    .plan {
-      border: 1px solid var(--border);
-      padding: 28px 22px 24px;
-      text-align: center;
-    }
-    .plan-forever {
-      border-color: var(--amber-dim);
-    }
-    .plan-name {
-      font-family: var(--font-label);
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--amber-dim);
-      margin-bottom: 14px;
-    }
-    .plan-price {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: 40px;
-      letter-spacing: -0.02em;
-      color: var(--text-bright);
-      line-height: 1;
-    }
-    .plan-cadence {
-      font-family: var(--font-body);
-      font-style: italic;
-      font-size: 13px;
-      color: var(--text-ghost);
-      margin: 8px 0 16px;
-    }
-    .plan-note {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-size: 14px;
-      line-height: 1.5;
-      color: var(--text-muted);
-      margin: 0;
-    }
-    .close-actions {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    /* Responsive — the old repo's breakpoint discipline. */
-    @media (max-width: 900px) {
-      .lab-h2 { font-size: 36px; }
-      .close-heading { font-size: 32px; }
-      .plans { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 640px) {
-      .lab-hero { padding: 160px 20px 100px; }
-      .node,
-      .material,
-      .timeline,
-      .drift { padding: 100px 20px; }
-      .close { padding: 100px 20px 140px; }
-      .lab-h2 { font-size: 34px; }
-    }
-
-    /* Reduced motion: the hero simply is. */
-    @media (prefers-reduced-motion: reduce) {
-      .hero-eyebrow,
-      .hero-title,
-      .hero-lead,
-      .hero-frame {
-        animation: none;
-        opacity: 1;
-      }
-    }
-  </style>
-
-  <script>
-    // Frame × emulsion switcher. Stepping between frames keeps the look you
-    // were on BY NAME — so RAW holds, and you can walk the three sources in a
-    // row to see what each engine path adds to them.
-    const root = document.querySelector('[data-fixture]');
-    if (root instanceof HTMLElement) {
-      const stage = root.querySelector('[data-fixture-stage]');
-      const cap = root.querySelector('[data-fixture-cap]');
-      const imgs = root.querySelectorAll('.fixture-img');
-      const groups = root.querySelectorAll('[data-look-group]');
-      const lookBtns = root.querySelectorAll('.fixture-look');
-      const frameBtns = root.querySelectorAll('[data-frame-btn]');
-
-      const btnFor = (f, l) =>
-        root.querySelector(`.fixture-look[data-frame="${f}"][data-look="${l}"]`);
-      const nameFor = (f, l) => (btnFor(f, l)?.textContent || '').trim();
-      const frameName = (f) => frameBtns[f]?.getAttribute('aria-label') || '';
-
-      let frame = 0;
-      let look = 0;
-
-      const update = () => {
-        for (const im of imgs) {
-          im.classList.toggle(
-            'is-active',
-            Number(im.dataset.frame) === frame && Number(im.dataset.look) === look
-          );
-        }
-        for (const g of groups) {
-          g.classList.toggle('is-active', Number(g.dataset.lookGroup) === frame);
-        }
-        for (const b of lookBtns) {
-          const on = Number(b.dataset.frame) === frame && Number(b.dataset.look) === look;
-          b.classList.toggle('is-active', on);
-          b.setAttribute('aria-pressed', String(on));
-        }
-        for (const b of frameBtns) {
-          const on = Number(b.dataset.frameBtn) === frame;
-          b.classList.toggle('is-active', on);
-          b.setAttribute('aria-pressed', String(on));
-        }
-        const name = nameFor(frame, look);
-        if (cap) cap.textContent = name;
-        if (stage) stage.setAttribute('aria-label', `${frameName(frame)} — ${name}`);
+  <script define:vars={{ frames }}>
+    // The fixture: pick a frame, pick an emulsion. Every image is decoded up front so
+    // switching never shows a gap; the plate's src is set imperatively.
+    (() => {
+      const plate = document.querySelector('[data-fixture-plate]');
+      if (!plate) return;
+      const cap = document.querySelector('[data-fixture-cap]');
+      let frame = 0, look = 0;
+      for (const f of frames) for (const l of f.looks) { const im = new Image(); im.src = l.img; }
+      const paint = () => {
+        const F = frames[frame], L = F.looks[look];
+        if (!plate.src.endsWith(L.img)) plate.src = L.img;
+        plate.alt = `${F.name} — ${L.name}`;
+        if (cap) cap.textContent = L.name === 'RAW' ? 'The source it came from' : L.name;
+        document.querySelectorAll('[data-fixture-frame]').forEach((b) =>
+          b.classList.toggle('is-active', Number(b.dataset.fixtureFrame) === frame));
+        document.querySelectorAll('[data-fixture-look]').forEach((b) => {
+          const i = Number(b.dataset.fixtureLook);
+          b.classList.toggle('is-active', i === look);
+          const label = b.querySelector(`[data-look-label="${i}"]`);
+          if (label && i !== 3) label.textContent = F.looks[i].name;
+        });
       };
-
-      for (const b of lookBtns) {
-        b.addEventListener('click', () => {
-          frame = Number(b.dataset.frame);
-          look = Number(b.dataset.look);
-          update();
-        });
-      }
-
-      for (const b of frameBtns) {
-        b.addEventListener('click', () => {
-          const next = Number(b.dataset.frameBtn);
-          const keep = nameFor(frame, look);
-          let nextLook = 0;
-          for (const c of root.querySelectorAll(`.fixture-look[data-frame="${next}"]`)) {
-            if ((c.textContent || '').trim() === keep) nextLook = Number(c.dataset.look);
-          }
-          frame = next;
-          look = nextLook;
-          update();
-        });
-      }
-
-      update();
-    }
+      document.querySelectorAll('[data-fixture-frame]').forEach((b) =>
+        b.addEventListener('click', () => { frame = Number(b.dataset.fixtureFrame); paint(); }));
+      document.querySelectorAll('[data-fixture-look]').forEach((b) =>
+        b.addEventListener('click', () => { look = Number(b.dataset.fixtureLook); paint(); }));
+      paint();
+    })();
   </script>
+  {/* newsletter.js is already loaded by Base.astro; only the reveal is this page's own. */}
+  <script src="../scripts/reveal.js"></script>
 </Base>

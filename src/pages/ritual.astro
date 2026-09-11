@@ -274,13 +274,6 @@ const stocks = [
     </main>
   </div>
 
-  <style is:global>
-    /* ritual.css's `.ritual a` (0,1,1) outranks `.ritual-door` (0,1,0). The door is a word in
-       bright ink; it goes amber only on hover. */
-    .home.ritual .ritual-door { color: var(--ink-bright); }
-    .home.ritual .ritual-door:hover { color: var(--amber-accent); }
-  </style>
-
   {/* newsletter.js is already loaded by Base.astro; only the reveal is this page's own. */}
   <script src="../scripts/reveal.js"></script>
 </Base>

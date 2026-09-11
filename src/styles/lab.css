@@ -1,0 +1,133 @@
+/* ─── THE LAB — the second dark room ──────────────────────────────────
+   Loaded after home.css and ritual.css. The Lab shares the Ritual's shell and the
+   repo's own dark tokens (:root in global.css); this file adds only what the Ritual
+   has no equivalent for: the chain, the fixture, and the three plates. */
+
+.lab .lab-chain {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 18px;
+  font-weight: 500; font-size: clamp(21px, 2.2vw, 30px); line-height: 1.2; color: var(--ink-bright);
+}
+.lab .lab-arrow { color: var(--amber-label); font-size: 0.7em; }
+.lab .lab-install {
+  font-family: var(--sans); font-size: 10.5px; line-height: 1.9; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--soft); margin: 26px 0 0;
+}
+
+/* the fixture: plate one side, the pickers the other */
+.lab-fixture { display: flex; flex-wrap: wrap; align-items: flex-start; gap: clamp(24px, 3vw, 50px); }
+.lab-fixture-plate { flex: 1 1 440px; min-width: 0; position: relative; }
+.lab-fixture-plate img { display: block; width: 100%; height: auto; }
+.lab-fixture-plate figcaption {
+  position: absolute; left: 14px; bottom: 12px;
+  font-family: var(--sans); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-bright); text-shadow: 0 1px 6px rgba(18, 16, 16, 0.8);
+}
+.lab-fixture-controls { flex: 0 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 26px; }
+.lab-frames { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.lab-frame, .lab-look {
+  background: none; border: 0; padding: 0; cursor: pointer; font-family: var(--serif);
+  color: var(--soft); transition: color 300ms ease;
+}
+.lab-frame { font-weight: 500; font-size: 20px; }
+.lab-frame.is-active, .lab-look.is-active { color: var(--ink-bright); }
+.lab-looks { display: flex; flex-direction: column; }
+.lab-look {
+  display: flex; align-items: baseline; gap: 12px; text-align: left;
+  border-top: 1px solid var(--hair); padding: 11px 0; font-weight: 500; font-size: 18px; line-height: 1.3;
+}
+.lab-look:last-of-type { border-bottom: 1px solid var(--hair); }
+.lab-look.is-source { font-style: italic; font-weight: 400; }
+.lab-look-dot { flex: 0 0 auto; width: 5px; height: 5px; border-radius: 50%; background: transparent; transform: translateY(-4px); }
+.lab-look.is-active .lab-look-dot { background: var(--amber-accent); }
+.lab-note { font-style: italic; font-size: 16px; line-height: 1.45; margin: 0; color: var(--soft); }
+
+/* words one side, a plate the other */
+.lab-pair { display: flex; flex-wrap: wrap; align-items: center; gap: 40px clamp(30px, 4vw, 70px); }
+.lab-pair.reverse { flex-wrap: wrap-reverse; }
+.lab-pair .ritual-words { flex: 1 1 300px; max-width: 460px; }
+.lab-pair.reverse .ritual-words { margin-left: auto; }
+
+/* the plates — one visual language for all three */
+.lab-card {
+  flex: 0 1 340px; min-width: 220px; margin: 0;
+  padding: 22px 22px 18px; border-radius: 3px;
+  border: 1px solid var(--edge); background: var(--bg-deep, #121010);
+  display: flex; flex-direction: column;
+}
+.lab-card-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding-bottom: 16px;
+  font-family: var(--sans); font-weight: 500; font-size: 9.5px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--amber-label);
+}
+.lab-card-head .muted { color: var(--soft); white-space: nowrap; }
+.lab-seal {
+  color: var(--amber-accent); font-size: 9px; letter-spacing: 0.24em;
+  border: 1px solid rgba(232, 196, 160, 0.5); border-radius: 1px; padding: 3px 7px;
+}
+.lab-card figcaption {
+  font-style: italic; font-size: 15px; line-height: 1.45; color: var(--soft); margin: 14px 0 0;
+}
+.lab-pair.reverse .lab-card figcaption { text-align: right; }
+
+/* the Timer's strips */
+.lab-wedge { display: flex; flex-direction: column; gap: 10px; padding-bottom: 18px; }
+.lab-wedge .label { margin: 0; font-size: 9px; color: var(--soft); }
+.lab-strip { display: flex; gap: 2px; height: 34px; }
+.lab-strip > span { flex: 1; }
+.lab-chart { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px; }
+.lab-chart > span { aspect-ratio: 1; }
+
+/* the transport specimen */
+.lab-specimen { position: relative; aspect-ratio: 2.39 / 1; overflow: hidden; background: var(--bg-deep, #121010); }
+.lab-specimen img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.lab-dust {
+  position: absolute; inset: 0;
+  background-image: url('/lab/dust-atlas.png'); background-size: 300% 300%; background-position: 22% 38%;
+  mix-blend-mode: screen; opacity: 0.7;
+}
+.lab-edgecode {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 9px 0 16px;
+  font-family: var(--sans); font-size: 8.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--amber-label);
+}
+
+/* a row of facts inside a plate */
+.lab-row {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 9px 0;
+  border-top: 1px solid var(--hair);
+}
+.lab-row:last-of-type { border-bottom: 1px solid var(--hair); }
+.lab-row .label { margin: 0; font-size: 9.5px; letter-spacing: 0.16em; color: var(--soft); white-space: nowrap; }
+.lab-row > span:not(.label) {
+  font-weight: 500; font-size: 16px; color: var(--ink-bright); text-align: right; white-space: nowrap;
+}
+.lab-row .mono { font-family: var(--sans); font-size: 12px; letter-spacing: 0.1em; color: var(--soft); }
+.lab-card-foot {
+  display: flex; flex-wrap: wrap; gap: 8px 18px; padding-top: 16px;
+  font-family: var(--sans); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--soft);
+}
+.lab-card-foot > span { white-space: nowrap; }
+
+/* download + the planned prices */
+.lab-doors { display: flex; flex-wrap: wrap; align-items: baseline; gap: 18px 40px; margin-top: clamp(34px, 5vh, 54px); }
+.lab-secondary {
+  font-family: var(--sans); font-weight: 500; font-size: 10.5px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--amber-accent); text-decoration: none;
+}
+.lab-plans {
+  max-width: 640px; margin-top: clamp(34px, 5vh, 54px);
+  padding-top: clamp(26px, 4vh, 40px); border-top: 1px solid var(--hair);
+  display: flex; flex-direction: column; gap: 18px;
+}
+.lab-plans .lab-row { gap: 16px; padding: 13px 0; }
+.lab-plans .lab-row:first-of-type { margin-top: 0; }
+.lab-plan-name { flex: 1 1 auto; font-weight: 500; font-size: 21px; color: var(--ink-bright); }
+.lab-plan-price { flex: 0 0 auto; font-weight: 500; font-size: 21px; color: var(--ink-bright); }
+.lab-plans .label.right { flex: 0 0 auto; min-width: 13ch; text-align: right; }
+
+@media (max-width: 720px) {
+  .lab-pair, .lab-pair.reverse { flex-wrap: wrap; }
+  .lab-pair .ritual-words, .lab-pair.reverse .ritual-words { margin-left: 0; max-width: 100%; text-align: left; }
+  .lab-card { flex-basis: 100%; }
+  .lab-pair.reverse .lab-card figcaption { text-align: left; }
+  .lab-fixture-plate, .lab-fixture-controls { flex-basis: 100%; }
+}

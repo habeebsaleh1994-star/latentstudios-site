@@ -66,12 +66,13 @@
 .ritual-hero-aside { flex: 0 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
 
 /* the door: a word, italic, berry after it */
-.ritual-door {
+/* `.ritual .ritual-door` so it outranks `.ritual a` (0,1,1): a word in bright ink, amber on hover. */
+.ritual .ritual-door {
   display: inline-flex; align-items: baseline; gap: 10px;
   font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 30px; letter-spacing: -0.01em;
   color: var(--ink-bright); text-decoration: none;
 }
-.ritual-door:hover { color: var(--amber-accent); }
+.ritual .ritual-door:hover { color: var(--amber-accent); }
 .ritual-door-berry { width: 9px; height: 9px; margin-left: 0; transform: translateY(-3px); }
 
 /* blocks */
