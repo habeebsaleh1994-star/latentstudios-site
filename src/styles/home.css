@@ -30,10 +30,13 @@ body.room-paper:has(.home) { background: #dccbba; }
    paper-page links amber and `.label` in the paper label style — all at a
    higher specificity than the scoped rules below. Reset them here. */
 .home section { max-width: none; margin: 0; }
-/* The homepage and Nera lay sections out with no padding of their own; the Moment's bands
-   (moment.css) carry theirs at single-class specificity, so the reset must not reach them. */
-.home:not(.moment) section { padding: 0; }
-body.room-paper .home nav {
+/* The padding reset sits at element specificity (:where) so it outranks global.css only by
+   order, and any room that gives a section its own padding (the Moment's bands, the Ritual's
+   hero) wins with a single class. */
+:where(.home) section { padding: 0; }
+/* global.css fixes every <nav> to the top of the darkroom; the home shell's header and
+   colophon navs are static on paper and dark pages alike. */
+body.room-paper .home nav, .home nav {
   position: static; inset: auto; z-index: auto; padding: 0;
   background: none; border: 0; backdrop-filter: none; -webkit-backdrop-filter: none;
 }

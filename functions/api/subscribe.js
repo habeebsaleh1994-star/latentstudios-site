@@ -35,6 +35,10 @@ export const onRequestPost = async ({ request, env }) => {
   // only tags, so a list becomes a tag of the same name: her opening letter can then
   // go only to those who asked for it.
   const list = String(data.list || "").trim().replace(/[^a-z0-9_-]/gi, "");
+  // A room's own beta desk names its app (the Ritual posts app=ritual). It becomes the
+  // same `<app>-beta` tag the /beta page has always sent, so both desks fill one list.
+  const app = String(data.app || "").trim().replace(/[^a-z0-9_-]/gi, "");
+  const appTag = app ? `${app}-beta` : "";
 
   // Honeypot: a hidden field real people never fill. Pretend success, drop it.
   if (String(data.website || "").trim() !== "") return json({ ok: true });
@@ -59,7 +63,7 @@ export const onRequestPost = async ({ request, env }) => {
         // "regular" = added immediately, no confirmation email. Remove this line
         // to switch to Buttondown's double opt-in (subscriber must click to confirm).
         type: "regular",
-        tags: [tag, list].filter(Boolean),
+        tags: [...new Set([tag, list, appTag].filter(Boolean))],
         referrer_url: request.headers.get("Referer") || undefined,
         ip_address: request.headers.get("CF-Connecting-IP") || undefined,
       }),

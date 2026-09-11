@@ -12,6 +12,8 @@ interface Props {
   themeColor?: string;
   /** Load quiet.js (reveals, safelight, autoplay discipline). The homepage carries its own motion and opts out. */
   quiet?: boolean;
+  /** Let the room warm after local sunset (html.is-evening). A page with one appearance (the Ritual) opts out. */
+  evening?: boolean;
 }
 
 const {
@@ -22,6 +24,7 @@ const {
   room = 'dark',
   themeColor = room === 'paper' ? '#f3efe6' : '#1A1614',
   quiet = true,
+  evening = true,
 } = Astro.props;
 
 const ogImageURL = new URL(ogImage, Astro.site).href;
@@ -63,15 +66,16 @@ const jsonLd = {
     <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png?v=5" />
 
     <!-- Fonts are self-hosted (styles/fonts.css) — no third-party requests.
-         The darkroom's display face is preloaded; paper pages preload their own via the head slot. -->
-    {room !== 'paper' && <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/outfit-latin.woff2" />}
+         The darkroom's display face is preloaded; paper pages and the dark rooms on the home
+         shell (quiet={false}, Cormorant) preload their own via the head slot. -->
+    {room !== 'paper' && quiet && <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/outfit-latin.woff2" />}
     <slot name="head" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <!-- The lamplit evening, decided before first paint: the visitor's stored
          choice wins; otherwise the room warms after local sunset. quiet.js
          wires the footer lamp that overrides this. -->
-    <script is:inline>
+    {evening && <script is:inline>
       (() => {
         try {
           var stored = localStorage.getItem('latent-lamp');
@@ -80,7 +84,7 @@ const jsonLd = {
           if (evening) document.documentElement.classList.add('is-evening');
         } catch (e) {}
       })();
-    </script>
+    </script>}
   </head>
 
   <body class={room === 'paper' ? 'room-paper' : ''} data-no-quiet={quiet ? undefined : ''}>

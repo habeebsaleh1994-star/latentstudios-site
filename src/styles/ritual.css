@@ -1,0 +1,127 @@
+/* ─── THE RITUAL — the darkroom, in the house's shell ──────────────────
+   Loaded after home.css. Colours are the repo's OWN dark tokens from global.css
+   (:root) — nothing invented: --bg #1A1614, --text #D4C4B0, --text-bright #E8DDD0,
+   --text-muted #8a7d70, --amber #E8C4A0, --amber-dim #c9a682. The captures were shot
+   against this ground, so it must not drift. */
+
+.ritual {
+  --ground: var(--bg, #1A1614);
+  --ink: var(--text, #D4C4B0);
+  --ink-bright: var(--text-bright, #E8DDD0);
+  --soft: var(--text-muted, #8a7d70);
+  --amber-accent: var(--amber, #E8C4A0);
+  --amber-label: var(--amber-dim, #c9a682);
+  --hair: rgba(212, 196, 176, 0.18);
+  --edge: rgba(212, 196, 176, 0.12);
+  background: var(--ground);
+  color: var(--ink);
+}
+.ritual .home-berry { background: var(--amber-accent); }
+.ritual .home-mark { color: var(--ink-bright); }
+.ritual .home-nav a { color: var(--soft); }
+.ritual .home-nav a:hover, .ritual .home-nav a[aria-current="page"] { color: var(--ink-bright); }
+.ritual a { color: var(--amber-accent); }
+.ritual a:hover { color: var(--ink-bright); }
+
+.ritual-header {
+  background: linear-gradient(to bottom, var(--ground) 0, var(--ground) 52%, rgba(26,22,20,0.7) 74%, rgba(26,22,20,0) 100%);
+}
+
+.ritual-main {
+  position: relative; z-index: 1; max-width: 1360px; margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 10vh, 130px);
+  display: flex; flex-direction: column; gap: clamp(90px, 16vh, 190px);
+}
+
+/* shared registers */
+.ritual .label { font-family: var(--sans); font-weight: 500; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber-label); margin: 0 0 18px; }
+.ritual .label.small { font-size: 10px; margin-bottom: 8px; }
+.ritual .label:last-child { margin: 0; }
+.ritual .fact { font-weight: 400; font-size: 17.5px; line-height: 1.5; margin: 0; color: var(--soft); text-wrap: pretty; }
+.ritual .line { font-weight: 500; font-size: 19px; line-height: 1.4; margin: 0; color: var(--ink-bright); text-wrap: pretty; }
+
+/* Sized by max-width, not flex-basis: most words blocks sit in column flex sections, where a
+   basis would become a 460px height. */
+.ritual-words { flex: 0 1 auto; width: 100%; min-width: 0; max-width: min(460px, 34vw); }
+.ritual-words h2 { font-weight: 500; font-size: clamp(34px, 4vw, 58px); line-height: 1.02; letter-spacing: -0.02em; margin: 0 0 16px; color: var(--ink-bright); text-wrap: balance; }
+.ritual-words h2.large { font-size: clamp(34px, 4.4vw, 66px); line-height: 1; letter-spacing: -0.024em; }
+.ritual-words.right { margin-left: auto; text-align: right; }
+.ritual-words.right .label:last-child { margin-top: 18px; }
+.ritual-words.wide { max-width: 640px; }
+.ritual-words.push { max-width: 500px; }
+.ritual-words + * { margin-top: clamp(40px, 6vh, 70px); }
+
+/* plates: a hairline edge, no shadow, no device chrome */
+.ritual-plate { margin: 0; border-radius: 3px; overflow: hidden; border: 1px solid var(--edge); background: var(--bg-deep, #121010); }
+.ritual-plate.wide { width: 100%; }
+.ritual-plate.push-right { margin-left: auto; max-width: 1080px; }
+.ritual-plate img, .ritual-plate video { display: block; width: 100%; height: auto; }
+
+/* hero */
+.ritual-hero { padding-top: 22vh; display: flex; flex-direction: column; gap: clamp(50px, 8vh, 90px); }
+.ritual-hero-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 40px 60px; }
+.ritual-hero-lead { flex: 1 1 380px; min-width: 0; max-width: 620px; }
+.ritual-title { font-weight: 500; font-size: clamp(48px, 7vw, 104px); line-height: 0.96; letter-spacing: -0.026em; margin: 0 0 28px; color: var(--ink-bright); }
+.ritual-lede { font-weight: 500; font-size: clamp(20px, 2vw, 26px); line-height: 1.4; margin: 0; max-width: 34ch; color: var(--ink-bright); text-wrap: pretty; }
+.ritual-hero-aside { flex: 0 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+
+/* the door: a word, italic, berry after it */
+.ritual-door {
+  display: inline-flex; align-items: baseline; gap: 10px;
+  font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 30px; letter-spacing: -0.01em;
+  color: var(--ink-bright); text-decoration: none;
+}
+.ritual-door:hover { color: var(--amber-accent); }
+.ritual-door-berry { width: 9px; height: 9px; margin-left: 0; transform: translateY(-3px); }
+
+/* blocks */
+.ritual-block { display: flex; flex-direction: column; }
+.ritual-block.tight .ritual-words + * { margin-top: 26px; }
+.ritual-aside-right { display: flex; justify-content: flex-end; }
+.ritual-close { display: flex; justify-content: flex-start; }
+
+/* the four rooms */
+.ritual-rooms { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: clamp(24px, 3vw, 44px); }
+.ritual-room { display: flex; flex-direction: column; gap: 14px; }
+.ritual-room-foot { padding-top: 12px; border-top: 1px solid var(--hair); }
+
+/* the shelf — a list, not a swatch grid */
+.ritual-stocks { display: flex; flex-direction: column; max-width: 760px; }
+.ritual-stock { display: flex; align-items: baseline; gap: 16px; padding: 11px 0; border-top: 1px solid var(--hair); }
+.ritual-stock:last-of-type { border-bottom: 1px solid var(--hair); }
+.ritual-swatch { flex: 0 0 auto; width: 9px; height: 9px; border-radius: 50%; }
+.ritual-stock-name { flex: 1 1 auto; font-weight: 500; font-size: 21px; line-height: 1.2; color: var(--ink-bright); }
+.ritual-stock-family { flex: 0 0 auto; font-family: var(--sans); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--soft); }
+.ritual-stocks-coda { font-style: italic; font-size: 17px; line-height: 1.5; margin: 20px 0 0; color: var(--soft); max-width: 46ch; }
+
+/* stories */
+.ritual-connector { font-style: italic; font-size: clamp(21px, 2.2vw, 30px); line-height: 1.3; margin: clamp(40px, 6vh, 70px) 0 clamp(40px, 6vh, 70px) auto; color: var(--ink-bright); text-align: right; }
+
+.ritual-claim { font-weight: 500; font-size: clamp(21px, 2.4vw, 34px); line-height: 1.24; letter-spacing: -0.014em; margin: 0; max-width: 24ch; color: var(--ink-bright); text-wrap: balance; }
+
+/* mac and ipad: one frame, two surfaces */
+.ritual-devices { display: flex; flex-wrap: wrap; align-items: flex-end; gap: clamp(20px, 3vw, 40px); }
+.ritual-plate.device-mac { flex: 1 1 420px; min-width: 0; }
+.ritual-plate.device-ipad { flex: 0 1 300px; min-width: 0; }
+
+/* letters */
+.ritual-letters-row {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 40px;
+  padding-top: clamp(30px, 5vh, 60px); border-top: 1px solid var(--hair);
+}
+.ritual-letters .home-letters-desk { flex-basis: 420px; }
+.ritual-letters .home-letters-desk .line { font-size: clamp(19px, 1.8vw, 24px); line-height: 1.46; max-width: 34ch; }
+.ritual .home-letters-form { border-bottom-color: rgba(212,196,176,0.4); }
+.ritual .home-letters-form input[type="email"] { color: var(--ink-bright); }
+.ritual .home-letters-form input[type="email"]::placeholder { color: var(--soft); }
+.ritual .home-letters-form .door { color: var(--amber-accent); }
+.ritual .home-letters-note { color: var(--soft); }
+.ritual .home-letters-colophon nav a, .ritual .home-mark-foot { color: var(--soft); }
+
+@media (max-width: 720px) {
+  .ritual-words, .ritual-words.right, .ritual-words.push, .ritual-words.wide { flex-basis: 100%; max-width: 100%; margin-left: 0; text-align: left; }
+  .ritual-aside-right, .ritual-close { justify-content: flex-start; }
+  .ritual-connector { margin-left: 0; text-align: left; }
+  .ritual-plate.push-right { margin-left: 0; }
+  .ritual-hero { padding-top: 18vh; }
+}

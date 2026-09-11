@@ -1,763 +1,286 @@
 ---
-// The Ritual — the complete photographic workroom, on Mac and iPad.
+// The Ritual — a complete photographic workroom, on Mac and iPad.
 //
-// Hero capture is current (docs/captures, July 2026); every other frame is an
-// honest capture slot until the owner supplies current media — the media truth
-// plan forbids outdated UI standing in for the present product. The Story
-// reader video is the one authorized stand-in from the old repo.
-// Release truth comes only from src/config/truth.ts.
+// Still a darkroom: the repo's own dark tokens, unchanged. What changed is the shell —
+// the house's header and letters desk, Cormorant + Instrument Sans, the left/right
+// asymmetry the homepage uses, and doors as words. No safelight pulse, no status chip,
+// no amber CTA button, no lamp switch.
+//
+// Every capture and every sentence comes from the previous ritual.astro; the media truth
+// plan still applies — these are the July 2026 captures.
 import Base from '../layouts/Base.astro';
-import Nav from '../components/Nav.astro';
-import StatusChip from '../components/StatusChip.astro';
-import FooterMini from '../components/FooterMini.astro';
+import '../styles/home.css';
+import '../styles/ritual.css';
 import { truth } from '../config/truth';
 
-// The four rooms, captured from one build in one sitting — same library, same
-// window. `slug` picks the derivative pair; the Darkroom tile reuses the hero
-// master, the only room whose capture the page shows twice.
+const SUBSCRIBE_ENDPOINT = '/api/subscribe';
+
 const rooms = [
-  {
-    n: '01',
-    name: 'Studio',
+  { n: '01', name: 'Studio', slug: 'studio',
     line: 'The front door. It remembers your work before asking for a task.',
-    slug: 'studio',
-    alt: 'The Studio in The Ritual on Mac — a photograph from Joun across the top, and beneath it 382 frames counted back through the years',
-  },
-  {
-    n: '02',
-    name: 'Workbench',
+    alt: 'The Studio in The Ritual on Mac — a photograph from Joun across the top, and beneath it 382 frames counted back through the years' },
+  { n: '02', name: 'Workbench', slug: 'workbench',
     line: 'Today’s work, gathered — and the archive’s physical truth kept visible.',
-    slug: 'workbench',
-    alt: 'The Workbench in The Ritual on Mac — the frame left mid-edit, twelve waiting to develop, and the note that every photograph lives outside the library',
-  },
-  {
-    n: '03',
-    name: 'Light Table',
+    alt: 'The Workbench in The Ritual on Mac — the frame left mid-edit, twelve waiting to develop, and the note that every photograph lives outside the library' },
+  { n: '03', name: 'Light Table', slug: 'lighttable',
     line: 'Read, compare, narrow, and arrange a body of work.',
-    slug: 'lighttable',
-    alt: 'The Light Table in The Ritual on Mac — a rated grid of a body of work beside one photograph held large with its exposure',
-  },
-  {
-    n: '04',
-    name: 'Darkroom',
+    alt: 'The Light Table in The Ritual on Mac — a rated grid of a body of work beside one photograph held large with its exposure' },
+  { n: '04', name: 'Darkroom', slug: 'darkroom',
     line: 'The deep working room, from negative to print.',
-    slug: 'darkroom',
-    alt: 'The Darkroom in The Ritual on Mac — a photograph between the Film, Light and Paper shelves and the emulsion list',
-  },
+    alt: 'The Darkroom in The Ritual on Mac — a photograph between the Film, Light and Paper shelves and the emulsion list' },
 ];
 
-// The swatch grid — 8 Latent House Blends leading, then the classics.
+// Nine of the twenty-five on the shelf — the house blends leading, then the classics
+// people know. The full catalogue lives in the app, not on the page.
 const stocks = [
   { name: 'Hearth 400', family: 'Latent · House Blend', swatch: '#E0B98E' },
   { name: 'Ember 400', family: 'Latent · House Blend', swatch: '#C9774B' },
   { name: 'Mineral 100', family: 'Latent · House Blend', swatch: '#7FA8A8' },
   { name: 'Nocturne 800', family: 'Latent · House Blend', swatch: '#7B637B' },
-  { name: 'Aurora 250D', family: 'Latent · House Blend', swatch: '#C9B47A' },
-  { name: 'Prism 100', family: 'Latent · House Blend', swatch: '#7DB6C9' },
-  { name: 'Relic 40', family: 'Latent · House Blend', swatch: '#C85F43' },
-  { name: 'Ash 400', family: 'Latent · House Blend', swatch: '#A6A6A0' },
   { name: 'Portra 400', family: 'Kodak · C-41', swatch: '#E8C4A0' },
-  { name: 'Portra 160', family: 'Kodak · C-41', swatch: '#F0C9A2' },
-  { name: 'Gold 200', family: 'Kodak · C-41', swatch: '#DAB36E' },
-  { name: 'ColorPlus 200', family: 'Kodak · C-41', swatch: '#BFA070' },
-  { name: 'Ektar 100', family: 'Kodak · C-41', swatch: '#D4665A' },
   { name: 'CineStill 800T', family: 'CineStill · C-41', swatch: '#C9956A' },
-  { name: 'Pro 400H', family: 'Fuji · C-41', swatch: '#A8C9B6' },
-  { name: 'Superia 400', family: 'Fuji · C-41', swatch: '#7EB89A' },
-  { name: 'Vision3 50D', family: 'Kodak · ECN-2', swatch: '#CDB78A' },
-  { name: 'Vision3 500T', family: 'Kodak · ECN-2', swatch: '#A67B5B' },
-  { name: 'Provia 100F', family: 'Fuji · E-6', swatch: '#7BA3C9' },
   { name: 'Velvia 50', family: 'Fuji · E-6', swatch: '#5A9E6A' },
-  { name: 'Ektachrome E100', family: 'Kodak · E-6', swatch: '#6FA7C7' },
   { name: 'Kodachrome 64', family: 'Kodak · K-14', swatch: '#CE5A3A' },
   { name: 'HP5 Plus', family: 'Ilford · B&W', swatch: '#9A9A9A' },
-  { name: 'Tri-X 400', family: 'Kodak · B&W', swatch: '#B0B0B0' },
-  { name: 'Acros 100', family: 'Fujifilm · B&W', swatch: '#C2C2C0' },
 ];
 ---
 
 <Base
-  title="The Ritual — the complete photographic workroom"
+  title="The Ritual — a complete photographic workroom"
   description="Live with a body of work from the first import to the finished print — develop the negative, mend the light, make the print. The Ritual, on Mac and iPad."
   ogImage="/og-ritual.png?v=1"
   ogImageAlt="The Ritual — a complete photographic workroom, on Mac and iPad"
+  quiet={false}
+  evening={false}
 >
   <Fragment slot="head">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/cormorant-500-normal-latin.woff2" />
     {/* The hero capture is this page's LCP image. */}
-    <link
-      rel="preload"
-      as="image"
-      href="/ritual-darkroom-2560.webp"
+    <link rel="preload" as="image" href="/ritual-darkroom-2560.webp"
       imagesrcset="/ritual-darkroom-1280.webp 1280w, /ritual-darkroom-2560.webp 2560w"
-      imagesizes="(max-width: 1288px) 100vw, 1240px"
-      fetchpriority="high"
-    />
+      imagesizes="(max-width: 1288px) 100vw, 1240px" fetchpriority="high" />
   </Fragment>
 
-  <Nav cta={{ label: 'Join the beta', href: '#join' }} />
-  <main id="main">
+  <div class="home ritual">
 
-    <!-- HERO -->
-    <section class="ritual-hero">
-      <div class="safelight-pulse" aria-hidden="true"></div>
-      <div class="eyebrow hero-eyebrow">The Ritual &middot; Mac and iPad</div>
-      <h1 class="hero-title">A complete photographic workroom.</h1>
-      <p class="hero-lead">
-        Live with a body of work from the first import to the finished print.
-        Remember it, gather it, decide what matters, develop the negative, mend
-        the light, make the print, and send it out.
-      </p>
-      <div class="hero-frame">
-        <img
-          src="/ritual-darkroom-2560.webp"
-          srcset="/ritual-darkroom-1280.webp 1280w, /ritual-darkroom-2560.webp 2560w"
-          sizes="(max-width: 1288px) 100vw, 1240px"
-          width="5120"
-          height="2598"
-          fetchpriority="high"
-          alt="The Darkroom in The Ritual on Mac — a photograph from Joun developing on Supra Endura, with the Film, Light and Paper shelves at left and the emulsion list at right"
-        />
-      </div>
-    </section>
+    <header class="home-header ritual-header">
+      <a class="home-mark" href="/">Latent Studios<span class="home-berry" aria-hidden="true"></span></a>
+      <nav class="home-nav" aria-label="Rooms">
+        <a href="/nera">Nera</a>
+        <a href="/moment">The Moment</a>
+        <a href="/ritual" aria-current="page">The Ritual</a>
+        <a href="/lab">The Lab</a>
+        <a href="/versos">Versos</a>
+        <a href="#letters">Letters</a>
+      </nav>
+    </header>
 
-    <!-- THE ROOMS -->
-    <section class="rooms">
-      <div class="rooms-header">
-        <div class="eyebrow reveal">The rooms</div>
-        <h2 class="ritual-h2 reveal reveal-heading" style="--reveal-delay: 80ms">One place to live with the work.</h2>
-        <p class="ritual-body reveal" style="--reveal-delay: 200ms">
-          Studio remembers. Workbench gathers what needs you today. Light Table
-          helps you decide. Darkroom carries the photograph from negative to
-          print.
-        </p>
-      </div>
-      <div class="rooms-grid">
-        {rooms.map((room, i) => (
-          <div class="room reveal reveal-media" style={`--reveal-delay: ${i * 80}ms`}>
-            <div class="room-frame">
-              <img
-                src={`/ritual-${room.slug}-1280.webp`}
-                srcset={`/ritual-${room.slug}-640.webp 640w, /ritual-${room.slug}-1280.webp 1280w`}
-                sizes="(max-width: 900px) 90vw, 330px"
-                width="5120"
-                height="2598"
-                loading="lazy"
-                alt={room.alt}
-              />
+    <main id="main" class="ritual-main">
+
+      <section class="ritual-hero">
+        <div class="ritual-hero-row">
+          <div class="ritual-hero-lead" data-reveal>
+            <div class="label">An instrument &middot; a photographic workroom &middot; Mac and iPad &middot; {truth.ritualStatus}</div>
+            <h1 class="ritual-title">A complete photographic workroom.</h1>
+            <p class="ritual-lede">Live with a body of work from the first import to the finished print.</p>
+          </div>
+          <div class="ritual-hero-aside" data-reveal>
+            <p class="fact">Remember it, gather it, decide what matters, develop the negative, mend the light, make the print, and send it out.</p>
+            <a class="ritual-door" href="#letters">Enter the workroom<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
+            <div class="label">{truth.ritualStatus}</div>
+          </div>
+        </div>
+        <figure class="ritual-plate wide" data-reveal>
+          <img src="/ritual-darkroom-2560.webp"
+               srcset="/ritual-darkroom-1280.webp 1280w, /ritual-darkroom-2560.webp 2560w"
+               sizes="(max-width: 1288px) 100vw, 1240px"
+               width="5120" height="2598" fetchpriority="high"
+               alt="The Darkroom in The Ritual on Mac — a photograph from Joun developing on Supra Endura, with the Film, Light and Paper shelves at left and the emulsion list at right" />
+        </figure>
+      </section>
+
+      <section class="ritual-block">
+        <div class="ritual-words" data-reveal>
+          <div class="label">The rooms</div>
+          <h2>One place to live with the work.</h2>
+          <p class="fact">Studio remembers. Workbench gathers what needs you today. Light Table helps you decide. Darkroom carries the photograph from negative to print.</p>
+        </div>
+        <div class="ritual-rooms">
+          {rooms.map((room) => (
+            <div class="ritual-room" data-reveal>
+              <figure class="ritual-plate">
+                <img src={`/ritual-${room.slug}-1280.webp`}
+                     srcset={`/ritual-${room.slug}-640.webp 640w, /ritual-${room.slug}-1280.webp 1280w`}
+                     sizes="(max-width: 900px) 90vw, 330px"
+                     width="5120" height="2598" loading="lazy" alt={room.alt} />
+              </figure>
+              <div class="ritual-room-foot">
+                <div class="label small">{room.n} &middot; {room.name}</div>
+                <p class="line">{room.line}</p>
+              </div>
             </div>
-            <div class="room-label">{room.n} &middot; {room.name}</div>
-            <div class="room-line">{room.line}</div>
-          </div>
-        ))}
-      </div>
-    </section>
+          ))}
+        </div>
+      </section>
 
-    <!-- THE PROCESS -->
-    <section class="process">
-      <div class="eyebrow reveal">The process</div>
-      <h2 class="ritual-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Film, light, paper.</h2>
-      <div class="process-trio reveal" style="--reveal-delay: 160ms">
-        <span class="trio-word">Film</span>
-        <span class="trio-arrow" aria-hidden="true">&rarr;</span>
-        <span class="trio-word">Light</span>
-        <span class="trio-arrow" aria-hidden="true">&rarr;</span>
-        <span class="trio-word">Paper</span>
-      </div>
-      <p class="ritual-body reveal" style="--reveal-delay: 240ms">
-        Build the negative in Film. Interpret what it carries in Light. Realize
-        it on Paper. Nothing is a look pasted on at the end &mdash; each choice
-        belongs to the same developing photograph. Nothing rigid, nothing
-        binary, everything interacts.
-      </p>
-    </section>
+      <section class="ritual-aside-right">
+        <div class="ritual-words right" data-reveal>
+          <div class="label">The process</div>
+          <h2 class="large">Film, light, paper.</h2>
+          <p class="fact">Build the negative in Film. Interpret what it carries in Light. Realize it on Paper. Nothing is a look pasted on at the end; each choice belongs to the same developing photograph.</p>
+        </div>
+      </section>
 
-    <!-- THE MATERIALS -->
-    <section class="materials ritual-materials">
-      <div class="materials-header">
-        <div class="eyebrow reveal">The materials</div>
-        <h2 class="section-heading ritual-materials-heading reveal reveal-heading" style="--reveal-delay: 80ms">Film as behavior, not as a look.</h2>
-        <p class="ritual-body reveal" style="--reveal-delay: 200ms">
-          Every stock is modeled &mdash; its latitude, its dye response, its
-          grain, its failures. The house blends its own emulsions beside the
-          ones you already know.
-        </p>
-      </div>
-      <div class="stocks-grid reveal" style="--reveal-delay: 200ms">
-        {stocks.map((stock) => (
-          <div class="stock" data-swatch={stock.swatch}>
-            <span class="stock-swatch" style={`background: ${stock.swatch}`}></span>
-            <span class="stock-info">
-              <span class="stock-name">{stock.name}</span>
-              <span class="stock-family">{stock.family}</span>
-            </span>
-          </div>
-        ))}
-      </div>
-      <p class="materials-coda reveal">
-        A selection &mdash; the catalog keeps growing, and every stock behaves
-        like the material it remembers.
-      </p>
-    </section>
+      <section class="ritual-block">
+        <div class="ritual-words" data-reveal>
+          <div class="label">The materials</div>
+          <h2>Film as behaviour, not as a look.</h2>
+          <p class="fact">Every stock is modelled &mdash; its latitude, its dye response, its grain, its failures. The house blends its own emulsions beside the ones you already know.</p>
+        </div>
+        <div class="ritual-stocks" data-reveal>
+          {stocks.map((stock) => (
+            <div class="ritual-stock">
+              <span class="ritual-swatch" style={`background: ${stock.swatch}`} aria-hidden="true"></span>
+              <span class="ritual-stock-name">{stock.name}</span>
+              <span class="ritual-stock-family">{stock.family}</span>
+            </div>
+          ))}
+          <p class="ritual-stocks-coda">Nine of twenty-five on the shelf today. The catalogue keeps growing, and every stock behaves like the material it remembers.</p>
+        </div>
+      </section>
 
-    <!-- THE FINISHING BENCH -->
-    <section class="retouch">
-      <div class="eyebrow reveal">The finishing bench</div>
-      <h2 class="ritual-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Retouch the negative,<br />not the surface.</h2>
-      <p class="ritual-body retouch-body reveal" style="--reveal-delay: 200ms">
-        Repair what distracts. Shape local light and tone. Work gently with a
-        face. Every touch inherits the photograph&rsquo;s grain, density, and
-        roll-off &mdash; and redevelops when the process changes.
-      </p>
-      <div class="retouch-row reveal" style="--reveal-delay: 280ms">
-        <span class="retouch-item">Repair</span>
-        <span class="retouch-dot" aria-hidden="true">&middot;</span>
-        <span class="retouch-item">Light &amp; Tone</span>
-        <span class="retouch-dot" aria-hidden="true">&middot;</span>
-        <span class="retouch-item">Portrait</span>
-      </div>
-    </section>
+      <section class="ritual-aside-right">
+        <div class="ritual-words right" data-reveal>
+          <div class="label">The finishing bench</div>
+          <h2>Retouch the negative, not the surface.</h2>
+          <p class="fact">Repair what distracts. Shape local light and tone. Work gently with a face. Every touch inherits the photograph&rsquo;s grain, density and roll-off &mdash; and redevelops when the process changes.</p>
+          <div class="label">Repair &nbsp;&middot;&nbsp; Light &amp; Tone &nbsp;&middot;&nbsp; Portrait</div>
+        </div>
+      </section>
 
-    <!-- THE PRINT ROOM -->
-    <section class="print-room">
-      <div class="eyebrow reveal">The Print Room</div>
-      <h2 class="ritual-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Make the print.</h2>
-      <p class="ritual-body reveal" style="--reveal-delay: 200ms">
-        Strike a test strip. Balance the filters or split the grade. Preflash,
-        dodge, burn, keep a work print, and make the final print under the
-        light where it will be seen.
-      </p>
-      <div class="print-frame reveal reveal-media" style="--reveal-delay: 200ms">
-        <img
-          src="/ritual-printroom-2160.webp"
-          srcset="/ritual-printroom-1080.webp 1080w, /ritual-printroom-2160.webp 2160w"
-          sizes="(max-width: 1128px) 100vw, 1080px"
-          width="5120"
-          height="2598"
-          loading="lazy"
-          alt="The Print Room in The Ritual on Mac — a print on Kodak 2393 above a seven-step test strip, with the paper, filter pack, dodge and burn, and preflash benches beneath it"
-        />
-      </div>
-    </section>
+      <section class="ritual-block">
+        <div class="ritual-words" data-reveal>
+          <div class="label">The Print Room</div>
+          <h2>Make the print.</h2>
+          <p class="fact">Strike a test strip. Balance the filters or split the grade. Preflash, dodge, burn, keep a work print, and make the final print under the light where it will be seen.</p>
+        </div>
+        <figure class="ritual-plate push-right" data-reveal>
+          <img src="/ritual-printroom-2160.webp"
+               srcset="/ritual-printroom-1080.webp 1080w, /ritual-printroom-2160.webp 2160w"
+               sizes="(max-width: 1128px) 100vw, 1080px"
+               width="5120" height="2598" loading="lazy"
+               alt="The Print Room in The Ritual on Mac — a print on Kodak 2393 above a seven-step test strip, with the paper, filter pack, dodge and burn, and preflash benches beneath it" />
+        </figure>
+      </section>
 
-    <!-- STORIES -->
-    <section class="stories">
-      <div class="eyebrow reveal">Stories</div>
-      <h2 class="ritual-h2 reveal reveal-heading" style="--reveal-delay: 80ms">Finish more than one photograph.</h2>
-      <p class="ritual-body reveal" style="--reveal-delay: 200ms">
-        Rate, compare, collect, and sequence on the Light Table. Then form
-        covers, pairs, spreads, pauses, and captions in a room made for reading
-        the work.
-      </p>
-      {/* The arranging, as a timelapse: the recording's dead tail cut and the
-          thinking pauses compressed 7×, so the sequence forms in one breath. */}
-      <div class="story-canvas reveal reveal-media" style="--reveal-delay: 200ms">
-        <video
-          data-autoplay
-          muted
-          loop
-          playsinline
-          preload="none"
-          poster="/ritual-story-canvas-poster.webp"
-          width="1920"
-          height="1080"
-          aria-label="Spreads being arranged on the Story canvas in The Ritual — prints drawn onto a spine and paired into a sequence"
-        >
-          <source src="/ritual-story-canvas.webm" type="video/webm" />
-          <source src="/ritual-story-canvas.mp4" type="video/mp4" />
-        </video>
-      </div>
-      <p class="story-connector reveal">Then it breathes.</p>
-      <div class="story-reader reveal reveal-media">
-        <div class="story-clip">
+      <section class="ritual-block">
+        <div class="ritual-words" data-reveal>
+          <div class="label">Stories</div>
+          <h2>Finish more than one photograph.</h2>
+          <p class="fact">Rate, compare, collect and sequence on the Light Table. Then form covers, pairs, spreads, pauses and captions in a room made for reading the work.</p>
+        </div>
+        {/* The arranging, as a timelapse: the recording's dead tail cut and the thinking
+            pauses compressed 7×, so the sequence forms in one breath. */}
+        <figure class="ritual-plate wide" data-reveal>
+          <video data-autoplay muted loop playsinline preload="none"
+                 poster="/ritual-story-canvas-poster.webp" width="1920" height="1080"
+                 aria-label="Spreads being arranged on the Story canvas in The Ritual — prints drawn onto a spine and paired into a sequence">
+            <source src="/ritual-story-canvas.webm" type="video/webm" />
+            <source src="/ritual-story-canvas.mp4" type="video/mp4" />
+          </video>
+        </figure>
+        <p class="ritual-connector" data-reveal>Then it breathes.</p>
+        <figure class="ritual-plate wide" data-reveal>
           {/* The one authorized stand-in from the old repo, until re-captured. */}
-          <video
-            data-autoplay
-            muted
-            loop
-            playsinline
-            preload="none"
-            poster="/story-mode-reader-poster.jpg"
-            width="1920"
-            height="1080"
-            aria-label="The Story reader — one spread breathing across the full screen"
-          >
+          <video data-autoplay muted loop playsinline preload="none"
+                 poster="/story-mode-reader-poster.jpg" width="1920" height="1080"
+                 aria-label="The Story reader — one spread breathing across the full screen">
             <source src="/story-mode-reader.webm" type="video/webm" />
             <source src="/story-mode-reader.mp4" type="video/mp4" />
           </video>
+        </figure>
+      </section>
+
+      <section class="ritual-block tight">
+        <div class="ritual-words" data-reveal>
+          <div class="label">Archive &amp; Bridge</div>
+          <h2>The work remains yours.</h2>
+          <p class="fact">The Ritual keeps originals, source volumes and catalogue facts in their proper places. Bring a Lightroom Classic catalogue, or a Capture One catalogue or session, without changing the source.</p>
         </div>
-      </div>
-    </section>
+        <p class="ritual-claim" data-reveal>Your curation arrives. Your photographs arrive as negatives.</p>
+      </section>
 
-    <!-- ARCHIVE & BRIDGE -->
-    <section class="trust">
-      <div class="eyebrow reveal">Archive &amp; Bridge</div>
-      <h2 class="ritual-h2 reveal reveal-heading" style="--reveal-delay: 80ms">The work remains yours.</h2>
-      <p class="ritual-body trust-body reveal" style="--reveal-delay: 200ms">
-        The Ritual keeps originals, source volumes, and catalog facts in their
-        proper places. Bring a Lightroom Classic catalog or a Capture One
-        catalog or session without changing the source.
-      </p>
-      <p class="trust-line reveal" style="--reveal-delay: 280ms">Your curation arrives. Your photographs arrive as negatives.</p>
-    </section>
-
-    <!-- MAC AND IPAD -->
-    <section class="devices">
-      <div class="eyebrow reveal">Two ways of sitting with it</div>
-      <h2 class="ritual-h2 reveal reveal-heading" style="--reveal-delay: 80ms">The same Ritual,<br />wherever you sit with the work.</h2>
-      <p class="ritual-body reveal" style="--reveal-delay: 200ms">
-        Mac gives the work a room. iPad brings the same photographic process
-        under your hands &mdash; not a lite edition, the same negative, print,
-        retouch, and story.
-      </p>
-      {/* One photograph, one develop state, two surfaces — the same frame at
-          4,906 K on Supra Endura, so the claim is shown rather than asserted. */}
-      <div class="devices-grid reveal reveal-media" style="--reveal-delay: 200ms">
-        <div class="device-mac">
-          <img
-            src="/ritual-device-mac-1280.webp"
-            srcset="/ritual-device-mac-640.webp 640w, /ritual-device-mac-1280.webp 1280w"
-            sizes="(max-width: 900px) 90vw, 646px"
-            width="5120"
-            height="2598"
-            loading="lazy"
-            alt="The Darkroom on Mac — a portrait of Youssef from Joun developing on Supra Endura, the emulsion list and scan finishes to one side"
-          />
+      <section class="ritual-block">
+        <div class="ritual-words right push" data-reveal>
+          <div class="label">Two ways of sitting with it</div>
+          <h2>The same Ritual, wherever you sit with the work.</h2>
+          <p class="fact">Mac gives the work a room. iPad brings the same photographic process under your hands &mdash; not a lite edition; the same negative, print, retouch and story.</p>
         </div>
-        <div class="device-ipad">
-          <img
-            src="/ritual-device-ipad-900.webp"
-            srcset="/ritual-device-ipad-450.webp 450w, /ritual-device-ipad-900.webp 900w"
-            sizes="(max-width: 900px) 90vw, 430px"
-            width="2746"
-            height="1908"
-            loading="lazy"
-            alt="The same portrait open in the Darkroom on iPad — the same emulsion, chemistry, paper and Retouch, under your hands"
-          />
+        {/* One photograph, one develop state, two surfaces — the same frame at 4,906 K on
+            Supra Endura, so the claim is shown rather than asserted. */}
+        <div class="ritual-devices" data-reveal>
+          <figure class="ritual-plate device-mac">
+            <img src="/ritual-device-mac-1280.webp"
+                 srcset="/ritual-device-mac-640.webp 640w, /ritual-device-mac-1280.webp 1280w"
+                 sizes="(max-width: 900px) 90vw, 646px" width="5120" height="2598" loading="lazy"
+                 alt="The Darkroom on Mac — a portrait of Youssef from Joun developing on Supra Endura, the emulsion list and scan finishes to one side" />
+          </figure>
+          <figure class="ritual-plate device-ipad">
+            <img src="/ritual-device-ipad-900.webp"
+                 srcset="/ritual-device-ipad-450.webp 450w, /ritual-device-ipad-900.webp 900w"
+                 sizes="(max-width: 900px) 90vw, 430px" width="2746" height="1908" loading="lazy"
+                 alt="The same portrait open in the Darkroom on iPad — the same emulsion, chemistry, paper and Retouch, under your hands" />
+          </figure>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- CLOSE -->
-    <section class="close" id="join">
-      <h2 class="close-heading reveal reveal-heading">From first import to the work you send out.</h2>
-      <p class="close-body reveal" style="--reveal-delay: 80ms">
-        Send single photographs, batches, contact sheets, and story proofs out
-        in the shapes the work needs &mdash; with saved recipes, without
-        leaving the room.
-      </p>
-      <div class="close-actions reveal" style="--reveal-delay: 160ms">
-        <StatusChip label={truth.ritualStatus} />
-        <a class="btn-amber" href="/beta?app=ritual">Join the beta</a>
-      </div>
-    </section>
-  </main>
-  <FooterMini
-    links={[
-      { label: 'The Moment', href: '/moment' },
-      { label: 'The Lab', href: '/lab' },
-    ]}
-  />
+      <section class="ritual-close">
+        <div class="ritual-words wide" data-reveal>
+          <h2 class="large">From first import to the work you send out.</h2>
+          <p class="fact">Send single photographs, batches, contact sheets and story proofs out in the shapes the work needs &mdash; with saved recipes, without leaving the room.</p>
+        </div>
+      </section>
 
-  <style>
-    /* Shared eyebrow — mono caps in dim amber, 32px above its heading. */
-    .eyebrow {
-      font-family: var(--font-label);
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--amber-dim);
-      margin-bottom: 32px;
-    }
+      <section id="letters" class="ritual-letters" data-reveal>
+        <div class="ritual-letters-row">
+          <div class="home-letters-desk" data-newsletter>
+            <div class="label">{truth.ritualStatus}</div>
+            <p class="line">The workroom is open to anyone who asks. Leave an address and we will send the build and the letter that comes with it.</p>
+            <form class="home-letters-form" action={SUBSCRIBE_ENDPOINT} method="post" data-newsletter-form>
+              <label class="visually-hidden" for="newsletter-email">Email address</label>
+              <input id="newsletter-email" type="email" name="email" required autocomplete="email" placeholder="your address" />
+              <input type="hidden" name="app" value="ritual" />
+              <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+                     style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
+              <button type="submit" class="door">Join the beta</button>
+            </form>
+            <p class="home-letters-note" data-newsletter-error hidden role="alert">That email doesn't look right.</p>
+            <p class="home-letters-note" data-newsletter-done hidden role="status" aria-live="polite">You&rsquo;re on the list. The build comes next.</p>
+          </div>
+          <div class="home-letters-colophon">
+            <nav aria-label="Site">
+              <a href="/nera">Nera</a>
+              <a href="/moment">The Moment</a>
+              <a href="/lab">The Lab</a>
+              <a href="/versos">Versos</a>
+              <a href="/privacy">Privacy</a>
+              <a href="/terms">Terms</a>
+              <a href="mailto:contact@latentstudios.art">Contact</a>
+            </nav>
+            <p class="home-mark home-mark-foot">Latent Studios<span class="home-berry" aria-hidden="true"></span> &nbsp;&middot;&nbsp; &copy; 2026</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
 
-    /* The page's shared display + prose registers. */
-    .ritual-h2 {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: 48px;
-      line-height: 1.15;
-      letter-spacing: -0.01em;
-      color: var(--text);
-      margin: 0 0 36px;
-    }
-    .ritual-body {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-size: 19px;
-      line-height: 1.75;
-      color: var(--text-muted);
-      max-width: 660px;
-      margin: 0 auto;
-    }
-
-    /* HERO */
-    .ritual-hero {
-      padding: 200px 24px 120px;
-      max-width: 1400px;
-      margin: 0 auto;
-      text-align: center;
-      position: relative;
-    }
-    .hero-eyebrow {
-      opacity: 0;
-      animation: lt-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
-    }
-    .hero-title {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: clamp(40px, 5.5vw, 64px);
-      line-height: 1.1;
-      letter-spacing: -0.01em;
-      color: var(--text-bright);
-      margin: 0 0 36px;
-      opacity: 0;
-      animation: lt-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-    }
-    .hero-lead {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-size: 20px;
-      line-height: 1.65;
-      color: var(--text-muted);
-      max-width: 660px;
-      margin: 0 auto;
-      opacity: 0;
-      animation: lt-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
-    }
-    .hero-frame {
-      margin: 80px auto 0;
-      max-width: 1240px;
-      aspect-ratio: 5120 / 2598;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 60px 120px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(232, 196, 160, 0.05);
-      background: var(--bg-deep);
-      opacity: 0;
-      animation: lt-rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
-    }
-    .hero-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    @keyframes lt-rise {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* THE ROOMS */
-    .rooms {
-      padding: 140px 24px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-    .rooms-header {
-      text-align: center;
-      margin-bottom: 80px;
-    }
-    .rooms-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 20px;
-    }
-    .room {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    /* The design drew these 3:2, but a Mac window is 1.97:1 — at 3:2 `cover`
-       would shave a quarter of every room away, taking the Studio's own name
-       with it. The captures' real geometry wins, as it does on the hero. */
-    .room-frame {
-      aspect-ratio: 5120 / 2598;
-      border-radius: 4px;
-      overflow: hidden;
-      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(232, 196, 160, 0.05);
-      background: var(--bg-deep);
-    }
-    .room-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .room-label {
-      font-family: var(--font-label);
-      font-weight: 300;
-      font-size: 9px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: var(--amber-dim);
-    }
-    .room-line {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-size: 15px;
-      color: var(--text-muted);
-      line-height: 1.5;
-      margin-top: -8px;
-    }
-
-    /* THE PROCESS */
-    .process {
-      padding: 140px 24px;
-      max-width: 980px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .process .ritual-h2 { margin-bottom: 48px; }
-    .process-trio {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 28px;
-      margin-bottom: 48px;
-      flex-wrap: wrap;
-    }
-    .trio-word {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: 30px;
-      color: var(--text-bright);
-    }
-    .trio-arrow {
-      color: var(--text-ghost);
-      font-size: 20px;
-    }
-
-    /* THE MATERIALS — global .materials/.stocks-grid classes carry the grid
-       and the hover tint; here only this page's spacing. */
-    .ritual-materials {
-      padding: 140px 24px;
-      max-width: 1400px;
-      margin: 0 auto;
-      border-top: 1px solid var(--border);
-    }
-    .ritual-materials .materials-header {
-      text-align: center;
-      margin-bottom: 72px;
-    }
-    .ritual-materials-heading {
-      font-size: 48px;
-      line-height: 1.15;
-    }
-    .ritual-materials :global(.stocks-grid) { margin-bottom: 0; }
-    .materials-coda {
-      text-align: center;
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-style: italic;
-      font-size: 17px;
-      color: var(--text-muted);
-      margin: 48px auto 0;
-      max-width: 640px;
-    }
-
-    /* THE FINISHING BENCH */
-    .retouch {
-      padding: 140px 24px;
-      max-width: 980px;
-      margin: 0 auto;
-      text-align: center;
-      border-top: 1px solid var(--border);
-    }
-    .retouch-body { margin: 0 auto 48px; }
-    .retouch-row {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-    .retouch-item {
-      font-family: var(--font-label);
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    .retouch-dot { color: var(--text-ghost); }
-
-    /* THE PRINT ROOM */
-    .print-room {
-      padding: 140px 24px;
-      max-width: 1400px;
-      margin: 0 auto;
-      text-align: center;
-      border-top: 1px solid var(--border);
-    }
-    .print-frame {
-      margin: 72px auto 0;
-      max-width: 1080px;
-      aspect-ratio: 5120 / 2598;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 40px 90px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.06);
-      background: var(--bg-deep);
-    }
-    .print-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* STORIES — canvas, breath, full-bleed reader (global .story-* classes).
-       The canvas frame was drawn 1600:402; the real recording is a 16:9 window,
-       and the story's own header — the frame count, the covers-and-captions
-       prompts — lives in the part a panoramic crop would cut. The scale jump
-       into the full-bleed reader still carries "Then it breathes." */
-    .stories .story-canvas {
-      aspect-ratio: 16 / 9;
-    }
-    .stories .story-canvas video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .stories {
-      padding: 140px 24px;
-      max-width: 1400px;
-      margin: 0 auto;
-      text-align: center;
-      border-top: 1px solid var(--border);
-    }
-
-    /* ARCHIVE & BRIDGE */
-    .trust {
-      padding: 140px 24px;
-      max-width: 980px;
-      margin: 0 auto;
-      text-align: center;
-      border-top: 1px solid var(--border);
-    }
-    .trust-body { margin: 0 auto 40px; }
-    .trust-line {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-style: italic;
-      font-size: 21px;
-      color: var(--text-bright);
-      margin: 0;
-    }
-
-    /* MAC AND IPAD */
-    .devices {
-      padding: 140px 24px;
-      max-width: 1400px;
-      margin: 0 auto;
-      text-align: center;
-      border-top: 1px solid var(--border);
-    }
-    .devices .ritual-body { max-width: 640px; }
-    .devices-grid {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 24px;
-      align-items: end;
-      max-width: 1100px;
-      margin: 72px auto 0;
-    }
-    /* Both frames carry their capture's real geometry — a Mac window and an
-       iPad screen are not 16:10 and 4:3, and cropping to those would trim the
-       controls that prove the iPad is not a lite edition. */
-    .device-mac {
-      aspect-ratio: 5120 / 2598;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 40px 90px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.06);
-      background: var(--bg-deep);
-    }
-    .device-ipad {
-      aspect-ratio: 2746 / 1908;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 40px 90px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 196, 160, 0.06);
-      background: var(--bg-deep);
-    }
-    .device-mac img,
-    .device-ipad img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* CLOSE */
-    .close {
-      padding: 160px 24px 180px;
-      max-width: 720px;
-      margin: 0 auto;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 36px;
-      border-top: 1px solid var(--border);
-    }
-    .close-heading {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: 38px;
-      line-height: 1.2;
-      letter-spacing: -0.005em;
-      color: var(--text-bright);
-      margin: 0;
-    }
-    .close-body {
-      font-family: var(--font-body);
-      font-weight: 300;
-      font-size: 17px;
-      line-height: 1.7;
-      color: var(--text-muted);
-      margin: 0;
-    }
-    .close-actions {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    /* Responsive — the old repo's breakpoint discipline. */
-    @media (max-width: 900px) {
-      .ritual-h2,
-      .ritual-materials-heading { font-size: 36px; }
-      .close-heading { font-size: 32px; }
-      .devices-grid {
-        grid-template-columns: 1fr;
-        align-items: stretch;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .ritual-hero { padding: 160px 20px 100px; }
-      .rooms,
-      .process,
-      .ritual-materials,
-      .retouch,
-      .print-room,
-      .stories,
-      .trust,
-      .devices { padding: 100px 20px; }
-      .close { padding: 100px 20px 140px; }
-      .trio-word { font-size: 24px; }
-    }
-
-    /* Reduced motion: the hero simply is. */
-    @media (prefers-reduced-motion: reduce) {
-      .hero-eyebrow,
-      .hero-title,
-      .hero-lead,
-      .hero-frame {
-        animation: none;
-        opacity: 1;
-      }
-    }
+  <style is:global>
+    /* ritual.css's `.ritual a` (0,1,1) outranks `.ritual-door` (0,1,0). The door is a word in
+       bright ink; it goes amber only on hover. */
+    .home.ritual .ritual-door { color: var(--ink-bright); }
+    .home.ritual .ritual-door:hover { color: var(--amber-accent); }
   </style>
+
+  {/* newsletter.js is already loaded by Base.astro; only the reveal is this page's own. */}
+  <script src="../scripts/reveal.js"></script>
 </Base>
