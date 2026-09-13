@@ -9,6 +9,13 @@ import {
   onRequestGet as packageGet,
   onRequestHead as packageHead,
 } from '../functions/api/manager/packages/latent-print-engine/[channel]/[version].js';
+import {
+  onRequestGet as contentFeedGet,
+} from '../functions/api/manager/content/latent-print-engine/[channel]/[collection].js';
+import {
+  onRequestGet as contentAssetGet,
+  onRequestHead as contentAssetHead,
+} from '../functions/api/manager/content/latent-print-engine/[channel]/[collection]/[version]/[file].js';
 
 function environment(objects) {
   return {
@@ -121,4 +128,65 @@ test('serves immutable versioned packages with exact byte ranges', async () => {
     request: new Request('https://latentstudios.art/invalid'),
   });
   assert.equal(traversal.status, 404);
+});
+
+test('serves the bounded content catalog from one fixed collection', async () => {
+  const body = new TextEncoder().encode('{"signed":"content"}');
+  const objects = new Map([[
+    'manager/latent-print-engine/production/content/core-plates/release.json',
+    { body, etag: 'content-feed-etag' },
+  ]]);
+  const context = {
+    env: environment(objects),
+    params: { channel: 'production', collection: 'core-plates' },
+    request: new Request(
+      'https://latentstudios.art/api/manager/content/latent-print-engine/production/core-plates',
+    ),
+  };
+  const response = await contentFeedGet(context);
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get('Content-Type'), 'application/json');
+  assert.equal(response.headers.get('Cache-Control'), 'no-store');
+  assert.equal(await response.text(), '{"signed":"content"}');
+  assert.equal(
+    (await contentFeedGet({ ...context, params: { ...context.params, collection: '../plates' } })).status,
+    404,
+  );
+});
+
+test('serves immutable encrypted assets with exact byte ranges', async () => {
+  const body = new Uint8Array([10, 11, 12, 13, 14, 15, 16, 17]);
+  const key =
+    'manager/latent-print-engine/production/content/core-plates/3/35mm_matte.latentplate';
+  const objects = new Map([[key, { body, etag: 'asset-etag' }]]);
+  const base = {
+    env: environment(objects),
+    params: {
+      channel: 'production', collection: 'core-plates', version: '3',
+      file: '35mm_matte.latentplate',
+    },
+  };
+  const url =
+    'https://latentstudios.art/api/manager/content/latent-print-engine/production/core-plates/3/35mm_matte.latentplate';
+  const head = await contentAssetHead({
+    ...base, request: new Request(url, { method: 'HEAD' }),
+  });
+  assert.equal(head.status, 200);
+  assert.equal(head.headers.get('Accept-Ranges'), 'bytes');
+  assert.equal(head.headers.get('Cache-Control'), 'public, max-age=31536000, immutable');
+
+  const response = await contentAssetGet({
+    ...base, request: new Request(url, { headers: { Range: 'bytes=2-5' } }),
+  });
+  assert.equal(response.status, 206);
+  assert.equal(response.headers.get('Content-Range'), 'bytes 2-5/8');
+  assert.deepEqual(new Uint8Array(await response.arrayBuffer()), body.slice(2, 6));
+  assert.equal(
+    (await contentAssetGet({
+      ...base,
+      params: { ...base.params, file: '../secret.latentplate' },
+      request: new Request(url),
+    })).status,
+    404,
+  );
 });
