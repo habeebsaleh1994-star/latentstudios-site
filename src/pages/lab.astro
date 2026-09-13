@@ -10,7 +10,7 @@
 // until it ships; the sentence held for it is in the README.
 //
 // Engine facts (The Timer, transport, Recipe Card, Set Print, Lab Report, camera log) come
-// from LatentOFX/docs/PARAMETERS.md, CAMERA_INPUT_CONTRACT.md and CHANGELOG.md (0.1.170).
+// from LatentOFX/docs/PARAMETERS.md, CAMERA_INPUT_CONTRACT.md and CHANGELOG.md (1.0.1).
 import Base from '../layouts/Base.astro';
 import '../styles/home.css';
 import '../styles/ritual.css';
@@ -85,7 +85,7 @@ const wedgePrint = ['#1b1816','#2b2724','#3f3934','#574f48','#746a60','#948a7e',
           </div>
           <div class="ritual-hero-aside" data-reveal>
             <p class="fact">One node inside your grade. The same negative-to-print engine as The Ritual and The Moment, carried frame after frame.</p>
-            <a class="ritual-door" href={labCommerce.publicPreviewHref}>Download for macOS<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
+            <a class="ritual-door" href={labCommerce.downloadHref}>Download for macOS<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
             <div class="label">{truth.labStatus}</div>
           </div>
         </div>
@@ -231,7 +231,7 @@ const wedgePrint = ['#1b1816','#2b2724','#3f3934','#574f48','#746a60','#948a7e',
           <div class="lab-row"><span class="label small">Print path</span><span>Kodak 2383</span></div>
           <div class="lab-row"><span class="label small">Paper grade</span><span>2.0</span></div>
           <div class="lab-row"><span class="label small">Printer lights</span><span>&minus;2 &middot; 0 &middot; +3 pts</span></div>
-          <div class="lab-row"><span class="label small">Engine</span><span>0.1.170</span></div>
+          <div class="lab-row"><span class="label small">Engine</span><span>{labCommerce.version}</span></div>
           <div class="lab-row"><span class="label small">Fingerprint</span><span class="mono">f3c1 &hellip; 8ab2</span></div>
           <div class="lab-card-foot"><span>Set Print &middot; 33-point cube</span><span>Lab Report &middot; one line per frame</span></div>
           <figcaption>The card&rsquo;s own shape &mdash; the job ticket for a print, sealed once it is approved.</figcaption>
@@ -249,36 +249,37 @@ const wedgePrint = ['#1b1816','#2b2724','#3f3934','#574f48','#746a60','#948a7e',
       <section class="ritual-block tight">
         <div class="ritual-words wide" data-reveal>
           <h2 class="large">A printing machine, not a LUT.</h2>
-          <p class="fact">The complete Resolve engine is open as a public beta. The signed, notarized installer runs the full treatment; until clean beta access is invited, every render carries the permanent LATENT preview mark.</p>
+          <p class="fact">Latent Print Engine is available for DaVinci Resolve Studio on macOS. The signed, notarized installer includes Latent Manager; film assets download separately through Manager after installation. Unlicensed output keeps the complete treatment and carries the permanent LATENT preview mark.</p>
         </div>
         <div class="lab-doors" data-reveal>
-          <a class="ritual-door" href={labCommerce.publicPreviewHref}>Download for macOS<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
-          <a class="lab-secondary" href="#letters">Request clean beta access</a>
+          <a class="ritual-door" href={labCommerce.downloadHref}>Download for macOS<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
+          <a class="lab-secondary" href="#plans">See purchase options</a>
         </div>
-        <p class="lab-install" data-reveal>Version 0.1.170 &middot; DaVinci Resolve for macOS &middot; 963 MB<br />Quit Resolve before installing. In Resolve: Open FX &rarr; Film Emulation &rarr; Latent Print Engine.</p>
-        <div class="lab-plans" data-reveal>
-          <div class="label">Planned commercial release</div>
-          <p class="fact">Not for sale yet. When purchase activation is live and verified, these two doors open.</p>
-          <div class="lab-row"><span class="lab-plan-name">A year</span><span class="lab-plan-price">${labCommerce.yearlyUsd}</span><span class="label small right">{labCommerce.trialDays} days free</span></div>
-          <div class="lab-row"><span class="lab-plan-name">Forever</span><span class="lab-plan-price">${labCommerce.lifetimeUsd}</span><span class="label small right">Once. Yours</span></div>
+        <p class="lab-install" data-reveal>Version {labCommerce.version} &middot; macOS 14 or later &middot; Apple Silicon and Intel &middot; DaVinci Resolve Studio<br />31.6 MB installer; film assets download separately in Latent Manager. Quit Resolve before installing. In Resolve: Open FX &rarr; Film Emulation &rarr; Latent Print Engine.</p>
+        <div id="plans" class="lab-plans" data-reveal>
+          <div class="label">Choose your license in Latent Manager</div>
+          <p class="fact">Install Print Engine, open Latent Manager, and sign in with Google. Choose a license there; Manager opens Paddle&rsquo;s secure checkout and activates this Mac automatically when the purchase is complete. There is no key to copy or wait for.</p>
+          <div class="lab-row"><span class="lab-plan-name">Annual</span><span class="lab-plan-price">${labCommerce.yearlyUsd}/year</span><span class="label small right">{labCommerce.trialDays} days free &middot; card required</span></div>
+          <div class="lab-row"><span class="lab-plan-name">Perpetual</span><span class="lab-plan-price">${labCommerce.lifetimeUsd}</span><span class="label small right">One payment</span></div>
+          <p class="lab-note">One Latent account restores the license on up to two Macs. The annual plan renews after the trial unless cancelled. Billing, invoices, payment methods, and cancellation remain in Paddle.</p>
         </div>
       </section>
 
       <section id="letters" class="ritual-letters" data-reveal>
         <div class="ritual-letters-row">
           <div class="home-letters-desk" data-newsletter>
-            <div class="label">Clean beta access</div>
-            <p class="line">Leave an address and we will invite you to the build that renders without the mark.</p>
+            <div class="label">Letters from the studio</div>
+            <p class="line">Occasional notes on Print Engine releases, new materials, and the work happening inside Latent.</p>
             <form class="home-letters-form" action={SUBSCRIBE_ENDPOINT} method="post" data-newsletter-form>
               <label class="visually-hidden" for="newsletter-email">Email address</label>
               <input id="newsletter-email" type="email" name="email" required autocomplete="email" placeholder="your address" />
               <input type="hidden" name="app" value="lab" />
               <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
                      style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
-              <button type="submit" class="door">Request access</button>
+              <button type="submit" class="door">Join the letters</button>
             </form>
             <p class="home-letters-note" data-newsletter-error hidden role="alert">That email doesn't look right.</p>
-            <p class="home-letters-note" data-newsletter-done hidden role="status" aria-live="polite">You&rsquo;re on the list. The invitation comes next.</p>
+            <p class="home-letters-note" data-newsletter-done hidden role="status" aria-live="polite">You&rsquo;re on the list. Letters will be rare.</p>
           </div>
           <div class="home-letters-colophon">
             <nav aria-label="Site">
@@ -289,7 +290,7 @@ const wedgePrint = ['#1b1816','#2b2724','#3f3934','#574f48','#746a60','#948a7e',
               <a href="/privacy">Privacy</a>
               <a href="/terms">Terms</a>
               <a href="/refund">Refunds</a>
-              <a href="mailto:contact@latentstudios.art">Contact</a>
+              <a href="mailto:support@latentstudios.art">Support</a>
             </nav>
             <p class="home-mark home-mark-foot">Latent Studios<span class="home-berry" aria-hidden="true"></span> &nbsp;&middot;&nbsp; &copy; 2026</p>
           </div>

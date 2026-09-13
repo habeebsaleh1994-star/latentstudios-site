@@ -28,3 +28,23 @@ test('commercial terms match the release licensing contract', async () => {
   assert.match(refund, /30 days from the date of purchase/i);
   assert.match(refund, /support@latentstudios\.art/i);
 });
+
+test('Print Engine storefront opens the Manager-owned production sale path', async () => {
+  const [lab, checkout] = await Promise.all([source('lab'), source('checkout')]);
+
+  for (const page of [lab, checkout]) {
+    assert.match(page, /Paddle/i);
+    assert.match(page, /up to two Macs/i);
+    assert.match(page, /There is no (license )?key/i);
+  }
+  assert.match(lab, /labCommerce\.yearlyUsd/);
+  assert.match(lab, /labCommerce\.lifetimeUsd/);
+  assert.match(lab, /labCommerce\.trialDays/);
+  assert.match(checkout, /\$199/i);
+  assert.match(checkout, /\$499/i);
+  assert.match(checkout, /seven-day trial/i);
+  assert.match(lab, /DaVinci Resolve Studio/i);
+  assert.match(lab, /film assets download separately in Latent Manager/i);
+  assert.doesNotMatch(lab, /Not for sale yet|Request clean beta access/i);
+  assert.doesNotMatch(checkout, /Web purchases are not open yet/i);
+});
