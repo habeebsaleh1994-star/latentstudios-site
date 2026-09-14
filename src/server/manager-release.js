@@ -1,4 +1,12 @@
 const MANAGER_CHANNELS = new Set(['production', 'qa']);
+const MANAGER_PRODUCTS = new Map([
+  ['latent-print-engine', {
+    packageFile(version) { return `Latent-Print-Engine-${version}.pkg`; },
+  }],
+  ['latent-ritual', {
+    packageFile(version) { return `Latent-The-Ritual-${version}.zip`; },
+  }],
+]);
 const MAXIMUM_FEED_BYTES = 100_000;
 const MAXIMUM_CONTENT_FEED_BYTES = 256 * 1024;
 
@@ -26,14 +34,15 @@ function validAssetFile(file) {
     && !file.includes('..');
 }
 
-export function managerFeedKey(channel) {
-  if (!validChannel(channel)) return null;
-  return `manager/latent-print-engine/${channel}/release.json`;
+export function managerFeedKey(product, channel) {
+  if (!MANAGER_PRODUCTS.has(product) || !validChannel(channel)) return null;
+  return `manager/${product}/${channel}/release.json`;
 }
 
-export function managerPackageKey(channel, version) {
-  if (!validChannel(channel) || !validVersion(version)) return null;
-  return `manager/latent-print-engine/${channel}/${version}/Latent-Print-Engine-${version}.pkg`;
+export function managerPackageKey(product, channel, version) {
+  const definition = MANAGER_PRODUCTS.get(product);
+  if (!definition || !validChannel(channel) || !validVersion(version)) return null;
+  return `manager/${product}/${channel}/${version}/${definition.packageFile(version)}`;
 }
 
 export function managerContentFeedKey(channel, collection) {
@@ -88,8 +97,8 @@ function parseRange(value, size) {
   return { offset, length: end - offset + 1 };
 }
 
-export async function serveManagerFeed({ request, env }, channel) {
-  const key = managerFeedKey(channel);
+export async function serveManagerFeed({ request, env }, product, channel) {
+  const key = managerFeedKey(product, channel);
   if (!key || (request.method !== 'GET' && request.method !== 'HEAD')) {
     return statusResponse('Not found', 404);
   }
@@ -128,8 +137,9 @@ export async function serveManagerContentFeed({ request, env }, channel, collect
   return new Response(object.body, { headers });
 }
 
-export async function serveManagerPackage({ request, env }, channel, version) {
-  const key = managerPackageKey(channel, version);
+export async function serveManagerPackage({ request, env }, product, channel, version) {
+  const definition = MANAGER_PRODUCTS.get(product);
+  const key = managerPackageKey(product, channel, version);
   if (!key || (request.method !== 'GET' && request.method !== 'HEAD')) {
     return statusResponse('Not found', 404);
   }
@@ -149,7 +159,7 @@ export async function serveManagerPackage({ request, env }, channel, version) {
   headers.set('Content-Type', 'application/octet-stream');
   headers.set(
     'Content-Disposition',
-    `attachment; filename="Latent-Print-Engine-${version}.pkg"`,
+    `attachment; filename="${definition.packageFile(version)}"`,
   );
   headers.set('Content-Length', String(requestedRange?.length ?? metadata.size));
   if (metadata.httpEtag) headers.set('ETag', metadata.httpEtag);

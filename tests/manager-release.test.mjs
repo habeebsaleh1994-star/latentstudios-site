@@ -10,6 +10,14 @@ import {
   onRequestHead as packageHead,
 } from '../functions/api/manager/packages/latent-print-engine/[channel]/[version].js';
 import {
+  onRequestGet as ritualFeedGet,
+  onRequestHead as ritualFeedHead,
+} from '../functions/api/manager/releases/latent-ritual/[channel].js';
+import {
+  onRequestGet as ritualPackageGet,
+  onRequestHead as ritualPackageHead,
+} from '../functions/api/manager/packages/latent-ritual/[channel]/[version].js';
+import {
   onRequestGet as contentFeedGet,
 } from '../functions/api/manager/content/latent-print-engine/[channel]/[collection].js';
 import {
@@ -128,6 +136,59 @@ test('serves immutable versioned packages with exact byte ranges', async () => {
     request: new Request('https://latentstudios.art/invalid'),
   });
   assert.equal(traversal.status, 404);
+});
+
+test('serves Ritual only from its own fixed feed and application archive keys', async () => {
+  const feedBody = new TextEncoder().encode('{"signed":"ritual-record"}');
+  const packageBody = new Uint8Array([20, 21, 22, 23, 24, 25]);
+  const objects = new Map([
+    ['manager/latent-ritual/qa/release.json', { body: feedBody, etag: 'ritual-feed' }],
+    [
+      'manager/latent-ritual/qa/1.0.0/Latent-The-Ritual-1.0.0.zip',
+      { body: packageBody, etag: 'ritual-package' },
+    ],
+  ]);
+  const feedContext = {
+    env: environment(objects),
+    params: { channel: 'qa' },
+    request: new Request('https://latentstudios.art/api/manager/releases/latent-ritual/qa'),
+  };
+  const feed = await ritualFeedGet(feedContext);
+  assert.equal(feed.status, 200);
+  assert.equal(feed.headers.get('Content-Type'), 'application/json');
+  assert.equal(await feed.text(), '{"signed":"ritual-record"}');
+  const feedHead = await ritualFeedHead({
+    ...feedContext,
+    request: new Request(feedContext.request, { method: 'HEAD' }),
+  });
+  assert.equal(feedHead.status, 200);
+  assert.equal(feedHead.headers.get('Content-Length'), String(feedBody.byteLength));
+
+  const packageContext = {
+    env: environment(objects),
+    params: { channel: 'qa', version: '1.0.0' },
+    request: new Request(
+      'https://latentstudios.art/api/manager/packages/latent-ritual/qa/1.0.0',
+      { headers: { Range: 'bytes=1-4' } },
+    ),
+  };
+  const response = await ritualPackageGet(packageContext);
+  assert.equal(response.status, 206);
+  assert.equal(response.headers.get('Content-Range'), 'bytes 1-4/6');
+  assert.equal(
+    response.headers.get('Content-Disposition'),
+    'attachment; filename="Latent-The-Ritual-1.0.0.zip"',
+  );
+  assert.deepEqual(new Uint8Array(await response.arrayBuffer()), packageBody.slice(1, 5));
+  const packageHead = await ritualPackageHead({
+    ...packageContext,
+    request: new Request(packageContext.request.url, { method: 'HEAD' }),
+  });
+  assert.equal(packageHead.status, 200);
+  assert.equal(packageHead.headers.get('Content-Length'), String(packageBody.byteLength));
+
+  const printEngineRoute = await packageGet(packageContext);
+  assert.equal(printEngineRoute.status, 503);
 });
 
 test('serves the bounded content catalog from one fixed collection', async () => {
