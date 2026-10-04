@@ -7,7 +7,11 @@ export default defineConfig({
   output: 'static',
   integrations: [
     sitemap({
-      filter: (page) => !['/print-engine/beta', '/checkout'].includes(new URL(page).pathname.replace(/\/$/, '')),
+      filter: (page) => {
+        const path = new URL(page).pathname.replace(/\/$/, '');
+        return !['/print-engine/beta', '/checkout', '/moment/get'].includes(path)
+          && !path.startsWith('/moment/get/');
+      },
     }),
   ],
 });

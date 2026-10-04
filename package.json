@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node tools/check-ad-landings.mjs",
     "test": "node --test tests/*.test.mjs",
     "preview": "astro preview",
     "astro": "astro"

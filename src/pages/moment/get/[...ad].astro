@@ -1,0 +1,260 @@
+---
+import Base from '../../../layouts/Base.astro';
+
+// The ad door. Each Instagram ad lands on its own static page that repeats
+// exactly what the ad promised — same photograph, same words — with one
+// action: download. /moment/get/ is Ad A, /moment/get/b/ and /moment/get/c/
+// are the other two. Kept out of search (noindex); the full story is /moment.
+const APP_STORE_URL = 'https://apps.apple.com/app/id6786220649?ppid=c67eec6a-48f0-41b6-946c-9b3e60a20f37';
+
+export function getStaticPaths() {
+  return [
+    {
+      params: { ad: undefined },
+      props: {
+        title: 'Shoot film.',
+        accent: 'On your phone.',
+        lead: 'Choose the stock before the shutter — not a filter afterwards.',
+        photo: { src: '/moment/get/a.webp', width: 1400, height: 1051, alt: 'A girl in a lilac dress spinning in a village street' },
+        caption: 'Shot on iPhone · Kodachrome 64',
+      },
+    },
+    {
+      params: { ad: 'b' },
+      props: {
+        title: 'Camera. Darkroom.',
+        accent: 'Journal.',
+        lead: 'Load a film. Take the picture. Develop it the slow way.',
+        photo: { src: '/moment/get/b.webp', width: 1400, height: 933, alt: 'A crowd beneath a swing ride at a village fair' },
+        caption: 'Developed in The Moment',
+      },
+    },
+    {
+      params: { ad: 'c' },
+      props: {
+        title: 'Digital photographs,',
+        accent: 'developed like film.',
+        lead: 'Stops, grain, halation, paper. Your RAW stays underneath.',
+        photo: { src: '/moment/get/c2.webp', width: 1312, height: 816, alt: 'A child climbing a tree on a green hillside above a village' },
+        caption: 'Developed in The Moment',
+      },
+    },
+    {
+      params: { ad: 'films' },
+      props: {
+        title: 'Your photographs,',
+        accent: 'developed like film.',
+        lead: '',
+        photo: { src: '/moment/get/films/04.webp', width: 1200, height: 966, alt: '' },
+        caption: 'Portra 400 · Supra Endura',
+        slides: [
+          { src: '/moment/get/films/04.webp', width: 1200, height: 966, caption: 'Portra 400 · Supra Endura' },
+          { src: '/moment/get/films/02.webp', width: 1200, height: 869, caption: 'Vista 800 · Supra Endura' },
+          { src: '/moment/get/films/03.webp', width: 1200, height: 900, caption: 'Kodachrome 25 · Lightbox · shot on iPhone' },
+          { src: '/moment/get/films/01.webp', width: 1200, height: 795, caption: 'Velvia 50 · Lightbox' },
+          { src: '/moment/get/films/05.webp', width: 1200, height: 800, caption: 'T-MAX 400 · Ilford Multigrade IV RC' },
+          { src: '/moment/get/films/06.webp', width: 1200, height: 795, caption: 'Pro 800Z · Crystal Archive' },
+          { src: '/moment/get/films/07.webp', width: 1200, height: 800, caption: 'CineStill 400D · Ektacolor Edge' },
+          { src: '/moment/get/films/08.webp', width: 1200, height: 800, caption: 'ColorPlus 200 · Supra Endura' },
+          { src: '/moment/get/films/09.webp', width: 1200, height: 800, caption: 'Vision3 200T · Supra Endura' },
+          { src: '/moment/get/films/10.webp', width: 1200, height: 900, caption: 'Vista 100 · Supra Endura · shot on iPhone' }
+        ],
+      },
+    },
+  ];
+}
+
+const { title, accent, lead, photo, caption, slides } = Astro.props;
+---
+
+<Base
+  title="The Moment — camera, darkroom, journal"
+  description="A camera that loads film before you shoot, not filters after. Free on the App Store for iPhone and iPad."
+  ogImage="/og-moment.png?v=3"
+  ogImageAlt="The Moment by Latent"
+>
+  <Fragment slot="head"><meta name="robots" content="noindex" /></Fragment>
+
+  <main class="get" id="main">
+    <div class="get-glow" aria-hidden="true"></div>
+
+    <div class="get-lockup">
+      <img class="get-icon" src="/moment-icon.png" width="40" height="40" alt="" />
+      <div class="get-wordmark">The&nbsp;Moment</div>
+    </div>
+
+    {slides ? (
+      <figure class="get-photo get-slides">
+        <div class="get-track" data-track>
+          {slides.map((slide, i) => (
+            <img src={slide.src} width={slide.width} height={slide.height} alt={slide.caption} data-caption={slide.caption}
+                 loading={i < 2 ? 'eager' : 'lazy'} decoding="async" />
+          ))}
+        </div>
+        <figcaption data-caption-out>{slides[0].caption}</figcaption>
+        <div class="get-dots" aria-hidden="true">{slides.map(() => <span></span>)}</div>
+      </figure>
+    ) : (
+      <figure class="get-photo">
+        <img src={`${photo.src}?v=2026-09-16`} width={photo.width} height={photo.height} alt={photo.alt} fetchpriority="high" decoding="async" />
+        <figcaption>{caption}</figcaption>
+      </figure>
+    )}
+
+    <section class="get-card">
+      <h1 class="get-title">{title} <em>{accent}</em></h1>
+      {lead && <p class="get-lead">{lead}</p>}
+
+      <a class="get-door" href={APP_STORE_URL}><img src="/moment/app-store-badge-white.svg?v=2026-09-16" alt="Download on the App Store" width="180" height="60" /></a>
+      <p class="get-fine">Free on the App Store &middot; iPhone and iPad</p>
+    </section>
+
+    <p class="get-foot"><a href="/moment">See everything it does</a></p>
+  </main>
+
+  <style>
+    .get {
+      position: relative;
+      min-height: 100svh;
+      background: var(--bg-deep);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 56px 24px 48px;
+      overflow: hidden;
+    }
+    .get-glow {
+      position: absolute;
+      top: 40%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 900px; height: 900px;
+      max-width: 140vw; max-height: 140vw;
+      background: radial-gradient(circle, rgba(232, 196, 160, 0.08) 0%, transparent 62%);
+      pointer-events: none;
+    }
+
+    .get-lockup {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .get-icon {
+      display: block;
+      width: 40px;
+      height: 40px;
+      border-radius: 9px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+    .get-wordmark {
+      font-family: var(--font-display);
+      font-weight: 200;
+      font-size: 16px;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--text-bright);
+    }
+
+    /* The photograph from the ad, as developed — its film border included. */
+    .get-photo { position: relative; width: 100%; max-width: 620px; margin: 0; }
+    .get-photo img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+    }
+    .get-photo figcaption {
+      font-family: var(--font-label);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 12px;
+    }
+
+    /* Override the global `section` padding so the door stays on screen one. */
+    .get-card { position: relative; width: 100%; max-width: 540px; padding: 0; margin-top: 32px; }
+
+    .get-title {
+      font-family: 'Lora', Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(34px, 8vw, 52px);
+      line-height: 1.1;
+      color: var(--text-bright);
+      margin: 0;
+    }
+    .get-title em { display: block; font-style: italic; color: var(--amber); }
+    .get-lead {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 420px;
+      text-wrap: balance;
+      margin: 18px auto 0;
+    }
+
+    /* Apple's official badge, unaltered, at a size a thumb finds at once. */
+    .get-door { display: inline-block; line-height: 0; margin: 28px auto 0; transition: transform 0.1s ease; }
+    .get-door img { display: block; height: 60px; width: auto; }
+    .get-door:active { transform: scale(0.98); }
+
+    .get-fine {
+      font-family: var(--font-label);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--amber-dim);
+      margin: 14px 0 0;
+    }
+
+    .get-foot {
+      position: relative;
+      font-family: var(--font-label);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin: 44px 0 0;
+    }
+    .get-foot a { color: var(--text-muted); text-decoration: none; border-bottom: 1px solid var(--border); }
+    .get-foot a:hover { color: var(--amber); }
+
+    @media (max-width: 520px) {
+      /* Instagram's in-app browser: photo, words and the door on screen one. */
+      .get { padding: 22px 20px 36px; justify-content: flex-start; }
+      .get-glow { top: 34%; }
+      .get-lockup { margin-bottom: 18px; }
+      .get-photo figcaption { margin-top: 8px; }
+      .get-card { margin-top: 20px; }
+      .get-title { font-size: 34px; }
+      .get-lead { font-size: 16px; margin-top: 12px; }
+      .get-door { margin-top: 20px; }
+      .get-foot { margin-top: 32px; }
+    }
+  </style>
+  <style>
+    .get-slides { width: 100%; }
+    .get-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; scrollbar-width: none; border-radius: 6px; }
+    .get-track::-webkit-scrollbar { display: none; }
+    .get-track img { flex: 0 0 100%; width: 100%; height: auto; max-height: 62svh; object-fit: contain; scroll-snap-align: center; }
+    .get-dots { display: flex; gap: 6px; justify-content: center; margin-top: 10px; }
+    .get-dots span { width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: .25; transition: opacity .2s; }
+    .get-dots span.on { opacity: .8; }
+  </style>
+  <script>
+    const track = document.querySelector('[data-track]');
+    if (track) {
+      const out = document.querySelector('[data-caption-out]');
+      const dots = [...document.querySelectorAll('.get-dots span')];
+      const imgs = [...track.querySelectorAll('img')];
+      const set = (i) => { out.textContent = imgs[i].dataset.caption; dots.forEach((d, k) => d.classList.toggle('on', k === i)); };
+      set(0);
+      track.addEventListener('scroll', () => set(Math.round(track.scrollLeft / track.clientWidth)), { passive: true });
+    }
+  </script>
+</Base>
