@@ -1,0 +1,53 @@
+/* LATENT WALL — what every template shares: the page's tokens, header, title card, about and footer, and the arrival motion.
+   Everything reads from settings that a look sets (see theme.js), so no template carries a style of its own here. */
+:root {
+  --silk: #EEE9E7; --silk-deep: #E4DDDA; --ink: #29222A; --ink-soft: #6B5F66; --peony: #B87B8A; --rule: #D3C9C7;
+  --serif: "Newsreader", Georgia, serif; --body: "Newsreader", Georgia, serif; --sans: "Instrument Sans", system-ui, sans-serif;
+  --title-weight: 300; --sp: 1; --read: 1;
+  --body-size: 19px; --h1-size: clamp(48px, 8.4vw, 124px); --h1-lh: .96; --h1-track: -.025em; --h1-case: none; --em-style: italic; --em-color: var(--peony); --em-bg: none;
+  --label-case: uppercase; --label-track: .15em; --label-size: 11.5px; --label-weight: 400; --rule-w: 1px; --radius: 0; --frame: none; --frame-shadow: none;
+  /* the editor's own controls: never styled by a look, so they stay readable on any site */
+  --ed-bg: #FBFAF9; --ed-bg2: #F0EDEB; --ed-ink: #29222A; --ed-soft: #655B61; --ed-rule: #D9D2D0; --ed-accent: #9A5A6D; --ed-font: "Instrument Sans", system-ui, sans-serif;
+  --gutter: clamp(20px, 5vw, 72px);
+  --ease: cubic-bezier(.22, .61, .36, 1);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 40px; }
+body { margin: 0; background: var(--silk); color: var(--ink); font-family: var(--body); font-size: var(--body-size); line-height: 1.6; -webkit-font-smoothing: antialiased; transition: background .6s var(--ease), color .6s var(--ease); }
+img { display: block; width: 100%; height: auto; }
+a { color: inherit; text-decoration-color: var(--rule); text-underline-offset: 4px; }
+a:hover { text-decoration-color: var(--peony); }
+:focus-visible { outline: 2px solid var(--peony); outline-offset: 4px; }
+.label { font-family: var(--sans); font-size: var(--label-size); letter-spacing: var(--label-track); text-transform: var(--label-case); font-weight: var(--label-weight); color: var(--ink-soft); }
+
+.bar { display: flex; flex-wrap: wrap; row-gap: 10px; justify-content: space-between; align-items: baseline; padding: 28px var(--gutter); }
+.bar .name { font-family: var(--serif); font-size: 20px; text-decoration: none; }
+.bar nav { display: flex; flex-wrap: wrap; gap: 8px 30px; }
+.bar nav a { font-family: var(--sans); font-size: var(--label-size); letter-spacing: var(--label-track); text-transform: var(--label-case); font-weight: var(--label-weight); text-decoration: none; color: var(--ink-soft); }
+.bar nav a:hover { color: var(--ink); }
+@media (max-width: 520px) { .bar nav { gap: 16px; } .bar nav a { letter-spacing: .1em; } }
+
+.card { padding: calc(clamp(40px, 8vh, 96px) * var(--sp)) var(--gutter) calc(clamp(32px, 5vh, 64px) * var(--sp)); max-width: 1500px; margin-inline: auto; display: grid; grid-template-columns: 1fr minmax(0, 300px); gap: 40px 64px; align-items: end; }
+.card h1 { font-family: var(--serif); margin: 18px 0 0; font-weight: var(--title-weight); font-size: var(--h1-size); line-height: var(--h1-lh); letter-spacing: var(--h1-track); text-transform: var(--h1-case); text-wrap: balance; }
+.card h1 em { font-style: var(--em-style); color: var(--em-color); background: var(--em-bg); -webkit-box-decoration-break: clone; box-decoration-break: clone; padding-inline: .04em; }
+.card .note { font-size: 17px; line-height: 1.55; color: var(--ink-soft); margin: 0 0 10px; }
+@media (max-width: 760px) { .card { grid-template-columns: 1fr; } }
+
+
+.about { border-top: var(--rule-w) solid var(--rule); margin-top: calc(clamp(80px, 16vh, 200px) * var(--sp)); padding: clamp(48px, 9vh, 100px) var(--gutter) 40px; }
+.about-in { max-width: 1500px; margin-inline: auto; display: grid; grid-template-columns: 1fr minmax(0, 560px); gap: 40px 64px; }
+.about h2 { font-family: var(--serif); font-weight: var(--title-weight); font-size: 30px; margin: 0; }
+.about p { margin: 0 0 1em; font-size: 18px; color: var(--ink-soft); }
+.foot { display: flex; justify-content: space-between; align-items: baseline; max-width: 1500px; margin: clamp(56px, 10vh, 120px) auto 0; }
+.foot .mark { font-family: "Newsreader", Georgia, serif; font-size: 22px; text-decoration: none; }
+@media (max-width: 760px) { .about-in { grid-template-columns: 1fr; } }
+
+.js .arrive { opacity: 0; transform: translateY(14px); transition: opacity 1.3s var(--ease), transform 1.3s var(--ease); }
+.js .arrive.in { opacity: 1; transform: none; }
+[data-motion="still"] .arrive, [data-motion="still"] body { transition: none !important; }
+[data-motion="still"].js .arrive { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .js .arrive { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+
+
+[data-preview] .dock, [data-preview] #panel, [data-preview] .tweak-btn, [data-preview] .tbnote { display: none !important; }
+[data-preview] html, html[data-preview] { scrollbar-width: none; }

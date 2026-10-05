@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Latent Wall</title>
+<meta name="description" content="A website for artists. Pick a template made for how your work should be seen, add your work, and publish.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&family=Libre+Caslon+Text:ital,wght@0,400;1,400&family=IBM+Plex+Mono:wght@400;500&family=Bodoni+Moda:ital,wght@0,400;1,400&family=Archivo:wght@700&family=Jost:wght@400&family=Fraunces:wght@800&family=Young+Serif&display=swap">
+<style>
+/* LATENT WALL — the front door. One calm column of ideas; the templates are shown running, not pictured. */
+:root {
+  --silk: #EEE9E7; --silk-deep: #E4DDDA; --ink: #29222A; --ink-soft: #6B5F66; --peony: #B87B8A; --rule: #D3C9C7;
+  --serif: "Newsreader", "Iowan Old Style", Georgia, serif; --sans: "Instrument Sans", system-ui, sans-serif;
+  --gutter: clamp(20px, 5vw, 72px); --ease: cubic-bezier(.22, .61, .36, 1);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --silk: #1B1619; --silk-deep: #241E21; --ink: #ECE4E4; --ink-soft: #A99BA1; --peony: #D49BA8; --rule: #372F33; color-scheme: dark; } }
+:root[data-theme="dark"] { --silk: #1B1619; --silk-deep: #241E21; --ink: #ECE4E4; --ink-soft: #A99BA1; --peony: #D49BA8; --rule: #372F33; color-scheme: dark; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body { margin: 0; background: var(--silk); color: var(--ink); font-family: var(--serif); font-size: 19px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration-color: var(--rule); text-underline-offset: 4px; }
+a:hover { text-decoration-color: var(--peony); }
+:focus-visible { outline: 2px solid var(--peony); outline-offset: 4px; }
+.label { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-soft); }
+.wrap { max-width: 1400px; margin-inline: auto; padding-inline: var(--gutter); }
+h1, h2, h3 { font-weight: 300; margin: 0; text-wrap: balance; }
+p { margin: 0 0 1em; text-wrap: pretty; }
+
+/* header */
+.top { display: flex; justify-content: space-between; align-items: baseline; padding-block: 26px; }
+.brand { display: flex; align-items: baseline; gap: 12px; text-decoration: none; }
+.brand .mark { font-size: 26px; line-height: 1; }
+.brand .word { font-family: var(--sans); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
+.top nav { display: flex; gap: 30px; align-items: baseline; }
+.top nav a { font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); }
+.top nav a:hover { color: var(--ink); }
+.top nav .in { color: var(--ink); border: 1px solid var(--rule); padding: 9px 14px; }
+.top nav .in:hover { border-color: var(--peony); }
+@media (max-width: 720px) { .top nav a:not(.in) { display: none; } }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(32px, 6vw, 96px); align-items: center; padding-block: clamp(32px, 7vh, 90px) clamp(56px, 10vh, 120px); }
+.hero h1 { font-size: clamp(46px, 7vw, 104px); line-height: .98; letter-spacing: -.025em; margin: 20px 0 28px; }
+.hero h1 em { color: var(--peony); }
+.hero .sub { font-size: 21px; color: var(--ink-soft); max-width: 30em; font-weight: 300; }
+.cta { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; margin-top: 34px; }
+.btn { font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; padding: 15px 22px; border: 1px solid var(--ink); background: var(--ink); color: var(--silk); transition: background .3s var(--ease), border-color .3s var(--ease); }
+.btn:hover { background: transparent; color: var(--ink); }
+.link { font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: 3px; }
+.link:hover { color: var(--ink); border-color: var(--peony); }
+@media (max-width: 920px) { .hero { grid-template-columns: 1fr; } }
+
+/* a template shown running, inside a quiet frame */
+.window { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--silk-deep); outline: 1px solid var(--rule); outline-offset: 12px; margin: 12px; }
+.window iframe, .shot iframe { position: absolute; left: 0; top: 0; width: 1440px; height: 1080px; border: 0; transform-origin: 0 0; transform: scale(var(--s, .4)); pointer-events: none; background: var(--silk); }
+.window iframe { opacity: 0; transition: opacity 1.6s var(--ease); }
+.window iframe.on { opacity: 1; }
+.cap { display: flex; justify-content: space-between; margin: 26px 12px 0; font-family: var(--sans); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+
+/* sections */
+section.s { border-top: 1px solid var(--rule); padding-block: clamp(56px, 11vh, 130px); }
+.head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 24px clamp(32px, 6vw, 96px); margin-bottom: clamp(36px, 6vh, 72px); align-items: end; }
+.head h2 { font-size: clamp(34px, 4.6vw, 62px); line-height: 1.04; letter-spacing: -.02em; margin-top: 14px; }
+.head p { color: var(--ink-soft); max-width: 30em; margin: 0; font-size: 19px; }
+@media (max-width: 820px) { .head { grid-template-columns: 1fr; } }
+
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--rule); }
+.step { padding: 28px 28px 8px 0; }
+.step + .step { padding-left: 28px; border-left: 1px solid var(--rule); }
+.step .n { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; color: var(--peony); }
+.step h3 { font-size: 30px; line-height: 1.12; margin: 14px 0 14px; }
+.step p { color: var(--ink-soft); font-size: 17px; }
+@media (max-width: 820px) { .steps { grid-template-columns: 1fr; } .step + .step { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); } }
+
+/* template cards */
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(36px, 5vw, 64px) clamp(20px, 3vw, 44px); }
+.card .shot { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--silk-deep); outline: 1px solid var(--rule); outline-offset: 8px; margin: 8px; }
+.card .shot.sketch { display: grid; padding: 16px; gap: 6px; }
+.card .shot i { display: block; background: var(--ink-soft); opacity: .4; }
+.card .shot i.a { background: var(--peony); opacity: .75; } .card .shot i.g { background: var(--ink); opacity: .6; } .card .shot i.t { height: 3px; align-self: center; background: var(--ink); opacity: .6; } .card .shot i.t.s { width: 55%; }
+.sk-salon { grid-template-columns: 2fr 1fr 1.4fr; grid-template-rows: 1.4fr 1fr; } .sk-salon i:nth-child(1) { grid-row: span 2; } .sk-salon i:nth-child(4) { grid-column: 2 / 4; }
+.sk-reel { grid-template-rows: 1fr 3px; padding-inline: 10% !important; }
+.sk-atelier { grid-template-columns: 1.3fr 1fr; grid-template-rows: 1fr 1fr; } .sk-atelier i:nth-child(1) { grid-row: span 2; }
+.sk-passage { grid-template-columns: 1.2fr .8fr 1.6fr .9fr; padding-inline: 0 !important; padding-block: 28px !important; }
+.card h3 { font-size: 30px; margin: 26px 0 4px; }
+.card .for { font-family: var(--sans); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.card p { color: var(--ink-soft); font-size: 17px; margin: 12px 0 14px; }
+.card .state { font-family: var(--sans); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.card.soon { opacity: .92; }
+@media (max-width: 980px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .cards { grid-template-columns: 1fr; } }
+
+/* choices that can't clash */
+.choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--rule); }
+.choice { padding: 26px 28px 8px 0; }
+.choice + .choice { padding-left: 28px; border-left: 1px solid var(--rule); }
+.choice h3 { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; font-weight: 500; color: var(--ink-soft); margin-bottom: 18px; }
+.sw { display: flex; flex-wrap: wrap; gap: 10px; }
+.sw span { width: 44px; height: 44px; border: 1px solid var(--rule); background: linear-gradient(90deg, var(--a) 0 50%, var(--b) 50% 100%); }
+.aa { display: grid; grid-template-columns: repeat(4, auto); justify-content: start; gap: 8px 22px; }
+.aa span { font-size: 40px; line-height: 1; }
+.mounts { display: flex; gap: 18px; align-items: end; }
+.mounts span { width: 70px; aspect-ratio: 4/3; background: var(--ink-soft); opacity: .55; display: block; }
+.mounts .line { outline: 1px solid var(--ink-soft); outline-offset: 6px; margin: 6px; }
+.mounts .matte { box-shadow: 0 0 0 10px var(--silk-deep); margin: 10px; }
+.chips { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.chips span { background: var(--bg); color: var(--fg); padding: 14px 14px 12px; font-size: 17px; border: 1px solid var(--rule); position: relative; }
+.chips span::after { content: ""; position: absolute; right: 12px; top: 14px; width: 9px; height: 9px; border-radius: 50%; background: var(--ac); }
+.opts { list-style: none; margin: 0; padding: 0; font-size: 17px; color: var(--ink); } .opts li { padding: 9px 0; border-top: 1px solid var(--rule); } .opts li:last-child { border-bottom: 1px solid var(--rule); }
+.choice p { margin: 22px 0 0; font-size: 16.5px; color: var(--ink-soft); }
+@media (max-width: 820px) { .choices { grid-template-columns: 1fr; } .choice + .choice { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); } }
+
+/* plans */
+.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 4vw, 64px); max-width: 980px; }
+.plan { border-top: 1px solid var(--ink); padding-top: 20px; }
+.plan h3 { font-size: 34px; margin-bottom: 4px; }
+.plan ul { list-style: none; padding: 0; margin: 18px 0 0; font-size: 17px; color: var(--ink-soft); }
+.plan li { padding: 9px 0; border-bottom: 1px solid var(--rule); }
+.fine { margin-top: 28px; font-family: var(--sans); font-size: 12px; color: var(--ink-soft); }
+@media (max-width: 720px) { .plans { grid-template-columns: 1fr; } }
+
+/* footer */
+footer { border-top: 1px solid var(--rule); padding-block: 48px 56px; }
+.foot { display: flex; flex-wrap: wrap; gap: 28px 56px; justify-content: space-between; align-items: baseline; }
+.foot .mark { font-size: 28px; text-decoration: none; }
+.foot ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 28px; font-family: var(--sans); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+.foot ul a { text-decoration: none; color: var(--ink-soft); } .foot ul a:hover { color: var(--ink); }
+.foot .by { flex-basis: 100%; font-family: var(--sans); font-size: 12px; color: var(--ink-soft); margin: 0; }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .window iframe { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#top" aria-label="Latent Wall, home"><span class="mark">l.</span><span class="word">Wall</span></a>
+    <nav aria-label="Primary"><a href="#how">How it works</a><a href="#templates">Templates</a><a href="#plans">Plans</a><a class="in" href="#">Sign in</a></nav>
+  </header>
+</div>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <div class="label">A website for artists</div>
+      <h1>Your work, on its <em>own wall.</em></h1>
+      <p class="sub">Latent Wall shows your photographs, paintings, films and writing the way you would hang them yourself. Pick a template, add your work, and publish.</p>
+      <div class="cta"><a class="btn" href="#templates">Choose a template</a><a class="link" href="../folio/index.html">See one working</a></div>
+    </div>
+    <figure style="margin:0">
+      <div class="window" id="hero-window" aria-label="Templates running live">
+        <iframe data-src="../folio/index.html?preview" title="Folio template, live preview" tabindex="-1" aria-hidden="true" class="on"></iframe>
+        <iframe data-src="../index/index.html?preview" title="Index template, live preview" tabindex="-1" aria-hidden="true"></iframe>
+        <iframe data-src="../salon/index.html?preview" title="Salon template, live preview" tabindex="-1" aria-hidden="true"></iframe>
+        <iframe data-src="../reel/index.html?preview" title="Reel template, live preview" tabindex="-1" aria-hidden="true"></iframe>
+        <iframe data-src="../atelier/index.html?preview" title="Atelier template, live preview" tabindex="-1" aria-hidden="true"></iframe>
+      </div>
+      <figcaption class="cap"><span id="hero-name">Folio</span><span>Running live</span></figcaption>
+    </figure>
+  </div>
+
+  <section class="s" id="how"><div class="wrap">
+    <div class="head"><div><div class="label">How it works</div><h2>Three steps, and the work stays yours.</h2></div><p>Your work is kept apart from the design around it. Change the look, or the template, and nothing you added is lost.</p></div>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><h3>Choose a template.</h3><p>Each one is a finished design made for a kind of work: photographs, writing, film, paintings. Pick the one that suits yours.</p></div>
+      <div class="step"><span class="n">2</span><h3>Add your work.</h3><p>Drop in your pictures and write your words. Soon you will also be able to send work straight from The Moment and The Ritual.</p></div>
+      <div class="step"><span class="n">3</span><h3>Publish.</h3><p>Your site goes live at its own address. Add your own domain when you want one.</p></div>
+    </div>
+  </div></section>
+
+  <section class="s" id="templates"><div class="wrap">
+    <div class="head"><div><div class="label">Templates</div><h2>Made for how work wants to be seen.</h2></div><p>Six are ready to try, and you can edit them now. One more is being designed.</p></div>
+    <div class="cards">
+      <article class="card"><div class="shot"><iframe data-src="../folio/index.html?preview" title="Folio, live preview" tabindex="-1" aria-hidden="true"></iframe></div>
+        <h3>Folio</h3><div class="for">Photographers</div><p>One photograph at a time, held large and still, with a caption like a print mount.</p><a class="link" href="../folio/index.html">Try Folio</a></article>
+      <article class="card"><div class="shot"><iframe data-src="../index/index.html?preview" title="Index, live preview" tabindex="-1" aria-hidden="true"></iframe></div>
+        <h3>Index</h3><div class="for">Writers and poets</div><p>Words lead. A contents page that follows you down, and pages that read like a book.</p><a class="link" href="../index/index.html">Try Index</a></article>
+      <article class="card"><div class="shot"><iframe data-src="../salon/index.html?preview" title="Salon, live preview" tabindex="-1" aria-hidden="true"></iframe></div>
+        <h3>Salon</h3><div class="for">Painters and visual artists</div><p>Many works hung together on one wall, at their true size relative to one another.</p><a class="link" href="../salon/index.html">Try Salon</a></article>
+      <article class="card"><div class="shot"><iframe data-src="../reel/index.html?preview" title="Reel, live preview" tabindex="-1" aria-hidden="true"></iframe></div>
+        <h3>Reel</h3><div class="for">Filmmakers</div><p>A screen in the dark. Each film at its own ratio, with its stills and credits beneath it.</p><a class="link" href="../reel/index.html">Try Reel</a></article>
+      <article class="card"><div class="shot"><iframe data-src="../atelier/index.html?preview" title="Atelier, live preview" tabindex="-1" aria-hidden="true"></iframe></div>
+        <h3>Atelier</h3><div class="for">Studios and designers</div><p>Each project with its process beside its outcome, a comparison slider, and room for the studio's own voice.</p><a class="link" href="../atelier/index.html">Try Atelier</a></article>
+      <article class="card"><div class="shot"><iframe data-src="../lantern/index.html?preview" title="Lantern, live preview" tabindex="-1" aria-hidden="true"></iframe></div>
+        <h3>Lantern</h3><div class="for">Photographers and image-makers</div><p>One slide at a time, held in the middle of the screen, with a quiet strip of small pictures to move between them.</p><a class="link" href="../lantern/index.html">Try Lantern</a></article>
+      <article class="card soon"><div class="shot sketch sk-passage" aria-hidden="true"><i></i><i class="a"></i><i class="g"></i><i></i></div>
+        <h3>Passage</h3><div class="for">Image-makers and collectors</div><p>A slow horizontal walk through uncropped images and fragments.</p><span class="state">In design</span></article>
+    </div>
+  </div></section>
+
+  <section class="s" id="look"><div class="wrap">
+    <div class="head"><div><div class="label">Make it yours</div><h2>A look first, then your own choices.</h2></div><p>The same template can feel like a gallery, a zine or a darkroom. Every look is designed as a whole, and every combination is tested, so nothing you choose can leave your work hard to read.</p></div>
+    <div class="choices">
+      <div class="choice"><h3>Looks</h3><div class="chips" aria-label="Some of the looks">
+        <span style="--bg:#F3F3F1;--fg:#0E0E0E;--ac:#D1001F;font-family:'Archivo',sans-serif;font-weight:700">Swiss</span>
+        <span style="--bg:#0B0B0C;--fg:#D9D3C7;--ac:#E8A857;font-family:'IBM Plex Mono',monospace">Darkroom</span>
+        <span style="--bg:#F1E7CF;--fg:#1A1A1A;--ac:#EF431D;font-family:'Fraunces',serif;font-weight:800">Zine</span>
+        <span style="--bg:#FFFFFF;--fg:#1C1C1C;--ac:#666;font-family:'Jost',sans-serif;letter-spacing:.2em;font-size:11px;text-transform:uppercase">Gallery</span>
+        <span style="--bg:#F8EDE6;--fg:#3B2B2B;--ac:#A3422F;font-family:'Young Serif',serif;border-radius:18px">Soft</span>
+        <span style="--bg:#0F3558;--fg:#E8F4FF;--ac:#86D4FF;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;font-size:12px">Blueprint</span></div>
+        <p>Some looks work on any template. Each template also has looks made only for it.</p></div>
+      <div class="choice"><h3>Inside the template</h3><ul class="opts"><li>Where a caption sits</li><li>How the wall is lit</li><li>Which side the outcome is on</li><li>How a film is shown</li></ul>
+        <p>A few choices that rearrange it without changing what it is.</p></div>
+      <div class="choice"><h3>Colour, type and mount</h3><div class="sw" aria-label="Five palettes">
+        <span style="--a:#EEE9E7;--b:#29222A" title="Silk"></span><span style="--a:#EDE8DD;--b:#2B2620" title="Bone"></span><span style="--a:#E8ECEA;--b:#1F2725" title="Fog"></span><span style="--a:#F0E6E1;--b:#34222A" title="Clay"></span><span style="--a:#E7E6E7;--b:#18161A" title="Night"></span></div>
+        <div class="aa" style="margin-top:18px"><span style="font-family:'Newsreader',serif;font-weight:300">Aa</span><span style="font-family:'Libre Caslon Text',serif">Aa</span><span style="font-family:'Instrument Serif',serif">Aa</span><span style="font-family:'IBM Plex Mono',monospace;font-size:34px">Aa</span></div>
+        <p>Day and night, four pairings, three mounts, and an accent drawn from your own work.</p></div>
+    </div>
+  </div></section>
+
+  <section class="s" id="plans"><div class="wrap">
+    <div class="head"><div><div class="label">Plans</div><h2>Free to start.</h2></div><p>Begin with a choice of templates and twenty photographs. Move to a fuller plan when you need more work, more choices, video or your own domain.</p></div>
+    <div class="plans">
+      <div class="plan"><h3>Free</h3><div class="label">To begin</div><ul><li>Twenty photographs</li><li>A choice of templates</li><li>Two palettes, two type pairings</li><li>Your site at a Latent address</li></ul></div>
+      <div class="plan"><h3>Full</h3><div class="label">For a body of work</div><ul><li>Many more photographs</li><li>Every template</li><li>Every palette, type pairing and mount</li><li>Video, and your own domain</li></ul></div>
+    </div>
+    <p class="fine">Plans, limits and prices are still being decided.</p>
+  </div></section>
+</main>
+
+<footer><div class="wrap foot">
+  <a class="mark" href="#top" aria-label="Latent Wall, to the top">l.</a>
+  <ul><li><a href="#">Latent Studios</a></li><li><a href="#">The Moment</a></li><li><a href="#">The Ritual</a></li><li><a href="#">The Lab</a></li><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul>
+  <p class="by">Latent Wall is made by Latent Studios.</p>
+</div></footer>
+
+<script>
+(function () {
+  /* scale each live preview to its frame, load them once they are near the screen */
+  function fit(frame) { var f = frame.querySelector("iframe"); if (!f) return; frame.style.setProperty("--s", frame.clientWidth / 1440); }
+  var frames = [].slice.call(document.querySelectorAll(".window, .shot:has(iframe)"));
+  frames.forEach(fit);
+  addEventListener("resize", function () { frames.forEach(fit); });
+  function load(f) { if (f.dataset.src) { f.src = f.dataset.src; f.removeAttribute("data-src"); } }
+  var io = "IntersectionObserver" in window ? new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.querySelectorAll("iframe[data-src]").forEach(function (f) { if (!e.target.classList.contains("window") || f.classList.contains("on")) load(f); }); io.unobserve(e.target); } }); }, { rootMargin: "300px" }) : null;
+  frames.forEach(function (f) { if (io) io.observe(f); else f.querySelectorAll("iframe[data-src]").forEach(load); });
+
+  /* the hero window slowly turns between two templates */
+  var hero = document.getElementById("hero-window"), fr = hero.querySelectorAll("iframe"), nm = document.getElementById("hero-name"), names = ["Folio", "Index", "Salon", "Reel", "Atelier"], i = 0;
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(function () { load(fr[(i + 1) % fr.length]); setTimeout(function () { fr[i].classList.remove("on"); i = (i + 1) % fr.length; fr[i].classList.add("on"); nm.textContent = names[i]; }, 2500); }, 7000);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+/* Customise: the only place a person changes the site. Same silk, same type, no dashboard furniture. */
+.dock { position: fixed; right: var(--gutter); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 20; display: flex; gap: 8px; align-items: center; }
+.tweak-btn, .dock button { font-family: var(--ed-font); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--ed-ink); background: var(--ed-bg); border: 1px solid var(--ed-rule); padding: 11px 18px; cursor: pointer; transition: border-color .3s var(--ease); }
+.tweak-btn:hover { border-color: var(--ed-accent); }
+#panel { position: fixed; z-index: 30; top: 0; right: 0; bottom: 0; width: min(100%, 340px); background: var(--ed-bg); border-left: 1px solid var(--ed-rule); transform: translateX(102%); transition: transform .6s var(--ease); display: flex; flex-direction: column; font-family: var(--ed-font); color: var(--ed-ink); }
+#panel.open { transform: none; box-shadow: -30px 0 60px -40px rgba(0,0,0,.25); }
+#panel header { display: flex; justify-content: space-between; align-items: baseline; padding: 22px 24px 16px; border-bottom: 1px solid var(--ed-rule); }
+#panel header b { font-family: "Newsreader", Georgia, serif; font-weight: 400; font-size: 21px; }
+#panel .scroll { overflow: auto; padding: 8px 24px 28px; flex: 1; }
+#panel h3 { margin: 26px 0 12px; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; font-weight: 500; color: var(--ed-soft); }
+#panel .x, #panel .reset { background: none; border: 0; color: var(--ed-soft); font: inherit; font-size: 11.5px; letter-spacing: .13em; text-transform: uppercase; cursor: pointer; padding: 4px 0; }
+#panel .x:hover, #panel .reset:hover { color: var(--ed-ink); }
+.seg { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.seg button { background: none; border: 0; border-bottom: 1px solid transparent; font: inherit; font-size: 14px; color: var(--ed-soft); padding: 4px 0; cursor: pointer; }
+.seg button:hover { color: var(--ed-ink); }
+.seg button[aria-pressed="true"] { color: var(--ed-ink); border-bottom-color: var(--ed-accent); }
+.swatches { display: flex; flex-wrap: wrap; gap: 12px; }
+.sw { width: 34px; height: 34px; border: 1px solid var(--ed-rule); padding: 3px; background: none; cursor: pointer; }
+.sw i { display: block; width: 100%; height: 100%; }
+.sw[aria-pressed="true"] { border-color: var(--ed-ink); }
+.sw-label { display: block; font-size: 12px; color: var(--ed-soft); margin-top: 8px; min-height: 1.2em; }
+.types { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.types button { border: 1px solid var(--ed-rule); background: none; padding: 12px 14px; text-align: left; cursor: pointer; color: var(--ed-ink); }
+.types button[aria-pressed="true"] { border-color: var(--ed-ink); }
+.types .aa { display: block; font-size: 26px; line-height: 1.1; }
+.types .tn { font-family: var(--ed-font); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ed-soft); }
+#panel input[type=text], #panel textarea { width: 100%; font: inherit; font-size: 14px; color: var(--ed-ink); background: transparent; border: 0; border-bottom: 1px solid var(--ed-rule); padding: 6px 0; margin-bottom: 10px; resize: none; }
+#panel input:focus, #panel textarea:focus { outline: 0; border-bottom-color: var(--ed-accent); }
+#panel .hint { font-size: 12px; color: var(--ed-soft); margin: 18px 0 0; line-height: 1.5; }
+#panel footer { padding: 14px 24px calc(14px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--ed-rule); display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; color: var(--ed-soft); }
+.seg button.locked, .sw.locked, .types button.locked { opacity: .38; cursor: not-allowed; }
+.seg button.locked::after { content: " \00b7"; }
+#panel .plan { display: flex; gap: 14px; align-items: baseline; }
+#panel .plan button { background: none; border: 0; border-bottom: 1px solid transparent; font: inherit; font-size: 12px; color: var(--ed-soft); cursor: pointer; padding: 2px 0; }
+#panel .plan button[aria-pressed="true"] { color: var(--ed-ink); border-bottom-color: var(--ed-accent); }
+#panel .note { font-size: 12.5px; color: var(--ed-ink); min-height: 2.8em; margin: 18px 0 0; line-height: 1.5; }
+.optrow { margin-bottom: 14px; } .optname { display: block; font-size: 12px; color: var(--ed-soft); margin-bottom: 4px; }
+.sw.own i { position: relative; } .sw.own i::after { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 46%, var(--ed-bg) 46% 54%, transparent 54%); }

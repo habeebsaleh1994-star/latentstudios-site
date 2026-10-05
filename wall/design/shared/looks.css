@@ -1,0 +1,91 @@
+/* The structure that belongs to each look: the parts that change how a site is built, not only how it is coloured.
+   A look's colours, type and sizes come from theme.js; the rules below are what a setting cannot express. Shared by every template. */
+
+/* SWISS: a grid, a grotesque, one red. Everything hangs from the left edge under a black rule. */
+[data-look="swiss"] .bar { border-bottom: 2px solid var(--ink); padding-bottom: 18px; margin-inline: var(--gutter); padding-inline: 0; }
+[data-look="swiss"] .bar .name { font-weight: 700; font-size: 18px; letter-spacing: -.01em; }
+[data-look="swiss"] .card { padding-top: calc(clamp(28px, 6vh, 64px) * var(--sp)); }
+[data-look="swiss"] .card .note { font-weight: 500; font-size: 16px; color: var(--ink); border-top: 2px solid var(--ink); padding-top: 12px; margin: 0; }
+[data-look="swiss"] .single figure { width: 100%; margin-inline: 0; }
+[data-look="swiss"] figcaption { border-top: 2px solid var(--ink); margin-top: 12px; padding-top: 10px; font-style: normal; color: var(--ink); font-weight: 500; }
+[data-look="swiss"] figcaption .n { font-weight: 700; color: var(--peony-text); }
+[data-look="swiss"] .interlude p { font-weight: 700; letter-spacing: -.03em; }
+
+/* DARKROOM: the print on the table in the dark. Mono labels, amber numbers, grain on the picture. */
+[data-look="darkroom"] .frame { position: relative; }
+[data-look="darkroom"] .frame img { filter: contrast(1.05) saturate(.9); }
+[data-look="darkroom"] .frame::after { content: ""; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: .32; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.1 -.2'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>"); }
+[data-look="darkroom"] .bar nav a::before { content: "/ "; color: var(--peony-text); }
+[data-look="darkroom"] .card h1 { font-weight: 400; max-width: 16em; }
+[data-look="darkroom"] .card h1 em { font-style: normal; }
+[data-look="darkroom"] .card .note { font-family: var(--body); font-size: 17px; }
+[data-look="darkroom"] figcaption { font-style: normal; font-family: var(--sans); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+[data-look="darkroom"] figcaption .n { color: var(--peony-text); }
+[data-look="darkroom"] figcaption .n::before { content: "FRAME "; opacity: .7; }
+[data-look="darkroom"] .interlude p { font-family: var(--serif); text-transform: none; font-size: clamp(22px, 2.8vw, 36px); }
+
+/* ZINE: photocopied paper, thick black lines, a marker highlight, pictures stuck down slightly crooked. */
+[data-look="zine"] .bar .name { font-weight: 800; font-size: 28px; letter-spacing: -.02em; }
+[data-look="zine"] .bar nav a { border: 2px solid var(--ink); padding: 6px 12px; background: var(--silk); color: var(--ink); }
+[data-look="zine"] .bar nav a:hover { background: var(--peony); color: var(--on-accent); }
+[data-look="zine"] .card h1 em { padding-inline: .12em; }
+[data-look="zine"] .card .note { font-family: var(--sans); font-size: 15px; color: var(--ink); border: 3px solid var(--ink); background: #fffdf5; padding: 16px 18px; box-shadow: 8px 8px 0 var(--ink); }
+[data-look="zine"] .work .frame { transition: transform .5s var(--ease); }
+[data-look="zine"] .work:nth-of-type(odd) .frame { transform: rotate(-.7deg); }
+[data-look="zine"] .work:nth-of-type(even) .frame { transform: rotate(.6deg); }
+[data-look="zine"] .work .frame { padding: 0; }
+[data-look="zine"] figcaption { font-style: normal; font-family: var(--sans); font-weight: 700; color: var(--ink); text-transform: uppercase; font-size: 13px; letter-spacing: .03em; }
+[data-look="zine"] figcaption .n { background: var(--ink); color: var(--silk); padding: 2px 8px; min-width: 0; }
+[data-look="zine"] .interlude p { font-weight: 800; letter-spacing: -.03em; }
+[data-look="zine"] .about { border-top: 3px solid var(--ink); }
+
+/* GALLERY: a white wall. Everything centred, very small, with a great deal of room around it. */
+[data-look="gallery"] .bar { flex-direction: column; align-items: center; gap: 22px; padding-top: 52px; }
+[data-look="gallery"] .bar .name { font-size: 13px; letter-spacing: .34em; text-transform: uppercase; font-weight: 500; }
+[data-look="gallery"] .bar nav { gap: 40px; }
+[data-look="gallery"] .card { grid-template-columns: 1fr; justify-items: center; text-align: center; padding-top: calc(clamp(60px, 15vh, 170px) * var(--sp)); }
+[data-look="gallery"] .card h1 { max-width: 20em; font-weight: 400; }
+[data-look="gallery"] .card h1 em { font-style: normal; }
+[data-look="gallery"] .card .note { text-align: center; max-width: 32em; margin: 6px auto 0; font-weight: 300; }
+[data-look="gallery"] .single figure { width: min(100%, calc(66vh * var(--r)), 920px); }
+[data-look="gallery"] figcaption { justify-content: center; gap: 16px; font-style: normal; font-weight: 400; }
+[data-look="gallery"] figcaption .d { margin-left: 0; }
+[data-look="gallery"] .interlude p { font-weight: 300; letter-spacing: .02em; text-align: center; grid-column: 3 / span 8; }
+[data-look="gallery"] .interlude .label { grid-column: 3 / span 8; text-align: center; }
+[data-look="gallery"] .about { border-top: none; }
+
+/* SOFT: rounded, warm, friendly. Pictures with soft corners, links as small pills, a rounded footer. */
+[data-look="soft"] .bar nav a { padding: 8px 16px; border-radius: 999px; background: var(--silk-deep); color: var(--ink); }
+[data-look="soft"] .bar nav a:hover { background: var(--peony); color: var(--on-accent); }
+[data-look="soft"] .bar .name { font-family: var(--serif); font-size: 22px; }
+[data-look="soft"] .card h1 em { font-style: normal; }
+[data-look="soft"] .card .note { font-size: 17px; color: var(--ink); background: var(--silk-deep); padding: 20px 24px; border-radius: 22px; }
+[data-look="soft"] figcaption { font-style: normal; color: var(--ink); }
+[data-look="soft"] figcaption .n { background: var(--silk-deep); border-radius: 999px; padding: 3px 10px; min-width: 0; }
+[data-look="soft"] .about { border-top: 0; background: var(--silk-deep); border-radius: 44px 44px 0 0; margin-top: calc(clamp(80px, 16vh, 200px) * var(--sp)); }
+[data-look="soft"] .dock button, [data-look="soft"] .tweak-btn { border-radius: 999px; }
+[data-look="soft"] .interlude p { font-family: var(--serif); }
+
+/* small screens: boxed and pill navigation stays inside the page */
+@media (max-width: 520px) {
+  [data-look="zine"] .bar nav a { padding: 5px 8px; } [data-look="soft"] .bar nav a { padding: 6px 12px; }
+  [data-look="zine"] .bar nav, [data-look="soft"] .bar nav { gap: 6px 8px; }
+}
+
+/* TONED PAPER, CYANOTYPE, GRAPHITE, ETCHING, MONOTYPE: the tonal looks. Quiet type, hairlines, real papers; no effects. */
+[data-look="toned"] .frame, [data-look="cyanotype"] .frame { padding: clamp(8px, 1.2vw, 14px); }
+[data-look="toned"] .frame img, [data-look="cyanotype"] .frame img { outline: 1px solid var(--rule); outline-offset: 0; }
+[data-look="toned"] .bar .name, [data-look="graphite"] .bar .name { font-style: italic; text-transform: none; letter-spacing: 0; font-size: 18px; }
+[data-look="toned"] figcaption, [data-look="graphite"] figcaption { font-style: italic; }
+[data-look="toned"] .about, [data-look="etching"] .about { border-top: 1px solid var(--rule); }
+[data-look="cyanotype"] .bar nav a, [data-look="cyanotype"] figcaption { font-family: var(--sans); }
+[data-look="graphite"] .card h1 { font-style: italic; }
+[data-look="graphite"] .card h1 em { font-style: normal; }
+[data-look="etching"] .frame { padding: clamp(8px, 1.1vw, 13px); box-shadow: inset 0 0 0 1px rgba(31,26,18,.5), 0 0 0 1px var(--rule); border: none; }
+[data-look="etching"] .bar .name { text-transform: uppercase; letter-spacing: .16em; font-size: 13px; }
+[data-look="etching"] .card h1 { font-weight: 400; }
+[data-look="etching"] figcaption { font-style: italic; letter-spacing: 0; text-transform: none; font-size: 15px; }
+[data-look="monotype"] .frame img { filter: none; }
+[data-look="monotype"] .bar .name { font-style: italic; text-transform: none; letter-spacing: 0; font-size: 18px; }
+[data-look="monotype"] figcaption { font-style: italic; }
+[data-look="monotype"] .about { border-top: 1px solid var(--rule); }

@@ -1,0 +1,40 @@
+/* Salon's own options, its exclusive look, and the shared looks where the wall needs a word. */
+[data-opt-wall="white"] .wall { background: #FFFFFF; }
+[data-opt-wall="white"] .art .no { color: #555; }
+[data-opt-wall="dark"] .wall { background: #1C1A1B; }
+[data-opt-wall="dark"] .art .no { color: #C9C0BB; }
+[data-opt-key="hidden"] .key { display: none; }
+
+/* look: Plaster. Black frames with a white mat, a brass plate under each work, a wall with some texture. */
+[data-look="plaster"] .wall { position: relative; background-color: var(--silk-deep); }
+[data-look="plaster"] .wall::before { content: ""; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: .35; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='.012 .02' numOctaves='4' seed='3'/><feColorMatrix values='0 0 0 0 .55  0 0 0 0 .5  0 0 0 0 .42  0 0 0 .9 0'/></filter><rect width='300' height='300' filter='url(%23p)'/></svg>"); }
+[data-look="plaster"] .art { z-index: 1; }
+[data-look="plaster"] .art .frame { background: #FAF7F0; padding: calc(9 * var(--k) * 1px); border: calc(3 * var(--k) * 1px) solid #121212; }
+[data-look="plaster"] .art .no { position: static; display: inline-block; margin-top: 12px; background: linear-gradient(#C9A864, #A98A47); color: #2A2008; padding: 2px 9px; font-size: 11px; letter-spacing: .1em; }
+[data-look="plaster"] .key b { font-style: italic; }
+[data-look="plaster"] .card h1 { font-weight: 400; }
+
+/* the shared looks */
+[data-look="zine"] .art:nth-child(odd) .frame { transform: rotate(-.8deg); }
+[data-look="zine"] .art:nth-child(even) .frame { transform: rotate(.7deg); }
+[data-look="zine"] .art .no { background: var(--ink); color: var(--silk); padding: 2px 7px; }
+[data-look="zine"] .key b { font-style: normal; font-weight: 800; }
+[data-look="zine"] .wall { border: 3px solid var(--ink); }
+[data-look="swiss"] .art .no { font-weight: 700; color: var(--peony-text); }
+[data-look="swiss"] .key li { border-top: 2px solid var(--ink); padding-top: 8px; }
+[data-look="swiss"] .key b { font-style: normal; font-weight: 700; }
+[data-look="darkroom"] .art .frame { position: relative; }
+[data-look="darkroom"] .art .frame::after { content: ""; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: .3; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.1 -.2'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>"); }
+[data-look="darkroom"] .key b { font-style: normal; text-transform: uppercase; letter-spacing: .04em; }
+[data-look="gallery"] .key { justify-items: center; text-align: center; } [data-look="gallery"] .key li { grid-template-columns: 1fr; justify-items: center; }
+[data-look="gallery"] .key .k { display: none; } [data-look="gallery"] .key b { font-style: normal; font-weight: 500; }
+[data-look="gallery"] .wall { padding-block: calc(60 * var(--k) * 1px); }
+[data-look="soft"] .wall { border-radius: 28px; }
+[data-look="soft"] .art .no { background: var(--silk); border-radius: 999px; padding: 2px 9px; color: var(--ink); }
+[data-look="soft"] .key b { font-style: normal; }
+
+/* on a phone the walls dissolve into a column, so the wall tone does not apply */
+@media (max-width: 760px) { [data-opt-wall] .wall { background: none; } [data-opt-wall="dark"] .art .no { color: var(--ink-soft); } }
+/* editing always shows the key, whatever the viewing option says, and on a phone too */
+html[data-editing] .key { display: grid; }
+@media (max-width: 760px) { html[data-editing] .art .cap { display: none; } html[data-editing] .key { grid-template-columns: 1fr; } html[data-editing] .art { width: max(calc(var(--cw) / var(--maxcm) * 100%), 78%); } }

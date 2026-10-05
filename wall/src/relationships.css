@@ -1,0 +1,337 @@
+.relationship-explorer {
+  width: min(1320px, calc(100vw - 48px));
+  max-width: none;
+  height: min(920px, calc(100dvh - 48px));
+  max-height: none;
+  padding: 0;
+  border: 1px solid #c5c9bc;
+  color: #283324;
+  background: #f7f8f2;
+  box-shadow: 0 24px 100px #15220f38;
+  overflow: hidden;
+}
+.relationship-explorer[open] {
+  display: flex;
+  flex-direction: column;
+}
+.relationship-explorer::backdrop {
+  background: #1d2519a8;
+  backdrop-filter: blur(5px);
+}
+.relationship-explorer header {
+  padding: 24px 28px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  border-bottom: 1px solid #d3d7c9;
+}
+.relationship-eyebrow {
+  font:
+    10px/1.4 Arial,
+    sans-serif;
+  letter-spacing: 0.16em;
+  color: #617055;
+}
+.relationship-explorer h2 {
+  font:
+    30px/1.13 Georgia,
+    serif;
+  font-weight: normal;
+  margin: 9px 0 0;
+  letter-spacing: -0.025em;
+}
+.relationship-explorer button,
+.relationship-explorer select,
+.relationship-explorer summary {
+  min-height: 44px;
+  font:
+    13px/1.35 Arial,
+    sans-serif;
+  color: inherit;
+  cursor: pointer;
+  border: 1px solid #cad1bf;
+  background: #fffef9;
+  padding: 9px 12px;
+  border-radius: 3px;
+}
+.relationship-explorer button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.relationship-explorer button:focus-visible,
+.relationship-explorer select:focus-visible,
+.relationship-explorer input:focus-visible {
+  outline: 2px solid #536c39;
+  outline-offset: 2px;
+}
+.relationship-explorer .relationship-primary {
+  background: #354a29;
+  color: white;
+  border-color: #354a29;
+}
+.relationship-body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+}
+.relationship-intentions {
+  overflow: auto;
+  border-right: 1px solid #d3d7c9;
+  padding: 12px 22px 22px;
+  font:
+    12px/1.5 Arial,
+    sans-serif;
+}
+.relationship-intentions > label {
+  margin: 16px 0;
+  display: block;
+}
+.relationship-intentions select {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  text-overflow: ellipsis;
+}
+.relationship-intentions label.relationship-check {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  min-height: 44px;
+  cursor: pointer;
+}
+.relationship-check input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  accent-color: #526b3f;
+  margin: 1px 0;
+}
+.relationship-check span {
+  font-weight: 600;
+}
+.relationship-check small {
+  display: block;
+  color: #68715f;
+  font-weight: 400;
+  margin-top: 4px;
+}
+.relationship-intentions details summary {
+  background: transparent;
+  border: 0;
+  padding: 10px 0;
+  font-size: 12px;
+}
+.relationship-preserved,
+.relationship-existing {
+  padding: 12px 0;
+  border-top: 1px solid #d3d7c9;
+  font-size: 11px;
+  color: #66715d;
+}
+.relationship-intentions > .relationship-primary {
+  width: 100%;
+  margin-top: 12px;
+}
+.relationship-stage {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 24px;
+  overflow: auto;
+  background: #e9ede2;
+}
+.relationship-preview-heading {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  font:
+    12px/1.4 Arial,
+    sans-serif;
+  margin-bottom: 12px;
+}
+.relationship-preview-heading label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.relationship-paper {
+  position: relative;
+  width: 100%;
+  min-height: 260px;
+  flex: 1;
+  overflow: hidden;
+  background: #fffefa;
+  box-shadow: 0 1px 8px #26331b15;
+}
+.relationship-paper iframe {
+  border: 0;
+  display: block;
+}
+.relationship-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.relationship-options button[aria-pressed="true"] {
+  background: #fffef8;
+  border-color: #58723f;
+  box-shadow: inset 0 -3px #58723f;
+}
+.relationship-result,
+.relationship-explanation,
+.relationship-conflict {
+  font:
+    12px/1.5 Arial,
+    sans-serif;
+  margin: 12px 0;
+}
+.relationship-explanation {
+  margin-bottom: 0;
+  color: #5f6c53;
+}
+.relationship-conflict {
+  background: #fff9ed;
+  border-left: 2px solid #9e7532;
+  padding: 10px;
+}
+.relationship-empty {
+  padding: 35px 20px;
+  font:
+    14px/1.6 Arial,
+    sans-serif;
+}
+.relationship-empty h3 {
+  font:
+    25px/1.2 Georgia,
+    serif;
+}
+.relationship-explorer footer {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 16px 24px;
+  border-top: 1px solid #ccd3c1;
+}
+.relationship-explorer footer > span {
+  flex: 1;
+  font:
+    12px/1.5 Arial,
+    sans-serif;
+}
+.relationship-explorer footer small {
+  display: block;
+  color: #66725a;
+}
+.relationship-review-rack {
+  position: fixed;
+  left: -20000px;
+  top: 0;
+  pointer-events: none;
+}
+.relationship-review-rack iframe {
+  border: 0;
+}
+.relationship-context {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 6px 0;
+}
+.relationship-context button {
+  min-height: 44px;
+  font-size: 11px;
+}
+.relationship-edit-intentions,
+.relationship-mobile-choice {
+  display: none;
+}
+@media (max-width: 760px) {
+  .relationship-mobile-choice {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 16px;
+    gap: 12px;
+    font:
+      12px Arial,
+      sans-serif;
+  }
+  .relationship-mobile-choice select {
+    flex: 1;
+    min-width: 0;
+  }
+  .relationship-options {
+    display: none;
+  }
+  .relationship-explorer .relationship-edit-intentions {
+    display: block;
+    flex: none;
+    text-align: left;
+    padding-inline: 16px;
+    border: 0;
+    border-bottom: 1px solid #cbd2bf;
+    background: #eef2e6;
+  }
+  .relationship-explorer[data-exploring="true"] .relationship-intentions {
+    display: none;
+  }
+  .relationship-explorer {
+    width: 100vw;
+    height: 100dvh;
+    border: 0;
+    margin: 0;
+  }
+  .relationship-explorer header {
+    padding: 16px;
+  }
+  .relationship-explorer h2 {
+    font-size: 24px;
+  }
+  .relationship-body {
+    display: block;
+    overflow: auto;
+  }
+  .relationship-intentions {
+    padding: 12px 16px 18px;
+    border-right: 0;
+    border-bottom: 1px solid #cbd2bf;
+    overflow: visible;
+  }
+  .relationship-intentions > label {
+    margin: 12px 0;
+  }
+  .relationship-stage {
+    padding: 16px;
+    min-height: 630px;
+    overflow: visible;
+  }
+  .relationship-paper {
+    min-height: 400px;
+    flex: none;
+    height: 400px;
+  }
+  .relationship-explorer footer {
+    padding: 10px 12px;
+    flex-wrap: wrap;
+  }
+  .relationship-explorer footer > span {
+    flex-basis: 100%;
+  }
+  .relationship-explorer footer > button {
+    flex: 1;
+  }
+  .relationship-explorer select {
+    font-size: 16px;
+    max-width: 100%;
+  }
+  .relationship-preview-heading {
+    flex-wrap: wrap;
+  }
+}

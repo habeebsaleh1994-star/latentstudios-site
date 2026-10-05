@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Index · Latent Studio</title>
+<script>document.documentElement.classList.add('js'); if (/[?&]preview/.test(location.search)) document.documentElement.dataset.preview = 'on';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&family=Libre+Caslon+Text:ital,wght@0,400;1,400&family=Karla:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Bodoni+Moda:ital,wght@0,400;1,400&display=swap">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="../shared/panel.css">
+<link rel="stylesheet" href="../shared/edit.css">
+<link rel="stylesheet" href="../shared/looks.css">
+<link rel="stylesheet" href="looks.css">
+<style>
+/* INDEX — type leads. A contents rail that follows the reader, and pages that read like a book. */
+body { font-feature-settings: "liga", "onum"; }
+.progress { position: fixed; z-index: 15; left: 0; top: 0; height: 2px; width: 100%; background: var(--peony); transform: scaleX(0); transform-origin: 0 50%; opacity: .8; }
+
+
+
+.book { max-width: 1500px; margin-inline: auto; padding-inline: var(--gutter); display: grid; grid-template-columns: minmax(230px, 300px) minmax(0, 1fr); gap: clamp(32px, 7vw, 120px); align-items: start; }
+.book > * { min-width: 0; }
+.rail { position: sticky; top: 0; padding-top: 24px; align-self: start; max-height: 100vh; overflow: auto; }
+.rail ol { list-style: none; margin: 14px 0 0; padding: 0; border-top: 1px solid var(--rule); }
+.rail li { border-bottom: 1px solid var(--rule); }
+.rail a { display: grid; grid-template-columns: 2.2em 1fr; gap: 0 8px; padding: 13px 0 12px; text-decoration: none; color: var(--ink-soft); position: relative; transition: color .4s var(--ease), padding-left .5s var(--ease); }
+.rail a .n { font-family: var(--sans); font-size: 11px; letter-spacing: .12em; padding-top: 6px; font-variant-numeric: tabular-nums; }
+.rail a .t { font-family: var(--serif); font-size: 18px; line-height: 1.3; }
+.rail a .f { grid-column: 2; font-family: var(--sans); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; opacity: .85; padding-top: 2px; }
+.rail a:hover { color: var(--ink); }
+.rail a[aria-current="true"] { color: var(--ink); padding-left: 14px; }
+.rail a[aria-current="true"]::before { content: ""; position: absolute; left: 0; top: 23px; width: 8px; height: 1px; background: var(--peony); }
+[data-motion="still"] .rail a { transition: none; }
+
+.pieces { padding-bottom: 40px; }
+.piece { max-width: 52rem; margin-bottom: calc(clamp(96px, 18vh, 200px) * var(--sp)); }
+.piece > :not(figure) { max-width: 36rem; }
+.piece header { margin-bottom: 36px; }
+.piece h2 { font-family: var(--serif); font-weight: var(--title-weight); font-size: clamp(34px, 4.4vw, 58px); line-height: 1.04; letter-spacing: -.02em; margin: 14px 0 0; text-wrap: balance; }
+.poem { white-space: pre-line; font-size: calc(21px * var(--read)); line-height: 1.7; margin: 0; hanging-punctuation: first; }
+.prose p { margin: 0 0 1.15em; font-size: calc(19.5px * var(--read)); line-height: 1.72; text-wrap: pretty; hyphens: manual; }
+.prose p:first-child::first-line { font-variant-caps: all-small-caps; letter-spacing: .05em; }
+.fragment p { font-style: italic; margin: 0 0 1.1em; font-size: calc(20px * var(--read)); line-height: 1.7; text-wrap: pretty; }
+[data-type="atelier"] .fragment p { font-style: normal; }
+figure { margin: 0 0 44px; width: min(100%, calc(70vh * var(--r)), 52rem); }
+.prose figure, .fragment figure { margin: 40px 0 44px; }
+img { display: block; width: 100%; height: auto; }
+.frame img { background: var(--silk-deep); }
+figcaption { padding-top: 12px; font-family: var(--sans); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+[data-mount="line"] .frame { outline: 1px solid var(--rule); outline-offset: clamp(8px, 1.2vw, 16px); }
+[data-mount="line"] figcaption { padding-top: calc(12px + clamp(8px, 1.2vw, 16px)); }
+[data-mount="matte"] .frame { background: var(--silk-deep); padding: clamp(14px, 3.4vw, 44px); }
+[data-mount="matte"] .frame img { background: transparent; }
+.piece .margin { margin: 30px 0 0; padding-top: 14px; border-top: 1px solid var(--rule); font-family: var(--sans); font-size: 12.5px; letter-spacing: .02em; color: var(--ink-soft); max-width: 22rem; }
+.piece::after { content: ""; display: block; width: 44px; height: 1px; background: var(--rule); margin-top: calc(clamp(56px, 10vh, 110px) * var(--sp)); }
+
+
+@media (max-width: 900px) {
+  .book { grid-template-columns: 1fr; gap: 56px; }
+  .rail { position: static; max-height: none; overflow: visible; padding-top: 0; }
+  .rail a[aria-current="true"] { padding-left: 0; } .rail a[aria-current="true"]::before { display: none; }
+  .rail a[aria-current="true"] .t { color: var(--peony-text); }
+}
+
+[data-motion="still"].js .arrive { opacity: 1; transform: none; }
+[data-preview] .dock, [data-preview] #panel, [data-preview] .tweak-btn, [data-preview] .tbnote { display: none !important; }
+[data-preview] html, html[data-preview] { scrollbar-width: none; }
+</style>
+</head>
+<body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div id="app"></div>
+
+
+<script src="../shared/studio.js"></script>
+<script src="../shared/entitlements.js"></script>
+<script src="../shared/theme.js"></script>
+<script src="../shared/panel.js"></script>
+<script src="../shared/engine.js"></script>
+<script src="room.js"></script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+{
+  "version": 14,
+  "room": "folio",
+  "name": "Habib Saleh",
+  "tagline": "Prints and enquiries \u00b7 hello@example.com",
+  "email": "",
+  "theme": {
+    "palette": "silk",
+    "mode": "system",
+    "accent": null,
+    "type": "silk",
+    "mount": "bare",
+    "space": "standard",
+    "motion": "slow",
+    "read": "standard"
+  },
+  "pages": [
+    {
+      "id": "series",
+      "kind": "project",
+      "title": "Before it disappears",
+      "label": "Before It Disappears",
+      "subtitle": "Twelve photographs from villages in the Lebanese hills. Ordinary things, made while they were still there.",
+      "meta": "A photographic series \u00b7 Lebanon \u00b7 2023 \u2013 2025",
+      "inNav": true,
+      "blocks": [
+        {
+          "id": "w12",
+          "type": "image",
+          "assetId": "img/12.jpg",
+          "title": "The road in",
+          "date": "7 Mar 2025",
+          "alt": "A road curving through pine hills under a pale sky, white flowers along its edge",
+          "arrange": "alone",
+          "note": ""
+        },
+        {
+          "id": "w10",
+          "type": "image",
+          "assetId": "img/10.jpg",
+          "title": "Bougainvillea",
+          "date": "20 Nov 2025",
+          "alt": "Pink bougainvillea spilling over the roof of a small concrete building",
+          "arrange": "alone",
+          "note": ""
+        },
+        {
+          "id": "w5",
+          "type": "image",
+          "assetId": "img/5.jpg",
+          "title": "He looked back",
+          "date": "3 Dec 2025",
+          "alt": "Close portrait of an elderly man with white hair, smiling quietly",
+          "arrange": "alone",
+          "note": ""
+        },
+        {
+          "id": "w3",
+          "type": "image",
+          "assetId": "img/3.jpg",
+          "title": "The game",
+          "date": "17 Dec 2023",
+          "alt": "An old man holding a pale fruit beside a cracked concrete wall, a ball on the ground",
+          "arrange": "with-next",
+          "note": ""
+        },
+        {
+          "id": "w4",
+          "type": "image",
+          "assetId": "img/4.jpg",
+          "title": "The kitchen",
+          "date": "3 Dec 2025",
+          "alt": "An old man in a dark coat standing at a stove in a small yellow kitchen",
+          "arrange": "alone",
+          "note": ""
+        },
+        {
+          "id": "w1",
+          "type": "image",
+          "assetId": "img/1.jpg",
+          "title": "Afternoon, the street",
+          "date": "16 Jun 2025",
+          "alt": "Three children racing along a street, one on a bicycle",
+          "arrange": "alone",
+          "note": ""
+        },
+        {
+          "id": "pause1",
+          "type": "text",
+          "assetId": "",
+          "role": "pause",
+          "text": "Most of what these photographs show is not rare. It is simply about to be gone.",
+          "title": "From the series"
+        },
+        {
+          "id": "w8",
+          "type": "image",
+          "assetId": "img/8.jpg",
+          "title": "The pine",
+          "date": "24 Mar 2025",
+          "alt": "A tall pine tree leaning over a quiet village road with a lone figure walking",
+          "arrange": "margin-note",
+          "note": "A pine above the last turn of the village road."
+        },
+        {
+          "id": "w6",
+          "type": "image",
+          "assetId": "img/6.jpg",
+          "title": "Under the leaves",
+          "date": "4 May 2025",
+          "alt": "A man standing beneath a dense green tree, only his legs visible",
+          "arrange": "alone",
+          "note": ""
+        },
+        {
+          "id": "w7",
+          "type": "image",
+          "assetId": "img/7.jpg",
+          "title": "Through the gate",
+          "date": "10 Nov 2025",
+          "alt": "A white cat seen through iron bars in a stone courtyard",
+          "arrange": "alone",
+          "note": ""
+        },
+        {
+          "id": "w11",
+          "type": "image",
+          "assetId": "img/11.jpg",
+          "title": "Parked, waiting",
+          "date": "10 Nov 2025",
+          "alt": "A grey sedan under a dust cover in a stone garage",
+          "arrange": "with-next",
+          "note": ""
+        },
+        {
+          "id": "w9",
+          "type": "image",
+          "assetId": "img/9.jpg",
+          "title": "Wall, late light",
+          "date": "3 Sep 2025",
+          "alt": "Thorn-branch shadows on a sunlit plaster wall",
+          "arrange": "alone",
+          "note": ""
+        },
+        {
+          "id": "w2",
+          "type": "image",
+          "assetId": "img/2.jpg",
+          "title": "The valley",
+          "date": "22 Sep 2025",
+          "alt": "Two men talking at a railing above an olive valley, an old tree trunk in the foreground",
+          "arrange": "alone",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "about",
+      "kind": "about",
+      "title": "About the series",
+      "label": "About",
+      "subtitle": "",
+      "meta": "",
+      "inNav": true,
+      "blocks": [
+        {
+          "id": "about0",
+          "type": "text",
+          "assetId": "",
+          "text": "Habib Saleh photographs and makes films. This series was made over two years, on visits to villages in Lebanon, in the light of ordinary afternoons."
+        },
+        {
+          "id": "about1",
+          "type": "text",
+          "assetId": "",
+          "text": "The photographs are available as prints and as a short film."
+        }
+      ]
+    }
+  ]
+}

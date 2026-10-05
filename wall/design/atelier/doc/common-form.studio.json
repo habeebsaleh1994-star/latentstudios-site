@@ -1,0 +1,269 @@
+{
+  "version": 14,
+  "room": "atelier",
+  "name": "Common Form",
+  "tagline": "New projects and enquiries \u00b7 hello@example.com",
+  "email": "",
+  "theme": {
+    "palette": "silk",
+    "mode": "system",
+    "accent": null,
+    "type": "silk",
+    "mount": "bare",
+    "space": "standard",
+    "motion": "slow",
+    "read": "standard"
+  },
+  "pages": [
+    {
+      "id": "home",
+      "kind": "home",
+      "title": "Plain things, | made well",
+      "label": "Studio",
+      "subtitle": "Common Form is a small design studio. We make identities, books and posters for people who care how a thing is made, and we show our drawing as well as the result.",
+      "meta": "Design studio \u00b7 Beirut",
+      "inNav": true,
+      "blocks": []
+    },
+    {
+      "id": "almond",
+      "kind": "project",
+      "title": "Almond & Salt",
+      "label": "Identity",
+      "subtitle": "A neighbourhood bakery wanted to look the way it tastes: warm, plain and unhurried. We drew one mark and one wordmark, then tested every label against a loaf of bread.",
+      "meta": "Almond & Salt \u00b7 2025",
+      "inNav": true,
+      "blocks": [
+        {
+          "id": "almond-o0",
+          "type": "image",
+          "assetId": "media/almond-wordmark.jpg",
+          "title": "Wordmark",
+          "caption": "One circle, one baseline, set in a serif with some give.",
+          "alt": "The Almond and Salt wordmark on warm paper with a small clay crescent"
+        },
+        {
+          "id": "almond-o1",
+          "type": "image",
+          "assetId": "media/almond-bag.jpg",
+          "title": "Packaging",
+          "caption": "The label sits on kraft, so the bread is the loudest thing on the shelf.",
+          "alt": "A kraft paper bag with a cream label carrying the wordmark"
+        },
+        {
+          "id": "almond-p0",
+          "type": "image",
+          "assetId": "media/almond-construction.jpg",
+          "title": "Construction",
+          "caption": "Everything hangs from one circle and one baseline.",
+          "alt": "The wordmark with construction circles and baselines drawn over it",
+          "role": "process",
+          "arrange": "with-next"
+        },
+        {
+          "id": "almond-p1",
+          "type": "image",
+          "assetId": "media/almond-brief.jpg",
+          "title": "Brief",
+          "caption": "Five colours taken from the shop itself, and three words to hold to.",
+          "alt": "Five colour swatches and the words warm, plain, unhurried",
+          "role": "process"
+        },
+        {
+          "id": "almond-p2",
+          "type": "image",
+          "assetId": "media/almond-types.jpg",
+          "title": "Type tests",
+          "caption": "Three faces, one word. The first was the only one that looked baked.",
+          "alt": "The words Almond and Salt set in three typefaces",
+          "role": "process"
+        },
+        {
+          "id": "almond-f0",
+          "type": "text",
+          "assetId": "",
+          "text": "Role: identity and packaging"
+        },
+        {
+          "id": "almond-f1",
+          "type": "text",
+          "assetId": "",
+          "text": "Scope: wordmark, labels, bags, shopfront"
+        },
+        {
+          "id": "almond-f2",
+          "type": "text",
+          "assetId": "",
+          "text": "Team: three people, ten weeks"
+        }
+      ]
+    },
+    {
+      "id": "notes",
+      "kind": "project",
+      "title": "Field Notes",
+      "label": "Book",
+      "subtitle": "A year of walks, set as a book that is pleasant to carry and slow to finish. One grid, one margin, and a green that is quiet without being grey.",
+      "meta": "Archive Press \u00b7 2024",
+      "inNav": true,
+      "blocks": [
+        {
+          "id": "notes-o0",
+          "type": "image",
+          "assetId": "media/notes-cover.jpg",
+          "title": "Cover",
+          "caption": "A pattern of small blocks, one for each walk.",
+          "alt": "A sage green book cover with a grid of small blocks and the title Field Notes"
+        },
+        {
+          "id": "notes-o1",
+          "type": "image",
+          "assetId": "media/notes-spread.jpg",
+          "title": "Spread",
+          "caption": "A large folio number and a narrow column of text.",
+          "alt": "An open book spread with a large page number and columns of text"
+        },
+        {
+          "id": "notes-p0",
+          "type": "image",
+          "assetId": "media/notes-grid.jpg",
+          "title": "Grid",
+          "caption": "Twelve columns, with the text hung from the eighth.",
+          "alt": "A twelve column grid with an image block and a text column",
+          "role": "process"
+        },
+        {
+          "id": "notes-p1",
+          "type": "image",
+          "assetId": "media/notes-thumbs.jpg",
+          "title": "Thumbnails",
+          "caption": "Eight ways to turn a page, before choosing three.",
+          "alt": "Eight thumbnail page layouts",
+          "role": "process"
+        },
+        {
+          "id": "notes-p2",
+          "type": "image",
+          "assetId": "media/notes-colour.jpg",
+          "title": "Colour",
+          "caption": "Five greyed greens and a warm paper.",
+          "alt": "Six colour swatches in greens and paper",
+          "role": "process"
+        },
+        {
+          "id": "notes-f0",
+          "type": "text",
+          "assetId": "",
+          "text": "Role: design and production"
+        },
+        {
+          "id": "notes-f1",
+          "type": "text",
+          "assetId": "",
+          "text": "Scope: cover, 240 pages, endpapers"
+        }
+      ]
+    },
+    {
+      "id": "tide",
+      "kind": "project",
+      "title": "Low Tide",
+      "label": "Exhibition",
+      "subtitle": "A poster for an exhibition of the shore. The whole idea is one circle sitting on one line, and where the line goes.",
+      "meta": "Harbour Gallery \u00b7 2024",
+      "inNav": true,
+      "blocks": [
+        {
+          "id": "tide-o0",
+          "type": "image",
+          "assetId": "media/tide-poster.jpg",
+          "title": "Poster",
+          "caption": "The circle is the tide going out; the line is the horizon.",
+          "alt": "A deep blue poster with a pale half circle on a horizon line and the title Low Tide"
+        },
+        {
+          "id": "tide-p0",
+          "type": "image",
+          "assetId": "media/tide-sketch.jpg",
+          "title": "First sketch",
+          "caption": "A circle and a line, drawn before anything else.",
+          "alt": "A line drawing of a circle on a horizon with outlined letters",
+          "role": "process",
+          "arrange": "with-next"
+        },
+        {
+          "id": "tide-p1",
+          "type": "image",
+          "assetId": "media/tide-thumbs.jpg",
+          "title": "Studies",
+          "caption": "Six places for the horizon to sit.",
+          "alt": "Six small studies of a circle against a horizon at different heights",
+          "role": "process"
+        },
+        {
+          "id": "tide-f0",
+          "type": "text",
+          "assetId": "",
+          "text": "Role: poster and invitation"
+        },
+        {
+          "id": "tide-f1",
+          "type": "text",
+          "assetId": "",
+          "text": "Scope: poster, invitation, wall text"
+        }
+      ]
+    },
+    {
+      "id": "about",
+      "kind": "about",
+      "title": "The studio",
+      "label": "About",
+      "subtitle": "",
+      "meta": "",
+      "inNav": true,
+      "blocks": [
+        {
+          "id": "about-a0",
+          "type": "text",
+          "assetId": "",
+          "text": "Common Form is three people in one room. We work on a small number of projects at a time, and we would rather finish a few things than start many."
+        },
+        {
+          "id": "about-a1",
+          "type": "text",
+          "assetId": "",
+          "text": "This page is a sample for a demonstration. The studio, its clients and its projects are made up."
+        },
+        {
+          "id": "about-q0",
+          "type": "text",
+          "assetId": "",
+          "text": "Begin with the room it will live in.",
+          "role": "pause"
+        },
+        {
+          "id": "about-q1",
+          "type": "text",
+          "assetId": "",
+          "text": "Draw it by hand before the screen.",
+          "role": "pause"
+        },
+        {
+          "id": "about-q2",
+          "type": "text",
+          "assetId": "",
+          "text": "Make fewer things, and finish them.",
+          "role": "pause"
+        },
+        {
+          "id": "about-q3",
+          "type": "text",
+          "assetId": "",
+          "text": "Show how it was made.",
+          "role": "pause"
+        }
+      ]
+    }
+  ]
+}

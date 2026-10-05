@@ -1,0 +1,80 @@
+<!doctype html><meta charset="utf-8"><title>New layouts, a board</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;1,300&family=Instrument+Sans:wght@400;500&display=swap">
+<style>
+*{box-sizing:border-box} body{margin:0;background:#1c1c1c;font-family:"Instrument Sans",sans-serif;color:#ddd}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:14px;width:2000px}
+.wrap{display:flex;flex-direction:column;gap:7px}.nm{font-size:15px;color:#eee}.nm small{display:block;color:#9a9a9a;font-size:12.5px;line-height:1.45;margin-top:3px}
+.plate{height:330px;background:#EEE9E7;position:relative;overflow:hidden;padding:22px}
+.i{background:#6f6168;opacity:.55;position:absolute} .a{background:#B87B8A;opacity:.85} .g{background:#7F8D82;opacity:.7} .d{background:#29222A;opacity:.8;position:absolute} .l{height:3px;background:#29222A;opacity:.55;position:absolute}
+.t{position:absolute;font-family:"Newsreader",serif;font-style:italic;color:#29222A;font-size:20px}.s{position:absolute;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#6B5F66}
+.cell{border:1.5px solid #29222A;opacity:.6;position:relative}
+.mini{position:relative;height:60px;background:#6f6168;opacity:.55}.mini.a{background:#B87B8A;opacity:.85}.mini.g{background:#7F8D82;opacity:.7}
+</style>
+<div class="board">
+
+ <div class="wrap"><div class="plate"><div class="s" style="left:22px;top:18px">Habib Saleh</div>
+  <div class="i" style="left:22px;top:90px;width:150px;height:190px"></div><div class="i a" style="left:186px;top:60px;width:230px;height:150px"></div><div class="i" style="left:430px;top:110px;width:120px;height:170px"></div><div class="i g" style="left:564px;top:70px;width:200px;height:140px"></div>
+  <div class="l" style="left:22px;right:22px;bottom:38px"></div><div class="d" style="left:22px;bottom:34px;width:90px;height:11px"></div><div class="s" style="right:22px;bottom:14px">Pull sideways &rarr;</div></div>
+  <div class="nm">Passage<small>One long horizontal walk through the work, at eye level, with a thin progress line. Scrolling sideways, like walking along a wall.</small></div></div>
+
+ <div class="wrap"><div class="plate">
+  <div class="s" style="left:22px;top:18px">Roll 12 · Contact sheet</div>
+  <div style="position:absolute;left:22px;right:22px;top:46px;bottom:22px;display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-content:start">
+   <div class="mini"></div><div class="mini"></div><div class="mini a"></div><div class="mini"></div><div class="mini"></div><div class="mini g"></div>
+   <div class="mini"></div><div class="mini g"></div><div class="mini"></div><div class="mini"></div><div class="mini a"></div><div class="mini"></div>
+   <div class="mini"></div><div class="mini"></div><div class="mini"></div><div class="mini g"></div><div class="mini"></div><div class="mini"></div></div>
+  <div style="position:absolute;left:118px;top:130px;width:80px;height:70px;border:2.5px solid #B87B8A;border-radius:50%;opacity:.9"></div></div>
+  <div class="nm">Contact<small>A contact sheet with the selects circled in grease pencil. Choose a frame and it opens large; the rest stay as the working record of the roll.</small></div></div>
+
+ <div class="wrap"><div class="plate" style="background:#D9D2C8">
+  <div class="i" style="left:50px;top:44px;width:250px;height:240px;background:#F6F2EA;opacity:1;box-shadow:inset -14px 0 18px -14px rgba(0,0,0,.28)"></div><div class="i" style="left:304px;top:44px;width:250px;height:240px;background:#F6F2EA;opacity:1;box-shadow:inset 14px 0 18px -14px rgba(0,0,0,.28)"></div>
+  <div class="i a" style="left:76px;top:70px;width:198px;height:130px"></div><div class="l" style="left:76px;top:222px;width:140px"></div><div class="l" style="left:76px;top:236px;width:110px"></div>
+  <div class="i" style="left:330px;top:70px;width:96px;height:130px"></div><div class="i g" style="left:440px;top:70px;width:96px;height:130px"></div><div class="t" style="left:330px;top:222px">Plate 12</div>
+  <div class="s" style="left:50px;bottom:12px">Turn the page &rarr;</div></div>
+  <div class="nm">Book<small>Spreads, two pages at a time, turned like a photobook. The gutter, the margins and the turning are the design. Made for series that are meant to be read in order.</small></div></div>
+
+ <div class="wrap"><div class="plate" style="background:#CFC6B6">
+  <div class="i" style="left:40px;top:40px;width:120px;height:160px;background:#F8F5EE;opacity:1;transform:rotate(-4deg)"></div><div class="i a" style="left:190px;top:34px;width:190px;height:130px;transform:rotate(2deg)"></div><div class="i" style="left:410px;top:56px;width:130px;height:96px;background:#F8F5EE;opacity:1;transform:rotate(5deg)"></div>
+  <div class="i g" style="left:160px;top:190px;width:150px;height:110px;transform:rotate(-2deg)"></div><div class="i" style="left:350px;top:176px;width:170px;height:120px;background:#F8F5EE;opacity:1;transform:rotate(3deg)"></div><div class="i" style="left:50px;top:226px;width:90px;height:70px;transform:rotate(6deg)"></div>
+  <div style="position:absolute;left:92px;top:34px;width:34px;height:14px;background:#E9D9A6;opacity:.9;transform:rotate(-8deg)"></div><div style="position:absolute;left:270px;top:28px;width:34px;height:14px;background:#E9D9A6;opacity:.9;transform:rotate(6deg)"></div><div style="position:absolute;left:460px;top:50px;width:34px;height:14px;background:#E9D9A6;opacity:.9"></div></div>
+  <div class="nm">Pinboard<small>Works pinned and taped loosely to a surface, each a little off true, like a studio wall in progress. Click one to bring it forward. Good for sketches, tests and process.</small></div></div>
+
+ <div class="wrap"><div class="plate">
+  <div class="s" style="left:22px;top:18px">Catalogue</div>
+  <div style="position:absolute;left:22px;top:44px;width:290px;bottom:22px">
+   <div class="l" style="top:0;left:0;right:0"></div><div class="d" style="left:0;top:14px;width:130px;height:9px"></div><div class="l" style="top:40px;left:0;right:0;opacity:.25"></div>
+   <div class="d" style="left:0;top:54px;width:100px;height:9px;opacity:.5"></div><div class="l" style="top:80px;left:0;right:0;opacity:.25"></div>
+   <div class="a" style="left:-6px;right:0;top:92px;height:36px;opacity:.28;position:absolute"></div><div class="d" style="left:0;top:104px;width:150px;height:9px"></div>
+   <div class="l" style="top:134px;left:0;right:0;opacity:.25"></div><div class="d" style="left:0;top:148px;width:110px;height:9px;opacity:.5"></div><div class="l" style="top:174px;left:0;right:0;opacity:.25"></div><div class="d" style="left:0;top:188px;width:120px;height:9px;opacity:.5"></div></div>
+  <div class="i" style="left:340px;top:44px;width:230px;height:170px"></div><div class="l" style="left:340px;top:236px;width:170px"></div><div class="l" style="left:340px;top:250px;width:130px;opacity:.3"></div><div class="l" style="left:340px;top:264px;width:150px;opacity:.3"></div></div>
+  <div class="nm">Ledger<small>A catalogue raisonn&eacute;: a long, quiet list (number, title, year, medium, size) with one work shown beside it. For artists with decades of work and a need to be found in order.</small></div></div>
+
+ <div class="wrap"><div class="plate" style="background:#14110F">
+  <div style="position:absolute;left:210px;top:0;bottom:0;width:190px;background:#0a0807"></div>
+  <div style="position:absolute;left:218px;top:0;bottom:0;width:10px;background:repeating-linear-gradient(0deg,#D8CDB8 0 12px,transparent 12px 28px);opacity:.78"></div><div style="position:absolute;left:382px;top:0;bottom:0;width:10px;background:repeating-linear-gradient(0deg,#D8CDB8 0 12px,transparent 12px 28px);opacity:.78"></div>
+  <div class="i" style="left:240px;top:18px;width:130px;height:86px;background:#8c8070;opacity:1"></div><div class="i a" style="left:240px;top:120px;width:130px;height:86px;opacity:1"></div><div class="i" style="left:240px;top:222px;width:130px;height:86px;background:#8c8070;opacity:1"></div>
+  <div class="s" style="left:30px;top:30px;color:#B0A590">Frame 04<br><br>The game<br>17 Dec 2023</div><div class="s" style="left:30px;bottom:30px;color:#F28C28">&darr; Scroll the strip</div></div>
+  <div class="nm">Strip<small>The work as a vertical strip of film, frame after frame, with the caption fixed beside it. Rhythm comes from the scroll. Pairs well with the Proof sheet look.</small></div></div>
+
+ <div class="wrap"><div class="plate">
+  <div style="position:absolute;left:22px;right:22px;top:24px;bottom:22px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+   <div class="cell"><div class="i a" style="left:10px;right:10px;top:12px;height:50px"></div><div class="l" style="left:10px;right:34px;bottom:14px"></div></div>
+   <div class="cell"><div class="i" style="left:10px;right:10px;top:12px;height:50px"></div><div class="l" style="left:10px;right:34px;bottom:14px"></div></div>
+   <div class="cell"><div class="i g" style="left:10px;right:10px;top:12px;height:50px"></div><div class="l" style="left:10px;right:34px;bottom:14px"></div></div>
+   <div class="cell"><div class="i" style="left:10px;right:10px;top:12px;height:50px"></div><div class="l" style="left:10px;right:34px;bottom:14px"></div></div>
+   <div class="cell"><div class="i" style="left:10px;right:10px;top:12px;height:50px"></div><div class="l" style="left:10px;right:34px;bottom:14px"></div></div>
+   <div class="cell"><div class="i a" style="left:10px;right:10px;top:12px;height:50px"></div><div class="l" style="left:10px;right:34px;bottom:14px"></div></div>
+   <div class="cell"><div class="i" style="left:10px;right:10px;top:12px;height:50px"></div><div class="l" style="left:10px;right:34px;bottom:14px"></div></div>
+   <div class="cell"><div class="i g" style="left:10px;right:10px;top:12px;height:50px"></div><div class="l" style="left:10px;right:34px;bottom:14px"></div></div></div></div>
+  <div class="nm">Cabinet<small>Works in labelled drawers, like a cabinet of specimens: a tidy grid of small cases, each opening to its own page. For collections, objects, ceramics, studies.</small></div></div>
+
+ <div class="wrap"><div class="plate">
+  <div class="s" style="left:22px;top:18px">2025 · Days with a roll</div>
+  <div id="days" style="position:absolute;left:22px;right:22px;top:46px;bottom:22px;display:grid;grid-template-columns:repeat(31,1fr);grid-template-rows:repeat(12,1fr);gap:3px"></div></div>
+  <div class="nm">Days<small>A year as a grid of days; the days you made something are filled. Click a day to open that roll. Honest, calm, and made for work that is a habit, not a project.</small></div></div>
+
+</div>
+<script>
+const on=new Set([3,8,9,17,22,40,41,63,64,65,90,91,120,121,150,151,180,200,240,241,242,300,333,350]);
+document.getElementById('days').innerHTML=Array.from({length:372},(_,i)=>`<div style="background:${on.has(i)?'#B87B8A':'#6f6168'};opacity:${on.has(i)?.9:.18};border-radius:1px"></div>`).join('');
+</script>

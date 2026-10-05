@@ -1,0 +1,539 @@
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+}
+.artist-site {
+  --paper: #f6f3ec;
+  --ink: #292d29;
+  --muted: #6f746c;
+  --line: #d7d8cd;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+.theme-white {
+  --paper: #fff;
+  --ink: #232724;
+  --muted: #717671;
+  --line: #deded8;
+}
+.theme-ink {
+  --paper: #252c29;
+  --ink: #ece8dc;
+  --muted: #b3b8ad;
+  --line: #48504a;
+}
+.artist-site a {
+  color: inherit;
+  text-decoration: none;
+}
+.artist-site button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 5.5%;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--line);
+  gap: 24px;
+}
+.artist-name {
+  font-size: 20px;
+  letter-spacing: -0.6px;
+}
+.artist-name span {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-top: 7px;
+}
+.site-header nav {
+  display: flex;
+  gap: 30px;
+  font-size: 11px;
+}
+.site-header nav a {
+  padding: 9px 0;
+  border-bottom: 1px solid transparent;
+}
+.site-header nav a[aria-current="page"] {
+  border-color: var(--ink);
+}
+.menu-toggle {
+  display: none;
+}
+.site-main {
+  padding: 0 5.5%;
+}
+.eyebrow {
+  text-transform: uppercase;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.13em;
+  line-height: 1.6;
+}
+.home-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 46px 0 42px;
+}
+.artist-site h1,
+.artist-site h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: -0.055em;
+}
+.home-intro h1 {
+  font-size: clamp(45px, 6.5vw, 100px);
+  line-height: 1.01;
+  white-space: pre-line;
+  margin-top: 19px;
+}
+.home-intro > p {
+  font-size: 12px;
+  line-height: 1.8;
+  white-space: pre-line;
+  color: var(--muted);
+  margin: 0 0 7px;
+  max-width: 215px;
+}
+.collection-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 17px;
+  color: var(--muted);
+}
+.collection-heading > span:last-child {
+  font-size: 19px;
+}
+.project-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 35px;
+  row-gap: 60px;
+}
+.project-card:first-child {
+  grid-column: 1/-1;
+}
+.project-image {
+  position: relative;
+  overflow: hidden;
+  background: #d6d9d0;
+}
+.project-image img,
+.project-image video {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: filter 0.35s;
+}
+.project-card:hover .project-image img {
+  filter: brightness(0.94);
+}
+.project-open {
+  position: absolute;
+  right: 25px;
+  bottom: 22px;
+  font-size: 25px;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.project-card:hover .project-open {
+  opacity: 1;
+}
+.project-description {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+.project-description .eyebrow {
+  color: var(--muted);
+  font-size: 8px;
+}
+.project-description h2 {
+  font-size: 31px;
+  letter-spacing: -0.035em;
+  margin-top: 7px;
+}
+.project-arrow {
+  font-size: 24px;
+}
+.closing-note {
+  margin: 90px 0 85px;
+  border-top: 1px solid var(--line);
+  padding-top: 35px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: start;
+}
+.closing-note > p {
+  font-family: Georgia, serif;
+  font-size: 48px;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+.closing-note > a {
+  grid-column: 2;
+  font-size: 11px;
+  margin-top: 25px;
+}
+.site-footer {
+  padding: 28px 5.5%;
+  display: flex;
+  gap: 25px;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  align-items: center;
+}
+.copyright {
+  color: var(--muted);
+  margin-left: 12px;
+  font-size: 9px;
+}
+.demo-credit {
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.6;
+}
+.page-intro {
+  padding: 70px 0 5px;
+  text-align: center;
+  max-width: 850px;
+  margin: auto;
+}
+.page-intro .eyebrow {
+  color: var(--muted);
+}
+.page-intro h1 {
+  font-size: clamp(42px, 6.5vw, 86px);
+  line-height: 1.05;
+  margin: 23px 0 26px;
+  white-space: pre-line;
+}
+.page-intro > p {
+  font-size: 14px;
+  line-height: 1.8;
+  max-width: 510px;
+  margin: 0 auto;
+  color: var(--muted);
+  white-space: pre-line;
+}
+.art-block {
+  position: relative;
+}
+.art-block.width-inset {
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.art-block figure {
+  margin: 0;
+}
+.art-block img,
+.art-block video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--line);
+}
+.fit-landscape img {
+  aspect-ratio: 3/2;
+  object-fit: cover;
+}
+.fit-portrait img {
+  aspect-ratio: 4/5;
+  object-fit: cover;
+}
+.art-block figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.7;
+  padding-top: 14px;
+}
+.art-block figcaption > span:last-child {
+  font-size: 8px;
+  opacity: 0.65;
+}
+.art-block.block-text {
+  max-width: 610px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.prose {
+  font-family: Georgia, serif;
+  font-size: 25px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  white-space: pre-line;
+}
+.prose p {
+  margin: 0 0 1.3em;
+}
+.page-writing .prose,
+.page-about .prose {
+  font-size: 22px;
+  line-height: 1.75;
+}
+.page-writing .page-intro,
+.page-about .page-intro {
+  padding-bottom: 0;
+}
+.edit-overlay {
+  position: absolute;
+  z-index: 2;
+  left: 10px;
+  top: 10px;
+  border: 0;
+  background: #fff;
+  box-shadow: 0 1px 8px #0001;
+  font-size: 11px !important;
+  padding: 9px 12px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.art-block:hover .edit-overlay,
+.edit-overlay:focus-visible {
+  opacity: 1;
+}
+.next-project {
+  border-top: 1px solid var(--line);
+  padding: 40px 0 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.next-project > span:last-child {
+  font-family: Georgia, serif;
+  font-size: 36px;
+  letter-spacing: -0.04em;
+}
+.media-placeholder {
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e4e6dd;
+  color: #737a6a;
+  font:
+    12px Arial,
+    sans-serif;
+}
+.artist-site :focus-visible {
+  outline: 2px solid #7c886a;
+  outline-offset: 5px;
+}
+.skip-link {
+  position: absolute;
+  left: 10px;
+  top: -100px;
+  padding: 10px;
+  background: var(--paper);
+  z-index: 99;
+}
+.skip-link:focus {
+  top: 10px;
+}
+.type-modern h1,
+.type-modern h2,
+.type-modern .prose,
+.type-modern .closing-note > p,
+.type-modern .next-project > span:last-child {
+  font-family: Arial, Helvetica, sans-serif;
+}
+.type-modern h1 {
+  font-weight: 400;
+  letter-spacing: -0.065em;
+}
+.empty-work {
+  padding: 100px 0;
+  color: var(--muted);
+  text-align: center;
+}
+@media (min-width: 1500px) {
+  .artist-site {
+    max-width: 1900px;
+    margin: auto;
+  }
+  .site-header {
+    padding: 45px 0;
+  }
+  .home-intro {
+    padding: 100px 0 90px;
+  }
+  .home-intro > p {
+    font-size: 16px;
+    max-width: 280px;
+  }
+  .artist-name {
+    font-size: 25px;
+  }
+  .site-header nav {
+    font-size: 13px;
+  }
+  .eyebrow {
+    font-size: 11px;
+  }
+}
+@media (max-width: 640px) {
+  .site-header {
+    margin: 0 6%;
+    padding: 25px 0;
+    flex-wrap: wrap;
+  }
+  .artist-name {
+    font-size: 20px;
+  }
+  .artist-name span {
+    font-size: 9px;
+  }
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: 0;
+    font-size: 11px !important;
+    padding: 10px 0;
+  }
+  .site-header nav {
+    display: none;
+    width: 100%;
+    padding: 15px 0 5px;
+    gap: 28px;
+    font-size: 13px;
+  }
+  .site-header nav.open {
+    display: flex;
+  }
+  .site-main {
+    padding: 0 6%;
+  }
+  .home-intro {
+    display: block;
+    padding: 50px 0 39px;
+  }
+  .home-intro h1 {
+    font-size: 53px;
+    margin-top: 16px;
+    letter-spacing: -0.06em;
+  }
+  .home-intro > p {
+    font-size: 12px;
+    margin-top: 25px;
+    max-width: none;
+  }
+  .eyebrow {
+    font-size: 8px;
+  }
+  .collection-heading {
+    padding-bottom: 12px;
+  }
+  .project-list {
+    display: block;
+  }
+  .project-card {
+    display: block;
+    margin-bottom: 30px;
+  }
+  .project-description {
+    padding: 16px 0;
+  }
+  .project-description h2 {
+    font-size: 28px;
+  }
+  .project-open {
+    display: none;
+  }
+  .closing-note {
+    display: block;
+    padding-top: 28px;
+    margin: 40px 0 50px;
+  }
+  .closing-note > p {
+    font-size: 43px;
+    margin-top: 23px;
+  }
+  .closing-note > a {
+    display: block;
+    margin-top: 25px;
+  }
+  .site-footer {
+    padding: 24px 6%;
+    flex-wrap: wrap;
+    row-gap: 16px;
+  }
+  .demo-credit {
+    width: 100%;
+  }
+  .page-intro {
+    padding: 48px 0 0;
+  }
+  .page-intro h1 {
+    font-size: 47px;
+    margin-top: 20px;
+  }
+  .page-intro > p {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .art-block {
+    margin-top: 55px !important;
+    margin-bottom: 55px !important;
+  }
+  .art-block.width-inset {
+    width: 88%;
+  }
+  .art-block.block-text {
+    width: 92%;
+  }
+  .prose {
+    font-size: 22px;
+    line-height: 1.55;
+  }
+  .page-writing .prose,
+  .page-about .prose {
+    font-size: 20px;
+    line-height: 1.75;
+  }
+  .art-block figcaption {
+    font-size: 9px;
+  }
+  .next-project {
+    padding-bottom: 50px;
+  }
+  .next-project > span:last-child {
+    font-size: 29px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}

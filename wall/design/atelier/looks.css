@@ -1,0 +1,44 @@
+/* Atelier's own options, its exclusive look, and the shared looks where a project needs a word. */
+[data-opt-side="left"] .cols { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+[data-opt-side="left"] .col-out { order: -1; }
+[data-opt-steps="strip"] .cols { grid-template-columns: 1fr; }
+[data-opt-steps="strip"] .col-out { order: -1; } [data-opt-steps="strip"] .outcome { position: static; }
+[data-opt-steps="strip"] .steps { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 14px; }
+[data-opt-steps="strip"] .steps .fig { flex: 0 0 min(80%, 440px); scroll-snap-align: start; }
+
+/* look: Blueprint. White lines on blue over a drawing grid; mono labels. */
+[data-look="blueprint"] body { background-image: linear-gradient(rgba(134, 212, 255, .11) 1px, transparent 1px), linear-gradient(90deg, rgba(134, 212, 255, .11) 1px, transparent 1px); background-size: 48px 48px; background-attachment: local; }
+[data-look="blueprint"] .fig .frame { outline: 1px solid var(--peony); outline-offset: 5px; }
+[data-look="blueprint"] .ph h2, [data-look="blueprint"] .principles li { text-transform: uppercase; letter-spacing: .01em; font-size: clamp(24px, 3.4vw, 50px); }
+[data-look="blueprint"] .principles li { font-size: clamp(18px, 2.4vw, 30px); }
+[data-look="blueprint"] .col-h { border-bottom-color: var(--peony-text); }
+[data-look="blueprint"] .facts dt { color: var(--peony-text); }
+[data-look="blueprint"] .fig figcaption b { font-style: normal; }
+[data-look="blueprint"] .compare .knob { background: var(--peony); } [data-look="blueprint"] .compare .knob::after { background: var(--silk); color: var(--peony-text); border: 1px solid var(--peony); }
+
+/* the shared looks */
+[data-look="zine"] .ph h2 { font-weight: 800; letter-spacing: -.035em; }
+[data-look="zine"] .fig:nth-child(odd) .frame { transform: rotate(-.6deg); } [data-look="zine"] .fig:nth-child(even) .frame { transform: rotate(.5deg); }
+[data-look="zine"] .fig figcaption .n { background: var(--ink); color: var(--silk); padding: 1px 7px; }
+[data-look="zine"] .principles li { font-weight: 800; letter-spacing: -.03em; }
+[data-look="swiss"] .ph h2 { font-weight: 700; letter-spacing: -.045em; }
+[data-look="swiss"] .col-h { border-bottom: 2px solid var(--ink); color: var(--ink); font-weight: 600; }
+[data-look="swiss"] .facts dt, [data-look="swiss"] .facts dd { border-top: 2px solid var(--ink); }
+[data-look="swiss"] .principles li { font-weight: 700; letter-spacing: -.035em; border-top: 2px solid var(--ink); }
+[data-look="swiss"] .fig figcaption b { font-style: normal; font-weight: 700; }
+[data-look="darkroom"] .ph h2 { text-transform: uppercase; font-size: clamp(24px, 3.2vw, 44px); letter-spacing: .02em; }
+[data-look="darkroom"] .principles li { text-transform: none; font-family: var(--body); }
+[data-look="darkroom"] .fig figcaption b { font-style: normal; }
+[data-look="gallery"] .ph { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+[data-look="gallery"] .ph h2 { font-weight: 400; font-size: clamp(22px, 2.4vw, 32px); letter-spacing: .26em; text-transform: uppercase; }
+[data-look="gallery"] .facts { justify-content: center; } [data-look="gallery"] .fig figcaption b { font-style: normal; }
+[data-look="gallery"] .principles li { font-weight: 300; font-size: clamp(18px, 2vw, 26px); letter-spacing: .04em; }
+[data-look="soft"] .fig figcaption .n { background: var(--silk-deep); border-radius: 999px; padding: 2px 9px; }
+[data-look="soft"] .fig figcaption b { font-style: normal; } [data-look="soft"] .proj { border-bottom: 0; }
+[data-look="soft"] .compare { border-radius: 26px; }
+
+/* on a small screen the options give way: a project is one column, outcome first */
+@media (max-width: 860px) {
+  [data-opt-side="left"] .cols, [data-opt-steps="strip"] .cols { grid-template-columns: 1fr; }
+  .cols > * { min-width: 0; }
+}

@@ -1,0 +1,392 @@
+/* Editor-only workspace chrome. Published page styles and document geometry are unchanged. */
+.editor-sidebar[hidden] {
+  display: none;
+}
+.studio-shell.is-composing .release-button {
+  display: none;
+}
+.canvas-focus .studio-header {
+  display: none;
+}
+.canvas-focus :is(.ritual-import-banner, .demo-context-banner) {
+  min-height: 22px;
+  padding-block: 3px;
+  font-size: 10px;
+}
+.canvas-focus .studio-body {
+  min-height: 0;
+}
+.canvas-toolbar {
+  gap: 12px;
+  padding: 5px 16px;
+  height: auto;
+  min-height: 56px;
+  flex-wrap: wrap;
+}
+.canvas-breadcrumb {
+  flex: 1;
+  width: auto;
+  min-width: 80px;
+}
+.canvas-view-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.canvas-view-controls button,
+.focus-history button,
+.device-switch > button,
+.canvas-mode button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 6px 10px;
+  font-size: 11px;
+}
+.canvas-view-controls button {
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+.canvas-view-controls button[aria-pressed="true"] {
+  border-color: #bdc8b1;
+  background: #f7f8f2;
+}
+.focus-history {
+  display: flex;
+}
+.canvas-selection-bar {
+  padding: 0 16px;
+  min-height: 26px;
+  font-size: 10px;
+}
+.canvas-selection-bar > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.canvas-selection-bar :is(a, button) {
+  display: none;
+}
+.canvas-focus .canvas-selection-bar {
+  display: none;
+}
+.canvas-area .preview-stage {
+  padding: 0 14px;
+  min-height: 120px;
+}
+.preview-paper {
+  overflow: auto;
+}
+.canvas-footer {
+  padding: 7px 16px;
+  min-height: 22px;
+}
+.canvas-area .work-selection-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 14px;
+  padding: 3px 16px;
+  align-items: center;
+  flex: none;
+  background: #eef1e7;
+}
+.work-selection-summary > span,
+.work-selection-bar > p:not(.work-grouping-refusal) {
+  display: none;
+}
+.work-selection-actions {
+  overflow-x: auto;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+.work-selection-actions button {
+  flex: none;
+  min-height: 44px;
+}
+.work-grouping-refusal {
+  flex-basis: 100%;
+  padding: 6px 0;
+  color: #835336 !important;
+}
+.studies-bar {
+  padding-inline: 16px;
+}
+.studies-summary {
+  min-height: 44px;
+}
+.studies-summary > button {
+  min-height: 44px;
+}
+.is-comparing .studio-header .history-actions {
+  opacity: 0.45;
+}
+.is-comparing .canvas-selection-bar {
+  display: none;
+}
+.study-ab {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0 14px 10px;
+}
+.comparison-heading {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 6px;
+}
+.comparison-heading > div {
+  flex: 1;
+  min-width: 170px;
+}
+.comparison-heading strong {
+  display: block;
+  font:
+    20px Georgia,
+    serif;
+  color: #35452c;
+}
+.comparison-heading span {
+  display: block;
+  font-size: 10px;
+  color: #718065;
+  margin-top: 6px;
+}
+.comparison-heading button {
+  min-height: 44px;
+  padding: 7px 12px;
+  font-size: 11px;
+  border: 1px solid #cbd4c1;
+}
+.comparison-heading .comparison-apply {
+  background: #3b4d30;
+  color: #f7f9f1;
+  border-color: #3b4d30;
+}
+.comparison-scope {
+  font-size: 10px;
+  line-height: 1.6;
+  color: #6c775f;
+  margin: 8px 0;
+}
+.comparison-panes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+}
+.comparison-pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+.comparison-pane h3 {
+  font:
+    11px Arial,
+    sans-serif;
+  margin: 0;
+  padding: 10px 0;
+  color: #526446;
+}
+.comparison-pane h3 span {
+  margin-left: 8px;
+  color: #79876e;
+}
+.comparison-paper {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  border: 1px solid #d5dccd;
+  background: #fff;
+}
+.comparison-paper.is-mobile {
+  width: 390px;
+  max-width: 100%;
+  align-self: center;
+}
+.comparison-paper iframe {
+  height: 100%;
+  width: 100%;
+  border: 0;
+  display: block;
+}
+.comparison-switch {
+  display: none;
+}
+@media (max-width: 1100px) {
+  .canvas-breadcrumb {
+    display: none;
+  }
+  .canvas-toolbar {
+    justify-content: space-between;
+    gap: 4px;
+  }
+  .canvas-view-controls button > span {
+    display: none;
+  }
+  .document-name {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .studio-shell {
+    height: 100dvh;
+    min-height: 600px;
+  }
+  .studio-header {
+    min-height: 60px;
+    height: 60px;
+  }
+  .studio-brand small {
+    display: none;
+  }
+  .studio-header .view-site {
+    display: none;
+  }
+  .history-actions .icon-button {
+    width: 44px;
+    height: 44px;
+  }
+  .studio-body {
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .canvas-area {
+    flex: 1;
+    height: auto !important;
+    min-height: 0;
+    border: 0;
+  }
+  .canvas-toolbar {
+    gap: 0 4px;
+    padding: 3px 10px;
+  }
+  .canvas-mode {
+    order: 0;
+  }
+  .device-switch {
+    order: 1;
+    margin-left: auto;
+  }
+  .canvas-view-controls {
+    order: 2;
+  }
+  .focus-history {
+    order: 3;
+    margin-left: auto;
+  }
+  .canvas-selection-bar {
+    display: none;
+  }
+  .studies-summary > span {
+    display: none;
+  }
+  .studies-shelf {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    max-height: 38dvh;
+    overflow: auto;
+    padding-block: 10px;
+  }
+  .canvas-area .preview-stage {
+    flex: 1;
+    height: auto !important;
+    min-height: 100px;
+    padding: 0 8px;
+  }
+  .canvas-area .work-selection-bar {
+    padding: 2px 10px;
+    gap: 0 10px;
+  }
+  .work-selection-summary {
+    font-size: 10px;
+  }
+  .canvas-footer {
+    min-height: 18px;
+    padding: 3px 10px;
+  }
+  .editor-sidebar:not([hidden]) {
+    position: absolute;
+    z-index: 35;
+    inset: 106px 0 0;
+    width: 100%;
+    min-height: 0;
+    box-shadow: 0 -3px 25px #26341d22;
+  }
+  .editor-sidebar .workspace-title {
+    display: none;
+  }
+  .editor-sidebar .sidebar-scroll {
+    overflow-y: auto;
+    padding: 18px 24px;
+  }
+  .editor-sidebar .editor-tabs {
+    padding-top: 18px;
+  }
+  .editor-sidebar .sidebar-footer {
+    padding: 12px 24px;
+  }
+  .study-ab {
+    padding-inline: 8px;
+  }
+  .comparison-heading {
+    gap: 4px;
+  }
+  .comparison-heading > div {
+    flex-basis: 100%;
+    padding-bottom: 5px;
+  }
+  .comparison-heading strong {
+    font-size: 18px;
+  }
+  .comparison-heading button {
+    flex: 1;
+  }
+  .comparison-scope {
+    font-size: 9px;
+  }
+  .comparison-panes {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .comparison-pane {
+    grid-area: 1/1;
+  }
+  .comparison-pane[data-visible="false"] {
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .comparison-pane h3 {
+    display: none;
+  }
+  .comparison-switch {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+  .comparison-switch button {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    padding: 8px;
+    font-size: 11px;
+    border: 1px solid #ccd5c1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .comparison-switch button[aria-pressed="true"] {
+    background: #dce5d1;
+  }
+}
+.canvas-area .canvas-footer .canvas-save-status {
+  display: flex;
+  font-size: 10px;
+  letter-spacing: 0;
+}
