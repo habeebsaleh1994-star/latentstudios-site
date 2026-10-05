@@ -39,14 +39,12 @@ figcaption .d { font-family: var(--sans); font-style: normal; font-size: var(--l
 .arrow.prev { left: -8px; } .arrow.next { right: -8px; }
 @media (max-width: 760px) { .arrow { top: auto; bottom: -4px; transform: none; } .arrow.prev { left: 0; } .arrow.next { right: 0; } .stage { padding-bottom: 52px; } }
 .thumbs { display: flex; gap: 10px; overflow-x: auto; justify-content: safe center; padding: 18px 2px 6px; scrollbar-width: thin; }
-.thumbs button { flex: none; border: 0; padding: 0; background: none; cursor: pointer; opacity: .55; transition: opacity .3s var(--ease); outline-offset: 3px; }
-.thumbs button:hover, .thumbs button[aria-current="true"] { opacity: 1; }
-.thumbs button[aria-current="true"] { outline: 1px solid var(--peony); }
+.thumbs > button { flex: none; border: 0; padding: 0; background: none; cursor: pointer; opacity: .55; transition: opacity .3s var(--ease); outline-offset: 3px; }
+.thumbs > button:hover, .thumbs > button[aria-current="true"] { opacity: 1; }
+.thumbs > button[aria-current="true"] { outline: 1px solid var(--peony); }
 .thumbs img { height: 54px; width: auto; max-width: 96px; object-fit: cover; }
 .thumbs .t0 { font-family: var(--sans); font-size: var(--label-size); letter-spacing: var(--label-track); text-transform: var(--label-case); color: var(--ink-soft); height: 54px; padding-inline: 12px; display: grid; place-items: center; }
 [data-opt-thumbs="none"] .thumbs { display: none; }
-.edit-list .slide { margin-block: calc(clamp(48px, 9vh, 110px) * var(--sp)); }
-.edit-list .slide:first-child { margin-top: 0; }
 .slide.fade { animation: lant-in .6s var(--ease) both; }
 [data-motion="still"] .slide.fade { animation: none; }
 @keyframes lant-in { from { opacity: 0; } to { opacity: 1; } }
