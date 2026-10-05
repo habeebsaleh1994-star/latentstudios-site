@@ -7,7 +7,6 @@
  * overwriting it.
  */
 import { openDB, type DBSchema, type IDBPDatabase } from "idb";
-import type { StoredDocument } from "../database";
 import { studioSchema, type StudioDocument } from "./document";
 
 const LEGACY_KEY = "studio-v14";
@@ -19,6 +18,7 @@ const MAX_VIDEO_BYTES = 80 * 1024 * 1024;
 
 /** Images are kept as raw bytes, not file objects: Safari is unreliable at storing files in IndexedDB (and refuses them in private windows). Files stored by an earlier version are still read. */
 export type StoredImage = { type: string; data: ArrayBuffer };
+interface StoredDocument { value: unknown; revision: number }
 export interface RoomsDB extends DBSchema {
   documents: { key: string; value: StoredDocument };
   assets: { key: string; value: StoredImage | Blob };

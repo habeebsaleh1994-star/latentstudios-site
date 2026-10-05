@@ -1,12 +1,11 @@
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
-import hooks from "eslint-plugin-react-hooks";
 import globals from "globals";
 export default tseslint.config(
   { ignores: ["dist", "design/shared/studio.js"] },
   js.configs.recommended,
   {
-    files: ["backend/**/*.ts", "scripts/**/*.mjs", "tests/backend*.ts"],
+    files: ["scripts/**/*.mjs"],
     languageOptions: { globals: globals.node },
   },
   {
@@ -28,11 +27,5 @@ export default tseslint.config(
     // terse browser scripts: empty catches for private windows, short-circuit calls
     files: ["design/**/*.js"],
     rules: { "no-empty": "off", "@typescript-eslint/no-unused-vars": "off", "@typescript-eslint/no-unused-expressions": "off" },
-  },
-  {
-    files: ["**/*.{ts,tsx}"],
-    languageOptions: { globals: globals.browser },
-    plugins: { "react-hooks": hooks },
-    rules: { ...hooks.configs.recommended.rules },
   },
 );

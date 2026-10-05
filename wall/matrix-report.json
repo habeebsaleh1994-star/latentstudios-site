@@ -1,5 +1,294 @@
 {
- "total": 168,
- "failed": 0,
- "report": []
+ "total": 48,
+ "failed": 48,
+ "report": [
+  {
+   "id": "chromium lantern quiet thumbs=strip,stage=held phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern swiss thumbs=strip,stage=full phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern swiss thumbs=strip,stage=full desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern quiet thumbs=strip,stage=held desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern darkroom thumbs=none,stage=held phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern darkroom thumbs=none,stage=held desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern zine thumbs=none,stage=full desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern zine thumbs=none,stage=full phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern toned thumbs=strip,stage=full desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern gallery thumbs=strip,stage=held desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern gallery thumbs=strip,stage=held phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern toned thumbs=strip,stage=full phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern graphite thumbs=none,stage=full desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern cyanotype thumbs=none,stage=held phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern cyanotype thumbs=none,stage=held desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern graphite thumbs=none,stage=full phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern monotype thumbs=strip,stage=full desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern etching thumbs=strip,stage=held desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern etching thumbs=strip,stage=held phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern monotype thumbs=strip,stage=full phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern soft thumbs=none,stage=full phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern albumen thumbs=none,stage=held phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern albumen thumbs=none,stage=held desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "chromium lantern soft thumbs=none,stage=full desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern quiet thumbs=strip,stage=held desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern swiss thumbs=strip,stage=full phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern quiet thumbs=strip,stage=held phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern swiss thumbs=strip,stage=full desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern zine thumbs=none,stage=full desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern darkroom thumbs=none,stage=held phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern darkroom thumbs=none,stage=held desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern zine thumbs=none,stage=full phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern toned thumbs=strip,stage=full desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern gallery thumbs=strip,stage=held desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern gallery thumbs=strip,stage=held phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern toned thumbs=strip,stage=full phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern cyanotype thumbs=none,stage=held phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern graphite thumbs=none,stage=full phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern cyanotype thumbs=none,stage=held desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern graphite thumbs=none,stage=full desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern etching thumbs=strip,stage=held desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern monotype thumbs=strip,stage=full desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern etching thumbs=strip,stage=held phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern monotype thumbs=strip,stage=full phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern albumen thumbs=none,stage=held desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern soft thumbs=none,stage=full phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern soft thumbs=none,stage=full desktop",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  },
+  {
+   "id": "webkit lantern albumen thumbs=none,stage=held phone",
+   "fails": [
+    "RUN FAILED: page.waitForSelector: Timeout 20000ms exceeded."
+   ]
+  }
+ ]
 }

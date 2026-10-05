@@ -9,7 +9,6 @@
  * so the media store, undo history and publishing keep working unchanged.
  */
 import { z } from "zod";
-import type { Site } from "../model";
 
 export const STUDIO_VERSION = 14 as const;
 
@@ -91,70 +90,6 @@ export const studioSchema = z
   .strict();
 export type StudioDocument = z.infer<typeof studioSchema>;
 
-export type Migration = { doc: StudioDocument; notes: string[] };
-
-const paletteFor = { paper: "silk", white: "fog", ink: "night" } as const;
-
-/**
- * Version 13 to 14. Nothing is lost silently: anything that cannot be expressed as intent
- * is listed in `notes` so the artist can be told.
- */
-export function migrateFromV13(site: Site): Migration {
-  const notes: string[] = [];
-  const ap = site.appearances[site.styleId];
-  const theme = themeSchema.parse({
-    palette: paletteFor[ap.theme],
-    type: ap.typography === "modern" ? "atelier" : "silk",
-    space: ap.spacing <= 60 ? "close" : ap.spacing >= 100 ? "airy" : "standard",
-    accent: ap.identity.accent ?? undefined,
-  });
-  const room: RoomId = site.styleId === "archive" || site.styleId === "journal" ? "index" : "folio";
-  if (!["folio", "archive", "journal"].includes(site.styleId))
-    notes.push(`The "${site.styleId}" direction has no room yet; the site opens in ${room === "index" ? "Index" : "Folio"}.`);
-
-  const pages = site.pages.map((p) => {
-    const blocks: StudioBlock[] = p.blocks.map((b) =>
-      blockSchema.parse({
-        id: b.id,
-        type: b.type,
-        assetId: b.assetId,
-        // v13 had one caption per work: it becomes the title.
-        title: b.type === "text" ? "" : b.caption,
-        alt: b.alt,
-        focal: b.focal,
-        text: b.type === "text" ? b.text : "",
-      }),
-    );
-    const byId = new Map(blocks.map((b) => [b.id, b]));
-    const drop = new Set<string>();
-    const sections = p.composition?.enabled ? p.composition.desktop : [];
-    for (const s of sections) {
-      const members = s.blockIds.map((id) => byId.get(id)).filter((b): b is StudioBlock => !!b);
-      const media = members.filter((m) => m.type !== "text");
-      const text = members.filter((m) => m.type === "text");
-      if (members.length === 2 && media.length === 2) {
-        media[0].arrange = "with-next";
-      } else if (members.length === 2 && media.length === 1 && text.length === 1 && s.layout.startsWith("emphasis") && text[0].text.length <= 280) {
-        media[0].arrange = "margin-note";
-        media[0].note = text[0].text;
-        drop.add(text[0].id);
-      } else if (members.length > 2) {
-        notes.push(`Page "${p.title}": a group of ${members.length} works was flattened into a sequence (rooms pair works two at a time).`);
-      }
-    }
-    if (p.composition?.desktop.some((s) => s.width === "inset" || s.widthPercent != null || s.columnRatio != null))
-      notes.push(`Page "${p.title}": exact widths and column ratios were replaced by the room's own proportions.`);
-    if ((p as { studies?: unknown[] }).studies?.length) notes.push(`Page "${p.title}": ${(p as { studies?: unknown[] }).studies!.length} saved composition studies were not carried over.`);
-    if ((p as { intentions?: unknown[] }).intentions?.length) notes.push(`Page "${p.title}": relationship intentions were not carried over.`);
-    return pageSchema.parse({
-      id: p.id, kind: p.kind, title: p.title, label: p.label, subtitle: p.subtitle, meta: p.meta, inNav: p.inNav,
-      blocks: blocks.filter((b) => !drop.has(b.id)),
-    });
-  });
-
-  const doc = studioSchema.parse({ version: STUDIO_VERSION, room, name: site.name, tagline: site.tagline, email: site.email, theme, pages });
-  return { doc, notes };
-}
 
 /* ------------------------------------------------------------------ rooms */
 
