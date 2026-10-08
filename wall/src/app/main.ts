@@ -138,6 +138,8 @@ async function start() {
   });
   if (params.has("preview")) document.documentElement.dataset.preview = "on";
   addEventListener("hashchange", () => draw(false));
+  // photographs nothing refers to any more (replaced, or deleted from the library) are let go once the site is up
+  setTimeout(async () => { try { const { everyVersionAsset } = await import("./versions"); const keep = await state.store.everyLibrary(); for (const a of await everyVersionAsset()) keep.add(a); for (const a of Object.keys(state.site.library)) keep.add(a); await state.store.sweep(keep); } catch { /* storage may be unavailable */ } }, 2500);
   draw(false);
   if (!params.has("preview")) {
     (await import("./edit")).init();

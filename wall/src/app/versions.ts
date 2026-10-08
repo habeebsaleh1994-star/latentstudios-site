@@ -27,4 +27,10 @@ export function createVersions(space: string) {
   }
   return { list, latest, get, publish };
 }
+/** Every asset id any published version in this browser refers to; their bytes must stay so a version can be put back. */
+export async function everyVersionAsset(): Promise<Set<string>> {
+  const out = new Set<string>();
+  for (const v of await (await db()).getAll("versions")) for (const a of Object.keys(v.site.library)) out.add(a);
+  return out;
+}
 export type Versions = ReturnType<typeof createVersions>;

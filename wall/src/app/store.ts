@@ -82,6 +82,18 @@ export function createStore(space = "artist") {
   }
 
   async function clear() { await (await db()).delete("sites", space); }
-  return { load, save, onOther, putImage, prepare, src, bytes, clear, space };
+  /** Every asset id any site in this browser refers to (its library holds the trash's works too). */
+  async function everyLibrary(): Promise<Set<string>> {
+    const out = new Set<string>();
+    for (const rec of await (await db()).getAll("sites")) { const lib = (rec.value as { library?: Record<string, unknown> } | null)?.library; if (lib) for (const a of Object.keys(lib)) out.add(a); }
+    return out;
+  }
+  /** Let go of stored photographs nothing refers to any more (a replaced picture, a deleted upload). Only on load, so Undo within a session stays whole. */
+  async function sweep(referenced: Set<string>): Promise<number> {
+    const d = await db(), keys = await d.getAllKeys("assets"), gone = keys.filter((k) => !referenced.has(`asset:${k}`));
+    for (const k of gone) await d.delete("assets", k);
+    return gone.length;
+  }
+  return { load, save, onOther, putImage, prepare, src, bytes, clear, space, everyLibrary, sweep };
 }
 export type Store = ReturnType<typeof createStore>;

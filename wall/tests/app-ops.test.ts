@@ -244,3 +244,13 @@ describe("the record", () => {
     expect(() => O.setField(s, `page:${id}.entry.3.0.text`, "x")).toThrow(); expect(() => O.addEntry(s, "about", 0)).toThrow();
   });
 });
+
+describe("sequencing", () => {
+  it("a piece dragged to a place lands there; dropping it where it is changes nothing", () => {
+    const s = site(), before = works(s, "the-road-in");
+    expect(works(O.reorder(s, "the-road-in", 0, 3), "the-road-in")).toEqual([before[1], before[2], before[0], before[3]]);
+    expect(works(O.reorder(s, "the-road-in", 3, 0), "the-road-in")).toEqual([before[3], before[0], before[1], before[2]]);
+    expect(works(O.reorder(s, "the-road-in", 0, 4), "the-road-in")).toEqual([before[1], before[2], before[3], before[0]]); // to the very end
+    expect(O.reorder(s, "the-road-in", 1, 1)).toBe(s); expect(O.reorder(s, "the-road-in", 1, 2)).toBe(s); expect(O.reorder(s, "the-road-in", 9, 0)).toBe(s);
+  });
+});

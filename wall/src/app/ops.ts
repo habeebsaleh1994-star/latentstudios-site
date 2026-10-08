@@ -255,6 +255,14 @@ export function movePiece(site: S, id: string, k: number, dir: -1 | 1): S {
   if (k < 0 || j < 0 || j >= p.pieces.length) return site;
   [p.pieces[k], p.pieces[j]] = [p.pieces[j], p.pieces[k]]; tidy(p); return done(s);
 }
+/** A piece dragged to a place: `to` is where it lands in the sequence as it is now (before the piece is lifted). */
+export function reorder(site: S, id: string, from: number, to: number): S {
+  const s = clone(site), p = story(s, id);
+  if (from < 0 || from >= p.pieces.length || to < 0 || to > p.pieces.length) return site;
+  const [x] = p.pieces.splice(from, 1); p.pieces.splice(to > from ? to - 1 : to, 0, x);
+  if (JSON.stringify(p.pieces) === JSON.stringify(story(site, id).pieces)) return site;
+  tidy(p); return done(s);
+}
 export function removePiece(site: S, id: string, k: number): S {
   const s = clone(site), p = story(s, id);
   if (!p.pieces[k]) return site;
