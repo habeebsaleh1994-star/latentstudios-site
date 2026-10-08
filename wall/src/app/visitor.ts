@@ -2,6 +2,7 @@
 import { wire } from "./behave";
 import { viewOf, bookLeaves, type Ctx } from "./render";
 import { open, type Sealed } from "./lock";
+import { applyTheme } from "./theme";
 import type { SiteDocument, SitePage } from "../studio/site";
 type Static = { page: string | null; base: string; site: SiteDocument; sealed?: Sealed; names?: Record<string, string> };
 const S = (window as unknown as { STATIC: Static }).STATIC;
@@ -19,6 +20,8 @@ async function tryWord(word: string) {
   if (html == null) return false;
   remember(word); document.open(); document.write(html); document.close(); return true;
 }
+// the theme as the app would set it (accent fitted, day or night, the device followed), after the page's own first paint
+try { applyTheme(S.site.theme); const mq = matchMedia("(prefers-color-scheme: dark)"); mq.addEventListener("change", () => applyTheme(S.site.theme)); } catch { /* an old browser keeps the first paint */ }
 (async () => {
   if (S.sealed) { for (const w of given()) if (await tryWord(w)) return; ctx.open = tryWord; }
   wire(document.getElementById("app")!, ctx, p, viewOf(p, S.site), false);

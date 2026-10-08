@@ -29,6 +29,18 @@ describe("every look stays readable", () => {
     }
     expect(T.looksFor("folio")).not.toContain("cinema");
   });
+  for (const { id, l } of Object.entries(T.LOOKS).filter(([, l]) => l.vars).map(([id, l]) => ({ id, l: l as Look & { night?: Record<string, string>; day?: Record<string, string> } }))) {
+    it(`${id}: has its other half (${l.scheme === "dark" ? "a day" : "a night"}), and it reads as well`, () => {
+      const half = l.scheme === "dark" ? l.day : l.night; expect(half, `${id} needs a ${l.scheme === "dark" ? "day" : "night"}`).toBeTruthy();
+      const v = { ...l.vars!, ...half! };
+      expect(T.contrast(v["--ink"], v["--silk"])).toBeGreaterThanOrEqual(7);
+      expect(T.contrast(v["--ink-soft"], v["--silk"])).toBeGreaterThanOrEqual(4.5);
+      expect(T.contrast(v["--ink-soft"], v["--silk-deep"])).toBeGreaterThanOrEqual(4.5);
+      expect(T.contrast(T.fit(v["--peony"], v["--silk"], v["--ink"], 4.6), v["--silk"])).toBeGreaterThanOrEqual(4.5);
+      // the other half is the same art direction with the lights changed: its ground is on the other side of mid-grey
+      const lum = (h: string) => T.contrast(h, "#000000"); const wasDark = lum(l.vars!["--silk"]) < 5, isDark = lum(v["--silk"]) < 5; expect(isDark).toBe(!wasDark);
+    });
+  }
   for (const { id, v } of grounds) {
     it(`${id}: body text is at least 7:1, small secondary text at least 4.5:1`, () => {
       expect(T.contrast(v["--ink"], v["--silk"])).toBeGreaterThanOrEqual(7);

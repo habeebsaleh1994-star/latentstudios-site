@@ -159,7 +159,7 @@ describe("templates", () => {
     const g = O.applyHouse(site(), "gallery").site;
     expect(() => O.setTheme(g, { header: "rail" })).toThrow(/does not offer/);
     expect(() => O.setArrangement(g, "the-road-in", "book")).toThrow(/does not offer/);
-    expect(() => O.setTheme(g, { look: "swiss" })).toThrow(/does not offer/);
+    expect(() => O.setTheme(g, { look: "zine" })).toThrow(/does not offer/);
     expect(O.setTheme(g, { captions: "under", typeface: "jost" }).theme.captions).toBe("under");
     const m = O.applyHouse(site(), "monograph");
     expect(new Set(m.site.pages.flatMap((p) => (p.kind === "story" ? [p.arrangement] : [])))).toEqual(new Set(["book"]));

@@ -11,7 +11,7 @@
 <style>
 /* LATENT WALL — the front door. One quiet column; the templates are shown running, and move when pointed at. */
 :root {
-  --silk: #EEE9E7; --silk-deep: #E4DDDA; --ink: #29222A; --ink-soft: #6B5F66; --peony: #B87B8A; --rule: #D3C9C7;
+  --silk: #EEE9E7; --silk-deep: #E4DDDA; --ink: #29222A; --ink-soft: #6B5F66; --peony: #B87B8A; --peony-text: #A0697A; --rule: #D3C9C7;
   --serif: "Newsreader", "Iowan Old Style", Georgia, serif; --sans: "Instrument Sans", system-ui, sans-serif;
   --gutter: clamp(20px, 5vw, 80px); --ease: cubic-bezier(.22, .61, .36, 1);
 }
@@ -49,7 +49,7 @@ p { margin: 0 0 1em; text-wrap: pretty; }
 /* hero */
 .hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(36px, 6vw, 110px); align-items: center; padding-block: clamp(36px, 8vh, 100px) clamp(80px, 14vh, 170px); }
 .hero h1 { font-size: clamp(50px, 7.4vw, 116px); line-height: .96; letter-spacing: -.028em; margin: 24px 0 34px; }
-.hero h1 em { color: var(--peony); }
+.hero h1 em { color: var(--peony-text); }
 .hero .sub { font-size: clamp(19px, 1.5vw, 22px); line-height: 1.55; color: var(--ink-soft); max-width: 27em; font-weight: 300; }
 .cta { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; margin-top: 40px; }
 .hero .live { aspect-ratio: 16 / 10; box-shadow: 0 50px 90px -60px rgba(41, 34, 42, .45); }
@@ -113,7 +113,7 @@ section.s { padding-block: clamp(80px, 15vh, 180px); border-top: 1px solid var(-
 /* the last word */
 .last { padding-block: clamp(90px, 18vh, 220px); border-top: 1px solid var(--rule); text-align: center; }
 .last h2 { font-size: clamp(40px, 6vw, 92px); line-height: 1; letter-spacing: -.025em; }
-.last h2 em { color: var(--peony); }
+.last h2 em { color: var(--peony-text); }
 .last .cta { justify-content: center; }
 
 footer { border-top: 1px solid var(--rule); padding-block: 48px 56px; }

@@ -243,8 +243,8 @@ function customise() {
   const fromWork = workColours();
   if (fromWork === null) h2 += `<p class="hint">Reading the colours in your work…</p>`;
   else if (fromWork.length) h2 += `<p class="hint top" style="margin-top:14px">From your work</p><div class="swatches">${fromWork.map((a) => swatch(a, " work")).join("")}</div><p class="hint">The colours that recur in your photographs, each made to read on this ground.</p>`;
+  h2 += `<h3>Light</h3>${seg("mode", [["light", "Day"], ["dark", "Night"], ["system", "Follow the device"]], t.mode)}<p class="hint">${quiet ? "The site by day, by night, or as the visitor's device is set." : "Every look has a day and a night: the same art direction with the lights changed."}</p>`;
   if (quiet) {
-    h2 += `<h3>Light</h3>${seg("mode", [["light", "Day"], ["dark", "Night"], ["system", "Follow the device"]], t.mode)}`;
     h2 += `<h3>Palette</h3><div class="swatches">${Object.entries(L.PALETTES).map(([k, p]) => `<button type="button" class="sw pal" data-palette="${k}" aria-pressed="${t.palette === k}" aria-label="${esc(p.name)}"><i style="background:linear-gradient(135deg, ${p.light.silk} 50%, ${p.light.ink} 50%)"></i></button>`).join("")}</div>`;
   }
   if (h.typefaces.length > 1) h2 += `<h3>Type</h3><div class="types">${h.typefaces.map((k) => { const f = k ? TYPEFACES[k] : null; return `<button type="button" data-typeface="${k ?? ""}" aria-pressed="${(t.typeface ?? null) === k}"${f ? ` title="${esc(f.note)}"` : ""}><span class="aa"${f ? ` style="font-family:${f.display.replace(/"/g, "&quot;")};font-weight:${f.weight}"` : ""}>Aa</span><span class="tn">${f ? esc(f.name) : "The look's own"}</span></button>`; }).join("")}</div>`;

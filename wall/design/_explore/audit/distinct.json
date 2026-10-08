@@ -1,0 +1,286 @@
+{
+ "k": 24,
+ "report": [
+  {
+   "house": "folio",
+   "median": 0.4678,
+   "min": 0.0089,
+   "minPair": [
+    "{\"header\":\"centred\",\"opening\":\"image\",\"title\":\"plain\",\"captions\":\"under\",\"footer\":\"large\",\"scale\":\"monumental\",\"look\":\"quiet\",\"typeface\":\"bodoni\",\"accent\":\"#5F7389\",\"palette\":\"fog\",\"mount\":\"bare\",\"space\":\"airy\",\"mode\":\"light\"}",
+    "{\"header\":\"centred\",\"opening\":\"words\",\"title\":\"plain\",\"captions\":\"hidden\",\"footer\":\"large\",\"scale\":\"monumental\",\"look\":\"quiet\",\"typeface\":null,\"accent\":\"#5F7389\",\"palette\":\"fog\",\"mount\":\"line\",\"space\":\"airy\",\"mode\":\"light\"}"
+   ],
+   "near": 2,
+   "pairs": 276
+  },
+  {
+   "house": "gallery",
+   "median": 0.164,
+   "min": 0.0082,
+   "minPair": [
+    "{\"header\":\"name\",\"opening\":\"work\",\"title\":\"caps\",\"captions\":\"under\",\"footer\":\"minimal\",\"scale\":\"standard\",\"look\":\"graphite\",\"typeface\":\"jost\",\"accent\":null,\"palette\":\"fog\",\"mount\":\"line\",\"space\":\"close\",\"mode\":\"dark\"}",
+    "{\"header\":\"name\",\"opening\":\"work\",\"title\":\"plain\",\"captions\":\"under\",\"footer\":\"minimal\",\"scale\":\"standard\",\"look\":\"graphite\",\"typeface\":\"grotesk\",\"accent\":\"#7C8B7F\",\"palette\":\"clay\",\"mount\":\"matte\",\"space\":\"close\",\"mode\":\"dark\"}"
+   ],
+   "near": 7,
+   "pairs": 276
+  },
+  {
+   "house": "monograph",
+   "median": 0.4696,
+   "min": 0.0001,
+   "minPair": [
+    "{\"header\":\"stacked\",\"opening\":\"name\",\"title\":\"accent\",\"captions\":\"beside\",\"footer\":\"large\",\"scale\":\"intimate\",\"look\":\"darkroom\",\"typeface\":\"instrument\",\"accent\":\"#8A7280\",\"palette\":\"silk\",\"mount\":\"matte\",\"space\":\"close\",\"mode\":\"light\"}",
+    "{\"header\":\"stacked\",\"opening\":\"name\",\"title\":\"accent\",\"captions\":\"beside\",\"footer\":\"large\",\"scale\":\"standard\",\"look\":\"darkroom\",\"typeface\":\"instrument\",\"accent\":\"#7C8B7F\",\"palette\":\"clay\",\"mount\":\"bare\",\"space\":\"close\",\"mode\":\"light\"}"
+   ],
+   "near": 28,
+   "pairs": 276
+  },
+  {
+   "house": "passage",
+   "median": 0.125,
+   "min": 0.0026,
+   "minPair": [
+    "{\"header\":\"classic\",\"opening\":\"image\",\"title\":\"caps\",\"captions\":\"hover\",\"footer\":\"minimal\",\"scale\":\"standard\",\"look\":\"darkroom\",\"typeface\":\"newsreader\",\"accent\":\"#8A7280\",\"palette\":\"silk\",\"mount\":\"line\",\"space\":\"airy\",\"mode\":\"dark\"}",
+    "{\"header\":\"classic\",\"opening\":\"image\",\"title\":\"quiet\",\"captions\":\"hover\",\"footer\":\"minimal\",\"scale\":\"standard\",\"look\":\"darkroom\",\"typeface\":\"newsreader\",\"accent\":\"#B87B8A\",\"palette\":\"night\",\"mount\":\"line\",\"space\":\"close\",\"mode\":\"dark\"}"
+   ],
+   "near": 14,
+   "pairs": 276
+  },
+  {
+   "house": "reel",
+   "median": 0.224,
+   "min": 0.0053,
+   "minPair": [
+    "{}",
+    "{\"header\":\"classic\",\"opening\":\"words\",\"title\":\"caps\",\"captions\":\"hidden\",\"footer\":\"minimal\",\"scale\":\"monumental\",\"look\":\"cinema\",\"typeface\":\"newsreader\",\"accent\":null,\"palette\":\"bone\",\"mount\":\"line\",\"space\":\"standard\",\"mode\":\"light\"}"
+   ],
+   "near": 7,
+   "pairs": 276
+  },
+  {
+   "house": "salon",
+   "median": 0.6606,
+   "min": 0.0037,
+   "minPair": [
+    "{\"header\":\"classic\",\"opening\":\"image\",\"title\":\"accent\",\"captions\":\"under\",\"footer\":\"line\",\"scale\":\"intimate\",\"look\":\"plaster\",\"typeface\":\"fraunces\",\"accent\":\"#5F7389\",\"palette\":\"fog\",\"mount\":\"bare\",\"space\":\"airy\",\"mode\":\"light\"}",
+    "{\"header\":\"classic\",\"opening\":\"words\",\"title\":\"plain\",\"captions\":\"under\",\"footer\":\"line\",\"scale\":\"intimate\",\"look\":\"plaster\",\"typeface\":\"caslon\",\"accent\":\"#5F7389\",\"palette\":\"fog\",\"mount\":\"line\",\"space\":\"airy\",\"mode\":\"light\"}"
+   ],
+   "near": 4,
+   "pairs": 276
+  },
+  {
+   "house": "index",
+   "median": 0.508,
+   "min": 0.0068,
+   "minPair": [
+    "{\"header\":\"stacked\",\"opening\":\"name\",\"title\":\"plain\",\"captions\":\"under\",\"footer\":\"line\",\"scale\":\"intimate\",\"look\":\"quiet\",\"typeface\":\"courier\",\"accent\":\"#5F7389\",\"palette\":\"fog\",\"mount\":\"bare\",\"space\":\"airy\",\"mode\":\"light\"}",
+    "{\"header\":\"stacked\",\"opening\":\"words\",\"title\":\"plain\",\"captions\":\"hidden\",\"footer\":\"line\",\"scale\":\"intimate\",\"look\":\"quiet\",\"typeface\":\"archive\",\"accent\":\"#5F7389\",\"palette\":\"fog\",\"mount\":\"line\",\"space\":\"airy\",\"mode\":\"light\"}"
+   ],
+   "near": 1,
+   "pairs": 276
+  },
+  {
+   "house": "atelier",
+   "median": 0.2048,
+   "min": 0.0148,
+   "minPair": [
+    "{\"header\":\"stacked\",\"opening\":\"work\",\"title\":\"plain\",\"captions\":\"under\",\"footer\":\"large\",\"scale\":\"standard\",\"look\":\"zine\",\"typeface\":\"plex\",\"accent\":\"#A4574E\",\"palette\":\"clay\",\"mount\":\"matte\",\"space\":\"close\",\"mode\":\"light\"}",
+    "{\"header\":\"stacked\",\"opening\":\"words\",\"title\":\"plain\",\"captions\":\"under\",\"footer\":\"large\",\"scale\":\"standard\",\"look\":\"zine\",\"typeface\":\"grotesk\",\"accent\":\"#8A7280\",\"palette\":\"clay\",\"mount\":\"bare\",\"space\":\"close\",\"mode\":\"light\"}"
+   ],
+   "near": 2,
+   "pairs": 276
+  },
+  {
+   "house": "lantern",
+   "median": 0.1417,
+   "min": 0.0005,
+   "minPair": [
+    "{}",
+    "{\"header\":\"name\",\"opening\":\"name\",\"title\":\"caps\",\"captions\":\"under\",\"footer\":\"line\",\"scale\":\"standard\",\"look\":\"albumen\",\"typeface\":\"caslon\",\"accent\":\"#5F7389\",\"palette\":\"bone\",\"mount\":\"matte\",\"space\":\"standard\",\"mode\":\"light\"}"
+   ],
+   "near": 19,
+   "pairs": 276
+  }
+ ],
+ "cross": [
+  {
+   "a": "passage",
+   "b": "salon",
+   "d": 0.1056
+  },
+  {
+   "a": "monograph",
+   "b": "salon",
+   "d": 0.1062
+  },
+  {
+   "a": "monograph",
+   "b": "lantern",
+   "d": 0.1156
+  },
+  {
+   "a": "monograph",
+   "b": "passage",
+   "d": 0.1178
+  },
+  {
+   "a": "reel",
+   "b": "atelier",
+   "d": 0.1257
+  },
+  {
+   "a": "folio",
+   "b": "salon",
+   "d": 0.1435
+  },
+  {
+   "a": "salon",
+   "b": "lantern",
+   "d": 0.1892
+  },
+  {
+   "a": "gallery",
+   "b": "passage",
+   "d": 0.195
+  },
+  {
+   "a": "folio",
+   "b": "passage",
+   "d": 0.2022
+  },
+  {
+   "a": "passage",
+   "b": "lantern",
+   "d": 0.2061
+  },
+  {
+   "a": "folio",
+   "b": "monograph",
+   "d": 0.2108
+  },
+  {
+   "a": "passage",
+   "b": "index",
+   "d": 0.2139
+  },
+  {
+   "a": "salon",
+   "b": "index",
+   "d": 0.2142
+  },
+  {
+   "a": "gallery",
+   "b": "salon",
+   "d": 0.2194
+  },
+  {
+   "a": "monograph",
+   "b": "index",
+   "d": 0.2224
+  },
+  {
+   "a": "index",
+   "b": "lantern",
+   "d": 0.2344
+  },
+  {
+   "a": "reel",
+   "b": "index",
+   "d": 0.2383
+  },
+  {
+   "a": "gallery",
+   "b": "monograph",
+   "d": 0.2456
+  },
+  {
+   "a": "index",
+   "b": "atelier",
+   "d": 0.2646
+  },
+  {
+   "a": "gallery",
+   "b": "atelier",
+   "d": 0.2684
+  },
+  {
+   "a": "gallery",
+   "b": "reel",
+   "d": 0.2688
+  },
+  {
+   "a": "gallery",
+   "b": "index",
+   "d": 0.2717
+  },
+  {
+   "a": "folio",
+   "b": "lantern",
+   "d": 0.2732
+  },
+  {
+   "a": "passage",
+   "b": "reel",
+   "d": 0.2782
+  },
+  {
+   "a": "folio",
+   "b": "index",
+   "d": 0.2878
+  },
+  {
+   "a": "folio",
+   "b": "gallery",
+   "d": 0.2964
+  },
+  {
+   "a": "reel",
+   "b": "lantern",
+   "d": 0.2983
+  },
+  {
+   "a": "gallery",
+   "b": "lantern",
+   "d": 0.2996
+  },
+  {
+   "a": "passage",
+   "b": "atelier",
+   "d": 0.3018
+  },
+  {
+   "a": "reel",
+   "b": "salon",
+   "d": 0.3113
+  },
+  {
+   "a": "monograph",
+   "b": "reel",
+   "d": 0.3159
+  },
+  {
+   "a": "atelier",
+   "b": "lantern",
+   "d": 0.3197
+  },
+  {
+   "a": "salon",
+   "b": "atelier",
+   "d": 0.3223
+  },
+  {
+   "a": "monograph",
+   "b": "atelier",
+   "d": 0.3382
+  },
+  {
+   "a": "folio",
+   "b": "reel",
+   "d": 0.4007
+  },
+  {
+   "a": "folio",
+   "b": "atelier",
+   "d": 0.4042
+  }
+ ]
+}

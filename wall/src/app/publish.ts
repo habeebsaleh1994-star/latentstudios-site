@@ -96,6 +96,24 @@ const ASSETS: [string, string][] = [["assets/base.css", "/design/shared/base.css
 const FONTS = "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&family=Libre+Caslon+Text:ital,wght@0,400;1,400&family=Karla:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wght@400;500;600;700&family=Jost:wght@300;400;500&family=Fraunces:ital,wght@0,400;0,800;1,400;1,800&family=Courier+Prime:wght@400;700&family=Young+Serif&family=DM+Sans:wght@400;500&family=Bodoni+Moda:ital,wght@0,400;1,400&display=swap";
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 
+type ThemeLib = { LOOKS: Record<string, { scheme?: string; vars?: Record<string, string>; night?: Record<string, string>; day?: Record<string, string> }>; PALETTES: Record<string, { light: Record<string, string>; dark: Record<string, string> }>; accentFor: (look: string, chosen: string | null, dark: boolean, palette: string, vars?: Record<string, string>) => { peony: string; text: string; on: string } };
+/** The colour variables a page carries for one scheme: the look's own (or its other half), the palette for the quiet look, and the artist's accent fitted to that ground. */
+function colours(L: ThemeLib | undefined, t: SiteDocument["theme"], dark: boolean): Record<string, string> {
+  if (!L) return {};
+  const look = t.look !== "quiet" ? L.LOOKS[t.look] : null, out: Record<string, string> = {};
+  let vars: Record<string, string> | undefined;
+  if (look?.vars) {
+    const half = dark ? (look.scheme === "dark" ? {} : look.night) : (look.scheme === "light" ? {} : look.day);
+    vars = { ...look.vars, ...(half ?? {}) }; Object.assign(out, vars);
+    if (!half && dark !== (look.scheme === "dark")) dark = look.scheme === "dark"; // a look with no other half keeps its own scheme
+  } else {
+    const p = L.PALETTES[t.palette] ?? L.PALETTES.silk, c = dark ? p.dark : p.light;
+    Object.assign(out, { "--silk": c.silk, "--silk-deep": c.deep, "--ink": c.ink, "--ink-soft": c.soft, "--rule": c.rule });
+  }
+  const A = L.accentFor(look ? t.look : "quiet", t.accent, dark, t.palette, vars);
+  out["--peony"] = A.peony; out["--peony-text"] = A.text; out["--on-accent"] = A.on;
+  return out;
+}
 /** Whether a page stands behind the door for a visitor who has given nothing. */
 const hidden = (site: SiteDocument, p: SitePage | null) => site.door.soon || !!wordFor(site, p);
 /**
@@ -134,11 +152,15 @@ type FileOpts = {
 export function pageFile(site: SiteDocument, p: SitePage | null, base: string, o: FileOpts = {}): string {
   const ctx: Ctx = { site, editing: false, href: (id) => (id ? `${base}${encodeURIComponent(id)}/` : base || "./"), src: (a) => `${base}assets/img/${o.names?.get(a) ?? fileOf(a, site.library[a]?.kind ?? "image")}`, locked: o.lock ? () => o.lock! : undefined };
   const carried = publicSite(site, o.lock ? null : (o.keep ?? null));
-  const t = site.theme, look = t.look, L = (globalThis as unknown as { FolioTheme?: { LOOKS: Record<string, { vars?: Record<string, string> }> } }).FolioTheme;
-  const vars = look !== "quiet" && L?.LOOKS[look]?.vars ? L.LOOKS[look].vars! : {};
+  const t = site.theme, look = t.look, L = (globalThis as unknown as { FolioTheme?: ThemeLib }).FolioTheme;
   const face = t.typeface ? TYPEFACES[t.typeface] : null;
-  const style = Object.entries(vars).map(([k, v]) => `${k}:${v}`).concat(face ? [`--serif:${face.display}`, `--body:${face.body}`, `--sans:${face.label}`, `--title-weight:${face.weight}`] : []).join(";");
-  const data = `data-look="${look}" data-header="${t.header}" data-opening="${t.opening}" data-title="${t.title}" data-captions="${t.captions}" data-footer="${t.footer}" data-scale="${t.scale}" data-mount="${t.mount}" data-motion="${t.motion}" data-read="${t.read}"${t.typeface ? ` data-typeface="${t.typeface}"` : ""} data-preview="on"`;
+  const faceVars = face ? [`--serif:${face.display}`, `--body:${face.body}`, `--sans:${face.label}`, `--title-weight:${face.weight}`] : [];
+  // the colours for the first paint: by day, by night, or both (the device's choice) when the mode is "system"
+  const day = colours(L, t, false), night = colours(L, t, true), first = t.mode === "dark" ? night : day;
+  const style = Object.entries(first).map(([k, v]) => `${k}:${v}`).concat(faceVars).join(";");
+  const nightBlock = t.mode === "system" ? `<style>@media (prefers-color-scheme: dark) { :root { ${Object.entries(night).map(([k, v]) => `${k}:${v}`).join(";")} } }</style>` : "";
+  const scheme = t.mode === "system" ? "" : ` data-scheme="${t.mode === "dark" ? "dark" : "light"}"`;
+  const data = `data-look="${look}"${scheme} data-header="${t.header}" data-opening="${t.opening}" data-title="${t.title}" data-captions="${t.captions}" data-footer="${t.footer}" data-scale="${t.scale}" data-mount="${t.mount}" data-motion="${t.motion}" data-read="${t.read}"${t.typeface ? ` data-typeface="${t.typeface}"` : ""} data-preview="on"`;
   const ap = appearsOf(ctx, p), shareFile = ap.share ? shareFileFor(site, p) : null;
   return `<!doctype html>
 <html lang="en" ${data}${style ? ` style="${esc(style)}"` : ""}>
@@ -161,6 +183,7 @@ export function pageFile(site: SiteDocument, p: SitePage | null, base: string, o
 <link rel="stylesheet" href="${base}assets/viewer.css">
 <link rel="stylesheet" href="${base}assets/app.css">
 <link rel="stylesheet" href="${base}assets/app-looks.css">
+${nightBlock}${t.mode === "system" ? `<script>document.documentElement.dataset.scheme=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"</script>` : ""}
 </head>
 <body><div id="app">${renderPage(ctx, p)}</div>
 <script>window.STATIC=${JSON.stringify({ page: p ? p.id : null, base, site: carried, sealed: o.sealed, names: o.lock ? undefined : Object.fromEntries([...(o.names ?? [])].filter(([a]) => a in carried.library)) }).replace(/</g, "\\u003c")}</script>

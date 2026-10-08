@@ -74,6 +74,7 @@ h1 em, h2 em, .big em { font-style: var(--em-style); color: var(--em-color); bac
 .v-book .stage { min-height: 0; display: grid; place-items: center; padding-inline: var(--gutter); }
 .v-book .spread { position: relative; width: min(100%, calc((100dvh - 172px) * 2)); aspect-ratio: 2 / 1; container-type: size; display: grid; grid-template-columns: 1fr 1fr; background: var(--page, color-mix(in srgb, var(--silk) 70%, #fff)); border: var(--rule-w) solid var(--rule); transition: opacity .42s var(--ease); }
 .v-book .spread.turning { opacity: 0; }
+[data-scheme="dark"] .v-book .spread { background: var(--page, color-mix(in srgb, var(--silk) 70%, #000)); }
 .v-book .spread::after { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--rule); pointer-events: none; }
 .v-book .spread:has(.wide)::after { display: none; }
 .v-book .pg { position: relative; min-width: 0; overflow: hidden; }
@@ -466,7 +467,7 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
 .frame.turned { transform: perspective(1400px) rotateY(180deg); }
 .frame:has(> .verso) > img { backface-visibility: hidden; }
 .verso { position: absolute; inset: 0; transform: rotateY(180deg); backface-visibility: hidden; overflow: auto; background: color-mix(in srgb, var(--silk-deep) 60%, #fff); color: var(--ink); border: var(--frame); box-shadow: inset 0 0 60px -30px rgba(0,0,0,.18); }
-[data-look="darkroom"] .verso, [data-look="monotype"] .verso, [data-look="cinema"] .verso, [data-look="proof"] .verso, [data-look="blueprint"] .verso { background: color-mix(in srgb, var(--silk-deep) 70%, #fff 10%); }
+[data-scheme="dark"] .verso { background: color-mix(in srgb, var(--silk-deep) 75%, #000); }
 .verso-in { padding: clamp(14px, 5%, 34px) clamp(16px, 6%, 40px); display: grid; gap: .5em; align-content: start; font-family: var(--serif); min-height: 100%; }
 .verso-in .label { display: block; margin-bottom: .6em; }
 .verso-in p { margin: 0; font-size: clamp(14px, 1.3vw, 18px); line-height: 1.45; color: var(--ink); }

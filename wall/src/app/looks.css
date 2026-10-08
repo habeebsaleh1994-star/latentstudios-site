@@ -77,3 +77,14 @@
 [data-look="soft"] .v-film .screen, [data-look="soft"] .compare { border-radius: 26px; } [data-look="soft"] .v-film .watch { border-radius: 999px; }
 [data-look="soft"] .v-project .fig figcaption .n { background: var(--silk-deep); border-radius: 999px; padding: 2px 9px; }
 [data-look="soft"] .v-project .fig figcaption b { font-style: normal; }
+
+/* ================================================================== the other half: a look's few fixed colours, with the lights changed */
+[data-look="proof"][data-scheme="light"] .v-held .frame { background: #F7F1E3; }
+[data-look="proof"][data-scheme="light"] .v-held .frame::before, [data-look="proof"][data-scheme="light"] .v-held .frame::after { background: repeating-linear-gradient(90deg, #4A4236 0 15px, transparent 15px 36px); }
+[data-look="zine"][data-scheme="dark"] .card .note { background: #2A2720; }
+[data-look="cinema"][data-scheme="light"] .v-film .screen { outline-color: #D2C9BE; }
+[data-look="cinema"][data-scheme="light"] .v-film .screen::after { background: radial-gradient(ellipse at center, transparent 60%, rgba(23, 19, 18, .25) 100%); }
+[data-look="cinema"][data-scheme="light"] .opening-image { box-shadow: inset 0 0 120px 40px rgba(23, 19, 18, .22); }
+[data-look="blueprint"][data-scheme="light"] body { background-image: linear-gradient(rgba(30, 111, 176, .14) 1px, transparent 1px), linear-gradient(90deg, rgba(30, 111, 176, .14) 1px, transparent 1px); }
+[data-look="albumen"][data-scheme="dark"] .v-slides .frame, [data-look="albumen"][data-scheme="dark"] .v-held .frame { background: #3A2E1E; }
+[data-look="plaster"][data-scheme="dark"] .v-wall .art .frame { border-color: #0a0a0a; }

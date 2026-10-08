@@ -11,7 +11,7 @@
 <style>
 /* LATENT WALL — the front door, prototype B+C: the thousand walls, then your name on one of them. */
 :root {
-  --silk: #EEE9E7; --silk-deep: #E4DDDA; --ink: #29222A; --ink-soft: #6B5F66; --peony: #B87B8A; --rule: #D3C9C7;
+  --silk: #EEE9E7; --silk-deep: #E4DDDA; --ink: #29222A; --ink-soft: #6B5F66; --peony: #B87B8A; --peony-text: #A0697A; --rule: #D3C9C7;
   --night: #161214; --night-ink: #ECE4E4; --night-soft: #A99BA1;
   --serif: "Newsreader", "Iowan Old Style", Georgia, serif; --sans: "Instrument Sans", system-ui, sans-serif;
   --gutter: clamp(20px, 5vw, 80px); --ease: cubic-bezier(.22, .61, .36, 1);
@@ -83,7 +83,7 @@ body.inside .top { opacity: 0; transform: translateY(-8px); pointer-events: none
 /* ------------------------------------------------ 3. five moments, shown */
 .moments { background: var(--silk); padding: clamp(80px, 14vh, 170px) 0 0; }
 .moments .head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 20px 80px; align-items: end; margin-bottom: clamp(40px, 7vh, 90px); }
-.moments h2 { font-size: clamp(40px, 5.2vw, 84px); line-height: .98; letter-spacing: -.026em; margin-top: 14px; } .moments h2 em { color: var(--peony); }
+.moments h2 { font-size: clamp(40px, 5.2vw, 84px); line-height: .98; letter-spacing: -.026em; margin-top: 14px; } .moments h2 em { color: var(--peony-text); }
 .moments .head p { color: var(--ink-soft); font-weight: 300; max-width: 34em; }
 .moment { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 24px clamp(30px, 5vw, 90px); align-items: center; padding: clamp(36px, 6vh, 80px) 0; border-top: 1px solid var(--rule); }
 .moment:nth-child(even) { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); } .moment:nth-child(even) .w { order: 2; }
@@ -97,13 +97,13 @@ body.inside .top { opacity: 0; transform: translateY(-8px); pointer-events: none
 
 /* ------------------------------------------------ 4. who it is for, plans in one line, start */
 .who { padding: clamp(80px, 14vh, 170px) 0; }
-.who h2 { font-size: clamp(40px, 5.2vw, 84px); line-height: .98; letter-spacing: -.026em; margin-top: 14px; } .who h2 em { color: var(--peony); }
+.who h2 { font-size: clamp(40px, 5.2vw, 84px); line-height: .98; letter-spacing: -.026em; margin-top: 14px; } .who h2 em { color: var(--peony-text); }
 .who .four { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; margin-top: clamp(40px, 7vh, 80px); }
 .who .four a { display: block; text-decoration: none; } .who .four .pic { aspect-ratio: 16 / 10; overflow: hidden; background: var(--silk-deep); margin-bottom: 16px; } .who .four img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform 1.4s var(--ease); } .who .four a:hover img { transform: scale(1.03); }
 .who .four b { display: block; font-weight: 300; font-size: 26px; letter-spacing: -.012em; } .who .four span { display: block; font-size: 16px; color: var(--ink-soft); margin-top: 4px; }
 @media (max-width: 920px) { .who .four { grid-template-columns: repeat(2, 1fr); } }
 .last { padding: clamp(80px, 14vh, 170px) 0; border-top: 1px solid var(--rule); text-align: center; }
-.last h2 { font-size: clamp(44px, 6.4vw, 104px); line-height: .96; letter-spacing: -.03em; margin: 18px auto 0; max-width: 12ch; } .last h2 em { color: var(--peony); }
+.last h2 { font-size: clamp(44px, 6.4vw, 104px); line-height: .96; letter-spacing: -.03em; margin: 18px auto 0; max-width: 12ch; } .last h2 em { color: var(--peony-text); }
 .last .cta { display: flex; justify-content: center; gap: 28px; align-items: center; margin-top: 40px; flex-wrap: wrap; }
 .last .plans { margin-top: 48px; color: var(--ink-soft); font-weight: 300; }
 footer { border-top: 1px solid var(--rule); padding: 36px 0 60px; } .foot { display: flex; justify-content: space-between; gap: 20px 40px; align-items: baseline; flex-wrap: wrap; }

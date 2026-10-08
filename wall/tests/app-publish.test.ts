@@ -72,3 +72,19 @@ describe("the files", () => {
     expect(address("Nadia Haddad")).toBe("nadia-haddad.latent.site"); expect(address("Éloïse  Marchand!")).toBe("eloise-marchand.latent.site");
   });
 });
+
+describe("night and colour in the files", () => {
+  it("a page carries its look's night when the site is set to night, both when it follows the device, and the artist's accent fitted", () => {
+    const s = O.setTheme(site(), { look: "toned", mode: "dark" });
+    const night = pageFile(s, null, "");
+    expect(night).toMatch(/data-scheme="dark"/); expect(night).toMatch(/--silk:#2A2016/); expect(night).not.toMatch(/--silk:#D8C6A4/);
+    const day = pageFile(O.setTheme(site(), { look: "toned", mode: "light" }), null, "");
+    expect(day).toMatch(/data-scheme="light"/); expect(day).toMatch(/--silk:#D8C6A4/); expect(day).not.toMatch(/prefers-color-scheme/);
+    const both = pageFile(O.setTheme(site(), { look: "toned", mode: "system" }), null, "");
+    expect(both).toMatch(/--silk:#D8C6A4/); expect(both).toMatch(/@media \(prefers-color-scheme: dark\) \{ :root \{ [^}]*--silk:#2A2016/); expect(both).toMatch(/dataset\.scheme=matchMedia/);
+    const accent = pageFile(O.setTheme(site(), { accent: "#5F7389", mode: "light" }), null, "");
+    expect(accent).toMatch(/--peony:#[0-9a-fA-F]{6}/); expect(accent).toMatch(/--peony-text:#/);
+    const quietNight = pageFile(O.setTheme(site(), { palette: "fog", mode: "dark" }), null, "");
+    expect(quietNight).toMatch(/--silk:#151A19/); // the fog palette's night
+  });
+});

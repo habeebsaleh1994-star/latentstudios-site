@@ -130,6 +130,8 @@ async function start() {
   if (h && isDemo) { const { applyHouse } = await import("./ops"); state.site = applyHouse(state.site, h as never).site; state.revision = await state.store.save(state.site, state.revision); }
   else if (!stored && sample) { const { applyHouse } = await import("./ops"); state.site = applyHouse(state.site, state.site.house).site; state.revision = await state.store.save(state.site, state.revision); }
   { const { conform } = await import("./ops"); const c = conform(state.site); if (JSON.stringify(c) !== JSON.stringify(state.site)) { state.site = c; state.revision = await state.store.save(c, state.revision); } }
+  // ?theme= sets a demo's theme from the address, after the template has been applied (the audits render many combinations); what the template does not offer is refused
+  if (isDemo && params.get("theme")) { try { const { setTheme } = await import("./ops"); state.site = setTheme(state.site, JSON.parse(params.get("theme")!)); } catch (e) { console.warn("theme refused:", (e as Error).message); } }
   await state.store.prepare(Object.keys(state.site.library));
   state.store.onOther(async (site, revision) => {
     if (revision <= state.revision) return;
