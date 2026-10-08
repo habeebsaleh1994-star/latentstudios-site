@@ -71,6 +71,7 @@ export function checks(s: SiteDocument): { text: string; stop?: boolean }[] {
     if (p.kind === "film" && !p.poster && !p.video && !p.link) out.push({ text: `“${titleOf(p)}” has no film, poster or link yet.` });
   }
   for (const p of s.pages) if ((p.kind === "about" || p.kind === "contact") && !p.paras.some((t) => t.trim())) out.push({ text: `${p.title} is empty.` });
+  for (const p of s.pages) if (p.kind === "record" && !p.paras.some((t) => t.trim()) && !p.sections.some((x) => x.entries.length)) out.push({ text: `${p.title} is empty.` });
   if (s.door.soon) out.push({ text: `Visitors will see only a holding page${s.door.word ? "; those with the word get in" : ""}.` });
   else if (s.door.word) out.push({ text: `The whole site is behind the word “${s.door.word}”.` });
   else for (const p of s.pages) if (p.word) out.push({ text: `“${titleOf(p)}” is behind the word “${p.word}”.` });

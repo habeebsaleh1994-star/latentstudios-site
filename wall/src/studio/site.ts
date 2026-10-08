@@ -146,7 +146,14 @@ export const contactPageSchema = z.object({
   paras: z.array(z.string().max(10000)).max(50).default([]),
 }).strict();
 
-export const sitePageSchema = z.discriminatedUnion("kind", [storyPageSchema, writingPageSchema, filmPageSchema, projectPageSchema, aboutPageSchema, contactPageSchema]);
+/** The record: a statement, then dated lists (exhibitions, publications, awards, collections, education), each a section. */
+export const recordPageSchema = z.object({
+  ...common, kind: z.literal("record"),
+  paras: z.array(z.string().max(10000)).max(50).default([]),
+  sections: z.array(z.object({ title: short, entries: z.array(z.object({ year: z.string().max(12).default(""), text: z.string().max(2000) }).strict()).max(200).default([]) }).strict()).max(30).default([]),
+}).strict();
+
+export const sitePageSchema = z.discriminatedUnion("kind", [storyPageSchema, writingPageSchema, filmPageSchema, projectPageSchema, aboutPageSchema, contactPageSchema, recordPageSchema]);
 export type SitePage = z.infer<typeof sitePageSchema>;
 export type StoryPage = z.infer<typeof storyPageSchema>;
 

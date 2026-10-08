@@ -13,7 +13,9 @@ const find = (s: S, id: string) => { const p = s.pages.find((x) => x.id === id);
 const story = (s: S, id: string) => { const p = find(s, id); if (p.kind !== "story") throw new Error(`"${id}" is not a story.`); return p; };
 
 export type PageKind = SitePage["kind"];
-export const KIND_NAMES: Record<PageKind, string> = { story: "Story", writing: "Writing", film: "Film", project: "Project", about: "About", contact: "Contact" };
+export const KIND_NAMES: Record<PageKind, string> = { story: "Story", writing: "Writing", film: "Film", project: "Project", about: "About", contact: "Contact", record: "Record" };
+/** The sections a record usually has, offered as one press each. */
+export const RECORD_SECTIONS = ["Exhibitions", "Publications", "Awards", "Collections", "Education", "Press"] as const;
 
 /** An address made from the title, unique within the site. */
 export function slug(s: S, title: string, except?: string) {
@@ -58,9 +60,11 @@ export function setField(site: S, field: string, value: string): S {
     const p = find(s, m[1]) as Record<string, unknown> & SitePage, f = m[2];
     let k: RegExpMatchArray | null;
     if ((k = f.match(/^appears\.(title|description)$/))) p.appears[k[1] as "title"] = v;
+    else if ((k = f.match(/^section\.(\d+)\.title$/))) { const sec = record(p).sections[+k[1]]; if (!sec) throw new Error(`No section ${k[1]} on ${p.id}.`); sec.title = v; }
+    else if ((k = f.match(/^entry\.(\d+)\.(\d+)\.(year|text)$/))) { const e = record(p).sections[+k[1]]?.entries[+k[2]]; if (!e) throw new Error(`No entry ${k[1]}.${k[2]} on ${p.id}.`); e[k[3] as "year"] = v; }
     else if ((k = f.match(/^(para|principle)\.(\d+)$/))) { const list = (k[1] === "para" ? p.paras : (p as { principles: string[] }).principles) as string[] | undefined; if (!list) throw new Error(`No ${k[1]} on ${p.id}.`); list[+k[2]] = v; }
     else if (f === "credits" || f === "facts") p[f] = v.split("\n").map((t) => t.trim()).filter(Boolean);
-    else if (f === "title" && p.kind !== "about" && p.kind !== "contact" && !v) p.title = "Untitled";
+    else if (f === "title" && p.kind !== "about" && p.kind !== "contact" && p.kind !== "record" && !v) p.title = "Untitled";
     else if (f in p && typeof p[f] === "string") p[f] = v;
     else throw new Error(`No field ${f} on ${p.id}.`);
   } else throw new Error(`Unknown field ${field}.`);
@@ -70,13 +74,14 @@ export function setField(site: S, field: string, value: string): S {
 /* ------------------------------------------------------------------ pages */
 
 export function addPage(site: S, kind: PageKind, title?: string): { site: S; id: string } {
-  const s = clone(site), t = title ?? ({ story: "New story", writing: "A new piece", film: "A new film", project: "A new project", about: "About", contact: "Contact" } as const)[kind];
+  const s = clone(site), t = title ?? ({ story: "New story", writing: "A new piece", film: "A new film", project: "A new project", about: "About", contact: "Contact", record: "Record" } as const)[kind];
   const id = slug(s, t), base = { id, title: t, titleEm: "", inNav: true, word: "", appears: { title: "", description: "", share: null } };
   const page: SitePage = kind === "story" ? { ...base, kind, kicker: "", note: "", arrangement: house(s.house).arrangements[0], pieces: [] }
     : kind === "writing" ? { ...base, kind, form: "Poem", place: "", year: String(new Date().getFullYear()), paras: [""], margin: "", image: null }
     : kind === "film" ? { ...base, kind, form: "Short film", year: String(new Date().getFullYear()), runtime: "", ratio: "16:9", synopsis: "", poster: null, video: null, link: "", stills: [], credits: [] }
     : kind === "project" ? { ...base, kind, discipline: "", client: "", year: String(new Date().getFullYear()), summary: "", outcome: [], process: [], compare: false, facts: [] }
-    : kind === "about" ? { ...base, kind, paras: [""], principles: [] } : { ...base, kind, paras: [""] };
+    : kind === "about" ? { ...base, kind, paras: [""], principles: [] }
+    : kind === "record" ? { ...base, kind, paras: [""], sections: [{ title: "Exhibitions", entries: [] }] } : { ...base, kind, paras: [""] };
   // work pages go after the last work page, words pages at the end
   const isWork = (p: SitePage) => p.kind === "story" || p.kind === "writing" || p.kind === "film" || p.kind === "project";
   const lastWork = s.pages.map(isWork).lastIndexOf(true);
@@ -360,6 +365,29 @@ export function setCompare(site: S, id: string, on: boolean): S {
 export function setWritingImage(site: S, id: string, image: { asset: string; at: "cover" | number } | null): S {
   const s = clone(site), p = find(s, id); if (p.kind !== "writing") throw new Error(`${id} is not writing.`); p.image = image; return done(s);
 }
+/* ------------------------------------------------------------------ the record's sections and entries */
+type RecordPage = Extract<SitePage, { kind: "record" }>;
+const record = (p: SitePage): RecordPage => { if (p.kind !== "record") throw new Error(`${p.id} is not a record.`); return p; };
+const move = <T>(arr: T[], i: number, dir: -1 | 1) => { const j = i + dir; if (i < 0 || i >= arr.length || j < 0 || j >= arr.length) return false; [arr[i], arr[j]] = [arr[j], arr[i]]; return true; };
+export function addSection(site: S, id: string, title: string): S {
+  const s = clone(site), p = record(find(s, id)); p.sections.push({ title: title.trim() || "A section", entries: [] }); return done(s);
+}
+export function removeSection(site: S, id: string, n: number): S {
+  const s = clone(site), p = record(find(s, id)); if (!p.sections[n]) return site; p.sections.splice(n, 1); return done(s);
+}
+export function moveSection(site: S, id: string, n: number, dir: -1 | 1): S {
+  const s = clone(site), p = record(find(s, id)); return move(p.sections, n, dir) ? done(s) : site;
+}
+export function addEntry(site: S, id: string, n: number): S {
+  const s = clone(site), p = record(find(s, id)); if (!p.sections[n]) throw new Error(`No section ${n}.`); p.sections[n].entries.push({ year: "", text: "" }); return done(s);
+}
+export function removeEntry(site: S, id: string, n: number, m: number): S {
+  const s = clone(site), p = record(find(s, id)); if (!p.sections[n]?.entries[m]) return site; p.sections[n].entries.splice(m, 1); return done(s);
+}
+export function moveEntry(site: S, id: string, n: number, m: number, dir: -1 | 1): S {
+  const s = clone(site), p = record(find(s, id)); return p.sections[n] && move(p.sections[n].entries, m, dir) ? done(s) : site;
+}
+
 export function addPara(site: S, id: string, field: "paras" | "principles" = "paras"): S {
   const s = clone(site), p = find(s, id) as Record<string, unknown>, arr = p[field] as string[] | undefined;
   if (!arr) throw new Error(`${id} has no ${field}.`); arr.push(""); return done(s);

@@ -79,7 +79,7 @@ const shown = (c: Ctx) => workPages(c.site).filter((p) => p.inNav || c.editing);
 function navLinks(c: Ctx, on: string) {
   const links: [string, string][] = [];
   if (workPages(c.site).length) links.push(["", house(c.site.house).menu]);
-  for (const p of c.site.pages) if ((p.kind === "about" || p.kind === "contact") && p.inNav) links.push([p.id, p.title]);
+  for (const p of c.site.pages) if ((p.kind === "about" || p.kind === "contact" || p.kind === "record") && p.inNav) links.push([p.id, p.title]);
   return links.map(([id, t]) => `<a href="${c.href(id)}"${on === id ? ' aria-current="page"' : ""}>${esc(t)}</a>`).join("");
 }
 function bar(c: Ctx, on: string) {
@@ -347,7 +347,7 @@ export type View = "front" | "held" | "book" | "passage" | "contact" | "wall" | 
 export function viewOf(p: SitePage | null, s?: SiteDocument): View {
   if (!p) return s?.front.form === "walk" ? "passage" : "front";
   if (p.kind === "story") return p.arrangement;
-  if (p.kind === "about" || p.kind === "contact") return "words";
+  if (p.kind === "about" || p.kind === "contact" || p.kind === "record") return "words";
   return p.kind;
 }
 
@@ -357,6 +357,12 @@ export function door(c: Ctx, p: SitePage | null, why: "soon" | "word"): string {
   if (why === "soon") return `<main class="v-door" data-why="soon"><section class="door"><h1>${esc(s.name)}</h1><p class="note">${esc(s.door.note || "Soon.")}</p>${s.door.word ? form : ""}</section></main>`;
   const title = p ? plainTitle(p.title, p.titleEm) : esc(s.name);
   return `<main class="v-door" data-why="word"><section class="door"><h1>${title}</h1><p class="note">${s.door.word ? "This site is shown to those who have the word." : "This page is shown to those who have the word."}</p>${form}</section></main>`;
+}
+/** The record: a statement, then the dated lists, each a section with the year in a margin. */
+function record(c: Ctx, p: Extract<SitePage, { kind: "record" }>) {
+  const paras = p.paras.map((t, i) => ed(c, `page:${p.id}.para.${i}`, t, "p", "", i ? "Another paragraph" : "A statement: what the work is, and why")).join("");
+  const secs = p.sections.map((sec, n) => `<section class="rsec"><h2 class="label">${ed(c, `page:${p.id}.section.${n}.title`, sec.title, "span", "", "Section")}</h2>${sec.entries.length ? `<ol>${sec.entries.map((e, m) => `<li><span class="yr">${ed(c, `page:${p.id}.entry.${n}.${m}.year`, e.year, "span", "", "Year")}</span><span class="tx">${ed(c, `page:${p.id}.entry.${n}.${m}.text`, e.text, "span", "", "What, where")}</span></li>`).join("")}</ol>` : c.editing ? `<p class="none">Nothing here yet; add entries in the panel.</p>` : ""}</section>`).join("");
+  return `<main class="v-words v-record"><section class="words"><div><h1>${ed(c, `page:${p.id}.title`, p.title, "span", "", "Title")}</h1></div><div class="body">${paras}</div></section>${secs ? `<div class="record">${secs}</div>` : ""}</main>`;
 }
 export function page(c: Ctx, p: SitePage | null): string {
   const on = !p || workPages(c.site).some((x) => x.id === p.id) ? "" : p.id;
@@ -369,6 +375,7 @@ export function page(c: Ctx, p: SitePage | null): string {
   else if (p.kind === "writing") main = writing(c, p);
   else if (p.kind === "film") main = film(c, p);
   else if (p.kind === "project") main = project(c, p);
+  else if (p.kind === "record") main = record(c, p);
   else main = words(c, p);
   const v = viewOf(p, c.site);
   return bar(c, on) + main + (v === "book" || v === "passage" ? "" : foot(c, on));

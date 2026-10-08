@@ -225,3 +225,22 @@ describe("library, films, projects, writing", () => {
     expect(JSON.stringify(a)).toBe(before);
   });
 });
+
+describe("the record", () => {
+  it("is a page of a statement and dated sections; entries and sections are added, moved, written and removed", () => {
+    let s = site();
+    const r = O.addPage(s, "record"); s = r.site; const id = r.id;
+    const rec = () => s.pages.find((p) => p.id === id) as Extract<SiteDocument["pages"][number], { kind: "record" }>;
+    expect(id).toBe("record"); expect(rec().sections.map((x) => x.title)).toEqual(["Exhibitions"]); expect(s.pages[s.pages.length - 1].id).toBe(id); // a words page goes last
+    s = O.addEntry(s, id, 0); s = O.setField(s, `page:${id}.entry.0.0.year`, "2026"); s = O.setField(s, `page:${id}.entry.0.0.text`, "The road in, Beit Beirut");
+    s = O.addEntry(s, id, 0); s = O.setField(s, `page:${id}.entry.0.1.text`, "Ordinary things");
+    s = O.moveEntry(s, id, 0, 1, -1); expect(rec().sections[0].entries.map((e) => e.text)).toEqual(["Ordinary things", "The road in, Beit Beirut"]);
+    expect(O.moveEntry(s, id, 0, 0, -1)).toBe(s); // nowhere to go
+    s = O.addSection(s, id, "Publications"); s = O.setField(s, `page:${id}.section.1.title`, "Books"); s = O.moveSection(s, id, 1, -1);
+    expect(rec().sections.map((x) => x.title)).toEqual(["Books", "Exhibitions"]);
+    s = O.removeEntry(s, id, 1, 0); expect(rec().sections[1].entries.length).toBe(1);
+    s = O.removeSection(s, id, 0); expect(rec().sections.map((x) => x.title)).toEqual(["Exhibitions"]);
+    s = O.setField(s, `page:${id}.para.0`, "I photograph the hills."); expect(rec().paras[0]).toBe("I photograph the hills.");
+    expect(() => O.setField(s, `page:${id}.entry.3.0.text`, "x")).toThrow(); expect(() => O.addEntry(s, "about", 0)).toThrow();
+  });
+});

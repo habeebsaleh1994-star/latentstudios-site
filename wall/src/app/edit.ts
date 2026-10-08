@@ -136,7 +136,7 @@ function siteTab() {
   h += `<h3>Pages</h3><ol class="pages"><li class="${cur ? "" : "on"}"><a href="#/">The front page<small>${{ covers: "Covers", list: "A list", sheet: "A sheet", walk: "A walk" }[s.front.form]}</small></a><span class="acts"></span></li>` +
     s.pages.map((p, i) => `<li class="${cur === p.id ? "on" : ""}${p.inNav ? "" : " off"}"><a href="#/${encodeURIComponent(p.id)}">${esc(title(p))}<small>${esc(kindLine(p))}${p.inNav ? "" : " · hidden"}</small></a><span class="acts"><button type="button" data-a="page-up" data-id="${esc(p.id)}"${i === 0 ? " disabled" : ""} aria-label="Move up">&uarr;</button><button type="button" data-a="page-down" data-id="${esc(p.id)}"${i === s.pages.length - 1 ? " disabled" : ""} aria-label="Move down">&darr;</button><button type="button" data-a="page-nav" data-id="${esc(p.id)}" aria-label="${p.inNav ? "Hide" : "Show"} ${esc(title(p))}" title="${p.inNav ? "Shown" : "Hidden"}">${p.inNav ? "&#9679;" : "&#9675;"}</button></span></li>`).join("") + `</ol>`;
   if (s.trash.length) h += `<h3>Removed</h3><ol class="pages trash">${s.trash.map((t) => `<li><span class="t">${esc(title(t.page))}<small>${esc(O.KIND_NAMES[t.page.kind])} · removed ${esc(new Date(t.removedAt).toLocaleDateString(undefined, { day: "numeric", month: "short" }))}</small></span><span class="acts wide"><button type="button" class="word" data-a="page-restore" data-id="${esc(t.page.id)}">Put back</button><button type="button" data-a="trash-empty" data-id="${esc(t.page.id)}" aria-label="Delete for good">&times;</button></span></li>`).join("")}</ol><p class="hint">Removed pages wait here for thirty days, with their work, and can be put back.</p>`;
-  h += `<h3>Add a page</h3><div class="adds">${(["story", "writing", "film", "project"] as const).map((k) => `<button type="button" data-a="page-add" data-kind="${k}">+ ${O.KIND_NAMES[k]}</button>`).join("")}${has("about") ? "" : '<button type="button" data-a="page-add" data-kind="about">+ About</button>'}${has("contact") ? "" : '<button type="button" data-a="page-add" data-kind="contact">+ Contact</button>'}</div>`;
+  h += `<h3>Add a page</h3><div class="adds">${(["story", "writing", "film", "project"] as const).map((k) => `<button type="button" data-a="page-add" data-kind="${k}">+ ${O.KIND_NAMES[k]}</button>`).join("")}${has("about") ? "" : '<button type="button" data-a="page-add" data-kind="about">+ About</button>'}${has("contact") ? "" : '<button type="button" data-a="page-add" data-kind="contact">+ Contact</button>'}${has("record") ? "" : '<button type="button" data-a="page-add" data-kind="record">+ Record</button>'}</div><p class="hint">A record holds your statement and the dated lists: exhibitions, publications, awards.</p>`;
   h += `<div class="adds"><button type="button" data-a="folder">+ A story from a folder</button></div><p class="hint">Choose a folder of photographs: they arrive as one story, in the order they were taken, with the titles, captions and dates written in the files. Or drop files or a folder anywhere on the page while editing.</p>`;
   h += `<p class="hint">A story holds photographs or paintings, arranged as you choose. Writing holds a poem, an essay or a fragment. A film shows at its own ratio. A project sets its process beside its outcome.</p>`;
   const spare = O.unused(s);
@@ -155,7 +155,7 @@ function pageTab() {
   }
   const f = (k: string) => `page:${p.id}.${k}`;
   let h = `<p class="kind">${O.KIND_NAMES[p.kind]} · <span class="addr">/${esc(p.id)}</span></p><h3>Words</h3>${input(f("title"), p.title, "Title")}`;
-  if (p.kind !== "about" && p.kind !== "contact") h += input(f("titleEm"), p.titleEm, "Its italic part");
+  if (p.kind !== "about" && p.kind !== "contact" && p.kind !== "record") h += input(f("titleEm"), p.titleEm, "Its italic part");
   if (p.kind === "story") {
     h += input(f("kicker"), p.kicker, "Above the title: a season, a place") + area(f("note"), p.note, "A line or two to introduce it");
     const arr = house(s.house).arrangements, names: Record<string, string> = { held: "Held", book: "Book", passage: "Passage", contact: "Contact", wall: "Wall", slides: "Slides" };
@@ -183,6 +183,11 @@ function pageTab() {
     h += input(f("discipline"), p.discipline, "Kind: identity, book, exhibition") + input(f("client"), p.client, "Client") + input(f("year"), p.year, "Year") + area(f("summary"), p.summary, "What the project was") + area(f("facts"), p.facts.join("\n"), "Facts, one per line: Role: …", 3);
     h += list("process", "Process, in order", p.process) + list("outcome", "Outcome", p.outcome);
     if (p.process.length && p.outcome.length) h += `<h3>Comparison</h3>${seg("compare", [["on", "Set the first step against the outcome"], ["off", "No comparison"]], p.compare ? "on" : "off")}`;
+  }
+  if (p.kind === "record") {
+    h += `<h3>Statement</h3>${p.paras.map((t, i) => `<div class="para">${area(`${f("para")}.${i}`, t, i ? "Another paragraph" : "What the work is, and why", 4)}${p.paras.length > 1 ? `<button type="button" class="rm" data-a="para-remove" data-i="${i}" aria-label="Remove this paragraph">&times;</button>` : ""}</div>`).join("")}<div class="adds"><button type="button" data-a="para-add">+ A paragraph</button></div>`;
+    h += p.sections.map((sec, n) => `<div class="rsec"><div class="rhead">${input(`${f("section")}.${n}.title`, sec.title, "Section")}<span class="acts"><button type="button" data-a="sec-up" data-n="${n}"${n === 0 ? " disabled" : ""} aria-label="Move up">&uarr;</button><button type="button" data-a="sec-down" data-n="${n}"${n === p.sections.length - 1 ? " disabled" : ""} aria-label="Move down">&darr;</button><button type="button" data-a="sec-remove" data-n="${n}" aria-label="Remove this section">&times;</button></span></div><ol class="entries">${sec.entries.map((e, m) => `<li><input type="text" class="yr" data-f="${f("entry")}.${n}.${m}.year" value="${esc(e.year)}" placeholder="Year" aria-label="Year"><input type="text" data-f="${f("entry")}.${n}.${m}.text" value="${esc(e.text)}" placeholder="What, where" aria-label="Entry"><span class="acts"><button type="button" data-a="ent-up" data-n="${n}" data-m="${m}"${m === 0 ? " disabled" : ""} aria-label="Earlier">&uarr;</button><button type="button" data-a="ent-down" data-n="${n}" data-m="${m}"${m === sec.entries.length - 1 ? " disabled" : ""} aria-label="Later">&darr;</button><button type="button" data-a="ent-remove" data-n="${n}" data-m="${m}" aria-label="Remove">&times;</button></span></li>`).join("")}</ol><div class="adds"><button type="button" data-a="ent-add" data-n="${n}">+ An entry</button></div></div>`).join("");
+    h += `<h3>Add a section</h3><div class="adds">${O.RECORD_SECTIONS.filter((t) => !p.sections.some((x) => x.title.toLowerCase() === t.toLowerCase())).map((t) => `<button type="button" data-a="sec-add" data-title="${t}">+ ${t}</button>`).join("")}<button type="button" data-a="sec-add" data-title="A section">+ Another</button></div><p class="hint">Newest first is the custom; the order is yours.</p>`;
   }
   if (p.kind === "about" || p.kind === "contact") {
     h += `<h3>Text</h3>${p.paras.map((t, i) => `<div class="para">${area(`${f("para")}.${i}`, t, "A paragraph", 4)}${p.paras.length > 1 ? `<button type="button" class="rm" data-a="para-remove" data-i="${i}" aria-label="Remove this paragraph">&times;</button>` : ""}</div>`).join("")}<div class="adds"><button type="button" data-a="para-add">+ A paragraph</button></div>`;
@@ -405,6 +410,14 @@ function act(a: string, d: DOMStringMap) {
       case "poster-remove": return commit(O.setFilm(s, id, { poster: null }));
       case "w-img": return openLib({ kind: "writing", page: id });
       case "w-img-remove": return commit(O.setWritingImage(s, id, null));
+      case "sec-add": return commit(O.addSection(s, id, d.title ?? "A section"));
+      case "sec-remove": return commit(O.removeSection(s, id, Number(d.n)));
+      case "sec-up": return commit(O.moveSection(s, id, Number(d.n), -1));
+      case "sec-down": return commit(O.moveSection(s, id, Number(d.n), 1));
+      case "ent-add": return commit(O.addEntry(s, id, Number(d.n)));
+      case "ent-remove": return commit(O.removeEntry(s, id, Number(d.n), Number(d.m)));
+      case "ent-up": return commit(O.moveEntry(s, id, Number(d.n), Number(d.m), -1));
+      case "ent-down": return commit(O.moveEntry(s, id, Number(d.n), Number(d.m), 1));
       case "para-add": return commit(O.addPara(s, id));
       case "para-remove": return commit(O.removePara(s, id, Number(d.i)));
       case "prin-add": return commit(O.addPara(s, id, "principles"));
