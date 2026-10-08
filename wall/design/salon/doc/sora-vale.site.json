@@ -1,0 +1,342 @@
+{
+  "version": 15,
+  "house": "salon",
+  "name": "Sora Vale",
+  "contact": "Studio visits and enquiries · hello@example.com",
+  "email": "",
+  "front": {
+    "form": "covers",
+    "kicker": "Selected works, 2023 to 2025",
+    "title": "Light in",
+    "titleEm": "small rooms",
+    "note": "Prints and paintings made between 2023 and 2025, hung here at their real sizes relative to one another."
+  },
+  "theme": {
+    "look": "quiet",
+    "options": {},
+    "palette": "silk",
+    "mode": "system",
+    "accent": null,
+    "type": "silk",
+    "mount": "bare",
+    "space": "standard",
+    "motion": "slow",
+    "read": "standard"
+  },
+  "library": {
+    "/design/folio/img/12.jpg": {
+      "kind": "image",
+      "title": "The road in",
+      "date": "2025",
+      "caption": "Archival pigment print",
+      "alt": "A road curving through pine hills under a pale sky, white flowers along its edge",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": {
+        "w": 150,
+        "h": 100
+      },
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/8.jpg": {
+      "kind": "image",
+      "title": "The pine",
+      "date": "2025",
+      "caption": "Archival pigment print",
+      "alt": "A tall pine tree leaning over a quiet village road with a lone figure walking",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": {
+        "w": 60,
+        "h": 90
+      },
+      "w": 1467,
+      "h": 2200
+    },
+    "/design/folio/img/5.jpg": {
+      "kind": "image",
+      "title": "He looked back",
+      "date": "2025",
+      "caption": "Archival pigment print",
+      "alt": "Close portrait of an elderly man with white hair, smiling quietly",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": {
+        "w": 45,
+        "h": 30
+      },
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/10.jpg": {
+      "kind": "image",
+      "title": "Bougainvillea",
+      "date": "2025",
+      "caption": "Archival pigment print",
+      "alt": "Pink bougainvillea spilling over the roof of a small concrete building",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": {
+        "w": 90,
+        "h": 60
+      },
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/6.jpg": {
+      "kind": "image",
+      "title": "Under the leaves",
+      "date": "2025",
+      "caption": "Archival pigment print",
+      "alt": "A man standing beneath a dense green tree, only his legs visible",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": {
+        "w": 120,
+        "h": 80
+      },
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/3.jpg": {
+      "kind": "image",
+      "title": "The game",
+      "date": "2023",
+      "caption": "Archival pigment print",
+      "alt": "An old man holding a pale fruit beside a cracked concrete wall, a ball on the ground",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": {
+        "w": 60,
+        "h": 40
+      },
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/4.jpg": {
+      "kind": "image",
+      "title": "The kitchen",
+      "date": "2025",
+      "caption": "Archival pigment print",
+      "alt": "An old man in a dark coat standing at a stove in a small yellow kitchen",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": {
+        "w": 60,
+        "h": 40
+      },
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/1.jpg": {
+      "kind": "image",
+      "title": "Afternoon, the street",
+      "date": "2025",
+      "caption": "Archival pigment print",
+      "alt": "Three children racing along a street, one on a bicycle",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": {
+        "w": 90,
+        "h": 60
+      },
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/2.jpg": {
+      "kind": "image",
+      "title": "The valley",
+      "date": "2025",
+      "caption": "Archival pigment print",
+      "alt": "Two men talking at a railing above an olive valley, an old tree trunk in the foreground",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": {
+        "w": 160,
+        "h": 120
+      },
+      "w": 2200,
+      "h": 1650
+    },
+    "/design/folio/img/7.jpg": {
+      "kind": "image",
+      "title": "Through the gate",
+      "date": "2025",
+      "caption": "Archival pigment print",
+      "alt": "A white cat seen through iron bars in a stone courtyard",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": {
+        "w": 90,
+        "h": 60
+      },
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/11.jpg": {
+      "kind": "image",
+      "title": "Parked, waiting",
+      "date": "2025",
+      "caption": "Archival pigment print",
+      "alt": "A grey sedan under a dust cover in a stone garage",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": {
+        "w": 90,
+        "h": 60
+      },
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/9.jpg": {
+      "kind": "image",
+      "title": "Wall, late light",
+      "date": "2025",
+      "caption": "Archival pigment print",
+      "alt": "Thorn-branch shadows on a sunlit plaster wall",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": {
+        "w": 60,
+        "h": 40
+      },
+      "w": 2200,
+      "h": 1467
+    }
+  },
+  "pages": [
+    {
+      "id": "works",
+      "title": "Light in",
+      "titleEm": "small rooms",
+      "inNav": true,
+      "kind": "story",
+      "kicker": "Selected works, 2023 to 2025",
+      "note": "Prints and paintings made between 2023 and 2025, hung here at their real sizes relative to one another.",
+      "arrangement": "wall",
+      "pieces": [
+        {
+          "type": "work",
+          "asset": "/design/folio/img/12.jpg",
+          "arrange": "with-next",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/8.jpg",
+          "arrange": "with-next",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/5.jpg",
+          "arrange": "with-next",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/10.jpg",
+          "arrange": "alone",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/6.jpg",
+          "arrange": "with-next",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/3.jpg",
+          "arrange": "with-next",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/4.jpg",
+          "arrange": "with-next",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/1.jpg",
+          "arrange": "alone",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/2.jpg",
+          "arrange": "alone",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/7.jpg",
+          "arrange": "with-next",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/11.jpg",
+          "arrange": "with-next",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/9.jpg",
+          "arrange": "alone",
+          "note": "",
+          "full": false
+        }
+      ]
+    },
+    {
+      "id": "about",
+      "title": "About the work",
+      "titleEm": "",
+      "inNav": true,
+      "kind": "about",
+      "paras": [
+        "Sora Vale works between painting and constructed images. These sample works are stand-ins for a demonstration.",
+        "Works are shown at their real sizes relative to one another, so a large canvas and a small study keep their proportion on the wall."
+      ],
+      "principles": []
+    }
+  ]
+}

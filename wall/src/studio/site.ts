@@ -1,0 +1,174 @@
+/*
+ * Site document, version 15.
+ *
+ * Version 14 described one template's page. Version 15 describes the artist's whole site:
+ *
+ * - a library of works. A photograph's own facts (title, date, medium, alt text, focal point,
+ *   real size) live once, with the work; a page only refers to it. So one photograph can sit in
+ *   two stories, and work arriving from the apps lands in the library first.
+ * - pages of several kinds (story, writing, film, project, about, contact), each with its own
+ *   address. A story chooses its arrangement (held, book, passage, contact, wall, slides).
+ * - a front page with its own form and words.
+ * - the theme, unchanged from version 14: the look and the artist's own choices under it.
+ *
+ * The house (what version 14 called the room) decides which arrangements and looks are offered;
+ * the document keeps only intent, never geometry.
+ */
+import { z } from "zod";
+import { themeSchema } from "./document";
+
+export const SITE_VERSION = 15 as const;
+
+const short = z.string().max(500);
+const id = z.string().min(1).max(80);
+
+export const houseIds = ["folio", "gallery", "monograph", "passage", "reel", "salon", "index", "atelier", "lantern"] as const;
+export type HouseId = (typeof houseIds)[number];
+
+/* ------------------------------------------------------------------ the library */
+
+export const workSchema = z
+  .object({
+    kind: z.enum(["image", "video"]).default("image"),
+    /** Pixel size of the file as kept; the renderer needs the proportion before the image loads. */
+    w: z.number().int().min(1).max(20000),
+    h: z.number().int().min(1).max(20000),
+    title: short.default(""),
+    date: z.string().max(40).default(""),
+    /** Medium for a painting, a step's description for process work, a still's line for a film. */
+    caption: short.default(""),
+    alt: short.default(""),
+    focal: z.object({ x: z.number().min(0).max(100), y: z.number().min(0).max(100) }).default({ x: 50, y: 50 }),
+    /** The work's real size in centimetres, when the artist has given it. */
+    size: z.object({ w: z.number().min(1).max(2000), h: z.number().min(1).max(2000) }).nullable().default(null),
+  })
+  .strict();
+export type Work = z.infer<typeof workSchema>;
+
+/* ------------------------------------------------------------------ pages */
+
+/** A story is a sequence of works and pauses. How each work sits is intent: alone, with the next one, with a margin note. */
+export const pieceSchema = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("work"),
+    asset: id,
+    arrange: z.enum(["alone", "with-next", "margin-note"]).default("alone"),
+    note: short.default(""),
+    /** Run across both pages in a book, across the screen elsewhere. */
+    full: z.boolean().default(false),
+  }).strict(),
+  z.object({ type: z.literal("pause"), label: short.default(""), text: z.string().max(5000) }).strict(),
+]);
+export type Piece = z.infer<typeof pieceSchema>;
+
+export const arrangementIds = ["held", "book", "passage", "contact", "wall", "slides"] as const;
+export type ArrangementId = (typeof arrangementIds)[number];
+
+const common = { id, title: short, titleEm: short.default(""), inNav: z.boolean().default(true) };
+
+export const storyPageSchema = z.object({
+  ...common, kind: z.literal("story"),
+  kicker: short.default(""), note: z.string().max(5000).default(""),
+  arrangement: z.enum(arrangementIds).default("held"),
+  pieces: z.array(pieceSchema).max(200),
+}).strict();
+
+export const writingPageSchema = z.object({
+  ...common, kind: z.literal("writing"),
+  form: short.default(""), place: short.default(""), year: z.string().max(12).default(""),
+  /** A poem is one paragraph with line breaks. */
+  paras: z.array(z.string().max(30000)).max(200),
+  margin: short.default(""),
+  image: z.object({ asset: id, at: z.union([z.literal("cover"), z.number().int().min(0)]) }).nullable().default(null),
+}).strict();
+
+export const filmPageSchema = z.object({
+  ...common, kind: z.literal("film"),
+  form: short.default(""), year: z.string().max(12).default(""), runtime: z.string().max(40).default(""), ratio: z.string().max(20).default(""),
+  synopsis: z.string().max(5000).default(""),
+  poster: id.nullable().default(null), video: id.nullable().default(null), link: z.string().max(2000).default(""),
+  /** A still's line belongs to this film, not to the photograph, which may appear elsewhere with another. */
+  stills: z.array(z.object({ asset: id, caption: short.default("") }).strict()).max(100).default([]), credits: z.array(z.string().max(2000)).max(100).default([]),
+}).strict();
+
+export const projectPageSchema = z.object({
+  ...common, kind: z.literal("project"),
+  discipline: short.default(""), client: short.default(""), year: z.string().max(12).default(""), summary: z.string().max(5000).default(""),
+  outcome: z.array(id).max(100).default([]), process: z.array(id).max(100).default([]),
+  /** The first step of the process is set against the outcome in a comparison. */
+  compare: z.boolean().default(false),
+  facts: z.array(z.string().max(2000)).max(50).default([]),
+}).strict();
+
+export const aboutPageSchema = z.object({
+  ...common, kind: z.literal("about"),
+  paras: z.array(z.string().max(10000)).max(50).default([]),
+  principles: z.array(z.string().max(2000)).max(20).default([]),
+}).strict();
+
+export const contactPageSchema = z.object({
+  ...common, kind: z.literal("contact"),
+  paras: z.array(z.string().max(10000)).max(50).default([]),
+}).strict();
+
+export const sitePageSchema = z.discriminatedUnion("kind", [storyPageSchema, writingPageSchema, filmPageSchema, projectPageSchema, aboutPageSchema, contactPageSchema]);
+export type SitePage = z.infer<typeof sitePageSchema>;
+export type StoryPage = z.infer<typeof storyPageSchema>;
+
+export const frontSchema = z.object({
+  form: z.enum(["covers", "list", "sheet", "walk"]).default("covers"),
+  kicker: short.default(""), title: short.default(""), titleEm: short.default(""), note: z.string().max(5000).default(""),
+}).strict();
+
+export const siteSchema = z
+  .object({
+    version: z.literal(SITE_VERSION),
+    house: z.enum(houseIds).default("folio"),
+    name: short,
+    /** The line at the foot of every page. */
+    contact: short.default(""),
+    email: z.union([z.literal(""), z.email()]).default(""),
+    front: frontSchema,
+    theme: themeSchema,
+    library: z.record(id, workSchema),
+    pages: z.array(sitePageSchema).max(200),
+  })
+  .strict()
+  .superRefine((s, ctx) => {
+    const seen = new Set<string>();
+    s.pages.forEach((p, i) => {
+      if (seen.has(p.id)) ctx.addIssue({ code: "custom", path: ["pages", i, "id"], message: `Two pages share the address "${p.id}".` });
+      seen.add(p.id);
+      for (const a of assetsOf(p)) if (!(a in s.library)) ctx.addIssue({ code: "custom", path: ["pages", i], message: `Page "${p.id}" refers to "${a}", which is not in the library.` });
+    });
+  });
+export type SiteDocument = z.infer<typeof siteSchema>;
+
+/** Every work a page refers to, in the order it shows them. */
+export function assetsOf(p: SitePage): string[] {
+  switch (p.kind) {
+    case "story": return p.pieces.flatMap((x) => (x.type === "work" ? [x.asset] : []));
+    case "writing": return p.image ? [p.image.asset] : [];
+    case "film": return [p.poster, p.video, ...p.stills.map((x) => x.asset)].filter((a): a is string => !!a);
+    case "project": return [...p.outcome, ...p.process];
+    default: return [];
+  }
+}
+
+/** Which pages a work appears on, so the library can say "in The road, Late light". */
+export function usesOf(site: SiteDocument, asset: string): string[] {
+  return site.pages.filter((p) => assetsOf(p).includes(asset)).map((p) => p.id);
+}
+
+/** How many photographs the site shows (a work placed twice counts once), for plan limits. */
+export function photographCount(site: SiteDocument): number {
+  const placed = new Set(site.pages.flatMap(assetsOf));
+  return [...placed].filter((a) => site.library[a]?.kind !== "video").length;
+}
+
+/** Read a stored site. Only version 15 exists; nothing older is carried over. */
+export function openSite(raw: unknown): SiteDocument {
+  const v = (raw as { version?: number } | null)?.version;
+  if (v !== SITE_VERSION) throw new Error(`This site was saved by a version Wall cannot open (${v ?? "none"}).`);
+  return siteSchema.parse(raw);
+}

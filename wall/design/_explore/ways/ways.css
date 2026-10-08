@@ -1,0 +1,29 @@
+/* Shared by the arrangement studies: Latent's Quiet look, taken from design/shared/base.css. */
+:root {
+  --silk: #EEE9E7; --silk-deep: #E4DDDA; --page: #F4F0EE; --ink: #29222A; --ink-soft: #6B5F66; --peony: #B87B8A; --peony-text: #955569; --rule: #D3C9C7;
+  --serif: "Newsreader", Georgia, serif; --body: "Newsreader", Georgia, serif; --sans: "Instrument Sans", system-ui, sans-serif; --title-weight: 300; --body-size: 19px; --h1-lh: .96; --h1-track: -.025em; --h1-case: none; --em-style: italic; --em-color: var(--peony); --label-case: uppercase; --label-track: .15em; --label-size: 11.5px; --label-weight: 400; --radius: 0; --frame: none; --sp: 1;
+  --gutter: clamp(20px, 5vw, 72px); --ease: cubic-bezier(.22, .61, .36, 1);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--silk); color: var(--ink); font-family: var(--body); font-size: var(--body-size); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+img { display: block; }
+a { color: inherit; text-decoration-color: var(--rule); text-underline-offset: 4px; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--peony); outline-offset: 4px; }
+.label { font-family: var(--sans); font-size: var(--label-size); letter-spacing: var(--label-track); text-transform: var(--label-case); font-weight: var(--label-weight); line-height: 1.5; color: var(--ink-soft); }
+h1, h2, .bar .name, .big, .onward .big { font-family: var(--serif); }
+.bar { display: flex; flex-wrap: wrap; row-gap: 10px; justify-content: space-between; align-items: baseline; padding: 28px var(--gutter); }
+.bar .name { font-size: 20px; text-decoration: none; }
+.bar nav { display: flex; gap: 8px 30px; }
+.bar nav a { font-family: var(--sans); font-size: var(--label-size); letter-spacing: var(--label-track); text-transform: var(--label-case); font-weight: var(--label-weight); text-decoration: none; color: var(--ink-soft); }
+.bar nav a:hover { color: var(--ink); }
+@media (max-width: 520px) { .bar nav { gap: 16px; } .bar nav a { letter-spacing: .1em; } }
+h1 { font-weight: var(--title-weight); letter-spacing: var(--h1-track); line-height: var(--h1-lh); text-transform: var(--h1-case); margin: 0; text-wrap: balance; }
+h1 em, h2 em, .big em { font-style: var(--em-style); color: var(--em-color); }
+h2, .big { font-weight: var(--title-weight); }
+img { border-radius: var(--radius); }
+.cap { display: flex; gap: 16px; align-items: baseline; margin: 0; font-size: 15px; font-style: italic; color: var(--ink-soft); }
+.cap .n, .cap .d { font-family: var(--sans); font-style: normal; font-size: var(--label-size); letter-spacing: var(--label-track); text-transform: var(--label-case); white-space: nowrap; }
+.cap .n { color: var(--ink); min-width: 2.6em; }
+.cap .d { margin-left: auto; }

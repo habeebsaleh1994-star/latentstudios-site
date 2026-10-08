@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Habib Saleh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="../ways/ways.css">
+<link rel="stylesheet" href="../../shared/panel.css">
+<link rel="stylesheet" href="../../shared/looks.css">
+<link rel="stylesheet" href="../../shared/edit.css">
+<link rel="stylesheet" href="site.css">
+<style>
+/* The editor's own controls, as in the engine: fixed tokens, never styled by the site's look. */
+:root { --ed-bg: #FBFAF9; --ed-bg2: #F0EDEB; --ed-ink: #29222A; --ed-soft: #655B61; --ed-rule: #D9D2D0; --ed-accent: #9A5A6D; --ed-font: "Instrument Sans", system-ui, sans-serif; --sp: 1; }
+.dock { font-family: var(--ed-font); }
+.dock #pages[hidden] { display: none; }
+[data-preview] .dock, [data-preview] #panel { display: none !important; }
+/* the dock moves aside while the panel is open, so Publish and Done stay reachable */
+@media (min-width: 761px) { [data-panel] .dock { right: calc(var(--gutter) + 340px); } [data-panel][data-editing] .dock { right: 340px; } [data-panel] #app { width: calc(100% - 340px); } [data-panel] .held, [data-panel] .rail { right: 340px; } }
+[data-editing] .foot, [data-editing] .onward { padding-bottom: 72px; }
+[data-editing][data-view="passage"] .rail { bottom: 56px; }
+[data-editing] .book { height: calc(100dvh - 142px); }
+/* in-place words */
+[data-editing] [contenteditable] { outline: 1px dashed transparent; outline-offset: 4px; cursor: text; }
+[data-editing] [contenteditable]:hover { outline-color: var(--ed-rule); }
+[contenteditable]:focus { outline: 1px solid var(--ed-accent) !important; }
+/* a toolbar on a cover or a page, like the one on a work */
+[data-editing] .cover, [data-editing] .sheetfront a, [data-editing] .ledger li { position: relative; }
+.tb.pg { top: auto; bottom: 100%; right: 0; margin-bottom: 8px; }
+/* the works tray in the panel */
+.tray { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--ed-rule); }
+.tray li { display: grid; grid-template-columns: 48px 1fr auto; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--ed-rule); font-size: 13px; }
+.tray li.pause { grid-template-columns: 48px 1fr auto; font-style: italic; color: var(--ed-soft); }
+.tray .th { width: 48px; height: 32px; background: var(--ed-bg2); display: block; overflow: hidden; } .tray .th img { width: 100%; height: 100%; object-fit: contain; }
+.tray .th.ps { font-size: 16px; font-style: normal; color: var(--ed-soft); }
+.tray .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .tray .t small { display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ed-soft); font-style: normal; }
+.tray .acts { display: flex; gap: 2px; opacity: .55; transition: opacity .25s; } .tray li:hover .acts, .tray li:focus-within .acts { opacity: 1; }
+.tray .acts button, .pages .acts button { background: none; border: 1px solid transparent; color: var(--ed-soft); font: inherit; font-size: 12px; width: 26px; height: 26px; cursor: pointer; }
+.tray .acts button:hover, .pages .acts button:hover { color: var(--ed-ink); border-color: var(--ed-rule); }
+.tray .menu, .pages .menu { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 4px 0 6px; font-style: normal; }
+.tray .menu button, .pages .menu button, .adds button { background: none; border: 0; border-bottom: 1px solid transparent; font: inherit; font-size: 12.5px; color: var(--ed-soft); padding: 3px 0; cursor: pointer; }
+.tray .menu button:hover, .pages .menu button:hover, .adds button:hover { color: var(--ed-ink); border-bottom-color: var(--ed-accent); }
+.tray .menu button[aria-pressed="true"] { color: var(--ed-ink); border-bottom-color: var(--ed-accent); }
+.adds { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-top: 10px; }
+/* the pages list */
+.pages { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--ed-rule); }
+.pages li { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--ed-rule); font-size: 13.5px; }
+.pages li a { text-decoration: none; color: var(--ed-ink); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pages li a small { display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ed-soft); }
+.pages li.on a { color: var(--ed-accent); }
+.pages li.off a { color: var(--ed-soft); }
+.pages .acts { display: flex; gap: 2px; opacity: .55; } .pages li:hover .acts, .pages li:focus-within .acts { opacity: 1; }
+/* the library: every photograph, choose some to add */
+.lib { position: fixed; inset: 0; z-index: 40; background: rgba(41,34,42,.28); display: none; }
+.lib.open { display: block; }
+.lib .sheet2 { position: absolute; inset: auto 0 0; max-height: 82dvh; background: var(--ed-bg); border-top: 1px solid var(--ed-rule); font-family: var(--ed-font); color: var(--ed-ink); display: grid; grid-template-rows: auto 1fr auto; }
+.lib header { display: flex; justify-content: space-between; align-items: baseline; padding: 20px var(--gutter) 14px; border-bottom: 1px solid var(--ed-rule); }
+.lib header b { font-family: "Newsreader", Georgia, serif; font-weight: 400; font-size: 21px; }
+.lib .grid { overflow: auto; padding: 18px var(--gutter); display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px 12px; }
+.lib .grid button { background: none; border: 0; padding: 0; text-align: left; cursor: pointer; color: var(--ed-ink); font: inherit; }
+.lib .grid { align-items: start; } .lib .grid .fr2 { display: block; aspect-ratio: 3 / 2; background: var(--ed-bg2); border: 2px solid transparent; overflow: hidden; } .lib .grid .fr2 img { width: 100%; height: 100%; object-fit: contain; }
+.lib .grid button[aria-pressed="true"] .fr2 { border-color: var(--ed-accent); }
+.lib .grid .nm { display: block; font-size: 12px; margin-top: 6px; } .lib .grid .in { display: block; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ed-soft); }
+.lib footer { display: flex; justify-content: space-between; align-items: center; padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--ed-rule); font-size: 12.5px; color: var(--ed-soft); }
+.lib footer button { font-family: var(--ed-font); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--ed-ink); background: var(--ed-bg); border: 1px solid var(--ed-rule); padding: 11px 18px; cursor: pointer; }
+.lib footer button:disabled { opacity: .4; cursor: default; }
+/* publishing */
+.pubsheet .sheet2.narrow { inset: 0 0 0 auto; max-height: none; width: min(100%, 440px); border-top: 0; border-left: 1px solid var(--ed-rule); grid-template-rows: auto 1fr; }
+.pubbody { overflow: auto; padding: 8px 28px 28px; font-size: 14px; line-height: 1.55; color: var(--ed-ink); }
+.pubbody h3 { margin: 24px 0 8px; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; font-weight: 500; color: var(--ed-soft); }
+.pubbody .addr { font-family: "Newsreader", Georgia, serif; font-size: 22px; margin: 0; word-break: break-all; }
+.pubbody p { margin: 0 0 .7em; } .pubbody .soft { color: var(--ed-soft); font-size: 13px; }
+.pubbody ul { margin: 0; padding: 0; list-style: none; } .pubbody li { display: flex; justify-content: space-between; gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--ed-rule); } .pubbody li span:last-child { color: var(--ed-soft); white-space: nowrap; }
+.pubbody .go { display: inline-block; margin: 18px 12px 0 0; font-family: var(--ed-font); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--ed-bg); background: var(--ed-ink); border: 1px solid var(--ed-ink); padding: 12px 18px; cursor: pointer; text-decoration: none; }
+.pubbody .go.quiet { color: var(--ed-ink); background: none; border-color: var(--ed-rule); }
+.pubbody .go:disabled { opacity: .4; cursor: default; }
+.pubbody .warn { color: var(--ed-accent); }
+#panel .tabs { display: flex; gap: 22px; padding: 0 24px; border-bottom: 1px solid var(--ed-rule); }
+#panel .tabs button { background: none; border: 0; border-bottom: 1px solid transparent; margin-bottom: -1px; padding: 12px 0; font: inherit; font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--ed-soft); cursor: pointer; }
+#panel .tabs button[aria-selected="true"] { color: var(--ed-ink); border-bottom-color: var(--ed-ink); }
+#panel .looks button .tn { display: block; margin-top: 4px; }
+.new { border: 1px dashed var(--ed-rule); padding: 20px; font-family: var(--ed-font); font-size: 13px; color: var(--ed-soft); text-align: center; }
+</style>
+</head>
+<body><div id="app"></div>
+<div class="dock" id="dock"><div class="meter" id="meter"></div><button type="button" id="undo" hidden>Undo</button><button type="button" id="redo" hidden>Redo</button><button type="button" id="edit" aria-pressed="false">Edit</button><button type="button" id="pages" hidden>Pages</button><button class="tweak-btn" id="tweak" aria-expanded="false" aria-controls="panel">Customise</button><button class="tweak-btn" id="pub">Publish</button></div>
+<div class="lib pubsheet" id="pubsheet" role="dialog" aria-modal="true" aria-label="Publish"><div class="sheet2 narrow"><header><b>Publish</b><button class="x" type="button" id="pubclose" style="background:none;border:0;color:var(--ed-soft);font:inherit;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;cursor:pointer">Close</button></header><div class="pubbody" id="pubbody"></div></div></div>
+<aside id="panel" aria-label="Customise your site"></aside>
+<div class="lib" id="lib" role="dialog" aria-modal="true" aria-label="Your photographs"><div class="sheet2"><header><b>Your photographs</b><button class="x" type="button" id="libclose" style="background:none;border:0;color:var(--ed-soft);font:inherit;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;cursor:pointer">Close</button></header><div class="grid" id="libgrid"></div><footer><span id="libnote">Choose the photographs to add. One can sit in more than one story.</span><button type="button" id="libadd" disabled>Add</button></footer></div></div>
+
+<script src="../ways/data.js"></script>
+<script src="../../shared/theme.js"></script>
+<script src="model.js"></script>
+<script src="render.js"></script>
+<script src="edit.js"></script>
+</body>
+</html>

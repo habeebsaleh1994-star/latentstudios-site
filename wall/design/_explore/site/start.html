@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Start a site · Latent Wall</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="../ways/ways.css">
+<style>
+/* Start: three quiet questions, then the editor. One page, no wizard. */
+.wrap { max-width: 1100px; margin-inline: auto; padding: clamp(32px, 7vh, 80px) var(--gutter) 80px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px 80px; }
+h1 { font-size: clamp(40px, 5.6vw, 76px); margin-top: 16px; }
+.lede { max-width: 32em; font-size: 17px; line-height: 1.55; color: var(--ink-soft); margin: 18px 0 0; }
+form { padding-top: 10px; }
+fieldset { border: 0; margin: 0 0 36px; padding: 0; }
+legend { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 12px; }
+.tpl { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tpl label { display: block; border: 1px solid var(--rule); padding: 14px 16px; cursor: pointer; }
+.tpl label:has(input:checked) { border-color: var(--ink); }
+.tpl label.soon { opacity: .45; cursor: default; }
+.tpl input { position: absolute; opacity: 0; }
+.tpl b { display: block; font-weight: 400; font-size: 22px; }
+.tpl small { display: block; font-family: var(--sans); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); margin-top: 2px; }
+input[type=text] { width: 100%; font: inherit; font-size: 19px; color: var(--ink); background: none; border: 0; border-bottom: 1px solid var(--rule); padding: 8px 0; margin-bottom: 14px; }
+input[type=text]:focus { outline: 0; border-bottom-color: var(--peony); }
+.how input { accent-color: var(--ink); }
+.how label { display: flex; gap: 12px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--rule); cursor: pointer; }
+.how label span { color: var(--ink-soft); font-size: 15px; }
+.go { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--silk); background: var(--ink); border: 0; padding: 14px 22px; cursor: pointer; }
+.back { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; margin-left: 20px; }
+@media (max-width: 800px) { .wrap { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header class="bar"><a class="name" href="../../home/index.html" style="font-family:var(--serif)">l. <span class="label" style="margin-left:6px">Wall</span></a><nav aria-label="Primary"><a href="../../home/index.html#templates">Templates</a><a href="../../home/index.html#plans">Plans</a></nav></header>
+<main class="wrap">
+  <div><span class="label">Start a site</span><h1>Your work, <em>your wall.</em></h1><p class="lede">A template, your name, a title. Everything else is done on the site itself, and nothing you add is ever lost when you change your mind.</p></div>
+  <form id="f">
+    <fieldset><legend>Template</legend><div class="tpl">
+      <label><input type="radio" name="t" value="folio" checked><b>Folio</b><small>Photographs, stories, notes</small></label>
+      <label class="soon" title="In this study, only Folio builds"><input type="radio" name="t" value="index" disabled><b>Index</b><small>Writers · later in this study</small></label>
+      <label class="soon"><input type="radio" name="t" value="salon" disabled><b>Salon</b><small>Painters · later</small></label>
+      <label class="soon"><input type="radio" name="t" value="reel" disabled><b>Reel</b><small>Filmmakers · later</small></label>
+    </div></fieldset>
+    <fieldset><legend>You</legend><input type="text" id="name" placeholder="Your name" autocomplete="name" required><input type="text" id="title" placeholder="A title for the site, say, Ordinary things"></fieldset>
+    <fieldset class="how"><legend>Begin</legend>
+      <label><input type="radio" name="how" value="empty" checked> Empty <span>· About and Contact ready, no stories yet</span></label>
+      <label><input type="radio" name="how" value="example"> From the example <span>· five stories and a note, to see how it goes</span></label>
+    </fieldset>
+    <button class="go" type="submit">Open the editor</button><a class="back" href="../../home/index.html">Back</a>
+  </form>
+</main>
+<script src="../ways/data.js"></script>
+<script src="model.js"></script>
+<script>
+document.getElementById("f").addEventListener("submit", function (e) {
+  e.preventDefault();
+  var M = window.SiteModel, name = document.getElementById("name").value.trim() || "Your name", t = document.getElementById("title").value.trim(), how = document.querySelector('input[name="how"]:checked').value;
+  var parts = t.split(/\s+/), titleEm = parts.length > 1 ? parts.pop() : "", title = parts.join(" ");
+  var doc = how === "example" ? M.example() : M.fresh(name, title, titleEm);
+  if (how === "example") { doc.name = name; if (t) { doc.title = title; doc.titleEm = titleEm; } }
+  M.save(doc); location.href = "site.html?edit" + (/[?&]space=\w+/.test(location.search) ? "&" + /space=\w+/.exec(location.search)[0] : "") + "#/";
+});
+</script>
+</body>
+</html>

@@ -19,6 +19,11 @@ export default tseslint.config(
     languageOptions: { sourceType: "script", globals: { ...globals.browser, LatentStudio: "readonly" } },
   },
   {
+    // browser tests drive the page from node and send code into it
+    files: ["tests/browser/*.mjs"],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
+  },
+  {
     files: ["design/**/tools/*.mjs"],
     languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },

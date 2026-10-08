@@ -1,0 +1,303 @@
+{
+  "version": 15,
+  "house": "atelier",
+  "name": "Common Form",
+  "contact": "New projects and enquiries · hello@example.com",
+  "email": "",
+  "front": {
+    "form": "covers",
+    "kicker": "Design studio · Beirut",
+    "title": "Plain things,",
+    "titleEm": "made well",
+    "note": "Common Form is a small design studio. We make identities, books and posters for people who care how a thing is made, and we show our drawing as well as the result."
+  },
+  "theme": {
+    "look": "quiet",
+    "options": {},
+    "palette": "silk",
+    "mode": "system",
+    "accent": null,
+    "type": "silk",
+    "mount": "bare",
+    "space": "standard",
+    "motion": "slow",
+    "read": "standard"
+  },
+  "library": {
+    "/design/atelier/media/almond-wordmark.jpg": {
+      "kind": "image",
+      "title": "Wordmark",
+      "date": "",
+      "caption": "One circle, one baseline, set in a serif with some give.",
+      "alt": "The Almond and Salt wordmark on warm paper with a small clay crescent",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1600,
+      "h": 1200
+    },
+    "/design/atelier/media/almond-bag.jpg": {
+      "kind": "image",
+      "title": "Packaging",
+      "date": "",
+      "caption": "The label sits on kraft, so the bread is the loudest thing on the shelf.",
+      "alt": "A kraft paper bag with a cream label carrying the wordmark",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1600,
+      "h": 1200
+    },
+    "/design/atelier/media/almond-construction.jpg": {
+      "kind": "image",
+      "title": "Construction",
+      "date": "",
+      "caption": "Everything hangs from one circle and one baseline.",
+      "alt": "The wordmark with construction circles and baselines drawn over it",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1600,
+      "h": 1200
+    },
+    "/design/atelier/media/almond-brief.jpg": {
+      "kind": "image",
+      "title": "Brief",
+      "date": "",
+      "caption": "Five colours taken from the shop itself, and three words to hold to.",
+      "alt": "Five colour swatches and the words warm, plain, unhurried",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1600,
+      "h": 1200
+    },
+    "/design/atelier/media/almond-types.jpg": {
+      "kind": "image",
+      "title": "Type tests",
+      "date": "",
+      "caption": "Three faces, one word. The first was the only one that looked baked.",
+      "alt": "The words Almond and Salt set in three typefaces",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1600,
+      "h": 1200
+    },
+    "/design/atelier/media/notes-cover.jpg": {
+      "kind": "image",
+      "title": "Cover",
+      "date": "",
+      "caption": "A pattern of small blocks, one for each walk.",
+      "alt": "A sage green book cover with a grid of small blocks and the title Field Notes",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1600,
+      "h": 1200
+    },
+    "/design/atelier/media/notes-spread.jpg": {
+      "kind": "image",
+      "title": "Spread",
+      "date": "",
+      "caption": "A large folio number and a narrow column of text.",
+      "alt": "An open book spread with a large page number and columns of text",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1600,
+      "h": 1200
+    },
+    "/design/atelier/media/notes-grid.jpg": {
+      "kind": "image",
+      "title": "Grid",
+      "date": "",
+      "caption": "Twelve columns, with the text hung from the eighth.",
+      "alt": "A twelve column grid with an image block and a text column",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1600,
+      "h": 1200
+    },
+    "/design/atelier/media/notes-thumbs.jpg": {
+      "kind": "image",
+      "title": "Thumbnails",
+      "date": "",
+      "caption": "Eight ways to turn a page, before choosing three.",
+      "alt": "Eight thumbnail page layouts",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1600,
+      "h": 1200
+    },
+    "/design/atelier/media/notes-colour.jpg": {
+      "kind": "image",
+      "title": "Colour",
+      "date": "",
+      "caption": "Five greyed greens and a warm paper.",
+      "alt": "Six colour swatches in greens and paper",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1600,
+      "h": 1200
+    },
+    "/design/atelier/media/tide-poster.jpg": {
+      "kind": "image",
+      "title": "Poster",
+      "date": "",
+      "caption": "The circle is the tide going out; the line is the horizon.",
+      "alt": "A deep blue poster with a pale half circle on a horizon line and the title Low Tide",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1600,
+      "h": 1200
+    },
+    "/design/atelier/media/tide-sketch.jpg": {
+      "kind": "image",
+      "title": "First sketch",
+      "date": "",
+      "caption": "A circle and a line, drawn before anything else.",
+      "alt": "A line drawing of a circle on a horizon with outlined letters",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1600,
+      "h": 1200
+    },
+    "/design/atelier/media/tide-thumbs.jpg": {
+      "kind": "image",
+      "title": "Studies",
+      "date": "",
+      "caption": "Six places for the horizon to sit.",
+      "alt": "Six small studies of a circle against a horizon at different heights",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1600,
+      "h": 1200
+    }
+  },
+  "pages": [
+    {
+      "id": "almond",
+      "title": "Almond &",
+      "titleEm": "Salt",
+      "inNav": true,
+      "kind": "project",
+      "discipline": "Identity",
+      "client": "Almond & Salt",
+      "year": "2025",
+      "summary": "A neighbourhood bakery wanted to look the way it tastes: warm, plain and unhurried. We drew one mark and one wordmark, then tested every label against a loaf of bread.",
+      "outcome": [
+        "/design/atelier/media/almond-wordmark.jpg",
+        "/design/atelier/media/almond-bag.jpg"
+      ],
+      "process": [
+        "/design/atelier/media/almond-construction.jpg",
+        "/design/atelier/media/almond-brief.jpg",
+        "/design/atelier/media/almond-types.jpg"
+      ],
+      "compare": true,
+      "facts": [
+        "Role: identity and packaging",
+        "Scope: wordmark, labels, bags, shopfront",
+        "Team: three people, ten weeks"
+      ]
+    },
+    {
+      "id": "notes",
+      "title": "Field",
+      "titleEm": "Notes",
+      "inNav": true,
+      "kind": "project",
+      "discipline": "Book",
+      "client": "Archive Press",
+      "year": "2024",
+      "summary": "A year of walks, set as a book that is pleasant to carry and slow to finish. One grid, one margin, and a green that is quiet without being grey.",
+      "outcome": [
+        "/design/atelier/media/notes-cover.jpg",
+        "/design/atelier/media/notes-spread.jpg"
+      ],
+      "process": [
+        "/design/atelier/media/notes-grid.jpg",
+        "/design/atelier/media/notes-thumbs.jpg",
+        "/design/atelier/media/notes-colour.jpg"
+      ],
+      "compare": false,
+      "facts": [
+        "Role: design and production",
+        "Scope: cover, 240 pages, endpapers"
+      ]
+    },
+    {
+      "id": "tide",
+      "title": "Low",
+      "titleEm": "Tide",
+      "inNav": true,
+      "kind": "project",
+      "discipline": "Exhibition",
+      "client": "Harbour Gallery",
+      "year": "2024",
+      "summary": "A poster for an exhibition of the shore. The whole idea is one circle sitting on one line, and where the line goes.",
+      "outcome": [
+        "/design/atelier/media/tide-poster.jpg"
+      ],
+      "process": [
+        "/design/atelier/media/tide-sketch.jpg",
+        "/design/atelier/media/tide-thumbs.jpg"
+      ],
+      "compare": true,
+      "facts": [
+        "Role: poster and invitation",
+        "Scope: poster, invitation, wall text"
+      ]
+    },
+    {
+      "id": "about",
+      "title": "The studio",
+      "titleEm": "",
+      "inNav": true,
+      "kind": "about",
+      "paras": [
+        "Common Form is three people in one room. We work on a small number of projects at a time, and we would rather finish a few things than start many.",
+        "This page is a sample for a demonstration. The studio, its clients and its projects are made up."
+      ],
+      "principles": [
+        "Begin with the room it will live in.",
+        "Draw it by hand before the screen.",
+        "Make fewer things, and finish them.",
+        "Show how it was made."
+      ]
+    }
+  ]
+}

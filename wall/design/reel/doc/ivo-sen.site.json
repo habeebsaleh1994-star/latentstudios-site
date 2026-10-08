@@ -1,0 +1,326 @@
+{
+  "version": 15,
+  "house": "reel",
+  "name": "Ivo Sen",
+  "contact": "Screenings and enquiries · hello@example.com",
+  "email": "",
+  "front": {
+    "form": "covers",
+    "kicker": "Short films and documentaries",
+    "title": "Films for",
+    "titleEm": "quiet rooms",
+    "note": "Short films and documentaries about places that are changing. Watch them here, or follow the links to where they live."
+  },
+  "theme": {
+    "look": "quiet",
+    "options": {},
+    "palette": "night",
+    "mode": "dark",
+    "accent": null,
+    "type": "silk",
+    "mount": "bare",
+    "space": "standard",
+    "motion": "slow",
+    "read": "standard"
+  },
+  "library": {
+    "/design/reel/media/poster.jpg": {
+      "kind": "image",
+      "title": "Poster",
+      "date": "",
+      "caption": "",
+      "alt": "A road curving through pine hills",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1280,
+      "h": 536
+    },
+    "/design/reel/media/before-it-disappears-sample.mp4": {
+      "kind": "video",
+      "title": "",
+      "date": "",
+      "caption": "",
+      "alt": "",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1280,
+      "h": 536
+    },
+    "/design/folio/img/12.jpg": {
+      "kind": "image",
+      "title": "The road in",
+      "date": "",
+      "caption": "",
+      "alt": "A road curving through pine hills",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/7.jpg": {
+      "kind": "image",
+      "title": "Through the gate",
+      "date": "",
+      "caption": "",
+      "alt": "A white cat seen through iron bars",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/6.jpg": {
+      "kind": "image",
+      "title": "Under the leaves",
+      "date": "",
+      "caption": "",
+      "alt": "A man beneath a dense green tree",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/2.jpg": {
+      "kind": "image",
+      "title": "The valley",
+      "date": "",
+      "caption": "",
+      "alt": "Two men at a railing above an olive valley",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1650
+    },
+    "/design/folio/img/1.jpg": {
+      "kind": "image",
+      "title": "Poster",
+      "date": "",
+      "caption": "",
+      "alt": "Three children racing along a street",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/3.jpg": {
+      "kind": "image",
+      "title": "The game",
+      "date": "",
+      "caption": "",
+      "alt": "An old man holding a pale fruit beside a cracked wall",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/4.jpg": {
+      "kind": "image",
+      "title": "The kitchen",
+      "date": "",
+      "caption": "",
+      "alt": "An old man at a stove in a small yellow kitchen",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/5.jpg": {
+      "kind": "image",
+      "title": "He looked back",
+      "date": "",
+      "caption": "",
+      "alt": "Close portrait of an elderly man",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/11.jpg": {
+      "kind": "image",
+      "title": "Parked, waiting",
+      "date": "",
+      "caption": "",
+      "alt": "A grey sedan under a dust cover",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/9.jpg": {
+      "kind": "image",
+      "title": "Wall, late light",
+      "date": "",
+      "caption": "",
+      "alt": "Thorn-branch shadows on a plaster wall",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/10.jpg": {
+      "kind": "image",
+      "title": "Bougainvillea",
+      "date": "",
+      "caption": "",
+      "alt": "Pink bougainvillea over a small concrete building",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    }
+  },
+  "pages": [
+    {
+      "id": "before",
+      "title": "Before It",
+      "titleEm": "Disappears",
+      "inNav": true,
+      "kind": "film",
+      "form": "Short film",
+      "year": "2025",
+      "runtime": "28 sec",
+      "ratio": "2.39:1",
+      "synopsis": "A slow look at villages in the Lebanese hills, made from the photographs of the same name. This sample is a 28 second cut.",
+      "poster": "/design/reel/media/poster.jpg",
+      "video": "/design/reel/media/before-it-disappears-sample.mp4",
+      "link": "https://example.com/before-it-disappears",
+      "stills": [
+        {
+          "asset": "/design/folio/img/12.jpg",
+          "caption": "The road in"
+        },
+        {
+          "asset": "/design/folio/img/7.jpg",
+          "caption": "Through the gate"
+        },
+        {
+          "asset": "/design/folio/img/6.jpg",
+          "caption": "Under the leaves"
+        },
+        {
+          "asset": "/design/folio/img/2.jpg",
+          "caption": "The valley"
+        }
+      ],
+      "credits": [
+        "Directed by Ivo Sen",
+        "Photographs and sample cut made for this demonstration"
+      ]
+    },
+    {
+      "id": "afternoon",
+      "title": "The Long",
+      "titleEm": "Afternoon",
+      "inNav": true,
+      "kind": "film",
+      "form": "Documentary",
+      "year": "2024",
+      "runtime": "14 min",
+      "ratio": "16:9",
+      "synopsis": "A day in one village street, told in the order the light moved across it.",
+      "poster": "/design/folio/img/1.jpg",
+      "video": null,
+      "link": "https://example.com/the-long-afternoon",
+      "stills": [
+        {
+          "asset": "/design/folio/img/3.jpg",
+          "caption": "The game"
+        },
+        {
+          "asset": "/design/folio/img/4.jpg",
+          "caption": "The kitchen"
+        },
+        {
+          "asset": "/design/folio/img/5.jpg",
+          "caption": "He looked back"
+        }
+      ],
+      "credits": [
+        "Directed by Ivo Sen",
+        "Edited by Noor Rahal"
+      ]
+    },
+    {
+      "id": "gate",
+      "title": "Gate",
+      "titleEm": "",
+      "inNav": true,
+      "kind": "film",
+      "form": "Short film",
+      "year": "2023",
+      "runtime": "6 min",
+      "ratio": "1.85:1",
+      "synopsis": "Six minutes at a courtyard gate, and everything that passes it.",
+      "poster": "/design/folio/img/7.jpg",
+      "video": null,
+      "link": "https://example.com/gate",
+      "stills": [
+        {
+          "asset": "/design/folio/img/11.jpg",
+          "caption": "Parked, waiting"
+        },
+        {
+          "asset": "/design/folio/img/9.jpg",
+          "caption": "Wall, late light"
+        },
+        {
+          "asset": "/design/folio/img/10.jpg",
+          "caption": "Bougainvillea"
+        }
+      ],
+      "credits": [
+        "Directed by Ivo Sen"
+      ]
+    },
+    {
+      "id": "about",
+      "title": "About",
+      "titleEm": "",
+      "inNav": true,
+      "kind": "about",
+      "paras": [
+        "Ivo Sen makes short films and documentaries about ordinary places while they are still there. These sample films are stand-ins for a demonstration.",
+        "Films can be watched here, or linked to wherever the filmmaker already shares them."
+      ],
+      "principles": []
+    }
+  ]
+}

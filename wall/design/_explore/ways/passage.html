@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Passage · an arrangement study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="ways.css">
+<style>
+/* PASSAGE — one walk along a wall. Every work hangs on the same centre line; distance between works is the rhythm. */
+body { height: 100dvh; overflow: hidden; }
+.bar { position: fixed; inset: 0 0 auto; z-index: 2; }
+.walk { height: 100dvh; display: flex; align-items: center; overflow-x: auto; overflow-y: hidden; padding-inline: var(--gutter) 16vw; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.walk::-webkit-scrollbar { display: none; }
+.wall { flex: none; }
+.wall.title { width: min(62vw, 880px); }
+.wall.title h1 { font-size: clamp(44px, 7.4vw, 112px); margin: 18px 0 28px; }
+.wall.title p { margin: 0; max-width: 340px; font-size: 17px; line-height: 1.55; color: var(--ink-soft); }
+.hang { flex: none; position: relative; margin: 0 0 0 var(--gap, 15vw); --h: min(var(--hmax, 56dvh), calc(84vw / var(--r))); }
+.hang.tall { --hmax: 70dvh; }
+.hang.close { --gap: 2.6vw; }
+.hang img { height: var(--h); width: calc(var(--h) * var(--r)); background: var(--silk-deep); }
+.hang .cap { position: absolute; top: 100%; left: 0; right: 0; padding-top: 14px; }
+.hang .aside { position: absolute; right: 100%; bottom: 0; width: 210px; margin: 0 30px -4px 0; text-align: right; font-style: italic; font-size: 16px; line-height: 1.45; color: var(--ink-soft); }
+.hang.noted { --gap: calc(15vw + 200px); }
+.wall.say { width: min(48vw, 660px); margin-left: 17vw; }
+.wall.say p { margin: 18px 0 0; font-weight: 300; font-size: clamp(26px, 3.3vw, 46px); line-height: 1.22; letter-spacing: -.01em; text-wrap: balance; }
+.wall.end { width: min(40vw, 500px); margin-left: 17vw; }
+.wall.end h2 { margin: 0 0 18px; font-weight: 300; font-size: 30px; }
+.wall.end p { margin: 0 0 1em; font-size: 18px; color: var(--ink-soft); }
+.rail { position: fixed; inset: auto 0 0; display: flex; align-items: center; gap: 22px; padding: 0 var(--gutter) 26px; }
+.rail .line { flex: 1; height: 1px; background: var(--rule); position: relative; }
+.rail .line i { position: absolute; top: -1px; height: 3px; background: var(--ink); }
+.rail #at { min-width: 5.5em; text-align: right; }
+@media (max-width: 700px) {
+  .walk { padding-inline: 8vw 12vw; }
+  .wall.title, .wall.say, .wall.end { width: 80vw; } .wall.say, .wall.end { margin-left: 16vw; }
+  .hang { --gap: 16vw; } .hang.close { --gap: 5vw; } .hang.noted { --gap: 16vw; }
+  .hang .cap { flex-wrap: wrap; row-gap: 2px; } .hang .cap .d { margin-left: 0; }
+  .hang .aside { position: absolute; top: 100%; right: 0; left: 0; bottom: auto; width: auto; margin: 44px 0 0; text-align: left; font-size: 14.5px; }
+  .rail .title { display: none; }
+}
+</style>
+</head>
+<body>
+<header class="bar"><a class="name" href="#top">Habib Saleh</a><nav aria-label="Primary"><a href="#top">Work</a><a href="#about">About</a><a href="#about">Contact</a></nav></header>
+<main class="walk" id="walk" tabindex="0" aria-label="The series, hung in order. Scroll or use the arrow keys to walk along it."></main>
+<footer class="rail"><span class="label title">Before it disappears</span><div class="line"><i id="pos"></i></div><span class="label" id="at"></span></footer>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  var S = window.SERIES, esc = S.esc, walk = document.getElementById("walk"), pos = document.getElementById("pos"), atEl = document.getElementById("at");
+  function hang(w, cls, aside) {
+    return '<figure class="hang ' + (w.r < 1 ? "tall " : "") + (cls || "") + '" style="--r:' + w.r + '" data-n="' + w.n + '">' + (aside ? '<p class="aside">' + esc(aside) + "</p>" : "") +
+      '<img src="' + w.src + '" alt="' + esc(w.alt) + '"><figcaption class="cap"><span class="n">' + w.n + "</span><span>" + esc(w.title) + '</span><span class="d">' + esc(w.date) + "</span></figcaption></figure>";
+  }
+  var html = '<section class="wall title" id="top"><span class="label">' + esc(S.kicker) + "</span><h1>" + esc(S.title) + " <em>" + esc(S.titleEm) + "</em></h1><p>" + esc(S.note) + "</p></section>";
+  S.groups.forEach(function (g) {
+    if (g.type === "pause") html += '<section class="wall say"><span class="label">' + esc(g.label) + "</span><p>" + esc(g.text) + "</p></section>";
+    else if (g.type === "pair") html += hang(g.works[0]) + hang(g.works[1], "close");
+    else html += hang(g.works[0], g.note ? "noted" : "", g.note);
+  });
+  html += '<section class="wall end" id="about"><h2>' + esc(S.aboutTitle) + "</h2>" + S.about.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("") + '<span class="label">' + esc(S.contact) + "</span></section>";
+  walk.innerHTML = html;
+  var figs = [].slice.call(walk.querySelectorAll(".hang"));
+
+  function centre(f) { return f.offsetLeft + f.offsetWidth / 2 - walk.clientWidth / 2; }
+  function nearest() { var mid = walk.scrollLeft, best = 0, d = Infinity; figs.forEach(function (f, i) { var x = Math.abs(centre(f) - mid); if (x < d) { d = x; best = i; } }); return best; }
+  function update() {
+    var max = walk.scrollWidth - walk.clientWidth, w = walk.clientWidth / walk.scrollWidth * 100;
+    pos.style.width = w + "%"; pos.style.left = (max ? walk.scrollLeft / max : 0) * (100 - w) + "%";
+    var first = figs[0].offsetLeft - walk.scrollLeft > walk.clientWidth * .7;
+    atEl.textContent = first ? S.works.length + " works" : figs[nearest()].dataset.n + " / " + S.works.length;
+  }
+  walk.addEventListener("scroll", update, { passive: true }); window.addEventListener("resize", update);
+  /* An ordinary wheel walks sideways; at either end it is left alone, so a page holding this one can still scroll. */
+  walk.addEventListener("wheel", function (e) {
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+    var max = walk.scrollWidth - walk.clientWidth;
+    if ((e.deltaY < 0 && walk.scrollLeft <= 0) || (e.deltaY > 0 && walk.scrollLeft >= max - 1)) return;
+    walk.scrollLeft += e.deltaY; e.preventDefault();
+  }, { passive: false });
+  document.addEventListener("keydown", function (e) {
+    var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0; if (!d) return;
+    var n = nearest(), here = Math.abs(centre(figs[n]) - walk.scrollLeft) < 4, to = here ? n + d : (centre(figs[n]) > walk.scrollLeft) === (d > 0) ? n : n + d;
+    if (to < 0) walk.scrollTo({ left: 0, behavior: "smooth" }); else if (to >= figs.length) walk.scrollTo({ left: walk.scrollWidth, behavior: "smooth" }); else walk.scrollTo({ left: centre(figs[to]), behavior: "smooth" });
+    e.preventDefault();
+  });
+  document.querySelectorAll('.bar a').forEach(function (a) { a.addEventListener("click", function (e) { e.preventDefault(); var t = document.querySelector(a.getAttribute("href")); walk.scrollTo({ left: t.id === "top" ? 0 : walk.scrollWidth, behavior: "smooth" }); }); });
+  /* #w4 opens with work 4 a little in from the left edge (used by the study board). */
+  var m = /^#w(\d+)$/.exec(location.hash); if (m && figs[m[1] - 1]) walk.scrollLeft = figs[m[1] - 1].offsetLeft - walk.clientWidth * .09;
+  update();
+})();
+</script>
+</body>
+</html>

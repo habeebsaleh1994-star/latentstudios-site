@@ -33,6 +33,15 @@ export const themeSchema = z
     space: z.enum(["airy", "standard", "close"]).default("standard"),
     motion: z.enum(["slow", "still"]).default("slow"),
     read: z.enum(["small", "standard", "large"]).default("standard"),
+    /* The site's skeleton, each part a designed choice. A template sets them; the artist can change every one. */
+    header: z.enum(["classic", "centred", "stacked", "rail", "name"]).default("classic"),
+    opening: z.enum(["words", "image", "name", "work"]).default("words"),
+    title: z.enum(["accent", "plain", "quiet", "caps"]).default("accent"),
+    captions: z.enum(["under", "beside", "hover", "hidden"]).default("under"),
+    footer: z.enum(["line", "large", "minimal"]).default("line"),
+    scale: z.enum(["intimate", "standard", "monumental"]).default("standard"),
+    /** A typeface pairing that wins over the look's own; null keeps the look's. */
+    typeface: z.enum(["newsreader", "caslon", "instrument", "archive", "bodoni", "fraunces", "young", "archivo", "grotesk", "jost", "plex", "courier"]).nullable().default(null),
   })
   .strict();
 export type Theme = z.infer<typeof themeSchema>;

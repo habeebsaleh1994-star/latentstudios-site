@@ -1,5 +1,18 @@
 # Latent Wall: product direction
 
+## The roadmap (Habib, 6 October 2026)
+
+> All other platforms have weaknesses: they are not really designed well, and they have so much hassle and clutter. Get this out of the way for artists. Give them something beautiful, nice and state of the art, without them worrying much about it, but still with the freedom to customise and edit, so they have unique portfolios instead of all the same identity, which is a downside for an artist trying to show their full identity.
+
+What that means in practice:
+1. **No hassle, no clutter.** The site is beautiful from the first minute; every control is hidden until it is reached for.
+2. **State of the art.** Better designed than any builder in every detail; nothing ships until it is flawless. These are artists' portfolios.
+3. **Freedom without ugliness.** Real editing (pages, stories, order, arrangement, words) and real customising (look, colour, type, spacing, motion), all designed choices, so no combination can look wrong.
+4. **The artist's own identity.** Two artists must never end up with the same site. Houses, arrangements, looks and the work itself make each portfolio distinct; Latent's taste lives in the craft, not in a shared skin.
+
+Every change is checked against two questions: does the artist have to worry about this? Could two artists end up with the same site?
+
+
 Written 5 October 2026 from conversations with Habib. Change freely until it is built.
 
 ## What it is
@@ -135,3 +148,63 @@ Tests: `tests/looks.test.ts` runs nine awkward accents (bright yellow, deep navy
 - Cap per image: 15 MB, any common format (JPEG, PNG, WebP, HEIC). Advise it in the picker: bigger files make the artist's own editing slow too.
 - Visitors never receive the upload: sized copies (about 800 / 1600 / 2800 px), loaded as they scroll. Needs a server, so it belongs with release work.
 - Free and Full plans differ in total storage and photo count, not in the per-image cap.
+
+## Stage 1: the whole site (started 6 October 2026)
+
+Habib's aim: get the hassle and clutter of other builders out of the artist's way. Beautiful without effort, yet free enough that every portfolio shows its artist's whole identity, never a shared one.
+
+Decided: one site holds every kind of work (photograph stories, writing, films, works at true scale, projects with process). A template becomes a **house**: it sets the front-page forms, the arrangements its pages may use and its exclusive looks. **Edit** is the site and its content (pages, order, arrangement, words); **Customise** is the artistic choices (look, palette, accent, type, spacing, motion). The studies that settled this are in `design/_explore/ways` and `design/_explore/site` (with scripted sweeps in `design/_explore/site/tests`).
+
+**Document version 15** (`src/studio/site.ts`, tests in `tests/studio-site.test.ts`):
+- a **library** of works: a photograph's own facts (title, date, medium, alt text, focal point, real size) live once; pages refer to it, so one photograph can sit in several stories and work from the apps lands in the library first. A film still's line belongs to the film, not the photograph.
+- **pages** with a kind (story, writing, film, project, about, contact) and their own address; a story chooses its arrangement (held, book, passage, contact, wall, slides).
+- a **front page** with its form (covers, list, sheet) and words; the **theme** as in version 14.
+- rules: no two pages at one address, no page referring to a work the library lacks, no geometry anywhere.
+- `migrateFromV14` turns each template's document into a site and names in a report anything it cannot carry; `openSite` reads either version. All six seeds migrate with an empty report and every work placed.
+
+Next: the renderer and routes (front page in its forms, a page per address, navigation from the pages), then Folio's arrangements on it, then the Edit and Customise panels, then the looks and the matrix across houses, page kinds and arrangements.
+
+## The app (6 October 2026)
+
+`app/index.html` with `src/app`: one app for the whole site, replacing the six templates.
+- `render.ts`: every page kind (story, writing, film, project, about, contact) and every arrangement (held, book, passage, contact, wall, slides), the front page in its three forms, navigation from the pages, "next" at the end of each page. A site with one piece of work opens straight onto it.
+- `behave.ts`: turning, walking, holding, slides, the wall's scale, film play, the comparison; each view keeps its place across redraws; keys never act while typing.
+- `ops.ts`: every edit as a pure function on the site (tests in `tests/app-ops.test.ts`).
+- `store.ts`: the site and photographs in this browser, with a revision on every save and other windows following along. Samples play in their own spaces (`?site=folio`, …), never in the artist's.
+- `edit.ts`: **Edit** (This page / The site: words, arrangement, works tray, pages, add each kind, the library) and **Customise** (look, accent, and under Quiet: light, palette, type; mount, spacing, reading size, motion). Words are typed on the page; each work has a toolbar; a + sits in each gap.
+- Browser tests: `tests/browser` (every page of every sample; a whole editing session; both engines).
+
+Not yet: Publish, plans, video upload for films, the matrix across looks × arrangements; then the old templates and the studies are deleted.
+
+## Learning from Squarespace and Format (6 October 2026)
+
+Habib: in design and templates we can do better, being made for art (photography and film first); in customising, editing and setting things up they have long experience, and we bring what we need into our workflow. A research pass (their help centres, tutorial sites, reviews; complaint evidence is directional) gave this.
+
+**To bring in, in this order:**
+1. **Draft, then Publish.** Squarespace saves straight to live and people work around it. Ours: editing is always a draft; Publish lists what changed and gives a private preview link.
+2. **Restore an earlier publish.** Every published version kept; "restore the site as of 3 Oct".
+3. **Replacing a photograph keeps everything** (caption, focal point, every story it sits in). Later: a Lightroom plug-in that really syncs (Format's is loved; Adobe's manual "Reset" is what to avoid).
+4. **The library as the single source,** "used in" on each work (built).
+5. **Drop a folder, get a story,** ordered by file name or capture date, then reorder.
+6. **Captions and dates read from the file** (IPTC/EXIF) on import.
+7. **One focal point per work, used everywhere:** covers, contact sheet, share image, phone crops.
+8. **Share image and search preview per page,** filled from the page's own words and cover, editable, in a quiet "How it appears" area.
+9. **Visibility:** site and page passwords, a "coming soon" mode; hidden pages reached by link (built as "hidden").
+10. **Films:** host or embed (Vimeo, YouTube) with the artist's own poster; never charge filmmakers by the minute.
+11. **Trash for pages,** restorable for 30 days.
+12. **Phone:** preview toggle in Edit now; later, content editing on the phone (upload, order, captions, publish), Customise stays on desktop, which mirrors our Edit/Customise split.
+13. **Later:** a proofing room for clients (password, favourites, download sizes), a words-only role for an assistant or gallerist, few-question onboarding that turns a dropped folder into a finished first site, guided domain connection with live checks.
+
+**Never repeat:** saving means live; platform versions that strand work or forbid changing the design; building the phone layout twice; tools that work in one page kind but not another; small tiered video limits; photo or project caps and stored images capped at 2500 px (keep masters, serve sizes); billing and support that break trust; sync you trigger by hand; no bulk export.
+
+## Distinct templates, deep freedom inside (6 October 2026)
+
+Habib: Squarespace and Format have really distinct templates, and inside each a lot of customisation and freedom; ours were one skeleton in different looks, so artists would look alike.
+
+Now: the skeleton is a set of designed choices in the theme (`header`: classic, centred, stacked, side column, name only; `opening`: words, an image, the name, straight into the work; `title`: accented word, one voice, small and quiet, capitals; `captions`: under, beside, when pointed at, hidden; `footer`: a line, the name large, almost nothing; `scale`: intimate, standard, monumental), plus `typeface`: twelve pairings that can be changed under any look. A **template** (`src/app/houses.ts`) is a distinct starting set of these with a look, a typeface, a front form and how new stories arrange: Folio, Gallery, Monograph, Passage, Reel, Salon, Index, Atelier, Lantern. No two share a skeleton (tested). Choosing one never touches content. Customise is grouped: Template, Look and colour, Type, Structure, Details.
+
+Board: `design/_explore/templates/` (the same site in all nine, front, a story, the poem, About, phone).
+
+**The split, decided by Habib (6 October 2026):** "the template is us helping people to decide instead of flooding them with decisions; inside the template we can still give them a rich experience in customising." So each template in `src/app/houses.ts` declares what it decides and what it offers: its arrangements, its front pages, two or three variants of each skeleton part (the first is its own), the looks and typefaces made for it. Customise and Edit show only those; every edit refuses anything else (`ops.setTheme`, `setArrangement`, `setFront`); a site is brought within its template when opened (`conform`). Changing template is the big decision; a story whose arrangement the new template does not offer takes the template's own, and the artist is told.
+
+**Templates keep their promises (6 October 2026).** Habib asked to make sure each template really does what we say, and that "who it's for" matches what it is. An audit with the same site in all nine found Reel opening on a photograph, Index leading with photo stories, Passage's front page vertical, and Salon and Monograph keeping other arrangements (switching template kept a story's arrangement). Now: a template decides every story's arrangement; each declares what kind of work leads its front page and menu (`leads`, `menu`: Films, Writing, Projects, Contents, Works); Passage's front page is a walk; Monograph is spreads only with a Contents page; Salon gives every work its dimensions; Reel opens on the first film's still. `tests/app-templates.test.ts` holds each template's promises as checks against the rendered site. The home page and board take their words from `houses.ts`.

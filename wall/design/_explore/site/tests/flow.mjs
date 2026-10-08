@@ -1,0 +1,32 @@
+import { chromium, webkit } from "/Users/habibsaleh/Documents/latentstudios-site/wall/node_modules/playwright-core/index.mjs";
+import fs from "fs"; import { execSync } from "child_process";
+const which = process.argv[2] || "chromium", H = "http://127.0.0.1:5181/design/";
+const br = await (which === "webkit" ? webkit : chromium).launch(); const ctx = await br.newContext({ viewport: { width: 1440, height: 900 }, acceptDownloads: true }); const pg = await ctx.newPage();
+const errs = []; pg.on("pageerror", e => errs.push(e.message)); pg.on("console", m => m.type() === "error" && errs.push(m.text()));
+const shot = n => pg.screenshot({ path: `/tmp/site-study-shots/f-${which[0]}-${n}.png` });
+await pg.goto(H + "home/index.html", { waitUntil: "networkidle" }); await shot("01-home");
+await pg.click("text=Start a site"); await pg.waitForLoadState("networkidle"); await shot("02-start");
+await pg.fill("#name", "Nadia Haddad"); await pg.fill("#title", "Salt and stone"); await pg.click("text=Open the editor"); await pg.waitForLoadState("networkidle"); await pg.waitForTimeout(800); await shot("03-editor-empty");
+await pg.click('#panel [data-act="page-add"][data-kind="story"]'); await pg.waitForTimeout(400); await shot("04-new-story");
+await pg.click('#panel [data-act="lib"]'); await pg.waitForTimeout(300);
+const [chooser] = await Promise.all([pg.waitForEvent("filechooser"), pg.click("#libfile")]);
+await chooser.setFiles(["/Users/habibsaleh/Documents/latentstudios-site/wall/design/folio/img/7.jpg", "/Users/habibsaleh/Documents/latentstudios-site/wall/design/folio/img/8.jpg"]);
+await pg.waitForTimeout(1500); await shot("05-library-uploaded");
+await pg.click('#libgrid button[data-f="3"]'); await pg.click("#libadd"); await pg.waitForTimeout(600); await shot("06-story-filled");
+await pg.evaluate(() => { document.querySelector('[data-ed="page.title"]'); }); 
+await pg.click("#panel [data-tab=site]"); await pg.waitForTimeout(200); await pg.click("#panel .seg[data-set=plan] [data-v=full]"); await pg.waitForTimeout(300); await pg.click("#tweak"); await pg.waitForTimeout(200); await shot("07-look-tab");
+await pg.click('#panel [data-look="toned"]'); await pg.waitForTimeout(600); await shot("08-look-toned");
+await pg.click("#pub"); await pg.waitForTimeout(300); await shot("09-publish");
+const [dl] = await Promise.all([pg.waitForEvent("download", { timeout: 20000 }).catch(() => null), pg.click("#pubgo")]);
+await pg.waitForTimeout(2500); await shot("10-published");
+const zipLink = await pg.locator('a[download]').first();
+if (await zipLink.count()) { const [d2] = await Promise.all([pg.waitForEvent("download"), zipLink.click()]); const p = `/tmp/site-study-shots/site-${which}.zip`; await d2.saveAs(p); fs.rmSync(`/tmp/site-study-/tmp/site-study-shots/unz-${which}`, { recursive: true, force: true }); execSync(`unzip -q -o ${p} -d /tmp/site-study-shots/unz-${which}`); console.log(which, "zip ok:", execSync(`cd /tmp/site-study-shots/unz-${which} && find . -type f | sort | head -40 && du -sh .`).toString()); }
+await pg.goto("http://127.0.0.1:5181/design/_explore/site/site.html?published#/", { waitUntil: "networkidle" }); await pg.waitForTimeout(600); await shot("11-published-site");
+const dir = `${process.cwd()}//tmp/site-study-shots/unz-${which}`;
+if (fs.existsSync(dir + "/index.html")) { const st = await pg.locator("body").evaluate(() => 0);
+  await pg.goto("file://" + dir + "/index.html"); await pg.waitForTimeout(1200); await shot("12-files-front");
+  const story = fs.readdirSync(dir).filter(f => fs.existsSync(`${dir}/${f}/index.html`) && !["about","contact"].includes(f))[0];
+  await pg.goto(`file://${dir}/${story}/index.html`); await pg.waitForTimeout(1200); await shot("13-files-story");
+  const look = await pg.evaluate(() => [document.documentElement.dataset.look, getComputedStyle(document.body).backgroundColor, document.querySelectorAll("img").length, location.pathname.split("/").slice(-2).join("/")]);
+  console.log(which, "static story page:", look.join(" | ")); }
+console.log(which, "errors:", errs.join(" | ") || "none"); await br.close();

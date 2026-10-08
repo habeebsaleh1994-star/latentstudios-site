@@ -1,0 +1,204 @@
+{
+  "version": 15,
+  "house": "index",
+  "name": "Noor Rahal",
+  "contact": "Readings and correspondence · hello@example.com",
+  "email": "",
+  "front": {
+    "form": "covers",
+    "kicker": "Poems, essays and fragments",
+    "title": "What the",
+    "titleEm": "door keeps",
+    "note": "Writing from Beirut and elsewhere, collected as it was finished. Read in order or begin anywhere."
+  },
+  "theme": {
+    "look": "quiet",
+    "options": {},
+    "palette": "silk",
+    "mode": "system",
+    "accent": null,
+    "type": "silk",
+    "mount": "bare",
+    "space": "standard",
+    "motion": "slow",
+    "read": "standard"
+  },
+  "library": {
+    "/design/folio/img/9.jpg": {
+      "kind": "image",
+      "title": "Wall, late light",
+      "date": "",
+      "caption": "",
+      "alt": "Thorn-branch shadows on a sunlit plaster wall",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/6.jpg": {
+      "kind": "image",
+      "title": "Under the leaves",
+      "date": "",
+      "caption": "",
+      "alt": "A man standing beneath a dense green tree, only his legs visible",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/7.jpg": {
+      "kind": "image",
+      "title": "Through the gate",
+      "date": "",
+      "caption": "",
+      "alt": "A white cat seen through iron bars in a stone courtyard",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/12.jpg": {
+      "kind": "image",
+      "title": "The road in",
+      "date": "",
+      "caption": "",
+      "alt": "A road curving through pine hills under a pale sky",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    }
+  },
+  "pages": [
+    {
+      "id": "door",
+      "title": "The door",
+      "titleEm": "remembers",
+      "inNav": true,
+      "kind": "writing",
+      "form": "Poem",
+      "place": "Beirut",
+      "year": "2026",
+      "paras": [
+        "The door remembers\nthe shape of every leaving:\na hand, a weight, the small\nhesitation before the latch.\n\nIt keeps no names.\nIt keeps the draught\nthat followed you out,\nand the light that did not."
+      ],
+      "margin": "",
+      "image": {
+        "asset": "/design/folio/img/9.jpg",
+        "at": "cover"
+      }
+    },
+    {
+      "id": "salt",
+      "title": "Salt",
+      "titleEm": "",
+      "inNav": true,
+      "kind": "writing",
+      "form": "Poem",
+      "place": "Lisbon",
+      "year": "2026",
+      "paras": [
+        "My grandmother kept salt in a blue tin\nand said the sea was only\na long way of being patient.\n\nI carried the tin through three cities.\nIt never emptied.\nEach time I opened it\nthe room smelled of that distance,\nand I forgave something."
+      ],
+      "margin": "",
+      "image": null
+    },
+    {
+      "id": "guest",
+      "title": "A guest in my own",
+      "titleEm": "language",
+      "inNav": true,
+      "kind": "writing",
+      "form": "Essay",
+      "place": "Lisbon",
+      "year": "2025",
+      "paras": [
+        "I learned to pray in one language and to apologise in another. For years I thought this was a problem to be solved, as if a person were a house with two front doors and a duty to keep one of them locked.",
+        "What I understand now is that each language keeps a different part of me. Arabic holds the kitchen, the stairwell, the voices that called up to a balcony. English holds the desk. When I write in one and think in the other, something is lost, and something is also kept that would not have survived the trip any other way.",
+        "A translator once told me the work is not carrying a sentence across a river. It is building a second house with the same light in it. I have been building for a long time. Some rooms are finished."
+      ],
+      "margin": "Written after a reading in Lisbon, March 2025.",
+      "image": {
+        "asset": "/design/folio/img/6.jpg",
+        "at": 1
+      }
+    },
+    {
+      "id": "window",
+      "title": "Notes toward a",
+      "titleEm": "window",
+      "inNav": true,
+      "kind": "writing",
+      "form": "Fragment",
+      "place": "Beirut",
+      "year": "2025",
+      "paras": [
+        "It is the same window every morning and never the same. Today the neighbour's washing, a bar of sun on the sill, a dog deciding.",
+        "I keep thinking the view is the thing that stays. It is only the frame that stays."
+      ],
+      "margin": "",
+      "image": {
+        "asset": "/design/folio/img/7.jpg",
+        "at": "cover"
+      }
+    },
+    {
+      "id": "morning",
+      "title": "Morning, no",
+      "titleEm": "one",
+      "inNav": true,
+      "kind": "writing",
+      "form": "Poem",
+      "place": "Beirut",
+      "year": "2024",
+      "paras": [
+        "Before the street begins\nthe street is a held breath.\nA bin lid. A scooter, far.\n\nI stand at the kettle\nlistening to the city\nmake up its mind\nto be a city again.\n\nNo one is watching.\nThis is the best of it:\nthe whole day\nstill unspoken."
+      ],
+      "margin": "",
+      "image": {
+        "asset": "/design/folio/img/12.jpg",
+        "at": "cover"
+      }
+    },
+    {
+      "id": "inventory",
+      "title": "Inventory of a",
+      "titleEm": "suitcase",
+      "inNav": true,
+      "kind": "writing",
+      "form": "Fragment",
+      "place": "Elsewhere",
+      "year": "2024",
+      "paras": [
+        "Two shirts, a blue tin, a charger for a phone I no longer own. A map of a city I left. A letter I have not decided to read.",
+        "The weight is not in the objects."
+      ],
+      "margin": "",
+      "image": null
+    },
+    {
+      "id": "about",
+      "title": "About",
+      "titleEm": "",
+      "inNav": true,
+      "kind": "about",
+      "paras": [
+        "Noor Rahal writes poems and short prose in English and Arabic. She lives between cities and keeps a notebook in each.",
+        "A first collection, The Salt Tin, is in preparation."
+      ],
+      "principles": []
+    }
+  ]
+}

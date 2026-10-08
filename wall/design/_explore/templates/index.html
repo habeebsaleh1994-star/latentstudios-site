@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nine templates · a board</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;1,300&family=Instrument+Sans:wght@400;500&display=swap">
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #1c1b1b; color: #cfcac8; font-family: "Instrument Sans", system-ui, sans-serif; font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+.in { max-width: 1680px; margin-inline: auto; padding: 0 clamp(18px, 3vw, 48px); }
+header { padding-block: clamp(40px, 8vh, 88px) clamp(20px, 4vh, 40px); }
+h1 { margin: 0 0 14px; font-family: "Newsreader", Georgia, serif; font-weight: 300; font-size: clamp(32px, 4vw, 54px); line-height: 1.05; letter-spacing: -.02em; color: #f1edeb; }
+header p { margin: 0 0 .8em; max-width: 70ch; color: #a8a2a0; }
+.seg { display: flex; gap: 18px; margin: 18px 0 0; } .seg button { background: none; border: 0; border-bottom: 1px solid transparent; color: #a8a2a0; font: inherit; padding: 4px 0; cursor: pointer; } .seg button[aria-pressed="true"] { color: #f1edeb; border-color: #b87b8a; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 34px 18px; padding-bottom: 80px; }
+@media (max-width: 1100px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } } @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+.t h2 { margin: 0; font-family: "Newsreader", Georgia, serif; font-weight: 300; font-size: 26px; color: #f1edeb; } .t h2 small { font-family: "Instrument Sans", sans-serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: #8d8785; margin-left: 10px; }
+.t p { margin: 2px 0 12px; color: #a8a2a0; font-size: 13.5px; min-height: 3em; }
+.fr { position: relative; overflow: hidden; background: #2a2828; outline: 1px solid #343131; }
+.fr iframe { border: 0; transform-origin: 0 0; display: block; }
+.fr a { position: absolute; inset: 0; }
+.t .open { font-size: 12.5px; color: #cfcac8; text-underline-offset: 4px; text-decoration-color: #5a5553; }
+</style>
+</head>
+<body>
+<div class="in">
+<header>
+  <h1>Nine templates, one artist</h1>
+  <p>Your site, with the same photographs, words, film and poem, in each of the nine templates. Each is a different skeleton (header, opening, titles, captions, footer, scale), a different look and a different typeface. Inside each, every one of those can still be changed in Customise. Every frame is the real site; open one to use it.</p>
+  <div class="seg" id="seg"><button type="button" data-p="" aria-pressed="true">The front page</button><button type="button" data-p="the-road-in">A story</button><button type="button" data-p="the-door">The poem</button><button type="button" data-p="about">About</button><button type="button" data-v="phone">On a phone</button></div>
+</header>
+<div class="grid" id="grid"></div>
+</div>
+<script>
+var H = [["folio","Folio","Photographers"],["gallery","Gallery","Photographers and artists"],["monograph","Monograph","Photographers who make books"],["passage","Passage","Photographers who work in long series"],["reel","Reel","Filmmakers"],["salon","Salon","Painters and visual artists"],["index","Index","Writers and poets"],["atelier","Atelier","Studios and designers"],["lantern","Lantern","Photographers who tell stories in sequence"]];
+var IDEA = {"folio":"One work at a time, held large and still, with a caption like a print mount.","gallery":"A white wall and great space. The name alone at the top; the work first, its words when pointed at.","monograph":"Your name as the cover, each series as spreads turned like a photobook, captions in the margin.","passage":"A dark room and one long walk past the work: the front page and every story, sideways, on one line.","reel":"Films lead: the site opens on a still from your first film, each film at its own ratio, in the dark.","salon":"Works hung together at their true size, a centred header and a quiet introduction, plates under each wall.","index":"Words lead: writing first in the contents, a side column for your name and the pages, quiet titles.","atelier":"Projects lead, as case studies: process beside outcome, a grid, your name set large at the foot.","lantern":"One slide at a time in the middle of the screen, like a lantern show; titles in capitals on an early print's cream."};
+var page = "", phone = false, stamp = Date.now();
+function draw() {
+  document.getElementById("grid").innerHTML = H.map(function (h) {
+    var url = "/app/index.html?site=habib&house=" + h[0] + "&space=board-" + h[0] + "-" + stamp + "#/" + page, w = phone ? 390 : 1440, ht = phone ? 780 : 900;
+    return '<div class="t"><h2>' + h[1] + "<small>" + h[2] + "</small></h2><p>" + IDEA[h[0]] + '</p><div class="fr" data-w="' + w + '" data-h="' + ht + '"><iframe src="' + url.replace("?", "?preview&") + '" width="' + w + '" height="' + ht + '" loading="lazy" title="' + h[1] + '"></iframe><a href="' + url + '" target="_blank" rel="noopener" aria-label="Open ' + h[1] + '"></a></div><a class="open" href="' + url + '" target="_blank" rel="noopener">Open it, and try Edit and Customise</a></div>';
+  }).join("");
+  fit();
+}
+function fit() { document.querySelectorAll(".fr").forEach(function (f) { var w = +f.dataset.w, h = +f.dataset.h, s = f.parentNode.clientWidth / w; if (phone) s = Math.min(s, 300 / w); f.style.width = w * s + "px"; f.style.height = h * s + "px"; f.firstChild.style.transform = "scale(" + s + ")"; }); }
+document.getElementById("seg").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; if (b.dataset.v) phone = !phone; else page = b.dataset.p; document.querySelectorAll("#seg button").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.v ? String(phone) : String(x.dataset.p === page)); }); draw(); });
+addEventListener("resize", fit); draw();
+</script>
+</body>
+</html>

@@ -1,0 +1,465 @@
+{
+  "version": 15,
+  "house": "folio",
+  "name": "Habib Saleh",
+  "contact": "Prints and enquiries · hello@example.com",
+  "email": "",
+  "front": {
+    "form": "covers",
+    "kicker": "Photographs, a film and some words · Lebanon · 2023 – 2026",
+    "title": "Ordinary",
+    "titleEm": "things",
+    "note": "Five stories from villages in the Lebanese hills, a short film made from them, and a poem."
+  },
+  "theme": {
+    "look": "quiet",
+    "options": {},
+    "palette": "silk",
+    "mode": "system",
+    "accent": null,
+    "type": "silk",
+    "mount": "bare",
+    "space": "standard",
+    "motion": "slow",
+    "read": "standard"
+  },
+  "library": {
+    "/design/folio/img/12.jpg": {
+      "kind": "image",
+      "title": "The road in",
+      "date": "7 Mar 2025",
+      "caption": "",
+      "alt": "A road curving through pine hills",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/10.jpg": {
+      "kind": "image",
+      "title": "Bougainvillea",
+      "date": "20 Nov 2025",
+      "caption": "",
+      "alt": "Pink bougainvillea spilling over the roof of a small concrete building",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/5.jpg": {
+      "kind": "image",
+      "title": "He looked back",
+      "date": "3 Dec 2025",
+      "caption": "",
+      "alt": "Close portrait of an elderly man with white hair, smiling quietly",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/3.jpg": {
+      "kind": "image",
+      "title": "The game",
+      "date": "17 Dec 2023",
+      "caption": "",
+      "alt": "An old man holding a pale fruit beside a cracked concrete wall, a ball on the ground",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/4.jpg": {
+      "kind": "image",
+      "title": "The kitchen",
+      "date": "3 Dec 2025",
+      "caption": "",
+      "alt": "An old man in a dark coat standing at a stove in a small yellow kitchen",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/1.jpg": {
+      "kind": "image",
+      "title": "Afternoon, the street",
+      "date": "16 Jun 2025",
+      "caption": "",
+      "alt": "Three children racing along a street, one on a bicycle",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/8.jpg": {
+      "kind": "image",
+      "title": "The pine",
+      "date": "24 Mar 2025",
+      "caption": "",
+      "alt": "A tall pine tree leaning over a quiet village road with a lone figure walking",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1467,
+      "h": 2200
+    },
+    "/design/folio/img/6.jpg": {
+      "kind": "image",
+      "title": "Under the leaves",
+      "date": "4 May 2025",
+      "caption": "",
+      "alt": "A man beneath a dense green tree",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/7.jpg": {
+      "kind": "image",
+      "title": "Through the gate",
+      "date": "10 Nov 2025",
+      "caption": "",
+      "alt": "A white cat seen through iron bars",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/11.jpg": {
+      "kind": "image",
+      "title": "Parked, waiting",
+      "date": "10 Nov 2025",
+      "caption": "",
+      "alt": "A grey sedan under a dust cover in a stone garage",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/9.jpg": {
+      "kind": "image",
+      "title": "Wall, late light",
+      "date": "3 Sep 2025",
+      "caption": "",
+      "alt": "Thorn-branch shadows on a sunlit plaster wall",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1467
+    },
+    "/design/folio/img/2.jpg": {
+      "kind": "image",
+      "title": "The valley",
+      "date": "22 Sep 2025",
+      "caption": "",
+      "alt": "Two men at a railing above an olive valley",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 2200,
+      "h": 1650
+    },
+    "/design/reel/media/poster.jpg": {
+      "kind": "image",
+      "title": "Poster",
+      "date": "",
+      "caption": "",
+      "alt": "A road curving through pine hills",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1280,
+      "h": 536
+    },
+    "/design/reel/media/before-it-disappears-sample.mp4": {
+      "kind": "video",
+      "title": "",
+      "date": "",
+      "caption": "",
+      "alt": "",
+      "focal": {
+        "x": 50,
+        "y": 50
+      },
+      "size": null,
+      "w": 1280,
+      "h": 536
+    }
+  },
+  "pages": [
+    {
+      "id": "the-road-in",
+      "kind": "story",
+      "title": "The road",
+      "titleEm": "in",
+      "inNav": true,
+      "kicker": "Spring 2025",
+      "note": "The way up to the village, and what stands at its last turn.",
+      "arrangement": "held",
+      "pieces": [
+        {
+          "type": "work",
+          "asset": "/design/folio/img/12.jpg",
+          "arrange": "alone",
+          "note": "",
+          "full": true
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/8.jpg",
+          "arrange": "margin-note",
+          "note": "A pine above the last turn of the village road.",
+          "full": false
+        },
+        {
+          "type": "pause",
+          "label": "From the story",
+          "text": "Most of what these photographs show is not rare. It is simply about to be gone."
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/2.jpg",
+          "arrange": "alone",
+          "note": "",
+          "full": false
+        }
+      ]
+    },
+    {
+      "id": "he-looked-back",
+      "kind": "story",
+      "title": "He looked",
+      "titleEm": "back",
+      "inNav": true,
+      "kicker": "December 2023 – 2025",
+      "note": "One man, met twice, two years apart.",
+      "arrangement": "book",
+      "pieces": [
+        {
+          "type": "work",
+          "asset": "/design/folio/img/5.jpg",
+          "arrange": "alone",
+          "note": "",
+          "full": true
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/3.jpg",
+          "arrange": "with-next",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/4.jpg",
+          "arrange": "alone",
+          "note": "",
+          "full": false
+        }
+      ]
+    },
+    {
+      "id": "through-the-gate",
+      "kind": "story",
+      "title": "Through the",
+      "titleEm": "gate",
+      "inNav": true,
+      "kicker": "November 2025",
+      "note": "Courtyards, gates and the things kept behind them.",
+      "arrangement": "book",
+      "pieces": [
+        {
+          "type": "work",
+          "asset": "/design/folio/img/10.jpg",
+          "arrange": "alone",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/7.jpg",
+          "arrange": "with-next",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/11.jpg",
+          "arrange": "alone",
+          "note": "",
+          "full": false
+        }
+      ]
+    },
+    {
+      "id": "afternoon",
+      "kind": "story",
+      "title": "Afternoon, the",
+      "titleEm": "street",
+      "inNav": true,
+      "kicker": "Summer 2025",
+      "note": "Children, trees and the hour when nothing is asked of anyone.",
+      "arrangement": "held",
+      "pieces": [
+        {
+          "type": "work",
+          "asset": "/design/folio/img/1.jpg",
+          "arrange": "alone",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/6.jpg",
+          "arrange": "alone",
+          "note": "",
+          "full": false
+        }
+      ]
+    },
+    {
+      "id": "late-light",
+      "kind": "story",
+      "title": "Late",
+      "titleEm": "light",
+      "inNav": true,
+      "kicker": "Autumn 2025",
+      "note": "Walls and leaves in the last hour of sun.",
+      "arrangement": "contact",
+      "pieces": [
+        {
+          "type": "work",
+          "asset": "/design/folio/img/9.jpg",
+          "arrange": "alone",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/6.jpg",
+          "arrange": "alone",
+          "note": "",
+          "full": false
+        },
+        {
+          "type": "work",
+          "asset": "/design/folio/img/7.jpg",
+          "arrange": "alone",
+          "note": "",
+          "full": false
+        }
+      ]
+    },
+    {
+      "id": "the-film",
+      "title": "Before It",
+      "titleEm": "Disappears",
+      "inNav": true,
+      "kind": "film",
+      "form": "Short film",
+      "year": "2025",
+      "runtime": "28 sec",
+      "ratio": "2.39:1",
+      "synopsis": "A slow look at villages in the Lebanese hills, made from the photographs of the same name. This sample is a 28 second cut.",
+      "poster": "/design/reel/media/poster.jpg",
+      "video": "/design/reel/media/before-it-disappears-sample.mp4",
+      "link": "https://example.com/before-it-disappears",
+      "stills": [
+        {
+          "asset": "/design/folio/img/12.jpg",
+          "caption": "The road in"
+        },
+        {
+          "asset": "/design/folio/img/7.jpg",
+          "caption": "Through the gate"
+        },
+        {
+          "asset": "/design/folio/img/6.jpg",
+          "caption": "Under the leaves"
+        },
+        {
+          "asset": "/design/folio/img/2.jpg",
+          "caption": "The valley"
+        }
+      ],
+      "credits": [
+        "Directed by Ivo Sen",
+        "Photographs and sample cut made for this demonstration"
+      ]
+    },
+    {
+      "id": "the-door",
+      "title": "The door",
+      "titleEm": "remembers",
+      "inNav": true,
+      "kind": "writing",
+      "form": "Poem",
+      "place": "Beirut",
+      "year": "2026",
+      "paras": [
+        "The door remembers\nthe shape of every leaving:\na hand, a weight, the small\nhesitation before the latch.\n\nIt keeps no names.\nIt keeps the draught\nthat followed you out,\nand the light that did not."
+      ],
+      "margin": "",
+      "image": {
+        "asset": "/design/folio/img/9.jpg",
+        "at": "cover"
+      }
+    },
+    {
+      "id": "about",
+      "kind": "about",
+      "title": "About",
+      "inNav": true,
+      "paras": [
+        "Habib Saleh photographs and makes films. These stories were made over two years, on visits to villages in Lebanon, in the light of ordinary afternoons.",
+        "The photographs are available as prints, and as a short film."
+      ],
+      "principles": []
+    },
+    {
+      "id": "contact",
+      "kind": "contact",
+      "title": "Contact",
+      "inNav": true,
+      "paras": [
+        "Prints, exhibitions and enquiries: hello@example.com.",
+        "Studio visits by appointment, in Beirut."
+      ]
+    }
+  ]
+}
