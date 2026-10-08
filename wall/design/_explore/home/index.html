@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home: three arrivals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500&display=swap">
+<style>
+:root { --silk: #EEE9E7; --silk-deep: #E4DDDA; --ink: #29222A; --ink-soft: #6B5F66; --peony: #B87B8A; --rule: #D3C9C7; --serif: "Newsreader", Georgia, serif; --sans: "Instrument Sans", system-ui, sans-serif; --gutter: clamp(20px, 5vw, 80px); }
+* { box-sizing: border-box; } body { margin: 0; background: var(--silk); color: var(--ink); font-family: var(--serif); font-size: 18px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+.label { font-family: var(--sans); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
+h1, h2, h3 { font-weight: 300; margin: 0; }
+.wrap { max-width: 1500px; margin-inline: auto; padding-inline: var(--gutter); }
+header.top { padding: 60px 0 30px; } header.top h1 { font-size: clamp(40px, 5vw, 72px); line-height: 1; letter-spacing: -.02em; margin-top: 14px; } header.top h1 em { color: var(--peony); }
+header.top p { max-width: 62ch; color: var(--ink-soft); font-weight: 300; font-size: 19px; }
+.brief { margin: 28px 0 0; padding: 22px 26px; border-left: 2px solid var(--peony); max-width: 70ch; font-style: italic; color: var(--ink); font-size: 18px; }
+.dir { padding: 90px 0 40px; border-top: 1px solid var(--rule); margin-top: 60px; }
+.dir .head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 24px 80px; align-items: end; margin-bottom: 44px; }
+.dir h2 { font-size: clamp(36px, 4.4vw, 62px); line-height: 1; letter-spacing: -.02em; margin-top: 12px; } .dir h2 em { color: var(--peony); }
+.dir .head p { margin: 0; color: var(--ink-soft); font-weight: 300; }
+.frame { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--silk-deep); box-shadow: 0 50px 90px -60px rgba(41,34,42,.5); }
+.frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.frame .over { position: absolute; inset: 0; display: grid; align-content: end; padding: clamp(24px, 4vw, 64px); background: linear-gradient(to top, rgba(41,34,42,.55), rgba(41,34,42,0) 55%); color: #EEE9E7; }
+.frame .over .label { color: rgba(238,233,231,.75); }
+.frame .over h3 { font-size: clamp(40px, 5.5vw, 96px); line-height: .96; letter-spacing: -.028em; margin: 14px 0 0; max-width: 11ch; } .frame .over h3 em { color: #E5B9C4; }
+.frame .over .cta { margin-top: 28px; font-family: var(--sans); font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; }
+.story { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 26px; }
+.story figure { margin: 0; } .story .f { aspect-ratio: 16 / 10; overflow: hidden; background: var(--silk-deep); position: relative; } .story .f img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.story figcaption { font-family: var(--sans); font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); margin-top: 10px; } .story figcaption b { font-weight: 500; color: var(--ink); }
+.says { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--rule); font-size: 16px; }
+.says .label { display: block; margin-bottom: 8px; } .says p { margin: 0; }
+/* direction B: the field */
+.field { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #1B1619; box-shadow: 0 50px 90px -60px rgba(41,34,42,.6); }
+.field .tiles { position: absolute; inset: -6% -4%; display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: 1fr; gap: 1.2%; transform: rotate(-4deg) scale(1.08); }
+.field .tiles img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; display: block; opacity: .9; }
+.field .tiles img:nth-child(7n+3) { transform: translateY(18%); } .field .tiles img:nth-child(5n+1) { transform: translateY(-12%); }
+.field .num { position: absolute; left: 0; right: 0; bottom: 0; padding: clamp(24px, 4vw, 64px); background: linear-gradient(to top, rgba(27,22,25,.85), rgba(27,22,25,0) 70%); color: #ECE4E4; }
+.field .num b { display: block; font-weight: 300; font-size: clamp(64px, 9vw, 150px); line-height: .9; letter-spacing: -.03em; font-variant-numeric: tabular-nums; } .field .num span { display: block; margin-top: 14px; font-size: clamp(18px, 1.6vw, 24px); color: #A99BA1; max-width: 36ch; }
+/* direction C: the name */
+.name { position: relative; aspect-ratio: 16 / 10; display: grid; place-items: center; background: var(--silk); border: 1px solid var(--rule); }
+.name .ask { text-align: center; } .name .ask .label { display: block; margin-bottom: 18px; }
+.name .ask .line { font-size: clamp(36px, 5vw, 80px); line-height: 1; letter-spacing: -.02em; border-bottom: 1px solid var(--ink); padding: 0 .2em .1em; min-width: 9ch; display: inline-block; color: var(--ink); }
+.name .ask .line i { font-style: normal; color: var(--ink-soft); opacity: .45; }
+.name .ask p { margin: 26px 0 0; color: var(--ink-soft); font-weight: 300; }
+.walk { margin-top: 80px; padding-top: 50px; border-top: 1px solid var(--rule); }
+.moments { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; margin-top: 26px; }
+.moments div { padding: 18px 0 0; border-top: 1px solid var(--ink); } .moments h3 { font-size: 22px; line-height: 1.15; } .moments p { font-family: var(--sans); font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); margin: 8px 0 0; }
+.verdict { margin: 90px 0 120px; padding-top: 40px; border-top: 1px solid var(--rule); max-width: 70ch; color: var(--ink-soft); font-weight: 300; }
+@media (max-width: 900px) { .dir .head, .says { grid-template-columns: 1fr; } .story { grid-template-columns: repeat(2, 1fr); } .moments { grid-template-columns: repeat(2, 1fr); } .field .tiles { grid-template-columns: repeat(4, 1fr); } }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <span class="label">Latent Wall · the home page · a board, 8 October 2026</span>
+  <h1>Three ways to <em>arrive.</em></h1>
+  <p>The present home is a tidy brochure: it says what Wall is. These are three ways to make the first minute <em>felt</em> instead: abundance, effortlessness, and the certainty that your site will be your own. Every picture here is the real product running; only the words over them are drawn. One direction is chosen, then stills of its screens, then motion.</p>
+  <div class="brief">"He needs to feel there is so much for me to work with and show my identity; that his needs will be fulfilled here effortlessly, without thinking too much. Aesthetically immersive and state of the art, as much variety artistically without repeating itself. Even if a thousand artists bought a website from us they would still have something different and unique."</div>
+</div></header>
+
+<section class="dir"><div class="wrap">
+  <div class="head"><div><span class="label">Direction A</span><h2>Arrive <em>inside.</em></h2></div><p>No brochure, no box. The visitor lands inside a Wall site, full screen and running, the claim set over it. As they scroll the words stay and the site changes template beneath them: the same body of work, nine identities. "Two artists never look alike" is felt before it is said.</p></div>
+  <div class="frame"><img src="stills/monograph-front.jpg" alt=""><div class="over"><span class="label">A website for artists</span><h3>Your work, on its <em>own wall.</em></h3><div class="cta">Start your site &nbsp;·&nbsp; Keep scrolling</div></div></div>
+  <div class="story">
+    <figure><div class="f"><img src="stills/folio-front.jpg" alt=""></div><figcaption><b>Scroll 1.</b> The words hold; beneath them the site becomes Folio.</figcaption></figure>
+    <figure><div class="f"><img src="stills/passage-front.jpg" alt=""></div><figcaption><b>Scroll 2.</b> Passage: the same work walks along one wall.</figcaption></figure>
+    <figure><div class="f"><img src="stills/lantern-story.jpg" alt=""></div><figcaption><b>Scroll 3.</b> Lantern, dark, one slide in the middle of the screen.</figcaption></figure>
+    <figure><div class="f"><img src="stills/salon-story.jpg" alt=""></div><figcaption><b>Scroll 4.</b> Salon, then the page quietens: "Nine templates. Thousands of ways. Yours."</figcaption></figure>
+  </div>
+  <div class="says"><div><span class="label">What it says</span><p>This is not a tool, it is a place; your work could be on this wall tonight.</p></div><div><span class="label">What it risks</span><p>The first screen is one template; a painter might think "photographs only" until scroll 2. The template changes must be slow and quiet, never a slideshow.</p></div><div><span class="label">Motion</span><p>The site beneath the words cross-fades every few seconds, and advances with the scroll. Everything else still.</p></div></div>
+</div></section>
+
+<section class="dir"><div class="wrap">
+  <div class="head"><div><span class="label">Direction B</span><h2>The thousand <em>walls.</em></h2></div><p>Abundance first. The first screen is a slow drift across a field of real sites, each a different template, look and type, at different scales, like a gallery wall seen from a passing train. One true number sits on it. Then one site grows to fill the screen and the words arrive: find yourself here.</p></div>
+  <div class="field">
+    <div class="tiles">
+      <img src="stills/folio-story.jpg" alt=""><img src="stills/monograph-front.jpg" alt=""><img src="stills/passage-story.jpg" alt=""><img src="stills/lantern-story.jpg" alt=""><img src="stills/salon-front.jpg" alt=""><img src="stills/folio-toned.jpg" alt="">
+      <img src="stills/index-front.jpg" alt=""><img src="stills/folio-graphite.jpg" alt=""><img src="stills/gallery-story.jpg" alt=""><img src="stills/reel-story.jpg" alt=""><img src="stills/folio-cyanotype.jpg" alt=""><img src="stills/atelier-front.jpg" alt="">
+      <img src="stills/folio-darkroom.jpg" alt=""><img src="stills/salon-plaster.jpg" alt=""><img src="stills/monograph-story.jpg" alt=""><img src="stills/passage-cinema.jpg" alt=""><img src="stills/folio-etching.jpg" alt=""><img src="stills/gallery-swiss.jpg" alt="">
+      <img src="stills/lantern-albumen.jpg" alt=""><img src="stills/folio-monotype.jpg" alt=""><img src="stills/index-story.jpg" alt=""><img src="stills/atelier-story.jpg" alt=""><img src="stills/reel-front.jpg" alt=""><img src="stills/folio-front.jpg" alt="">
+    </div>
+    <div class="num"><b>79,328</b><span>designed ways a site can be set, before its colour, spacing or scale. Nine templates, each with looks and type made for it. No two artists alike.</span></div>
+  </div>
+  <div class="story">
+    <figure><div class="f"><img src="stills/folio-toned.jpg" alt=""></div><figcaption><b>Scroll 1.</b> The field slows; one site drifts to the centre and grows.</figcaption></figure>
+    <figure><div class="f"><img src="stills/folio-toned.jpg" alt=""></div><figcaption><b>Scroll 2.</b> It fills the screen. "Find yourself here." Start your site.</figcaption></figure>
+    <figure><div class="f"><img src="stills/folio-graphite.jpg" alt=""></div><figcaption><b>Scroll 3.</b> The same site, another look; the type changes with it. "Choose within it."</figcaption></figure>
+    <figure><div class="f"><img src="stills/monograph-nadia.jpg" alt=""></div><figcaption><b>Scroll 4.</b> Another artist's name on it, another template: the field was real.</figcaption></figure>
+  </div>
+  <div class="says"><div><span class="label">What it says</span><p>There is so much here; whatever I am, one of these is me, and it will not be anyone else's.</p></div><div><span class="label">What it risks</span><p>A field of small screens can read as a catalogue again if it is static or too neat. It must drift slowly, at different depths, with the number set once and large. The number is true (`houses.ts`); it must stay true.</p></div><div><span class="label">Motion</span><p>A continuous slow drift (one pixel a second), parallax between rows; on scroll the field clears and one site grows. The most cinematic of the three.</p></div></div>
+</div></section>
+
+<section class="dir"><div class="wrap">
+  <div class="head"><div><span class="label">Direction C</span><h2>Your name <em>on it.</em></h2></div><p>Effortlessness first. The first screen asks one thing, and nothing else is on it: your name. Type it, and every template that follows is already set in your name, with its words in your name's type. You find yourself in the sites before you have chosen anything; the page is already yours.</p></div>
+  <div class="name"><div class="ask"><span class="label">A website for artists</span><div class="line">Nadia Hadd<i>|</i></div><p>Type your name, and see your site in nine ways.</p></div></div>
+  <div class="story">
+    <figure><div class="f"><img src="stills/folio-nadia.jpg" alt=""></div><figcaption><b>Scroll 1.</b> Folio, in her name, with sample work she can replace in a minute.</figcaption></figure>
+    <figure><div class="f"><img src="stills/monograph-nadia.jpg" alt=""></div><figcaption><b>Scroll 2.</b> Monograph: her name set as a book's.</figcaption></figure>
+    <figure><div class="f"><img src="stills/passage-nadia.jpg" alt=""></div><figcaption><b>Scroll 3.</b> Passage, a walk along one wall.</figcaption></figure>
+    <figure><div class="f"><img src="stills/folio-etching.jpg" alt=""></div><figcaption><b>Scroll 4.</b> "Now a look": the site she stopped on, in etching, in cyanotype, in graphite. Then: Start, already in her name.</figcaption></figure>
+  </div>
+  <div class="says"><div><span class="label">What it says</span><p>This was made for me; I did not have to think, and it is already mine.</p></div><div><span class="label">What it risks</span><p>Asking before showing: some will not type. The field must be optional (scroll past it and the sites show a quiet default name). The sample work stays ours until they bring theirs; the page must say so lightly.</p></div><div><span class="label">Motion</span><p>Each keystroke re-sets the name on the sites below in the template's own type. Otherwise the same slow template changes as A.</p></div></div>
+</div></section>
+
+<section class="walk"><div class="wrap">
+  <span class="label">After any arrival: the walk</span>
+  <h2 style="margin-top:12px;font-size:clamp(30px,3.6vw,50px);letter-spacing:-.02em">Five moments, shown, <em style="color:var(--peony)">not listed.</em></h2>
+  <div class="moments">
+    <div><h3>A folder becomes a story.</h3><p>Drop a folder; the story appears in the order the pictures were taken, with the titles and captions in the files.</p></div>
+    <div><h3>Turn it over.</h3><p>A print flips as you pass it: where it was made, a line in the artist's hand, the edition.</p></div>
+    <div><h3>A door.</h3><p>A page meets its word; the files behind it are sealed, not hidden.</p></div>
+    <div><h3>Life size.</h3><p>A work grows to its centimetres on the screen, matched to a bank card.</p></div>
+    <div><h3>Publish, and every version kept.</h3><p>What changed, in your words; put any earlier site back.</p></div>
+  </div>
+  <p style="margin-top:40px;color:var(--ink-soft);font-weight:300;max-width:70ch">Then: who it is for (painter, photographer, filmmaker, writer: one line, one template each); plans in one line; start. The present "Make it yours" lists and three-step section go.</p>
+</div></section>
+
+<section class="verdict"><div class="wrap">
+  <p><b style="font-weight:400;color:var(--ink)">My reading.</b> B answers the brief most directly: the thousand walls <em>are</em> the abundance and the uniqueness, and the number is ours alone to claim. A is the most immersive and the simplest to make flawless. C is the most effortless and personal, and could be the second screen of either. The strongest page may be B's arrival with C's name field placed where the one site grows to fill the screen: "find yourself here", and your name already on it.</p>
+</div></section>
+</body>
+</html>
