@@ -85,6 +85,16 @@ export function notify(text: string) { app.dispatchEvent(new CustomEvent("wall:n
 
 async function start() {
   state.store = createStore(space);
+  // the published site, as a visitor sees it: the latest version, or the one a private preview link names
+  if (params.has("published")) {
+    const { createVersions } = await import("./versions"), vs = createVersions(space), v = params.get("v") ? await vs.get(Number(params.get("v"))) : await vs.latest();
+    if (!v) { app.innerHTML = `<main class="v-words"><section class="words"><div><h1>Nothing is published yet.</h1></div><div class="body"><p>Open the editor and press Publish; the published site then appears here, as a visitor would see it.</p><p><a href="/app/index.html?space=${encodeURIComponent(space)}">Back to the editor</a></p></div></section></main>`; return; }
+    state.site = v.site; state.revision = 0;
+    await state.store.prepare(Object.keys(state.site.library));
+    document.documentElement.dataset.preview = "on"; document.documentElement.dataset.published = String(v.n);
+    addEventListener("hashchange", () => draw(false)); draw(false); return;
+  }
+
   // a template shown by link (a preview, a "Try" copy) always starts from the template itself, never from an older saved copy
   const fresh = params.has("reset") || (params.has("house") && isDemo);
   const stored = fresh ? null : await state.store.load();

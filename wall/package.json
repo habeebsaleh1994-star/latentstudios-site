@@ -7,6 +7,7 @@
     "dev": "vite --host 127.0.0.1 --port 5181 --strictPort",
     "lint": "eslint .",
     "test": "vitest run",
+    "visitor": "node scripts/build-visitor.mjs",
     "wall:sync": "node scripts/sync-to-site.mjs"
   },
   "dependencies": {

@@ -13,3 +13,4 @@ All print `all ... passed` or the failures. Run all of them before showing any c
 - `node tests/browser/panels.mjs chromium|webkit`: every panel (Customise, templates, Edit this page, Edit the site) in every template fits at three widths: nothing runs past its edge or scrolls sideways.
 - `node tests/browser/promises.mjs chromium|webkit`: every template's thumbnail on the home page is the template you get from "Try", on a light and a dark device, and a reload brings back the template.
 - `node tests/browser/start.mjs chromium|webkit`: a site starts from nothing (choose a template, give a name); no sample work is made up; demos say they are demos.
+- `node tests/browser/publish.mjs chromium|webkit`: publishing the whole way: the draft lists what changed, Publish makes a version, the published site opens without the editor, the files download and open from disk (look, photographs, relative links, a book that turns), an earlier version is put back.
