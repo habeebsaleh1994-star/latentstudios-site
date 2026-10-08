@@ -69,6 +69,8 @@ export const workSchema = z
     caption: short.default(""),
     alt: short.default(""),
     focal: z.object({ x: z.number().min(0).max(100), y: z.number().min(0).max(100) }).default({ x: 50, y: 50 }),
+    /** The back of the print: where, a line in the artist's hand, the edition, how it was made. Shown when the work is turned over. */
+    verso: z.object({ place: short.default(""), line: z.string().max(1000).default(""), edition: short.default(""), made: z.string().max(1000).default("") }).strict().default({ place: "", line: "", edition: "", made: "" }),
     /** The work's real size in centimetres, when the artist has given it. */
     size: z.object({ w: z.number().min(1).max(2000), h: z.number().min(1).max(2000) }).nullable().default(null),
   })

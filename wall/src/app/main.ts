@@ -49,11 +49,15 @@ export function ctx(): Ctx {
 /** Draw the page for the current address. `keep` holds the reader's place (an edit, not a navigation). */
 export function draw(keep = false) {
   const p = current(), y = scrollY, c = ctx(), v = viewOf(p, state.site);
+  // a work turned over stays turned through an edit, without flipping again
+  const turned = keep ? [...app.querySelectorAll<HTMLElement>(".frame.turned > .verso")].map((e) => e.dataset.verso) : [];
   applyTheme(state.site.theme);
   document.documentElement.toggleAttribute("data-editing", state.editing);
   app.innerHTML = page(c, p);
   document.title = titleText(state.site, p);
   wire(app, c, p, v, keep);
+  // after wire(): a book, a contact sheet and slides build their frames there
+  for (const a of turned) { const f = app.querySelector<HTMLElement>(`.verso[data-verso="${CSS.escape(a!)}"]`)?.parentElement; if (f) { f.classList.add("turned", "still"); requestAnimationFrame(() => f.classList.remove("still")); } }
   scrollTo(0, keep ? y : 0);
   state.listeners.forEach((f) => f());
 }

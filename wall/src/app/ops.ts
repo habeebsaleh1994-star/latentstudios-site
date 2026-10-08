@@ -46,6 +46,7 @@ export function setField(site: S, field: string, value: string): S {
   if ((m = field.match(/^site\.(name|contact)$/))) s[m[1] as "name" | "contact"] = v;
   else if (field === "site.appears.description") s.appears.description = v;
   else if ((m = field.match(/^front\.(kicker|title|titleEm|note)$/))) s.front[m[1] as "title"] = v;
+  else if ((m = field.match(/^work:(.+)\.verso\.(place|line|edition|made)$/))) { const w = s.library[m[1]]; if (!w) throw new Error(`No work ${m[1]}.`); w.verso[m[2] as "place"] = v; }
   else if ((m = field.match(/^work:(.+)\.(title|date|caption|alt)$/))) { const w = s.library[m[1]]; if (!w) throw new Error(`No work ${m[1]}.`); w[m[2] as "title"] = v; }
   else if ((m = field.match(/^piece:([^:]+):(\d+)\.(label|text|note)$/))) {
     const p = story(s, m[1]), x = p.pieces[+m[2]] as Record<string, unknown> | undefined;

@@ -1,0 +1,32 @@
+/* Turn it over: a work's back is written while editing, turned by a visitor, and carried into the published files. */
+import { chromium, webkit } from "../../node_modules/playwright-core/index.mjs";
+const which = process.argv[2] || "chromium", B = "http://127.0.0.1:5181";
+const br = await (which === "webkit" ? webkit : chromium).launch(), fails = [];
+const ctx = await br.newContext({ viewport: { width: 1440, height: 900 } }), pg = await ctx.newPage(); pg.setDefaultTimeout(10000);
+const errs = []; pg.on("pageerror", (e) => errs.push(e.message));
+const ok = (c, m) => { if (!c) fails.push(m); }; const w = (ms) => pg.waitForTimeout(ms);
+const space = "vs" + Date.now();
+await pg.goto(`${B}/app/index.html?site=habib&space=${space}#/the-road-in`, { waitUntil: "networkidle" }); await w(500);
+ok(await pg.locator(".flip").count() === 0, "no turn where nothing is written on the back");
+await pg.click("#edit"); await w(400);
+ok(await pg.locator(".v-held .frame .flip").count() === 3, "while editing, every work can be turned");
+await pg.click(".v-held .frame .flip >> nth=0"); await w(1000);
+ok(await pg.evaluate(() => document.querySelector(".v-held .frame").classList.contains("turned")), "it turns");
+const line = pg.locator('.v-held .frame.turned [data-ed$=".verso.line"]'); await line.click(); await pg.keyboard.type("The last turn before the village."); await pg.keyboard.press("Escape"); await w(300);
+const place = pg.locator('.v-held .frame.turned [data-ed$=".verso.place"]'); await place.click(); await pg.keyboard.type("Joun, Lebanon"); await pg.keyboard.press("Enter"); await w(300);
+const v = await pg.evaluate(() => window.__wall.site.library["/design/folio/img/12.jpg"].verso);
+ok(v.line === "The last turn before the village." && v.place === "Joun, Lebanon", `written on the back and kept: ${JSON.stringify(v)}`);
+await pg.click("#edit"); await w(400);
+ok(await pg.locator(".flip").count() === 1, "a visitor is offered the turn only where something is written");
+ok(await pg.evaluate(() => document.querySelector(".v-held .frame").classList.contains("turned")), "leaving the editor keeps the work turned");
+await pg.click(".flip"); await w(1000); ok(await pg.locator(".v-held .frame.turned").count() === 0, "turned back"); await pg.click(".flip"); await w(1000);
+ok(/Joun, Lebanon[\s\S]*The last turn/.test(await pg.locator(".v-held .frame.turned .verso").textContent()), "and reads the back");
+ok(await pg.locator(".v-held .frame.turned .verso p").count() === 2, "only what is written is on the back");
+// the published file turns too
+await pg.click("#publish"); await w(400); await pg.click('#panel [data-pub="publish"]'); await pg.waitForSelector("#panel .versions", { timeout: 30000 }); await w(300);
+const p2 = await ctx.newPage(); await p2.goto(`${B}/app/index.html?published&space=${space}#/the-road-in`, { waitUntil: "networkidle" }); await p2.waitForTimeout(500);
+await p2.click(".flip"); await p2.waitForTimeout(1000);
+ok(await p2.evaluate(() => document.querySelector(".v-held .frame").classList.contains("turned") && /Joun/.test(document.querySelector(".verso").textContent)), "the published site turns the work over");
+await p2.close();
+if (errs.length) fails.push(errs.join(" | "));
+console.log(which, fails.length ? "FAILS:\n  " + fails.join("\n  ") : "every work can be turned over"); await br.close();

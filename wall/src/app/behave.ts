@@ -22,6 +22,8 @@ const phone = () => matchMedia("(max-width: 700px)").matches;
 
 export function wire(root: HTMLElement, c: Ctx, p: SitePage | null, view: View, keep: boolean) {
   cleanup.forEach((f) => f()); cleanup = [];
+  // turning a work over, wherever it is framed
+  on(root, "click", (e: MouseEvent) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-turn]"); if (!b) return; e.preventDefault(); e.stopPropagation(); const f = b.closest<HTMLElement>(".frame"); if (f) { f.classList.toggle("turned"); b.setAttribute("aria-pressed", String(f.classList.contains("turned"))); } }, { capture: true });
   document.documentElement.dataset.view = view;
   document.documentElement.toggleAttribute("data-lock", view === "book" || view === "passage");
   const key = `${p?.id ?? ""}:${view}`;

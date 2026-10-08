@@ -39,6 +39,13 @@ export function work(c: Ctx, asset: string, k = 0, n = 0): W {
 function img(_c: Ctx, w: W, lazy = true, extra = "") {
   return `<img src="${esc(w.src)}" width="${w.w}" height="${w.h}" alt="${esc(w.alt || w.title)}"${lazy ? ' loading="lazy"' : ""}${extra} style="--r:${w.r.toFixed(4)}">`;
 }
+/** The back of the print. Turned over, a work shows where it was made, a line in the artist's hand, its edition and how it was made. Offered when there is something written there, and always while editing. */
+export const hasVerso = (w: W) => !!(w.verso.place || w.verso.line || w.verso.edition || w.verso.made);
+function verso(c: Ctx, w: W) {
+  if (!hasVerso(w) && !c.editing) return "";
+  const f = (k: keyof W["verso"], tag: string, cls: string, ph: string) => (w.verso[k] || c.editing ? ed(c, `work:${w.asset}.verso.${k}`, w.verso[k], tag, cls, ph) : "");
+  return `<div class="verso" data-verso="${esc(w.asset)}" aria-label="The back of ${esc(w.title || "the work")}"><div class="verso-in"><span class="label">${esc(w.title)}${w.date ? ` · ${esc(w.date)}` : ""}</span>${f("place", "p", "place", "Where it was made")}${f("line", "p", "line", "A line, in your hand")}${f("edition", "p", "edition", "Edition: 1 of 10")}${f("made", "p", "made", "How it was made: the film, the paper, the print")}</div></div><button type="button" class="flip" data-turn aria-label="Turn it over"><span></span></button>`;
+}
 function cap(c: Ctx, w: W, date = true) {
   // in Salon every work carries its real dimensions
   const size = c.site.house === "salon" ? (() => { const s = cmOf(w); return `<span class="d sz">${cmText(s.w)} × ${cmText(s.h)} cm</span>`; })() : "";
@@ -174,7 +181,7 @@ const gap = (c: Ctx, p: StoryPage, after: number, end = false) => (c.editing ? `
 
 function held(c: Ctx, p: StoryPage) {
   const { groups: G } = groups(c, p);
-  const fig = (w: W, lazy: boolean) => `<figure style="--r:${w.r.toFixed(4)}"><div class="frame">${img(c, w, lazy)}${mark(c, p, w)}</div><figcaption>${cap(c, w)}</figcaption></figure>`;
+  const fig = (w: W, lazy: boolean) => `<figure style="--r:${w.r.toFixed(4)}"><div class="frame">${img(c, w, lazy)}${verso(c, w)}${mark(c, p, w)}</div><figcaption>${cap(c, w)}</figcaption></figure>`;
   let h = "";
   G.forEach((g, i) => {
     const lazy = i > 0;
@@ -193,8 +200,8 @@ function held(c: Ctx, p: StoryPage) {
 export function bookLeaves(c: Ctx, p: StoryPage, one: boolean) {
   const { groups: G } = groups(c, p), out: string[] = [];
   const pg = (h: string, cls = "") => `<div class="pg ${cls}">${h}</div>`;
-  const plate = (w: W, extra = "") => `<figure><div class="in">${img(c, w, false)}${mark(c, p, w)}${cap(c, w)}${extra}</div></figure>`;
-  const bare = (w: W) => `<figure><div class="in">${img(c, w, false)}${mark(c, p, w)}</div></figure>`;
+  const plate = (w: W, extra = "") => `<figure><div class="in"><div class="frame">${img(c, w, false)}${verso(c, w)}${mark(c, p, w)}</div>${cap(c, w)}${extra}</div></figure>`;
+  const bare = (w: W) => `<figure><div class="in"><div class="frame">${img(c, w, false)}${verso(c, w)}${mark(c, p, w)}</div></div></figure>`;
   const top = `<div class="top"><span class="label">${ed(c, `page:${p.id}.kicker`, p.kicker, "span", "", "Above the title")}</span></div>`, h1 = `<h1>${titleOf(c, `page:${p.id}`, p.title, p.titleEm)}</h1>`;
   const note = ed(c, `page:${p.id}.note`, p.note, "p", "", "A line or two to introduce it");
   out.push(one ? pg(`${top}<div class="low">${h1}${note}</div>`) : pg(`${top}<div class="low">${note}</div>`) + pg(`<div class="low">${h1}</div>`));
@@ -215,7 +222,7 @@ const book = (_c: Ctx, p: StoryPage) => `<main class="v-book" data-page="${p.id}
 
 function passage(c: Ctx, p: StoryPage) {
   const { groups: G } = groups(c, p);
-  const hang = (w: W, cls = "", aside = "") => `<figure class="hang${w.r < 1 ? " tall" : ""}${cls}" style="--r:${w.r.toFixed(4)}" data-n="${w.n}">${aside}${img(c, w)}${mark(c, p, w)}<figcaption>${cap(c, w)}</figcaption></figure>`;
+  const hang = (w: W, cls = "", aside = "") => `<figure class="hang${w.r < 1 ? " tall" : ""}${cls}" style="--r:${w.r.toFixed(4)}" data-n="${w.n}">${aside}<div class="frame">${img(c, w)}${verso(c, w)}${mark(c, p, w)}</div><figcaption>${cap(c, w)}</figcaption></figure>`;
   let h = `<section class="wall-text title"><span class="label">${ed(c, `page:${p.id}.kicker`, p.kicker, "span", "", "Above the title")}</span><h1>${titleOf(c, `page:${p.id}`, p.title, p.titleEm)}</h1>${ed(c, `page:${p.id}.note`, p.note, "p", "", "A line or two to introduce it")}</section>`;
   for (const g of G) {
     if (g.type === "pause") h += `<section class="wall-text say">${pauseLabel(c, p, g)}${pauseText(c, p, g)}</section>`;
@@ -256,7 +263,7 @@ function wall(c: Ctx, p: StoryPage) {
   const biggest = Math.max(1, ...works.map((w) => cmOf(w).w)), tallest = Math.max(1, ...works.map((w) => cmOf(w).h));
   let n = 0;
   const hangs = walls.map((ws) => {
-    const figs = ws.map((w) => { n++; const s = cmOf(w); return `<figure class="art" style="--cw:${s.w}" data-view="${n - 1}"><div class="frame">${img(c, w)}${mark(c, p, w)}</div><span class="no">${n}</span><span class="cap-m">${esc(w.title)}, ${cmText(s.w)} × ${cmText(s.h)} cm</span></figure>`; }).join("");
+    const figs = ws.map((w) => { n++; const s = cmOf(w); return `<figure class="art" style="--cw:${s.w}" data-view="${n - 1}"><div class="frame">${img(c, w)}${verso(c, w)}${mark(c, p, w)}</div><span class="no">${n}</span><span class="cap-m">${esc(w.title)}, ${cmText(s.w)} × ${cmText(s.h)} cm</span></figure>`; }).join("");
     const key = ws.map((w, i) => { const s = cmOf(w), k = n - ws.length + i + 1; return `<li><span class="k">${k}</span><span>${ed(c, `work:${w.asset}.title`, w.title, "b", "", "Title")}${w.caption || c.editing ? ", " + ed(c, `work:${w.asset}.caption`, w.caption, "span", "", "Medium") : ""}, <span class="sz">${cmText(s.w)} × ${cmText(s.h)} cm</span>${w.date || c.editing ? ", " + ed(c, `work:${w.asset}.date`, w.date, "span", "", "Year") : ""}</span></li>`; }).join("");
     return `<section class="hang-wall"><div class="wall">${figs}</div><ol class="key">${key}</ol></section>`;
   }).join("");
@@ -269,7 +276,7 @@ export function slideList(c: Ctx, p: StoryPage) {
   list.push(`<div class="slide title">${storyCard(c, p)}</div>`); thumbs.push(`<span class="t0">Title</span>`);
   for (const g of G) {
     if (g.type === "pause") { list.push(`<div class="slide words">${pauseLabel(c, p, g)}${pauseText(c, p, g)}</div>`); thumbs.push(`<span class="t0">&ldquo;&rdquo;</span>`); continue; }
-    for (const w of g.works) { list.push(`<div class="slide"><figure><div class="frame">${img(c, w, false)}${mark(c, p, w)}</div><figcaption>${cap(c, w)}</figcaption></figure>${g.type === "note" ? noteText(c, p, g, "p", "label") : ""}</div>`); thumbs.push(`<img src="${esc(w.src)}" alt="" loading="lazy">`); }
+    for (const w of g.works) { list.push(`<div class="slide"><figure><div class="frame">${img(c, w, false)}${verso(c, w)}${mark(c, p, w)}</div><figcaption>${cap(c, w)}</figcaption></figure>${g.type === "note" ? noteText(c, p, g, "p", "label") : ""}</div>`); thumbs.push(`<img src="${esc(w.src)}" alt="" loading="lazy">`); }
   }
   return { list, thumbs };
 }

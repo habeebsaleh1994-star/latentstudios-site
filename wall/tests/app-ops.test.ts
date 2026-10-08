@@ -18,6 +18,10 @@ describe("words", () => {
     expect(() => O.setField(s, "page:the-road-in.nope", "x")).toThrow();
     expect(() => O.setField(s, "piece:the-road-in:0.text", "x")).toThrow();
     expect(() => O.setField(s, "work:ghost.title", "x")).toThrow();
+    // the back of the print
+    s = O.setField(s, "work:/design/folio/img/12.jpg.verso.place", "Joun"); s = O.setField(s, "work:/design/folio/img/12.jpg.verso.edition", "1 of 10");
+    expect(s.library["/design/folio/img/12.jpg"].verso).toEqual({ place: "Joun", line: "", edition: "1 of 10", made: "" });
+    expect(() => O.setField(s, "work:/design/folio/img/12.jpg.verso.price", "x")).toThrow();
   });
   it("keeps line breaks and never leaves a work page untitled", () => {
     const s = O.setField(O.setField(site(), "page:the-door.para.0", "one\ntwo\n"), "page:the-door.title", "");
