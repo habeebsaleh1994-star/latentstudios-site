@@ -2,7 +2,7 @@
 import { chromium } from "../../node_modules/playwright-core/index.mjs";
 import { writeFileSync } from "node:fs";
 const B = "http://127.0.0.1:5181", OUT = "design/_explore/night/stills";
-const houses = ["folio", "gallery", "monograph", "passage", "reel", "salon", "index", "atelier", "lantern"];
+const houses = ["folio", "gallery", "monograph", "passage", "reel", "salon", "index", "atelier", "lantern", "journal", "column", "catalogue", "chapbook", "cinema", "ledger", "pinboard", "studio", "archive"];
 const br = await chromium.launch(), issues = [], shots = [], notNight = [];
 async function check(pg, name) {
   return pg.evaluate((name) => {
@@ -38,9 +38,10 @@ for (const scheme of ["light", "dark"]) {
     shots.push({ name, scheme, file, dark }); if ((scheme === "dark") !== !!dark && !/^home/.test(name)) notNight.push(`${name} (${scheme}) ground ${ground}`);
     issues.push(...(await check(pg, `${name} (${scheme})`)));
   };
-  const night = scheme === "dark" ? `&theme=${encodeURIComponent(JSON.stringify({ mode: "dark" }))}` : "";
+  // asked for explicitly, so a template that opens at night by its own decision (Passage, Reel, Cinema) is still seen by day
+  const night = `&theme=${encodeURIComponent(JSON.stringify({ mode: scheme === "dark" ? "dark" : "light" }))}`;
   for (const h of houses) {
-    const story = h === "reel" ? "the-film" : h === "index" ? "the-door" : "the-road-in";
+    const story = h === "reel" || h === "cinema" ? "the-film" : h === "index" || h === "chapbook" || h === "column" ? "the-door" : "the-road-in";
     await shot(`${h}-front`, `${B}/app/index.html?site=habib&house=${h}&preview&space=night-${h}${night}#/`);
     await shot(`${h}-story`, `${B}/app/index.html?site=habib&house=${h}&preview&space=night-${h}${night}#/${story}`);
     await shot(`${h}-about`, `${B}/app/index.html?site=habib&house=${h}&preview&space=night-${h}${night}#/about`);

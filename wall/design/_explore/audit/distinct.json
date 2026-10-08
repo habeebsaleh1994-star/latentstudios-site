@@ -25,7 +25,7 @@
   },
   {
    "house": "monograph",
-   "median": 0.4696,
+   "median": 0.6595,
    "min": 0.0001,
    "minPair": [
     "{\"header\":\"stacked\",\"opening\":\"name\",\"title\":\"accent\",\"captions\":\"beside\",\"footer\":\"large\",\"scale\":\"intimate\",\"look\":\"darkroom\",\"typeface\":\"instrument\",\"accent\":\"#8A7280\",\"palette\":\"silk\",\"mount\":\"matte\",\"space\":\"close\",\"mode\":\"light\"}",
@@ -36,24 +36,24 @@
   },
   {
    "house": "passage",
-   "median": 0.125,
-   "min": 0.0026,
+   "median": 0.1157,
+   "min": 0.0019,
    "minPair": [
-    "{\"header\":\"classic\",\"opening\":\"image\",\"title\":\"caps\",\"captions\":\"hover\",\"footer\":\"minimal\",\"scale\":\"standard\",\"look\":\"darkroom\",\"typeface\":\"newsreader\",\"accent\":\"#8A7280\",\"palette\":\"silk\",\"mount\":\"line\",\"space\":\"airy\",\"mode\":\"dark\"}",
-    "{\"header\":\"classic\",\"opening\":\"image\",\"title\":\"quiet\",\"captions\":\"hover\",\"footer\":\"minimal\",\"scale\":\"standard\",\"look\":\"darkroom\",\"typeface\":\"newsreader\",\"accent\":\"#B87B8A\",\"palette\":\"night\",\"mount\":\"line\",\"space\":\"close\",\"mode\":\"dark\"}"
+    "{}",
+    "{\"header\":\"classic\",\"opening\":\"image\",\"title\":\"quiet\",\"captions\":\"under\",\"footer\":\"minimal\",\"scale\":\"monumental\",\"look\":\"darkroom\",\"typeface\":\"newsreader\",\"accent\":null,\"palette\":\"silk\",\"mount\":\"line\",\"space\":\"standard\",\"mode\":\"dark\"}"
    ],
-   "near": 14,
+   "near": 13,
    "pairs": 276
   },
   {
    "house": "reel",
-   "median": 0.224,
-   "min": 0.0053,
+   "median": 0.3287,
+   "min": 0.0096,
    "minPair": [
-    "{}",
-    "{\"header\":\"classic\",\"opening\":\"words\",\"title\":\"caps\",\"captions\":\"hidden\",\"footer\":\"minimal\",\"scale\":\"monumental\",\"look\":\"cinema\",\"typeface\":\"newsreader\",\"accent\":null,\"palette\":\"bone\",\"mount\":\"line\",\"space\":\"standard\",\"mode\":\"light\"}"
+    "{\"header\":\"name\",\"opening\":\"words\",\"title\":\"plain\",\"captions\":\"hidden\",\"footer\":\"minimal\",\"scale\":\"monumental\",\"look\":\"monotype\",\"typeface\":\"bodoni\",\"accent\":\"#B87B8A\",\"palette\":\"clay\",\"mount\":\"bare\",\"space\":\"standard\",\"mode\":\"dark\"}",
+    "{\"header\":\"name\",\"opening\":\"words\",\"title\":\"caps\",\"captions\":\"hidden\",\"footer\":\"minimal\",\"scale\":\"monumental\",\"look\":\"monotype\",\"typeface\":null,\"accent\":\"#B87B8A\",\"palette\":\"clay\",\"mount\":\"line\",\"space\":\"standard\",\"mode\":\"dark\"}"
    ],
-   "near": 7,
+   "near": 5,
    "pairs": 276
   },
   {
@@ -99,13 +99,132 @@
    ],
    "near": 19,
    "pairs": 276
+  },
+  {
+   "house": "journal",
+   "median": 0.3795,
+   "min": 0.005,
+   "minPair": [
+    "{\"header\":\"stacked\",\"opening\":\"name\",\"title\":\"plain\",\"captions\":\"under\",\"footer\":\"minimal\",\"scale\":\"intimate\",\"look\":\"etching\",\"typeface\":\"instrument\",\"accent\":\"#A4574E\",\"palette\":\"clay\",\"mount\":\"line\",\"space\":\"close\",\"mode\":\"dark\"}",
+    "{\"header\":\"stacked\",\"opening\":\"words\",\"title\":\"plain\",\"captions\":\"under\",\"footer\":\"line\",\"scale\":\"intimate\",\"look\":\"etching\",\"typeface\":\"fraunces\",\"accent\":\"#7C8B7F\",\"palette\":\"night\",\"mount\":\"bare\",\"space\":\"close\",\"mode\":\"dark\"}"
+   ],
+   "near": 1,
+   "pairs": 276
+  },
+  {
+   "house": "column",
+   "median": 0.4227,
+   "min": 0.0039,
+   "minPair": [
+    "{\"header\":\"classic\",\"opening\":\"words\",\"title\":\"quiet\",\"captions\":\"under\",\"footer\":\"line\",\"scale\":\"standard\",\"look\":\"swiss\",\"typeface\":\"young\",\"accent\":\"#A5895A\",\"palette\":\"night\",\"mount\":\"line\",\"space\":\"close\",\"mode\":\"light\"}",
+    "{\"header\":\"classic\",\"opening\":\"name\",\"title\":\"quiet\",\"captions\":\"under\",\"footer\":\"minimal\",\"scale\":\"standard\",\"look\":\"swiss\",\"typeface\":\"archive\",\"accent\":null,\"palette\":\"bone\",\"mount\":\"line\",\"space\":\"close\",\"mode\":\"light\"}"
+   ],
+   "near": 2,
+   "pairs": 276
+  },
+  {
+   "house": "catalogue",
+   "median": 0.4693,
+   "min": 0.011,
+   "minPair": [
+    "{\"header\":\"centred\",\"opening\":\"words\",\"title\":\"caps\",\"captions\":\"beside\",\"footer\":\"large\",\"scale\":\"standard\",\"look\":\"graphite\",\"typeface\":\"bodoni\",\"accent\":null,\"palette\":\"silk\",\"mount\":\"bare\",\"space\":\"close\",\"mode\":\"light\"}",
+    "{\"header\":\"centred\",\"opening\":\"name\",\"title\":\"caps\",\"captions\":\"beside\",\"footer\":\"line\",\"scale\":\"standard\",\"look\":\"monotype\",\"typeface\":\"archive\",\"accent\":\"#7C8B7F\",\"palette\":\"clay\",\"mount\":\"bare\",\"space\":\"close\",\"mode\":\"light\"}"
+   ],
+   "near": 2,
+   "pairs": 276
+  },
+  {
+   "house": "chapbook",
+   "median": 0.191,
+   "min": 0.0028,
+   "minPair": [
+    "{\"header\":\"rail\",\"opening\":\"work\",\"title\":\"quiet\",\"captions\":\"hidden\",\"footer\":\"minimal\",\"scale\":\"intimate\",\"look\":\"graphite\",\"typeface\":\"archive\",\"accent\":null,\"palette\":\"night\",\"mount\":\"line\",\"space\":\"standard\",\"mode\":\"light\"}",
+    "{\"header\":\"rail\",\"opening\":\"words\",\"title\":\"quiet\",\"captions\":\"hidden\",\"footer\":\"minimal\",\"scale\":\"intimate\",\"look\":\"graphite\",\"typeface\":\"young\",\"accent\":\"#7C8B7F\",\"palette\":\"silk\",\"mount\":\"bare\",\"space\":\"standard\",\"mode\":\"light\"}"
+   ],
+   "near": 2,
+   "pairs": 276
+  },
+  {
+   "house": "cinema",
+   "median": 0.2097,
+   "min": 0.0046,
+   "minPair": [
+    "{\"header\":\"name\",\"opening\":\"name\",\"title\":\"plain\",\"captions\":\"hidden\",\"footer\":\"minimal\",\"scale\":\"monumental\",\"look\":\"toned\",\"typeface\":\"archivo\",\"accent\":\"#B87B8A\",\"palette\":\"silk\",\"mount\":\"matte\",\"space\":\"standard\",\"mode\":\"dark\"}",
+    "{\"header\":\"name\",\"opening\":\"name\",\"title\":\"plain\",\"captions\":\"under\",\"footer\":\"line\",\"scale\":\"monumental\",\"look\":\"toned\",\"typeface\":\"bodoni\",\"accent\":\"#7C8B7F\",\"palette\":\"fog\",\"mount\":\"line\",\"space\":\"standard\",\"mode\":\"dark\"}"
+   ],
+   "near": 6,
+   "pairs": 276
+  },
+  {
+   "house": "ledger",
+   "median": 0.3706,
+   "min": 0.0067,
+   "minPair": [
+    "{\"header\":\"classic\",\"opening\":\"name\",\"title\":\"plain\",\"captions\":\"under\",\"footer\":\"minimal\",\"scale\":\"intimate\",\"look\":\"zine\",\"typeface\":\"grotesk\",\"accent\":\"#A4574E\",\"palette\":\"silk\",\"mount\":\"line\",\"space\":\"airy\",\"mode\":\"dark\"}",
+    "{\"header\":\"classic\",\"opening\":\"name\",\"title\":\"plain\",\"captions\":\"hidden\",\"footer\":\"large\",\"scale\":\"intimate\",\"look\":\"zine\",\"typeface\":\"jost\",\"accent\":\"#8A7280\",\"palette\":\"clay\",\"mount\":\"bare\",\"space\":\"airy\",\"mode\":\"dark\"}"
+   ],
+   "near": 4,
+   "pairs": 276
+  },
+  {
+   "house": "pinboard",
+   "median": 0.2495,
+   "min": 0.0045,
+   "minPair": [
+    "{\"header\":\"centred\",\"opening\":\"work\",\"title\":\"plain\",\"captions\":\"under\",\"footer\":\"line\",\"scale\":\"standard\",\"look\":\"toned\",\"typeface\":\"instrument\",\"accent\":null,\"palette\":\"night\",\"mount\":\"line\",\"space\":\"standard\",\"mode\":\"light\"}",
+    "{\"header\":\"centred\",\"opening\":\"words\",\"title\":\"plain\",\"captions\":\"under\",\"footer\":\"line\",\"scale\":\"intimate\",\"look\":\"toned\",\"typeface\":\"jost\",\"accent\":\"#7C8B7F\",\"palette\":\"silk\",\"mount\":\"bare\",\"space\":\"standard\",\"mode\":\"light\"}"
+   ],
+   "near": 3,
+   "pairs": 276
+  },
+  {
+   "house": "studio",
+   "median": 0.4161,
+   "min": 0.0054,
+   "minPair": [
+    "{\"header\":\"name\",\"opening\":\"words\",\"title\":\"accent\",\"captions\":\"beside\",\"footer\":\"line\",\"scale\":\"standard\",\"look\":\"graphite\",\"typeface\":\"caslon\",\"accent\":\"#A4574E\",\"palette\":\"silk\",\"mount\":\"line\",\"space\":\"airy\",\"mode\":\"dark\"}",
+    "{\"header\":\"name\",\"opening\":\"words\",\"title\":\"accent\",\"captions\":\"under\",\"footer\":\"minimal\",\"scale\":\"standard\",\"look\":\"graphite\",\"typeface\":\"fraunces\",\"accent\":\"#8A7280\",\"palette\":\"clay\",\"mount\":\"bare\",\"space\":\"airy\",\"mode\":\"dark\"}"
+   ],
+   "near": 2,
+   "pairs": 276
+  },
+  {
+   "house": "archive",
+   "median": 0.3717,
+   "min": 0.0033,
+   "minPair": [
+    "{\"header\":\"stacked\",\"opening\":\"name\",\"title\":\"quiet\",\"captions\":\"under\",\"footer\":\"line\",\"scale\":\"standard\",\"look\":\"toned\",\"typeface\":\"plex\",\"accent\":\"#A4574E\",\"palette\":\"clay\",\"mount\":\"line\",\"space\":\"close\",\"mode\":\"dark\"}",
+    "{\"header\":\"stacked\",\"opening\":\"words\",\"title\":\"quiet\",\"captions\":\"under\",\"footer\":\"minimal\",\"scale\":\"standard\",\"look\":\"toned\",\"typeface\":\"archive\",\"accent\":\"#7C8B7F\",\"palette\":\"night\",\"mount\":\"bare\",\"space\":\"close\",\"mode\":\"dark\"}"
+   ],
+   "near": 1,
+   "pairs": 276
   }
  ],
  "cross": [
   {
-   "a": "passage",
-   "b": "salon",
-   "d": 0.1056
+   "a": "journal",
+   "b": "catalogue",
+   "d": 0.0806
+  },
+  {
+   "a": "pinboard",
+   "b": "studio",
+   "d": 0.0835
+  },
+  {
+   "a": "column",
+   "b": "chapbook",
+   "d": 0.0906
+  },
+  {
+   "a": "folio",
+   "b": "journal",
+   "d": 0.0949
+  },
+  {
+   "a": "salon",
+   "b": "catalogue",
+   "d": 0.0959
   },
   {
    "a": "monograph",
@@ -113,19 +232,24 @@
    "d": 0.1062
   },
   {
+   "a": "salon",
+   "b": "journal",
+   "d": 0.1131
+  },
+  {
    "a": "monograph",
    "b": "lantern",
    "d": 0.1156
   },
   {
-   "a": "monograph",
-   "b": "passage",
-   "d": 0.1178
+   "a": "reel",
+   "b": "cinema",
+   "d": 0.1203
   },
   {
-   "a": "reel",
-   "b": "atelier",
-   "d": 0.1257
+   "a": "monograph",
+   "b": "catalogue",
+   "d": 0.1374
   },
   {
    "a": "folio",
@@ -133,24 +257,164 @@
    "d": 0.1435
   },
   {
+   "a": "folio",
+   "b": "archive",
+   "d": 0.1478
+  },
+  {
+   "a": "folio",
+   "b": "catalogue",
+   "d": 0.1555
+  },
+  {
+   "a": "salon",
+   "b": "studio",
+   "d": 0.1582
+  },
+  {
+   "a": "column",
+   "b": "catalogue",
+   "d": 0.1591
+  },
+  {
+   "a": "salon",
+   "b": "column",
+   "d": 0.1592
+  },
+  {
+   "a": "index",
+   "b": "chapbook",
+   "d": 0.1607
+  },
+  {
+   "a": "column",
+   "b": "archive",
+   "d": 0.1633
+  },
+  {
+   "a": "journal",
+   "b": "column",
+   "d": 0.1648
+  },
+  {
+   "a": "folio",
+   "b": "column",
+   "d": 0.1737
+  },
+  {
+   "a": "monograph",
+   "b": "journal",
+   "d": 0.1754
+  },
+  {
+   "a": "column",
+   "b": "studio",
+   "d": 0.1773
+  },
+  {
+   "a": "column",
+   "b": "pinboard",
+   "d": 0.1804
+  },
+  {
+   "a": "salon",
+   "b": "archive",
+   "d": 0.1805
+  },
+  {
+   "a": "journal",
+   "b": "archive",
+   "d": 0.1824
+  },
+  {
+   "a": "monograph",
+   "b": "studio",
+   "d": 0.1825
+  },
+  {
+   "a": "gallery",
+   "b": "catalogue",
+   "d": 0.1878
+  },
+  {
    "a": "salon",
    "b": "lantern",
    "d": 0.1892
   },
   {
-   "a": "gallery",
-   "b": "passage",
-   "d": 0.195
+   "a": "chapbook",
+   "b": "archive",
+   "d": 0.1912
   },
   {
-   "a": "folio",
-   "b": "passage",
-   "d": 0.2022
+   "a": "chapbook",
+   "b": "pinboard",
+   "d": 0.1914
   },
   {
-   "a": "passage",
-   "b": "lantern",
-   "d": 0.2061
+   "a": "salon",
+   "b": "pinboard",
+   "d": 0.1915
+  },
+  {
+   "a": "chapbook",
+   "b": "studio",
+   "d": 0.1923
+  },
+  {
+   "a": "salon",
+   "b": "chapbook",
+   "d": 0.1942
+  },
+  {
+   "a": "index",
+   "b": "column",
+   "d": 0.1956
+  },
+  {
+   "a": "index",
+   "b": "studio",
+   "d": 0.1963
+  },
+  {
+   "a": "catalogue",
+   "b": "archive",
+   "d": 0.1986
+  },
+  {
+   "a": "catalogue",
+   "b": "studio",
+   "d": 0.1988
+  },
+  {
+   "a": "studio",
+   "b": "archive",
+   "d": 0.2043
+  },
+  {
+   "a": "monograph",
+   "b": "column",
+   "d": 0.2057
+  },
+  {
+   "a": "catalogue",
+   "b": "chapbook",
+   "d": 0.2064
+  },
+  {
+   "a": "index",
+   "b": "pinboard",
+   "d": 0.2067
+  },
+  {
+   "a": "catalogue",
+   "b": "pinboard",
+   "d": 0.2077
+  },
+  {
+   "a": "pinboard",
+   "b": "archive",
+   "d": 0.2093
   },
   {
    "a": "folio",
@@ -158,9 +422,14 @@
    "d": 0.2108
   },
   {
-   "a": "passage",
-   "b": "index",
-   "d": 0.2139
+   "a": "index",
+   "b": "catalogue",
+   "d": 0.2126
+  },
+  {
+   "a": "folio",
+   "b": "studio",
+   "d": 0.2128
   },
   {
    "a": "salon",
@@ -173,9 +442,69 @@
    "d": 0.2194
   },
   {
+   "a": "folio",
+   "b": "chapbook",
+   "d": 0.2211
+  },
+  {
    "a": "monograph",
    "b": "index",
    "d": 0.2224
+  },
+  {
+   "a": "folio",
+   "b": "pinboard",
+   "d": 0.2226
+  },
+  {
+   "a": "lantern",
+   "b": "studio",
+   "d": 0.2232
+  },
+  {
+   "a": "passage",
+   "b": "reel",
+   "d": 0.2275
+  },
+  {
+   "a": "journal",
+   "b": "studio",
+   "d": 0.2277
+  },
+  {
+   "a": "monograph",
+   "b": "archive",
+   "d": 0.2301
+  },
+  {
+   "a": "journal",
+   "b": "chapbook",
+   "d": 0.2313
+  },
+  {
+   "a": "monograph",
+   "b": "pinboard",
+   "d": 0.2319
+  },
+  {
+   "a": "gallery",
+   "b": "journal",
+   "d": 0.2333
+  },
+  {
+   "a": "index",
+   "b": "archive",
+   "d": 0.2334
+  },
+  {
+   "a": "monograph",
+   "b": "chapbook",
+   "d": 0.2337
+  },
+  {
+   "a": "gallery",
+   "b": "pinboard",
+   "d": 0.2338
   },
   {
    "a": "index",
@@ -183,14 +512,79 @@
    "d": 0.2344
   },
   {
-   "a": "reel",
-   "b": "index",
-   "d": 0.2383
+   "a": "lantern",
+   "b": "column",
+   "d": 0.2359
+  },
+  {
+   "a": "lantern",
+   "b": "catalogue",
+   "d": 0.2363
+  },
+  {
+   "a": "journal",
+   "b": "pinboard",
+   "d": 0.2391
+  },
+  {
+   "a": "lantern",
+   "b": "chapbook",
+   "d": 0.2433
   },
   {
    "a": "gallery",
    "b": "monograph",
    "d": 0.2456
+  },
+  {
+   "a": "passage",
+   "b": "cinema",
+   "d": 0.248
+  },
+  {
+   "a": "gallery",
+   "b": "column",
+   "d": 0.2485
+  },
+  {
+   "a": "salon",
+   "b": "ledger",
+   "d": 0.2499
+  },
+  {
+   "a": "catalogue",
+   "b": "ledger",
+   "d": 0.2534
+  },
+  {
+   "a": "chapbook",
+   "b": "ledger",
+   "d": 0.2551
+  },
+  {
+   "a": "gallery",
+   "b": "chapbook",
+   "d": 0.2572
+  },
+  {
+   "a": "gallery",
+   "b": "studio",
+   "d": 0.2574
+  },
+  {
+   "a": "index",
+   "b": "ledger",
+   "d": 0.2592
+  },
+  {
+   "a": "lantern",
+   "b": "journal",
+   "d": 0.2596
+  },
+  {
+   "a": "lantern",
+   "b": "pinboard",
+   "d": 0.2625
   },
   {
    "a": "index",
@@ -204,11 +598,6 @@
   },
   {
    "a": "gallery",
-   "b": "reel",
-   "d": 0.2688
-  },
-  {
-   "a": "gallery",
    "b": "index",
    "d": 0.2717
   },
@@ -218,9 +607,34 @@
    "d": 0.2732
   },
   {
-   "a": "passage",
-   "b": "reel",
-   "d": 0.2782
+   "a": "lantern",
+   "b": "archive",
+   "d": 0.2764
+  },
+  {
+   "a": "index",
+   "b": "journal",
+   "d": 0.2794
+  },
+  {
+   "a": "atelier",
+   "b": "chapbook",
+   "d": 0.2798
+  },
+  {
+   "a": "atelier",
+   "b": "ledger",
+   "d": 0.2833
+  },
+  {
+   "a": "monograph",
+   "b": "ledger",
+   "d": 0.2838
+  },
+  {
+   "a": "column",
+   "b": "ledger",
+   "d": 0.2871
   },
   {
    "a": "folio",
@@ -228,14 +642,34 @@
    "d": 0.2878
   },
   {
+   "a": "journal",
+   "b": "ledger",
+   "d": 0.2879
+  },
+  {
+   "a": "atelier",
+   "b": "pinboard",
+   "d": 0.2932
+  },
+  {
+   "a": "lantern",
+   "b": "ledger",
+   "d": 0.2942
+  },
+  {
+   "a": "gallery",
+   "b": "ledger",
+   "d": 0.2944
+  },
+  {
    "a": "folio",
    "b": "gallery",
    "d": 0.2964
   },
   {
-   "a": "reel",
-   "b": "lantern",
-   "d": 0.2983
+   "a": "atelier",
+   "b": "catalogue",
+   "d": 0.2981
   },
   {
    "a": "gallery",
@@ -243,19 +677,34 @@
    "d": 0.2996
   },
   {
-   "a": "passage",
-   "b": "atelier",
-   "d": 0.3018
+   "a": "atelier",
+   "b": "column",
+   "d": 0.3011
   },
   {
-   "a": "reel",
-   "b": "salon",
-   "d": 0.3113
+   "a": "atelier",
+   "b": "studio",
+   "d": 0.307
   },
   {
-   "a": "monograph",
-   "b": "reel",
-   "d": 0.3159
+   "a": "gallery",
+   "b": "archive",
+   "d": 0.3075
+  },
+  {
+   "a": "ledger",
+   "b": "pinboard",
+   "d": 0.3077
+  },
+  {
+   "a": "ledger",
+   "b": "studio",
+   "d": 0.3132
+  },
+  {
+   "a": "folio",
+   "b": "ledger",
+   "d": 0.318
   },
   {
    "a": "atelier",
@@ -273,14 +722,249 @@
    "d": 0.3382
   },
   {
-   "a": "folio",
-   "b": "reel",
-   "d": 0.4007
+   "a": "ledger",
+   "b": "archive",
+   "d": 0.3409
+  },
+  {
+   "a": "atelier",
+   "b": "journal",
+   "d": 0.3566
+  },
+  {
+   "a": "atelier",
+   "b": "archive",
+   "d": 0.3826
   },
   {
    "a": "folio",
    "b": "atelier",
    "d": 0.4042
+  },
+  {
+   "a": "lantern",
+   "b": "cinema",
+   "d": 0.482
+  },
+  {
+   "a": "reel",
+   "b": "atelier",
+   "d": 0.4887
+  },
+  {
+   "a": "reel",
+   "b": "lantern",
+   "d": 0.5001
+  },
+  {
+   "a": "chapbook",
+   "b": "cinema",
+   "d": 0.515
+  },
+  {
+   "a": "cinema",
+   "b": "archive",
+   "d": 0.5169
+  },
+  {
+   "a": "atelier",
+   "b": "cinema",
+   "d": 0.5195
+  },
+  {
+   "a": "column",
+   "b": "cinema",
+   "d": 0.5214
+  },
+  {
+   "a": "cinema",
+   "b": "studio",
+   "d": 0.5318
+  },
+  {
+   "a": "folio",
+   "b": "cinema",
+   "d": 0.5319
+  },
+  {
+   "a": "reel",
+   "b": "chapbook",
+   "d": 0.5398
+  },
+  {
+   "a": "cinema",
+   "b": "pinboard",
+   "d": 0.5487
+  },
+  {
+   "a": "reel",
+   "b": "archive",
+   "d": 0.5511
+  },
+  {
+   "a": "passage",
+   "b": "atelier",
+   "d": 0.5548
+  },
+  {
+   "a": "reel",
+   "b": "studio",
+   "d": 0.5553
+  },
+  {
+   "a": "monograph",
+   "b": "cinema",
+   "d": 0.5577
+  },
+  {
+   "a": "reel",
+   "b": "column",
+   "d": 0.5596
+  },
+  {
+   "a": "index",
+   "b": "cinema",
+   "d": 0.5626
+  },
+  {
+   "a": "folio",
+   "b": "reel",
+   "d": 0.5656
+  },
+  {
+   "a": "reel",
+   "b": "pinboard",
+   "d": 0.5721
+  },
+  {
+   "a": "reel",
+   "b": "index",
+   "d": 0.5741
+  },
+  {
+   "a": "journal",
+   "b": "cinema",
+   "d": 0.5831
+  },
+  {
+   "a": "passage",
+   "b": "lantern",
+   "d": 0.5844
+  },
+  {
+   "a": "salon",
+   "b": "cinema",
+   "d": 0.585
+  },
+  {
+   "a": "monograph",
+   "b": "reel",
+   "d": 0.5906
+  },
+  {
+   "a": "passage",
+   "b": "chapbook",
+   "d": 0.6075
+  },
+  {
+   "a": "passage",
+   "b": "index",
+   "d": 0.6108
+  },
+  {
+   "a": "passage",
+   "b": "ledger",
+   "d": 0.6207
+  },
+  {
+   "a": "reel",
+   "b": "salon",
+   "d": 0.6232
+  },
+  {
+   "a": "cinema",
+   "b": "ledger",
+   "d": 0.6255
+  },
+  {
+   "a": "reel",
+   "b": "journal",
+   "d": 0.6275
+  },
+  {
+   "a": "reel",
+   "b": "ledger",
+   "d": 0.6308
+  },
+  {
+   "a": "passage",
+   "b": "studio",
+   "d": 0.6379
+  },
+  {
+   "a": "gallery",
+   "b": "cinema",
+   "d": 0.638
+  },
+  {
+   "a": "passage",
+   "b": "column",
+   "d": 0.6393
+  },
+  {
+   "a": "catalogue",
+   "b": "cinema",
+   "d": 0.6394
+  },
+  {
+   "a": "passage",
+   "b": "archive",
+   "d": 0.6486
+  },
+  {
+   "a": "passage",
+   "b": "pinboard",
+   "d": 0.65
+  },
+  {
+   "a": "folio",
+   "b": "passage",
+   "d": 0.6587
+  },
+  {
+   "a": "gallery",
+   "b": "reel",
+   "d": 0.6773
+  },
+  {
+   "a": "reel",
+   "b": "catalogue",
+   "d": 0.6794
+  },
+  {
+   "a": "monograph",
+   "b": "passage",
+   "d": 0.6829
+  },
+  {
+   "a": "passage",
+   "b": "salon",
+   "d": 0.7126
+  },
+  {
+   "a": "passage",
+   "b": "journal",
+   "d": 0.7167
+  },
+  {
+   "a": "gallery",
+   "b": "passage",
+   "d": 0.7542
+  },
+  {
+   "a": "passage",
+   "b": "catalogue",
+   "d": 0.7667
   }
  ]
 }

@@ -84,12 +84,12 @@ export const HOUSES: House[] = [
     owns: "Numbering and facts: the front page is the catalogue of every work, and each series shows its works with their dimensions.",
     arrangements: ["held", "wall"], fronts: ["catalogue", "list"],
     dials: { header: ["centred", "classic"], opening: ["name", "words"], title: ["plain", "caps"], captions: ["beside", "under"], footer: ["line", "large"], scale: ["intimate", "standard"] },
-    looks: ["quiet", "etching", "gallery", "graphite", "toned", "monotype"], typefaces: ["caslon", "bodoni", "newsreader", "instrument", "archive"] },
+    looks: ["etching", "quiet", "gallery", "graphite", "toned", "monotype"], typefaces: ["caslon", "bodoni", "newsreader", "instrument", "archive"] },
   { id: "chapbook", name: "Chapbook", for: "Poets and short-form writers", leads: ["writing"], menu: "Poems", idea: "The site opens into the reading: the poems one after another on a single page, large and unhurried; everything else waits at the end.",
     owns: "Reading first: the front page is the writing itself, set large, one piece after another.",
     arrangements: ["held"], fronts: ["reading", "list"],
     dials: { header: ["name", "rail"], opening: ["work", "words"], title: ["quiet", "plain"], captions: ["hidden"], footer: ["minimal"], scale: ["intimate"] },
-    looks: ["quiet", "toned", "etching", "graphite", "cyanotype", "monotype"], typefaces: ["caslon", "newsreader", "young", "fraunces", "archive"] },
+    looks: ["toned", "quiet", "etching", "graphite", "cyanotype", "monotype"], typefaces: ["caslon", "newsreader", "young", "fraunces", "archive"] },
   { id: "cinema", name: "Cinema", for: "Filmmakers with more than one film", leads: ["film"], menu: "Films", idea: "A poster wall: every film as its poster at its own ratio, the house lights down; each film a programme page.",
     owns: "Posters lead: the front page is a wall of posters, and the site is dark by nature.",
     arrangements: ["slides", "held"], fronts: ["posters", "sheet"],
@@ -114,7 +114,7 @@ export const HOUSES: House[] = [
     owns: "Everything in time: the front page is an archive of every page by date, sifted by kind.",
     arrangements: ["held", "contact"], fronts: ["archive", "list"],
     dials: { header: ["rail", "stacked"], opening: ["name", "words"], title: ["plain", "quiet"], captions: ["under", "hidden"], footer: ["minimal", "line"], scale: ["standard", "intimate"] },
-    looks: ["quiet", "graphite", "swiss", "toned", "darkroom", "gallery"], typefaces: ["instrument", "plex", "newsreader", "grotesk", "archive"] },
+    looks: ["graphite", "quiet", "swiss", "toned", "darkroom", "gallery"], typefaces: ["instrument", "plex", "newsreader", "grotesk", "archive"] },
 ];
 export const house = (id: string) => HOUSES.find((h) => h.id === id) ?? HOUSES[0];
 export const DIALS: Dial[] = ["header", "opening", "title", "captions", "footer", "scale"];
