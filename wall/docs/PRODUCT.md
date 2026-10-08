@@ -238,3 +238,9 @@ The old templates, the shared engine, the studies, the matrix and the v14 docume
 **The film file (8 October 2026).** A film page takes its own file (The film: an MP4, MOV or WebM up to 400 MB, `store.putVideo`): kept as it is, measured by the browser, placed in the library as a film with its length as the caption, set to play on the page over the poster, the page's ratio following the picture; the link stays as the other way. The file travels whole in the published files and plays from disk. Filmmakers are never charged by the minute.
 
 **HEIC (8 October 2026).** An iPhone's own files say the same things in another container: the Exif and XMP sit as items in the HEIF index, and `meta.readMeta` now finds them (iinf for the items, iloc for their bytes), so a HEIC brought in on Safari arrives with its title, caption and the moment taken like a JPEG. Chromium cannot decode HEIC pictures; it says so, and loses nothing.
+
+## Where things stand (8 October 2026, evening)
+
+Built, each with its unit tests and a browser sweep in Chromium and WebKit, one commit each: draft → Publish with every version kept and restorable; files from the computer with their own words, a folder as a story, Replace keeping everything; colour from the work; trash; the phone preview; how pages appear, the mark, the focal point; turn it over; the door (a word on a page or the site, "soon", sealed files); life size; the record; sequencing by drag and the letting-go of forgotten bytes; a first story on the start page; the film file; HEIC. Fifteen sweeps, `tests/browser/README.md`.
+
+Next is Stage 2, which needs decisions and a server: accounts; hosting the published files at `name.latent.site` and the artist's own domain; the image pipeline (masters kept, sizes served); plans as entitlements and their limits. Then a proofing room for clients, a words-only role, the Lightroom plug-in.
