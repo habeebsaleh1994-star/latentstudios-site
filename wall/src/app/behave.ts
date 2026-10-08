@@ -8,7 +8,7 @@
 import type { SitePage, StoryPage } from "../studio/site";
 import { bookLeaves, slideList, groups, work, listShow, workPages, type Ctx, type View } from "./render";
 
-type Viewer = { open: (items: { src: string; alt: string; title: string; meta: string }[], at: number) => void; isOpen: () => boolean };
+type Viewer = { open: (items: { src: string; alt: string; title: string; meta: string; cm?: { w: number; h: number } | null }[], at: number) => void; isOpen: () => boolean };
 const viewer = () => (window as unknown as { LatentViewer?: Viewer }).LatentViewer;
 const typing = (e: Event) => { const t = e.target as HTMLElement; return t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName); };
 
@@ -61,7 +61,7 @@ function heldViewer(root: HTMLElement, c: Ctx, p: StoryPage) {
     if (c.editing) return;
     const im = (e.target as HTMLElement).closest(".v-held .frame img") as HTMLImageElement | null; if (!im) return;
     const i = ws.findIndex((w) => w.src === im.getAttribute("src")); if (i < 0) return;
-    viewer()?.open(ws.map((w) => ({ src: w.src, alt: w.alt, title: w.title, meta: w.date })), i);
+    viewer()?.open(ws.map((w) => ({ src: w.src, alt: w.alt, title: w.title, meta: w.date, cm: w.size })), i);
   });
 }
 
@@ -156,7 +156,7 @@ function wall(root: HTMLElement, c: Ctx, p: StoryPage) {
   on(root, "click", (e: MouseEvent) => {
     if (c.editing) return;
     const f = (e.target as HTMLElement).closest<HTMLElement>(".art"); if (!f) return;
-    viewer()?.open(ws.map((w) => ({ src: w.src, alt: w.alt, title: w.title, meta: [w.caption, w.date].filter(Boolean).join(" · ") })), +f.dataset.view!);
+    viewer()?.open(ws.map((w) => ({ src: w.src, alt: w.alt, title: w.title, meta: [w.caption, w.date].filter(Boolean).join(" · "), cm: w.size })), +f.dataset.view!);
   });
 }
 

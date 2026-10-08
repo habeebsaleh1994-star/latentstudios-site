@@ -219,6 +219,14 @@ export function setFocal(site: S, asset: string, x: number, y: number): S {
   const w = site.library[asset]; if (!w) throw new Error(`No work ${asset}.`);
   const s = clone(site); s.library[asset].focal = { x: Math.round(Math.max(0, Math.min(100, x))), y: Math.round(Math.max(0, Math.min(100, y))) }; return done(s);
 }
+/** A work's real size in centimetres. One side given, the other follows the picture's proportion; neither clears it. */
+export function setSize(site: S, asset: string, w: number | null, h: number | null): S {
+  const k = site.library[asset]; if (!k) throw new Error(`No work ${asset}.`);
+  const s = clone(site), r = k.w / k.h, ok = (v: number | null): v is number => v != null && Number.isFinite(v) && v > 0;
+  const W = ok(w) ? w : ok(h) ? h * r : null, H = ok(h) ? h : ok(w) ? w / r : null;
+  s.library[asset].size = W && H ? { w: Math.min(2000, Math.max(1, Math.round(W * 10) / 10)), h: Math.min(2000, Math.max(1, Math.round(H * 10) / 10)) } : null;
+  return done(s);
+}
 export function today() { const d = new Date(); return `${d.getDate()} ${["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][d.getMonth()]} ${d.getFullYear()}`; }
 
 /* ------------------------------------------------------------------ a story's works */

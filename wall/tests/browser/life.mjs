@@ -1,0 +1,44 @@
+/* Life size: a work's real size is set in the editor; in the viewer it is shown at as many pixels as centimetres, by a scale learnt from a bank card. */
+import { chromium, webkit } from "../../node_modules/playwright-core/index.mjs";
+const which = process.argv[2] || "chromium", B = "http://127.0.0.1:5181";
+const br = await (which === "webkit" ? webkit : chromium).launch(), fails = [];
+const ctx = await br.newContext({ viewport: { width: 1440, height: 900 } }), pg = await ctx.newPage(); pg.setDefaultTimeout(10000);
+const errs = []; pg.on("pageerror", (e) => errs.push(e.message));
+const ok = (c, m) => { if (!c) fails.push(m); }; const w = (ms) => pg.waitForTimeout(ms);
+const space = "lf" + Date.now();
+await pg.goto(`${B}/app/index.html?site=habib&space=${space}&edit#/the-road-in`, { waitUntil: "networkidle" }); await w(600);
+// the real size, from the tray
+await pg.click('#panel [data-a="tray"][data-k="0"]'); await w(300);
+await pg.fill('#panel [data-size="w"]', "60"); await pg.dispatchEvent('#panel [data-size="w"]', "change"); await w(400);
+const size = await pg.evaluate(() => window.__wall.site.library["/design/folio/img/12.jpg"].size);
+ok(size && size.w === 60 && Math.abs(size.h - 40) < 1, `one side given, the other follows the picture: ${JSON.stringify(size)}`);
+ok(/60 × 40 cm/i.test(await pg.locator("#panel .tray li").first().innerText()), "the tray says the size");
+await pg.fill('#panel [data-size="w"]', ""); await pg.dispatchEvent('#panel [data-size="w"]', "change"); await w(300);
+ok((await pg.evaluate(() => window.__wall.site.library["/design/folio/img/12.jpg"].size)) === null, "cleared, there is no size");
+await pg.fill('#panel [data-size="h"]', "40"); await pg.dispatchEvent('#panel [data-size="h"]', "change"); await w(300);
+ok(Math.abs((await pg.evaluate(() => window.__wall.site.library["/design/folio/img/12.jpg"].size.w)) - 60) < 1, "the height alone gives the width");
+// a visitor holds it, then sees it life size
+await pg.click("#edit"); await w(400);
+await pg.evaluate(() => localStorage.removeItem("latent-ppcm"));
+await pg.click(".v-held .frame img >> nth=0"); await w(600);
+ok(await pg.locator(".lb:not([hidden])").count() === 1 && await pg.locator(".lb .life:not([hidden])").count() === 1, "the viewer offers Life size for a work with a real size");
+await pg.click(".lb .life"); await w(500);
+const px = async () => pg.evaluate(() => document.querySelector(".lb img").getBoundingClientRect().width);
+ok(Math.abs((await px()) - 60 * 96 / 2.54) < 2, `at life size the picture is its centimetres in pixels at the browser's own scale (${(await px()).toFixed(0)} px)`);
+ok(await pg.evaluate(() => { const s = document.querySelector(".lb .stage"); return s.scrollWidth > s.clientWidth; }), "and the stage scrolls when it is wider than the screen");
+ok(/Life size · 60 × 40 cm/i.test(await pg.locator(".lb .meta").innerText()), "the line says so");
+await pg.click(".lb .match"); await w(300);
+ok(await pg.locator(".lb .cal:not([hidden])").count() === 1, "matching a card opens the calibration");
+await pg.locator(".lb .cal input").fill("50"); await pg.dispatchEvent(".lb .cal input", "input"); await w(300);
+ok(Math.abs((await px()) - 3000) < 2, `the slide rescales the picture (${(await px()).toFixed(0)} px for 60 cm at 50 px/cm)`);
+ok(Math.abs((await pg.evaluate(() => document.querySelector(".lb .cal .card").getBoundingClientRect().width)) - 428) < 2, "the card outline is 8.56 cm at that scale");
+ok((await pg.evaluate(() => localStorage.getItem("latent-ppcm"))) === "50", "the scale is kept in this browser");
+await pg.click(".lb .cal .done"); await pg.click(".lb .life"); await w(300);
+ok((await px()) < 1400, "Fit the screen brings it back");
+await pg.keyboard.press("ArrowRight"); await w(500);
+ok(await pg.locator(".lb .life:not([hidden])").count() === 0, "a work without a real size is not offered life size");
+await pg.keyboard.press("Escape"); await w(300);
+await pg.click(".v-held .frame img >> nth=0"); await w(400); await pg.click(".lb .life"); await w(300);
+ok(Math.abs((await px()) - 3000) < 2, "the learnt scale is used next time");
+if (errs.length) fails.push(errs.join(" | "));
+console.log(which, fails.length ? "FAILS:\n  " + fails.join("\n  ") : "a work can be seen at life size"); await br.close();

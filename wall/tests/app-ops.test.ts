@@ -18,6 +18,12 @@ describe("words", () => {
     expect(() => O.setField(s, "page:the-road-in.nope", "x")).toThrow();
     expect(() => O.setField(s, "piece:the-road-in:0.text", "x")).toThrow();
     expect(() => O.setField(s, "work:ghost.title", "x")).toThrow();
+    // the real size: one side given, the other follows the picture
+    const A = "/design/folio/img/12.jpg", r = s.library[A].w / s.library[A].h;
+    expect(O.setSize(s, A, 60, null).library[A].size).toEqual({ w: 60, h: Math.round((60 / r) * 10) / 10 });
+    expect(O.setSize(s, A, null, 40).library[A].size!.w).toBeCloseTo(40 * r, 0);
+    expect(O.setSize(O.setSize(s, A, 60, null), A, null, null).library[A].size).toBeNull();
+    expect(() => O.setSize(s, "ghost", 1, 1)).toThrow();
     // the back of the print
     s = O.setField(s, "work:/design/folio/img/12.jpg.verso.place", "Joun"); s = O.setField(s, "work:/design/folio/img/12.jpg.verso.edition", "1 of 10");
     expect(s.library["/design/folio/img/12.jpg"].verso).toEqual({ place: "Joun", line: "", edition: "1 of 10", made: "" });
