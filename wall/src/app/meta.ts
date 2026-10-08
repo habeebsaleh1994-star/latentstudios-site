@@ -1,7 +1,8 @@
 /*
  * What a photograph's file says about itself, read before the file is sized for the library:
  * the title, caption and date the artist already wrote in Lightroom or Capture One (IPTC and XMP),
- * and the moment it was taken (EXIF). JPEG only; other formats give nothing and lose nothing.
+ * and the moment it was taken (EXIF). JPEG and HEIC (an iPhone's own format, where the same Exif and XMP
+ * sit as items in the file's index); other formats give nothing and lose nothing.
  */
 export type Meta = { title?: string; caption?: string; byline?: string; date?: string; taken?: string };
 
@@ -18,6 +19,7 @@ export const dateWord = (iso: string) => { const d = iso.slice(0, 10).split("-")
 
 export function readMeta(buf: ArrayBuffer): Meta {
   const u = new Uint8Array(buf), v = new DataView(buf), out: Meta = {};
+  if (u.length >= 12 && latin.decode(u.subarray(4, 8)) === "ftyp") return merge(heif(buf), out);
   if (u.length < 4 || u[0] !== 0xff || u[1] !== 0xd8) return out;
   const found: { exif?: Meta; iptc?: Meta; xmp?: Meta } = {};
   let i = 2;
@@ -30,6 +32,51 @@ export function readMeta(buf: ArrayBuffer): Meta {
     else if (marker === 0xed && latin.decode(u.subarray(start, start + 14)) === "Photoshop 3.0\0") found.iptc ??= iptc(u, v, start + 14, end);
     i += 2 + len;
   }
+  return merge(found, out);
+}
+/** HEIF: the Exif and XMP are items; the index (iinf) names them and the locations (iloc) say where their bytes are. */
+function heif(buf: ArrayBuffer): { exif?: Meta; xmp?: Meta } {
+  const u = new Uint8Array(buf), v = new DataView(buf), found: { exif?: Meta; xmp?: Meta } = {};
+  const boxes = function* (off: number, end: number): Generator<[string, number, number]> {
+    while (off + 8 <= end) { let size = v.getUint32(off), hdr = 8; const typ = latin.decode(u.subarray(off + 4, off + 8)); if (size === 1) { size = Number(v.getBigUint64(off + 8)); hdr = 16; } if (size === 0) size = end - off; if (size < hdr) return; yield [typ, off + hdr, off + size]; off += size; }
+  };
+  const cstr = (at: number) => { let e = at; while (e < u.length && u[e] !== 0) e++; return [latin.decode(u.subarray(at, e)), e + 1] as const; };
+  const items = new Map<number, { type: string; mime: string }>(), locs = new Map<number, [number, number][]>();
+  try {
+    for (const [t, s, e] of boxes(0, u.length)) {
+      if (t !== "meta") continue;
+      for (const [t2, s2, e2] of boxes(s + 4, e)) {
+        if (t2 === "iinf") {
+          const ver = u[s2];
+          for (const [t3, s3] of boxes(s2 + (ver === 0 ? 6 : 8), e2)) {
+            if (t3 !== "infe") continue;
+            const iv = u[s3]; let i = s3 + 4; const id = iv < 3 ? v.getUint16(i) : v.getUint32(i); i += (iv < 3 ? 2 : 4) + 2;
+            const type = latin.decode(u.subarray(i, i + 4)); i += 4; const [, after] = cstr(i);
+            items.set(id, { type, mime: type === "mime" ? cstr(after)[0] : "" });
+          }
+        } else if (t2 === "iloc") {
+          const ver = u[s2]; let p = s2 + 4;
+          const offSize = u[p] >> 4, lenSize = u[p] & 15, baseSize = u[p + 1] >> 4, idxSize = ver === 1 || ver === 2 ? u[p + 1] & 15 : 0; p += 2;
+          const rd = (n: number) => { let x = 0; for (let k = 0; k < n; k++) x = x * 256 + u[p++]; return x; };
+          const count = rd(ver < 2 ? 2 : 4);
+          for (let n = 0; n < count; n++) {
+            const id = rd(ver < 2 ? 2 : 4); if (ver === 1 || ver === 2) rd(2); rd(2);
+            const base = rd(baseSize), extents = rd(2), ex: [number, number][] = [];
+            for (let k = 0; k < extents; k++) { if (idxSize) rd(idxSize); const o = rd(offSize), l = rd(lenSize); ex.push([base + o, l]); }
+            locs.set(id, ex);
+          }
+        }
+      }
+    }
+    for (const [id, it] of items) {
+      const ex = locs.get(id)?.[0]; if (!ex || ex[0] + ex[1] > u.length) continue;
+      if (it.type === "Exif" && !found.exif) { const tiff = ex[0] + 4 + v.getUint32(ex[0]); found.exif = exif(buf, tiff, ex[0] + ex[1]); }
+      else if (it.type === "mime" && /xml/.test(it.mime) && !found.xmp) found.xmp = xmp(dec.decode(u.subarray(ex[0], ex[0] + ex[1])));
+    }
+  } catch { /* a file that is not what it says gives nothing */ }
+  return found;
+}
+function merge(found: { exif?: Meta; iptc?: Meta; xmp?: Meta }, out: Meta): Meta {
   // what the artist wrote wins over what the camera wrote; the photograph's own headline over the series' name
   const x = found.xmp ?? {}, p = found.iptc ?? {}, e = found.exif ?? {};
   out.title = x.title || p.title || e.title || undefined;

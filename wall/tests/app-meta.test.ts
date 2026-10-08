@@ -33,3 +33,15 @@ describe("what a photograph's file says about itself", () => {
     expect(dateWord("2026-01-05T00:00:00")).toBe("5 Jan 2026");
   });
 });
+
+describe("a HEIC file", () => {
+  it("gives the same title, caption, by-line and moment as the JPEG it was made from", () => {
+    const h = readMeta(buf("tests/fixtures/joun.heic")), j = readMeta(buf("design/folio/img/12.jpg"));
+    expect(h.title).toBe("Winding Road in Joun"); expect(h.caption).toBe(j.caption); expect(h.byline).toBe("Habib Saleh");
+    expect(h.taken).toBe("2025-03-07T17:03:14"); expect(h.date).toBe("7 Mar 2025");
+  });
+  it("gives nothing for a file that only pretends to be one", () => {
+    const fake = new Uint8Array(64); fake.set([0, 0, 0, 32, 0x66, 0x74, 0x79, 0x70], 0);
+    expect(readMeta(fake.buffer)).toEqual({});
+  });
+});
