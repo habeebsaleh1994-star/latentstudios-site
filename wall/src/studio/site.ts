@@ -162,6 +162,8 @@ export const siteSchema = z
     theme: themeSchema,
     library: z.record(id, workSchema),
     pages: z.array(sitePageSchema).max(200),
+    /** Removed pages, kept for thirty days so they can be put back. Never published. */
+    trash: z.array(z.object({ page: sitePageSchema, removedAt: z.string() }).strict()).max(200).default([]),
   })
   .strict()
   .superRefine((s, ctx) => {
@@ -185,6 +187,8 @@ export function assetsOf(p: SitePage): string[] {
   }
 }
 
+/** Every work a removed page still refers to: kept in the library so the page can come back whole. */
+export const assetsInTrash = (s: SiteDocument) => s.trash.flatMap((t) => assetsOf(t.page));
 /** Which pages a work appears on, so the library can say "in The road, Late light". */
 export function usesOf(site: SiteDocument, asset: string): string[] {
   return site.pages.filter((p) => assetsOf(p).includes(asset)).map((p) => p.id);

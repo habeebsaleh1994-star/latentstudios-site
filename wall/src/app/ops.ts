@@ -2,7 +2,7 @@
  * Every change the artist can make, as a pure function: site in, new site out. The editor only
  * calls these; history is a list of sites; tests cover each one. Nothing here touches the screen.
  */
-import { siteSchema, workSchema, SITE_VERSION, type SiteDocument, type SitePage, type StoryPage, type Piece, type ArrangementId } from "../studio/site";
+import { siteSchema, workSchema, SITE_VERSION, assetsInTrash, type SiteDocument, type SitePage, type StoryPage, type Piece, type ArrangementId } from "../studio/site";
 import { themeSchema, type Theme } from "../studio/site";
 import { house, houseTheme, allows } from "./houses";
 
@@ -84,7 +84,35 @@ export function movePage(site: S, id: string, dir: -1 | 1): S {
   [s.pages[i], s.pages[j]] = [s.pages[j], s.pages[i]]; return done(s);
 }
 export function toggleNav(site: S, id: string): S { const s = clone(site), p = find(s, id); p.inNav = !p.inNav; return done(s); }
-export function removePage(site: S, id: string): S { const s = clone(site); s.pages = s.pages.filter((p) => p.id !== id); return done(s); }
+export const TRASH_DAYS = 30;
+/** A removed page goes to the trash, where it can be put back for thirty days. */
+export function removePage(site: S, id: string): S {
+  const s = clone(site), p = find(s, id);
+  s.pages = s.pages.filter((x) => x.id !== id); s.trash.unshift({ page: p, removedAt: new Date().toISOString() });
+  return done(s);
+}
+/** A page comes back from the trash at the end of its kind, under its old address or the next free one; works it lost are left out. */
+export function restorePage(site: S, id: string): { site: S; id: string; lost: number } {
+  const s = clone(site), i = s.trash.findIndex((t) => t.page.id === id);
+  if (i < 0) throw new Error("That page is not in the trash.");
+  const p = structuredClone(s.trash[i].page); s.trash.splice(i, 1);
+  let lost = 0;
+  if (p.kind === "story") { const n = p.pieces.length; p.pieces = p.pieces.filter((x) => x.type !== "work" || s.library[x.asset]); lost = n - p.pieces.length; }
+  else if (p.kind === "writing" && p.image && !s.library[p.image.asset]) { p.image = null; lost = 1; }
+  else if (p.kind === "film") { const n = p.stills.length; p.stills = p.stills.filter((x) => s.library[x.asset]); lost = n - p.stills.length; if (p.poster && !s.library[p.poster]) { p.poster = null; lost++; } if (p.video && !s.library[p.video]) { p.video = null; lost++; } }
+  else if (p.kind === "project") { const n = p.outcome.length + p.process.length; p.outcome = p.outcome.filter((a) => s.library[a]); p.process = p.process.filter((a) => s.library[a]); lost = n - p.outcome.length - p.process.length; }
+  p.id = slug(s, p.id.replace(/-/g, " "));
+  const isWork = (x: SitePage) => x.kind === "story" || x.kind === "writing" || x.kind === "film" || x.kind === "project";
+  const lastWork = s.pages.map(isWork).lastIndexOf(true);
+  s.pages.splice(isWork(p) ? lastWork + 1 : s.pages.length, 0, p);
+  return { site: done(s), id: p.id, lost };
+}
+export function emptyTrash(site: S, id?: string): S { const s = clone(site); s.trash = id ? s.trash.filter((t) => t.page.id !== id) : []; return done(s); }
+/** Thirty days on, a removed page is gone for good. Run when a site is opened. */
+export function expireTrash(site: S, now = Date.now()): S {
+  const keep = site.trash.filter((t) => now - new Date(t.removedAt).getTime() < TRASH_DAYS * 86400000);
+  return keep.length === site.trash.length ? site : done({ ...clone(site), trash: keep });
+}
 /** A page's address follows its title until it is set by hand; keeps links working inside the site. */
 export function renamePage(site: S, id: string, to: string): { site: S; id: string } {
   const s = clone(site), p = find(s, id), nid = slug(s, to, id);
@@ -111,7 +139,7 @@ export function applyHouse(site: S, id: S["house"]): { site: S; rearranged: stri
 }
 /** Bring a site within its template: any choice the template does not offer falls back to the template's own. Used when a site is opened. */
 export function conform(site: S): S {
-  const h = house(site.house), base = houseTheme(h), s = clone(site);
+  const h = house(site.house), base = houseTheme(h), s = clone(expireTrash(site));
   for (const k of ["look", "typeface", "header", "opening", "title", "captions", "footer", "scale"] as const) if (!allows(h, k, s.theme[k])) (s.theme as Record<string, unknown>)[k] = base[k];
   if (!h.fronts.includes(s.front.form)) s.front.form = h.fronts[0];
   for (const p of s.pages) if (p.kind === "story" && !h.arrangements.includes(p.arrangement)) p.arrangement = h.arrangements[0];
@@ -154,7 +182,7 @@ export function storyFromWorks(site: S, name: string, assets: string[]): { site:
 }
 /** Works no page uses; removed only when the artist asks, never as a side effect. */
 export function unused(site: S): string[] {
-  const used = new Set(site.pages.flatMap((p) => assetsOn(p)));
+  const used = new Set([...site.pages.flatMap((p) => assetsOn(p)), ...assetsInTrash(site)]);
   return Object.keys(site.library).filter((a) => !used.has(a));
 }
 export function removeFromLibrary(site: S, asset: string): S {

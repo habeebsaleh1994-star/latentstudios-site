@@ -34,10 +34,10 @@ let openMenu: { k: number; kind: "arrange" | "move" } | null = null, trayOpen: n
 
 export function init() {
   document.body.insertAdjacentHTML("beforeend",
-    `<div class="dock" id="dock"><span class="meter" id="meter"></span><button type="button" id="undo">Undo</button><button type="button" id="redo">Redo</button><button type="button" id="edit" aria-pressed="false">Edit</button><button type="button" id="page-btn" hidden>Page</button><button type="button" id="tweak" aria-expanded="false">Customise</button><button type="button" id="publish">Publish</button></div>` +
+    `<div class="dock" id="dock"><span class="meter" id="meter"></span><button type="button" id="undo">Undo</button><button type="button" id="redo">Redo</button><button type="button" id="edit" aria-pressed="false">Edit</button><button type="button" id="page-btn" hidden>Page</button><button type="button" id="tweak" aria-expanded="false">Customise</button><button type="button" id="phone-btn" aria-pressed="false" title="See it on a phone">Phone</button><button type="button" id="publish">Publish</button></div>` +
     `<aside id="panel" aria-label="Edit the site"></aside>` +
     `<div class="lib" id="lib" role="dialog" aria-modal="true" aria-label="Your work" hidden><div class="sheet2"><header><b>Your work</b><button type="button" class="x" data-lib="close">Close</button></header><div class="grid"></div><footer><span class="note"></span><button type="button" class="go" data-lib="add" disabled>Add</button></footer></div></div>` +
-    `<input type="file" id="files" accept="image/*,.heic,.heif" multiple hidden><input type="file" id="folder" webkitdirectory multiple hidden><input type="file" id="one-file" accept="image/*,.heic,.heif" hidden><div class="drop" id="drop" hidden><span></span></div><div class="toast" role="status" aria-live="polite" hidden></div>`);
+    `<input type="file" id="files" accept="image/*,.heic,.heif" multiple hidden><input type="file" id="folder" webkitdirectory multiple hidden><input type="file" id="one-file" accept="image/*,.heic,.heif" hidden><div class="drop" id="drop" hidden><span></span></div><div class="phone-frame" id="phone" hidden><div class="device"><iframe title="Your site, on a phone"></iframe></div><button type="button" class="x" id="phone-close">Close</button></div><div class="toast" role="status" aria-live="polite" hidden></div>`);
   panel = $("#panel")!; dock = $("#dock")!; lib = $("#lib")!;
   state.listeners.push(afterDraw);
   document.addEventListener("click", onClick);
@@ -128,6 +128,7 @@ function siteTab() {
   let h = `<h3>Words</h3>${input("site.name", s.name, "Your name")}${input("site.contact", s.contact, "A line at the foot of every page")}`;
   h += `<h3>Pages</h3><ol class="pages"><li class="${cur ? "" : "on"}"><a href="#/">The front page<small>${{ covers: "Covers", list: "A list", sheet: "A sheet", walk: "A walk" }[s.front.form]}</small></a><span class="acts"></span></li>` +
     s.pages.map((p, i) => `<li class="${cur === p.id ? "on" : ""}${p.inNav ? "" : " off"}"><a href="#/${encodeURIComponent(p.id)}">${esc(title(p))}<small>${esc(kindLine(p))}${p.inNav ? "" : " · hidden"}</small></a><span class="acts"><button type="button" data-a="page-up" data-id="${esc(p.id)}"${i === 0 ? " disabled" : ""} aria-label="Move up">&uarr;</button><button type="button" data-a="page-down" data-id="${esc(p.id)}"${i === s.pages.length - 1 ? " disabled" : ""} aria-label="Move down">&darr;</button><button type="button" data-a="page-nav" data-id="${esc(p.id)}" aria-label="${p.inNav ? "Hide" : "Show"} ${esc(title(p))}" title="${p.inNav ? "Shown" : "Hidden"}">${p.inNav ? "&#9679;" : "&#9675;"}</button></span></li>`).join("") + `</ol>`;
+  if (s.trash.length) h += `<h3>Removed</h3><ol class="pages trash">${s.trash.map((t) => `<li><span class="t">${esc(title(t.page))}<small>${esc(O.KIND_NAMES[t.page.kind])} · removed ${esc(new Date(t.removedAt).toLocaleDateString(undefined, { day: "numeric", month: "short" }))}</small></span><span class="acts wide"><button type="button" class="word" data-a="page-restore" data-id="${esc(t.page.id)}">Put back</button><button type="button" data-a="trash-empty" data-id="${esc(t.page.id)}" aria-label="Delete for good">&times;</button></span></li>`).join("")}</ol><p class="hint">Removed pages wait here for thirty days, with their work, and can be put back.</p>`;
   h += `<h3>Add a page</h3><div class="adds">${(["story", "writing", "film", "project"] as const).map((k) => `<button type="button" data-a="page-add" data-kind="${k}">+ ${O.KIND_NAMES[k]}</button>`).join("")}${has("about") ? "" : '<button type="button" data-a="page-add" data-kind="about">+ About</button>'}${has("contact") ? "" : '<button type="button" data-a="page-add" data-kind="contact">+ Contact</button>'}</div>`;
   h += `<div class="adds"><button type="button" data-a="folder">+ A story from a folder</button></div><p class="hint">Choose a folder of photographs: they arrive as one story, in the order they were taken, with the titles, captions and dates written in the files. Or drop files or a folder anywhere on the page while editing.</p>`;
   h += `<p class="hint">A story holds photographs or paintings, arranged as you choose. Writing holds a poem, an essay or a fragment. A film shows at its own ratio. A project sets its process beside its outcome.</p>`;
@@ -337,7 +338,9 @@ function act(a: string, d: DOMStringMap) {
       case "page-up": return commit(O.movePage(s, id, -1));
       case "page-down": return commit(O.movePage(s, id, 1));
       case "page-nav": return commit(O.toggleNav(s, id));
-      case "page-remove": { const pg = s.pages.find((x) => x.id === id); if (!pg || !confirm(`Remove “${title(pg)}”? Undo brings it back.`)) return; commit(O.removePage(s, id)); go(""); return toast("Page removed. Undo brings it back."); }
+      case "page-remove": { const pg = s.pages.find((x) => x.id === id); if (!pg) return; commit(O.removePage(s, id)); if (pageId() === id) go(""); tab = "site"; return toast(`“${title(pg)}” is in the trash, under The site. Undo brings it straight back.`); }
+      case "page-restore": { const r = O.restorePage(s, id); commit(r.site); tab = "page"; go(r.id); return toast(r.lost ? `Put back, without ${r.lost === 1 ? "one work" : `${r.lost} works`} deleted meanwhile.` : "Put back."); }
+      case "trash-empty": { const t = s.trash.find((x) => x.page.id === id); if (!t || !confirm(`Delete “${title(t.page)}” for good?`)) return; return commit(O.emptyTrash(s, id)); }
       case "page-rename": { if (!p) return; const r = O.renamePage(s, p.id, title(p)); if (r.id === p.id) return toast("The address already follows the title."); commit(r.site); go(r.id); return; }
       case "lib-remove": return commit(O.removeFromLibrary(s, d.asset!));
       case "folder": return $<HTMLInputElement>("#folder")!.click();
@@ -406,6 +409,8 @@ function onClick(e: MouseEvent) {
   if (t.id === "page-btn") { tab = "page"; return mode ? closePanel() : openPanel("edit"); }
   if (t.id === "tweak") return mode === "customise" ? closePanel() : openPanel("customise");
   if (t.id === "publish") return mode === "publish" ? closePanel() : openPanel("publish");
+  if (t.id === "phone-btn") return phonePreview(true);
+  if (t.id === "phone-close") return phonePreview(false);
   const pb = t.closest<HTMLElement>("#panel [data-pub]"); if (pb && !(pb as HTMLButtonElement).disabled) { void P.act(pb.dataset.pub!, Number(pb.dataset.n), () => { renderPanel(); afterDraw(); }); return; }
   if (t.id === "undo") return undo();
   if (t.id === "redo") return redo();
@@ -442,5 +447,12 @@ function onKey(e: KeyboardEvent) {
   if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "z" && !t.isContentEditable && !/^(INPUT|TEXTAREA)$/.test(t.tagName)) { e.preventDefault(); if (e.shiftKey) redo(); else undo(); }
 }
 
+/** The site as it is now, on a phone: the same site in a frame, which follows every save. */
+function phonePreview(on: boolean) {
+  const box = $("#phone")!, f = box.querySelector("iframe")!;
+  $("#phone-btn")!.setAttribute("aria-pressed", String(on));
+  if (on) { const q = location.search.replace(/[?&](edit|panel|look|publish|start|house)(=[^&]*)?/g, "").replace(/^&/, "?"); f.src = `/app/index.html${q}${q ? "&" : "?"}preview#/${encodeURIComponent(pageId())}`; box.hidden = false; }
+  else { box.hidden = true; f.src = "about:blank"; }
+}
 let toastT = 0;
 function toast(text: string) { const el = $(".toast")!; el.textContent = text; el.hidden = false; clearTimeout(toastT); toastT = window.setTimeout(() => { el.hidden = true; }, 3200); }

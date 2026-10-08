@@ -101,6 +101,36 @@ describe("a story's works", () => {
   });
 });
 
+describe("the trash", () => {
+  it("a removed page waits in the trash and comes back whole, at the end of its kind", () => {
+    const s = O.removePage(site(), "he-looked-back");
+    expect(s.pages.some((p) => p.id === "he-looked-back")).toBe(false);
+    expect(s.trash[0].page.id).toBe("he-looked-back");
+    expect(O.unused(s)).toEqual([]); // its works stay in the library
+    const r = O.restorePage(s, "he-looked-back");
+    expect(r.lost).toBe(0);
+    const ids = r.site.pages.map((p) => p.id);
+    expect(ids.indexOf("he-looked-back")).toBe(ids.indexOf("the-door") + 1); // after the last piece of work, before About
+    expect(r.site.trash.length).toBe(0);
+  });
+  it("comes back without a work that was deleted meanwhile, and under a free address", () => {
+    let s = O.removePage(site(), "late-light");
+    s = { ...s, library: Object.fromEntries(Object.entries(s.library).filter(([a]) => a !== "/design/folio/img/9.jpg")), pages: s.pages.map((p) => p.kind === "story" ? { ...p, pieces: p.pieces.filter((x) => x.type !== "work" || x.asset !== "/design/folio/img/9.jpg") } : p.kind === "writing" ? { ...p, image: null } : p) } as typeof s;
+    s = O.addPage(s, "story", "Late light").site;
+    const r = O.restorePage(s, "late-light");
+    expect(r.lost).toBe(1); expect(r.id).toBe("late-light-2");
+    expect(() => O.restorePage(r.site, "late-light")).toThrow();
+  });
+  it("is emptied, one page or all, and expires after thirty days", () => {
+    let s = O.removePage(O.removePage(site(), "the-door"), "about");
+    expect(O.emptyTrash(s, "the-door").trash.map((t) => t.page.id)).toEqual(["about"]);
+    expect(O.emptyTrash(s).trash).toEqual([]);
+    s = { ...s, trash: s.trash.map((t, i) => ({ ...t, removedAt: new Date(Date.now() - (i ? 31 : 2) * 86400000).toISOString() })) };
+    expect(O.expireTrash(s).trash.map((t) => t.page.id)).toEqual(["about"]);
+    expect(O.conform(s).trash.length).toBe(1);
+  });
+});
+
 describe("templates", () => {
   it("applying a template changes the skeleton, look, type and front, and never the content", () => {
     const a = site();
