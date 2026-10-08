@@ -15,9 +15,39 @@
  * the document keeps only intent, never geometry.
  */
 import { z } from "zod";
-import { themeSchema } from "./document";
 
 export const SITE_VERSION = 15 as const;
+
+/* ------------------------------------------------------------------ the theme: the look and the artist's choices under it */
+const hex = z.string().regex(/^#[0-9a-fA-F]{6}$/);
+
+export const lookIds = ["quiet", "swiss", "darkroom", "zine", "gallery", "soft", "toned", "cyanotype", "graphite", "etching", "monotype", "albumen", "proof", "paperback", "plaster", "cinema", "blueprint"] as const;
+export const themeSchema = z
+  .object({
+    look: z.enum(lookIds).default("quiet"),
+    /** Choices a template offers inside its own foundation (caption position, wall colour, and so on). Unknown ones are ignored by the template. */
+    options: z.record(z.string().max(32), z.string().max(32)).default({}),
+    palette: z.enum(["silk", "bone", "fog", "clay", "night"]).default("silk"),
+    mode: z.enum(["light", "dark", "system"]).default("system"),
+    /** The artist's accent colour, or null to use the look's own. */
+    accent: hex.nullable().default(null),
+    type: z.enum(["silk", "press", "atelier", "archive"]).default("silk"),
+    mount: z.enum(["bare", "line", "matte"]).default("bare"),
+    space: z.enum(["airy", "standard", "close"]).default("standard"),
+    motion: z.enum(["slow", "still"]).default("slow"),
+    read: z.enum(["small", "standard", "large"]).default("standard"),
+    /* The site's skeleton, each part a designed choice. A template sets them; the artist can change every one. */
+    header: z.enum(["classic", "centred", "stacked", "rail", "name"]).default("classic"),
+    opening: z.enum(["words", "image", "name", "work"]).default("words"),
+    title: z.enum(["accent", "plain", "quiet", "caps"]).default("accent"),
+    captions: z.enum(["under", "beside", "hover", "hidden"]).default("under"),
+    footer: z.enum(["line", "large", "minimal"]).default("line"),
+    scale: z.enum(["intimate", "standard", "monumental"]).default("standard"),
+    /** A typeface pairing that wins over the look's own; null keeps the look's. */
+    typeface: z.enum(["newsreader", "caslon", "instrument", "archive", "bodoni", "fraunces", "young", "archivo", "grotesk", "jost", "plex", "courier"]).nullable().default(null),
+  })
+  .strict();
+export type Theme = z.infer<typeof themeSchema>;
 
 const short = z.string().max(500);
 const id = z.string().min(1).max(80);

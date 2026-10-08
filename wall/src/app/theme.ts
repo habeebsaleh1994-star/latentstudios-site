@@ -3,7 +3,7 @@
  * Wall adds: the skeleton (header, opening, title, captions, footer, scale) and a typeface that can be
  * changed under any look. Each is a data attribute or a few variables; the CSS in app.css does the rest.
  */
-import type { Theme } from "../studio/document";
+import type { Theme } from "../studio/site";
 
 type Legacy = { apply: (t: Record<string, unknown>) => void };
 const L = () => (window as unknown as { FolioTheme: Legacy }).FolioTheme;

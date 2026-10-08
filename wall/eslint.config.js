@@ -2,16 +2,11 @@ import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import globals from "globals";
 export default tseslint.config(
-  { ignores: ["dist", "design/shared/studio.js"] },
+  { ignores: ["dist"] },
   js.configs.recommended,
   {
     files: ["scripts/**/*.mjs"],
     languageOptions: { globals: globals.node },
-  },
-  {
-    // the matrix sends code to the browser as well as running in node
-    files: ["scripts/matrix.mjs"],
-    languageOptions: { globals: { ...globals.node, ...globals.browser } },
   },
   {
     // the templates are plain browser scripts; their tools run in node

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import { runInNewContext } from "node:vm";
-import { lookIds } from "../src/studio/document";
+import { lookIds } from "../src/studio/site";
 
 /* The design guard: whatever look an artist picks, the words stay readable. */
 type Look = { name: string; scheme?: string; vars?: Record<string, string> };

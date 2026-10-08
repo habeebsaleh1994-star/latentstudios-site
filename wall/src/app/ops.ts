@@ -3,7 +3,7 @@
  * calls these; history is a list of sites; tests cover each one. Nothing here touches the screen.
  */
 import { siteSchema, workSchema, SITE_VERSION, type SiteDocument, type SitePage, type StoryPage, type Piece, type ArrangementId } from "../studio/site";
-import { themeSchema, type Theme } from "../studio/document";
+import { themeSchema, type Theme } from "../studio/site";
 import { house, houseTheme, allows } from "./houses";
 
 type S = SiteDocument;

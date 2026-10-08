@@ -5,7 +5,7 @@
  * of each list is the template's own, and nothing outside the lists is ever shown. So a template can be
  * made one's own, and can never be turned into another template.
  */
-import type { Theme } from "../studio/document";
+import type { Theme } from "../studio/site";
 import type { ArrangementId, HouseId, SiteDocument } from "../studio/site";
 
 export type Dial = "header" | "opening" | "title" | "captions" | "footer" | "scale";

@@ -6,7 +6,7 @@
  * (data-ed names the field) and add the editor's quiet marks; the page itself never changes shape.
  */
 import type { SiteDocument, SitePage, StoryPage, Work, Piece } from "../studio/site";
-import { ratioNumber } from "../studio/document";
+import { ratioNumber } from "./util";
 import { house } from "./houses";
 
 export type Ctx = {

@@ -1,11 +1,14 @@
 #!/usr/bin/env node
 /* Copy Latent Wall (home and the templates) into the Latent Studios site as /wall.
+   OUT OF DATE: the templates it copies were removed on 8 October 2026; the app replaces them, and
+   Publish (in the app) will replace this script. Kept only so the copy already live at /wall is not touched by mistake.
    Usage: node scripts/sync-to-site.mjs [path-to-site]    default: the site this folder lives in (one level up)
    Safe to re-run: it replaces public/wall completely and touches nothing else except the /wall rule in public/_headers. */
 import { cpSync, rmSync, mkdirSync, readFileSync, writeFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 
 const root = resolve(dirname(new URL(import.meta.url).pathname), "..");
+console.error("This script copies templates that no longer exist. Publish from the app instead."); process.exit(1);
 const site = resolve(process.argv[2] || join(root, ".."));
 if (!existsSync(join(site, "public"))) { console.error(`No public folder in ${site}`); process.exit(1); }
 const out = join(site, "public/wall");
