@@ -171,3 +171,4 @@
 .drop { position: fixed; inset: 0; z-index: 35; display: grid; place-items: center; background: color-mix(in srgb, var(--ed-bg) 70%, transparent); pointer-events: none; }
 .drop[hidden] { display: none; }
 .drop span { font-family: var(--ed-font); font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--ed-ink); background: var(--ed-bg); border: 1px dashed var(--ed-ink); padding: 22px 32px; }
+#panel .sw.work i { box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }

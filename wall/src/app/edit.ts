@@ -9,6 +9,7 @@ import * as O from "./ops";
 import { state, commit, undo, redo, draw, current, go, pageId, space, isDemo } from "./main";
 import * as P from "./pubpanel";
 import { inOrder } from "./meta";
+import { accentsFrom, accentsAcross, pixelsOf } from "./colour";
 import { esc } from "./render";
 import type { SitePage, StoryPage } from "../studio/site";
 import { photographCount } from "../studio/site";
@@ -198,7 +199,11 @@ function customise() {
   if (showHouses) h2 += `<div class="houses">${HOUSES.map((x) => `<button type="button" data-house="${x.id}" aria-pressed="${h.id === x.id}"><b>${esc(x.name)}</b><small>${esc(x.for)}</small><span>${esc(x.idea)}</span></button>`).join("")}</div><p class="hint">A template makes the big decisions: how pages are built, how stories are arranged, which looks and type suit it. Your work and words stay as they are when you change it.</p>`;
   h2 += sub("Look", `The looks made for ${h.name}.`);
   h2 += `<div class="looks">${h.looks.filter((k) => L.LOOKS[k]).map((k) => { const v = L.LOOKS[k].vars ?? {}; return `<button type="button" data-look="${k}" aria-pressed="${t.look === k}" style="background:${v["--silk"] ?? "#EEE9E7"};color:${v["--ink"] ?? "#29222A"}"><span class="aa" style="font-family:${(v["--serif"] ?? L.TYPES.silk.display).replace(/"/g, "&quot;")};font-weight:${v["--title-weight"] ?? 300}">Aa<i style="background:${v["--peony"] ?? "#B87B8A"}"></i></span><span class="tn">${esc(L.LOOKS[k].name)}</span></button>`; }).join("")}</div><p class="hint">${esc(L.LOOKS[t.look]?.note ?? "")}</p>`;
-  h2 += `<h3>Accent</h3><div class="swatches">${[null, ...L.ACCENTS].map((a) => { const shown = L.accentFor(t.look, a, dark, t.palette).peony; const on = a === null ? !t.accent : t.accent?.toLowerCase() === a.toLowerCase(); return `<button type="button" class="sw${a === null ? " own" : ""}" data-accent="${a ?? ""}" aria-pressed="${on}" aria-label="${a === null ? "The look's own accent" : `Accent ${a}`}"><i style="background:${shown}"></i></button>`; }).join("")}</div>`;
+  const swatch = (a: string | null, cls = "") => { const shown = L.accentFor(t.look, a, dark, t.palette).peony; const on = a === null ? !t.accent : t.accent?.toLowerCase() === a!.toLowerCase(); return `<button type="button" class="sw${a === null ? " own" : ""}${cls}" data-accent="${a ?? ""}" aria-pressed="${on}" aria-label="${a === null ? "The look's own accent" : `Accent ${a}`}"><i style="background:${shown}"></i></button>`; };
+  h2 += `<h3>Accent</h3><div class="swatches">${[null, ...L.ACCENTS].map((a) => swatch(a)).join("")}</div>`;
+  const fromWork = workColours();
+  if (fromWork === null) h2 += `<p class="hint">Reading the colours in your work…</p>`;
+  else if (fromWork.length) h2 += `<p class="hint top" style="margin-top:14px">From your work</p><div class="swatches">${fromWork.map((a) => swatch(a, " work")).join("")}</div><p class="hint">The colours that recur in your photographs, each made to read on this ground.</p>`;
   if (quiet) {
     h2 += `<h3>Light</h3>${seg("mode", [["light", "Day"], ["dark", "Night"], ["system", "Follow the device"]], t.mode)}`;
     h2 += `<h3>Palette</h3><div class="swatches">${Object.entries(L.PALETTES).map(([k, p]) => `<button type="button" class="sw pal" data-palette="${k}" aria-pressed="${t.palette === k}" aria-label="${esc(p.name)}"><i style="background:linear-gradient(135deg, ${p.light.silk} 50%, ${p.light.ink} 50%)"></i></button>`).join("")}</div>`;
@@ -217,6 +222,21 @@ function customise() {
   return h2;
 }
 let showHouses = false;
+
+/* the colours in the artist's work, read once per set of photographs; null while they are being read */
+let coloursFor = "", coloursReady: string[] | null = null;
+function workColours(): string[] | null {
+  const ids = Object.keys(state.site.library).filter((a) => state.site.library[a].kind !== "video").slice(0, 24), key = ids.join("|");
+  if (key === coloursFor) return coloursReady;
+  coloursFor = key; coloursReady = null;
+  if (!ids.length) { coloursReady = []; return coloursReady; }
+  Promise.all(ids.map((a) => pixelsOf(state.store.src(a)))).then((all) => {
+    if (key !== coloursFor) return;
+    coloursReady = accentsAcross(all.filter((px): px is Uint8ClampedArray => !!px).map((px) => accentsFrom(px)));
+    if (mode === "customise") renderPanel();
+  });
+  return null;
+}
 
 /* ------------------------------------------------------------------ the library */
 
