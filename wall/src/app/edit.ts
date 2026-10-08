@@ -8,6 +8,7 @@
 import * as O from "./ops";
 import { state, commit, undo, redo, draw, current, go, pageId, space, isDemo } from "./main";
 import * as P from "./pubpanel";
+import { inOrder } from "./meta";
 import { esc } from "./render";
 import type { SitePage, StoryPage } from "../studio/site";
 import { photographCount } from "../studio/site";
@@ -35,7 +36,7 @@ export function init() {
     `<div class="dock" id="dock"><span class="meter" id="meter"></span><button type="button" id="undo">Undo</button><button type="button" id="redo">Redo</button><button type="button" id="edit" aria-pressed="false">Edit</button><button type="button" id="page-btn" hidden>Page</button><button type="button" id="tweak" aria-expanded="false">Customise</button><button type="button" id="publish">Publish</button></div>` +
     `<aside id="panel" aria-label="Edit the site"></aside>` +
     `<div class="lib" id="lib" role="dialog" aria-modal="true" aria-label="Your work" hidden><div class="sheet2"><header><b>Your work</b><button type="button" class="x" data-lib="close">Close</button></header><div class="grid"></div><footer><span class="note"></span><button type="button" class="go" data-lib="add" disabled>Add</button></footer></div></div>` +
-    `<input type="file" id="files" accept="image/*,.heic,.heif" multiple hidden><div class="toast" role="status" aria-live="polite" hidden></div>`);
+    `<input type="file" id="files" accept="image/*,.heic,.heif" multiple hidden><input type="file" id="folder" webkitdirectory multiple hidden><input type="file" id="one-file" accept="image/*,.heic,.heif" hidden><div class="drop" id="drop" hidden><span></span></div><div class="toast" role="status" aria-live="polite" hidden></div>`);
   panel = $("#panel")!; dock = $("#dock")!; lib = $("#lib")!;
   state.listeners.push(afterDraw);
   document.addEventListener("click", onClick);
@@ -44,6 +45,11 @@ export function init() {
   document.addEventListener("keydown", onKey);
   panel.addEventListener("change", onPanelInput);
   $<HTMLInputElement>("#files")!.addEventListener("change", onFiles);
+  $<HTMLInputElement>("#folder")!.addEventListener("change", onFolder);
+  $<HTMLInputElement>("#one-file")!.addEventListener("change", onReplaceFile);
+  for (const ev of ["dragenter", "dragover"]) document.addEventListener(ev, (e) => { if (!state.editing || !hasFiles(e as DragEvent)) return; e.preventDefault(); dropHint(true); });
+  document.addEventListener("dragleave", (e) => { if ((e as DragEvent).relatedTarget === null) dropHint(false); });
+  document.addEventListener("drop", onDrop);
   document.addEventListener("wall:notify", (e) => toast((e as CustomEvent<string>).detail));
   P.forSpace(space); P.refresh().then(afterDraw);
   const q = new URLSearchParams(location.search);
@@ -84,7 +90,7 @@ function toolbars() {
   document.querySelectorAll<HTMLElement>(".tb-slot").forEach((slot) => {
     const k = +slot.dataset.k!, last = p.pieces.length - 1;
     const canArrange = O.arrangeOptions(state.site, p.id, k).length > 0;
-    slot.innerHTML = `<span class="tb" role="toolbar" aria-label="This work">${canArrange ? `<button type="button" data-a="menu-arrange" data-k="${k}">Arrange</button>` : ""}<button type="button" data-a="piece-up" data-k="${k}"${k === 0 ? " disabled" : ""} aria-label="Earlier">&uarr;</button><button type="button" data-a="piece-down" data-k="${k}"${k === last ? " disabled" : ""} aria-label="Later">&darr;</button><button type="button" data-a="menu-move" data-k="${k}">Move to</button><button type="button" data-a="piece-remove" data-k="${k}">Remove</button></span>` +
+    slot.innerHTML = `<span class="tb" role="toolbar" aria-label="This work">${canArrange ? `<button type="button" data-a="menu-arrange" data-k="${k}">Arrange</button>` : ""}<button type="button" data-a="piece-up" data-k="${k}"${k === 0 ? " disabled" : ""} aria-label="Earlier">&uarr;</button><button type="button" data-a="piece-down" data-k="${k}"${k === last ? " disabled" : ""} aria-label="Later">&darr;</button><button type="button" data-a="menu-move" data-k="${k}">Move to</button><button type="button" data-a="replace" data-k="${k}">Replace</button><button type="button" data-a="piece-remove" data-k="${k}">Remove</button></span>` +
       (openMenu?.k === k ? menu(p, k, openMenu.kind) : "");
   });
 }
@@ -122,6 +128,7 @@ function siteTab() {
   h += `<h3>Pages</h3><ol class="pages"><li class="${cur ? "" : "on"}"><a href="#/">The front page<small>${{ covers: "Covers", list: "A list", sheet: "A sheet", walk: "A walk" }[s.front.form]}</small></a><span class="acts"></span></li>` +
     s.pages.map((p, i) => `<li class="${cur === p.id ? "on" : ""}${p.inNav ? "" : " off"}"><a href="#/${encodeURIComponent(p.id)}">${esc(title(p))}<small>${esc(kindLine(p))}${p.inNav ? "" : " · hidden"}</small></a><span class="acts"><button type="button" data-a="page-up" data-id="${esc(p.id)}"${i === 0 ? " disabled" : ""} aria-label="Move up">&uarr;</button><button type="button" data-a="page-down" data-id="${esc(p.id)}"${i === s.pages.length - 1 ? " disabled" : ""} aria-label="Move down">&darr;</button><button type="button" data-a="page-nav" data-id="${esc(p.id)}" aria-label="${p.inNav ? "Hide" : "Show"} ${esc(title(p))}" title="${p.inNav ? "Shown" : "Hidden"}">${p.inNav ? "&#9679;" : "&#9675;"}</button></span></li>`).join("") + `</ol>`;
   h += `<h3>Add a page</h3><div class="adds">${(["story", "writing", "film", "project"] as const).map((k) => `<button type="button" data-a="page-add" data-kind="${k}">+ ${O.KIND_NAMES[k]}</button>`).join("")}${has("about") ? "" : '<button type="button" data-a="page-add" data-kind="about">+ About</button>'}${has("contact") ? "" : '<button type="button" data-a="page-add" data-kind="contact">+ Contact</button>'}</div>`;
+  h += `<div class="adds"><button type="button" data-a="folder">+ A story from a folder</button></div><p class="hint">Choose a folder of photographs: they arrive as one story, in the order they were taken, with the titles, captions and dates written in the files. Or drop files or a folder anywhere on the page while editing.</p>`;
   h += `<p class="hint">A story holds photographs or paintings, arranged as you choose. Writing holds a poem, an essay or a fragment. A film shows at its own ratio. A project sets its process beside its outcome.</p>`;
   const spare = O.unused(s);
   if (spare.length) h += `<h3>Not on any page</h3><ol class="tray">${spare.map((a) => `<li>${thumb(a)}<span class="t">${esc(s.library[a].title || "Untitled")}</span><span class="acts"><button type="button" data-a="lib-remove" data-asset="${esc(a)}" aria-label="Delete from your work">&times;</button></span></li>`).join("")}</ol>`;
@@ -148,7 +155,7 @@ function pageTab() {
       if (x.type === "pause") return `<li class="pause"><span class="th ps">&para;</span><span class="t">${esc(x.text || "A pause")}<small>A pause</small></span>${acts(k, p.pieces.length)}</li>`;
       const w = s.library[x.asset], opts = O.arrangeOptions(s, p.id, k), cur = opts.find((o) => o.current), tag = cur ? cur.title.toLowerCase() : "in the sheet";
       const note = x.arrange === "margin-note" && opts.some((o) => o.key === "margin-note") ? `<div class="menu wide">${input(`piece:${p.id}:${k}.note`, x.note, "The note beside it")}</div>` : "";
-      return `<li>${thumb(x.asset)}<span class="t">${esc(w?.title || "Untitled")}${opts.length ? `<button type="button" class="how" data-a="tray" data-k="${k}" aria-expanded="${trayOpen === k}" title="Change how it sits">${esc(tag)} &rsaquo;</button>` : `<small>${esc(tag)}</small>`}</span>${acts(k, p.pieces.length)}${note}${trayOpen === k ? `<div class="menu">${opts.map((o) => `<button type="button" data-a="arrange" data-k="${k}" data-key="${o.key}" aria-pressed="${o.current}">${o.title}</button>`).join("")}</div><div class="menu"><span class="h">Move to</span>${s.pages.filter((y) => y.kind === "story" && y.id !== p.id).map((y) => `<button type="button" data-a="move-to" data-k="${k}" data-to="${esc(y.id)}">${esc(title(y))}</button>`).join("")}<button type="button" data-a="move-to" data-k="${k}" data-to="new">A new story</button></div><div class="menu"><button type="button" data-a="pause-after" data-k="${k}">A pause after it</button></div>` : ""}</li>`;
+      return `<li>${thumb(x.asset)}<span class="t">${esc(w?.title || "Untitled")}${opts.length ? `<button type="button" class="how" data-a="tray" data-k="${k}" aria-expanded="${trayOpen === k}" title="Change how it sits">${esc(tag)} &rsaquo;</button>` : `<small>${esc(tag)}</small>`}</span>${acts(k, p.pieces.length)}${note}${trayOpen === k ? `<div class="menu">${opts.map((o) => `<button type="button" data-a="arrange" data-k="${k}" data-key="${o.key}" aria-pressed="${o.current}">${o.title}</button>`).join("")}</div><div class="menu"><span class="h">Move to</span>${s.pages.filter((y) => y.kind === "story" && y.id !== p.id).map((y) => `<button type="button" data-a="move-to" data-k="${k}" data-to="${esc(y.id)}">${esc(title(y))}</button>`).join("")}<button type="button" data-a="move-to" data-k="${k}" data-to="new">A new story</button></div><div class="menu"><button type="button" data-a="pause-after" data-k="${k}">A pause after it</button><button type="button" data-a="replace" data-k="${k}">Replace the photograph</button></div>` : ""}</li>`;
     }).join("")}</ol><div class="adds"><button type="button" data-a="add-works" data-page="${esc(p.id)}" data-after="${p.pieces.length - 1}">+ Works</button><button type="button" data-a="pause-after" data-k="${p.pieces.length - 1}">+ A pause</button></div>`;
   }
   if (p.kind === "writing") {
@@ -230,15 +237,62 @@ function renderLib(note?: string) {
 async function onFiles(e: Event) {
   const inp = e.target as HTMLInputElement, files = [...(inp.files ?? [])]; inp.value = ""; if (!files.length) return;
   renderLib(`Preparing ${files.length === 1 ? "one photograph" : `${files.length} photographs`}…`);
-  let s = state.site; const errors: string[] = [];
-  for (const f of files) {
-    try { const r = await state.store.putImage(f); s = O.addToLibrary(s, r.id, r); chosen.push(r.id); if (single()) chosen = [r.id]; }
-    catch (err) { errors.push((err as Error).message); }
-  }
-  await state.store.prepare(Object.keys(s.library));
+  const { site: s, ids, errors } = await bringIn(files);
+  chosen = single() ? ids.slice(-1) : [...chosen, ...ids];
   commit(s, { keep: true });
   renderLib(errors.length ? errors.join(" ") : "Added to your work, and chosen. Press Add to place them.");
 }
+/** Files from the computer into the library, in the order they were taken; what each file said is kept with it. */
+async function bringIn(files: File[]) {
+  let s = state.site; const errors: string[] = [], got: { id: string; taken?: string; name: string }[] = [];
+  for (const f of files) {
+    if (f.name.startsWith(".")) continue;
+    try { const r = await state.store.putImage(f); s = O.addToLibrary(s, r.id, r); got.push({ id: r.id, taken: r.taken, name: f.webkitRelativePath || f.name }); }
+    catch (err) { errors.push((err as Error).message); }
+  }
+  await state.store.prepare(Object.keys(s.library));
+  return { site: s, ids: inOrder(got).map((g) => g.id), errors };
+}
+/** A folder (chosen, or dropped) becomes a story named after it; dropped on a story, the files join that story. */
+async function storyFrom(files: File[], folderName: string) {
+  if (!files.length) return;
+  toast(`Bringing in ${files.length === 1 ? "one photograph" : `${files.length} photographs`}…`);
+  const { site: s, ids, errors } = await bringIn(files);
+  if (!ids.length) return toast(errors[0] ?? "Nothing could be read.");
+  const p = current();
+  if (p?.kind === "story") { commit(O.addWorks(s, p.id, p.pieces.length - 1, ids)); toast(`${ids.length} added to “${title(p)}”.${errors.length ? ` ${errors.length} could not be read.` : ""}`); return; }
+  const r = O.storyFromWorks(s, folderName, ids); tab = "page"; commit(r.site); go(r.id);
+  toast(`A new story, “${title(r.site.pages.find((x) => x.id === r.id)!)}”, with ${ids.length} ${ids.length === 1 ? "work" : "works"}.${errors.length ? ` ${errors.length} could not be read.` : ""}`);
+}
+async function onFolder(e: Event) {
+  const inp = e.target as HTMLInputElement, files = [...(inp.files ?? [])]; inp.value = "";
+  const folder = files[0]?.webkitRelativePath?.split("/")[0] ?? "";
+  await storyFrom(files, folder.replace(/[-_]+/g, " "));
+}
+const hasFiles = (e: DragEvent) => !!e.dataTransfer && [...e.dataTransfer.types].includes("Files");
+function dropHint(on: boolean) { const d = $("#drop")!; d.hidden = !on; if (on) { const p = current(); d.querySelector("span")!.textContent = p?.kind === "story" ? `Drop to add to “${title(p)}”` : "Drop to make a new story"; } }
+async function onDrop(e: DragEvent) {
+  if (!state.editing || !hasFiles(e)) return;
+  e.preventDefault(); dropHint(false);
+  const items = [...(e.dataTransfer?.items ?? [])], files: File[] = []; let folder = "";
+  const take = (f: File, prefix: string) => { if (prefix) Object.defineProperty(f, "webkitRelativePath", { value: prefix + f.name }); files.push(f); };
+  const walk = async (entry: FileSystemEntry, prefix: string, fallback: File | null): Promise<void> => {
+    if (entry.isFile) { try { take(await new Promise<File>((ok, no) => (entry as FileSystemFileEntry).file(ok, no)), prefix); } catch { if (fallback) take(fallback, prefix); } }
+    else if (entry.isDirectory) { folder ||= entry.name; const rd = (entry as FileSystemDirectoryEntry).createReader(); let batch: FileSystemEntry[]; do { batch = await new Promise((ok, no) => rd.readEntries(ok, no)); for (const x of batch) await walk(x, `${prefix}${entry.name}/`, null); } while (batch.length); }
+  };
+  try { for (const it of items) { const entry = it.webkitGetAsEntry?.(); if (entry) await walk(entry, "", it.getAsFile()); else { const f = it.getAsFile(); if (f) files.push(f); } } }
+  catch (err) { return toast(`Could not read what was dropped: ${(err as Error).message}`); }
+  await storyFrom(files.filter((f) => /^image\//.test(f.type) || /\.(heic|heif)$/i.test(f.name)), folder.replace(/[-_]+/g, " ") || (files.length === 1 ? "" : "New story"));
+}
+let replacing: { page: string; k: number } | null = null;
+async function onReplaceFile(e: Event) {
+  const inp = e.target as HTMLInputElement, f = inp.files?.[0]; inp.value = ""; if (!f || !replacing) return;
+  const p = state.site.pages.find((x) => x.id === replacing!.page), piece = p?.kind === "story" ? p.pieces[replacing.k] : null; replacing = null;
+  if (!piece || piece.type !== "work") return;
+  try { const r = await state.store.putImage(f); await state.store.prepare([r.id]); commit(O.replaceWork(state.site, piece.asset, r.id, r)); toast("Replaced. Its title, caption and date are kept, wherever it appears."); }
+  catch (err) { toast((err as Error).message); }
+}
+
 function place() {
   if (!target || !chosen.length) return;
   const t = target, s = state.site; closeLib();
@@ -266,6 +320,8 @@ function act(a: string, d: DOMStringMap) {
       case "page-remove": { const pg = s.pages.find((x) => x.id === id); if (!pg || !confirm(`Remove “${title(pg)}”? Undo brings it back.`)) return; commit(O.removePage(s, id)); go(""); return toast("Page removed. Undo brings it back."); }
       case "page-rename": { if (!p) return; const r = O.renamePage(s, p.id, title(p)); if (r.id === p.id) return toast("The address already follows the title."); commit(r.site); go(r.id); return; }
       case "lib-remove": return commit(O.removeFromLibrary(s, d.asset!));
+      case "folder": return $<HTMLInputElement>("#folder")!.click();
+      case "replace": { if (!p || p.kind !== "story") return; replacing = { page: p.id, k }; openMenu = null; trayOpen = null; return $<HTMLInputElement>("#one-file")!.click(); }
       case "add-works": return openLib({ kind: "story", page: d.page!, after: Number(d.after) });
       case "piece-up": return commit(O.movePiece(s, id, k, -1));
       case "piece-down": return commit(O.movePiece(s, id, k, 1));

@@ -126,10 +126,31 @@ export function setTheme(site: S, patch: Partial<Theme>): S {
 
 /* ------------------------------------------------------------------ the library */
 
-export function addToLibrary(site: S, asset: string, w: { w: number; h: number; title: string; kind?: "image" | "video" }): S {
+export type Incoming = { w: number; h: number; title: string; kind?: "image" | "video"; caption?: string; date?: string };
+/** A work joins the library with what its file said: its title, its caption (kept as the alt text too), the day it was taken. */
+export function addToLibrary(site: S, asset: string, w: Incoming): S {
   const s = clone(site);
-  s.library[asset] = workSchema.parse({ kind: w.kind ?? "image", w: w.w, h: w.h, title: w.title, alt: w.title, date: today() });
+  s.library[asset] = workSchema.parse({ kind: w.kind ?? "image", w: w.w, h: w.h, title: w.title, caption: w.caption ?? "", alt: w.caption || w.title, date: w.date ?? today() });
   return done(s);
+}
+/** A new photograph takes an old one's place everywhere: its title, caption, date, focal point and size stay; only the picture changes. */
+export function replaceWork(site: S, from: string, to: string, size: { w: number; h: number }): S {
+  if (!site.library[from]) throw new Error(`No work ${from}.`);
+  const s = clone(site), old = s.library[from];
+  s.library[to] = workSchema.parse({ ...old, w: size.w, h: size.h }); delete s.library[from];
+  const swap = (a: string) => (a === from ? to : a);
+  for (const p of s.pages) {
+    if (p.kind === "story") p.pieces.forEach((x) => { if (x.type === "work") x.asset = swap(x.asset); });
+    else if (p.kind === "writing" && p.image) p.image.asset = swap(p.image.asset);
+    else if (p.kind === "film") { if (p.poster) p.poster = swap(p.poster); if (p.video) p.video = swap(p.video); p.stills.forEach((x) => { x.asset = swap(x.asset); }); }
+    else if (p.kind === "project") { p.outcome = p.outcome.map(swap); p.process = p.process.map(swap); }
+  }
+  return done(s);
+}
+/** A dropped folder becomes a story: the works in order, the story named after the folder. */
+export function storyFromWorks(site: S, name: string, assets: string[]): { site: S; id: string } {
+  const r = addPage(site, "story", name.trim() || "New story");
+  return { site: addWorks(r.site, r.id, -1, assets), id: r.id };
 }
 /** Works no page uses; removed only when the artist asks, never as a side effect. */
 export function unused(site: S): string[] {

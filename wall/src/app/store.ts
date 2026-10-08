@@ -11,6 +11,7 @@
  */
 import { openDB, type DBSchema, type IDBPDatabase } from "idb";
 import { siteSchema, type SiteDocument } from "../studio/site";
+import { readMeta } from "./meta";
 
 interface Rec { value: unknown; revision: number }
 interface WallDB extends DBSchema {
@@ -51,10 +52,11 @@ export function createStore(space = "artist") {
     channel?.addEventListener("message", async () => { const r = await load(); if (r) fn(r.site, r.revision); });
   }
 
-  /** A file from the computer, ready for the library: sized, kept, measured, named from the file. */
-  async function putImage(file: File): Promise<{ id: string; w: number; h: number; title: string }> {
+  /** A file from the computer, ready for the library: what it says about itself read first, then sized, kept and measured. */
+  async function putImage(file: File): Promise<{ id: string; w: number; h: number; title: string; caption?: string; date?: string; taken?: string; name: string }> {
     if (!/^image\//.test(file.type) && !/\.(heic|heif)$/i.test(file.name)) throw new Error(`${file.name} is not an image.`);
     if (file.size > MAX_BYTES) throw new Error(`${file.name} is over 15 MB.`);
+    const meta = readMeta(await file.arrayBuffer());
     const bmp = await createImageBitmap(file).catch(() => { throw new Error(`${file.name} could not be read by this browser.`); });
     const s = Math.min(1, LONG_EDGE / Math.max(bmp.width, bmp.height)), w = Math.round(bmp.width * s), h = Math.round(bmp.height * s);
     const cv = document.createElement("canvas"); cv.width = w; cv.height = h; cv.getContext("2d")!.drawImage(bmp, 0, 0, w, h); bmp.close();
@@ -63,7 +65,7 @@ export function createStore(space = "artist") {
     try { await (await db()).put("assets", { type: blob.type, data: await blob.arrayBuffer() }, id); }
     catch { throw new Error("This browser could not keep the photograph. In a private window, open the site in a normal one."); }
     const base = file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ").trim();
-    return { id: `asset:${id}`, w, h, title: base ? base.charAt(0).toUpperCase() + base.slice(1) : "Untitled" };
+    return { id: `asset:${id}`, w, h, title: meta.title || (base ? base.charAt(0).toUpperCase() + base.slice(1) : "Untitled"), caption: meta.caption, date: meta.date, taken: meta.taken, name: file.name };
   }
 
   /** Object urls for stored photographs, made once and kept for the session. */

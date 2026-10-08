@@ -5,7 +5,7 @@ import * as O from "../src/app/ops";
 
 const site = (): SiteDocument => openSite(JSON.parse(readFileSync("design/samples/habib-saleh.site.json", "utf8")));
 const st = (s: SiteDocument, id: string) => s.pages.find((p) => p.id === id) as StoryPage;
-const works = (s: SiteDocument, id: string) => st(s, id).pieces.map((x) => (x.type === "work" ? x.asset.match(/(\d+)\.jpg$/)![1] : "¶"));
+const works = (s: SiteDocument, id: string) => st(s, id).pieces.map((x) => (x.type === "work" ? (x.asset.match(/(\d+)\.jpg$/)?.[1] ?? x.asset.replace("asset:", "")) : "¶"));
 
 describe("words", () => {
   it("sets site, front, page, piece and work fields; refuses unknown ones", () => {
@@ -140,6 +140,25 @@ describe("templates", () => {
 });
 
 describe("library, films, projects, writing", () => {
+  it("a new photograph takes an old one's place everywhere, keeping its words", () => {
+    const old = "/design/folio/img/6.jpg"; // in two stories
+    let s = O.setField(site(), `work:${old}.title`, "Under the leaves, 2025");
+    s = O.replaceWork(s, old, "asset:new", { w: 3000, h: 2000 });
+    expect(s.library[old]).toBeUndefined();
+    expect(s.library["asset:new"]).toMatchObject({ title: "Under the leaves, 2025", w: 3000, h: 2000 });
+    expect(s.pages.filter((p) => p.kind === "story" && p.pieces.some((x) => x.type === "work" && x.asset === "asset:new")).length).toBe(2);
+    expect(JSON.stringify(s)).not.toContain(old);
+    expect(() => O.replaceWork(s, "ghost", "asset:x", { w: 1, h: 1 })).toThrow();
+  });
+  it("a folder becomes a story, with what the files said", () => {
+    let s = O.addToLibrary(site(), "asset:a", { w: 3000, h: 2000, title: "Stray cat", caption: "A cat in Joun.", date: "10 Nov 2025" });
+    s = O.addToLibrary(s, "asset:b", { w: 2000, h: 3000, title: "The pine" });
+    const r = O.storyFromWorks(s, "Joun, autumn", ["asset:a", "asset:b"]);
+    expect(r.id).toBe("joun-autumn");
+    expect(works(r.site, r.id)).toEqual(["asset:a", "asset:b"].map((a) => a.replace("asset:", "")).map((x) => x));
+    expect(r.site.library["asset:a"]).toMatchObject({ caption: "A cat in Joun.", alt: "A cat in Joun.", date: "10 Nov 2025" });
+    expect(r.site.library["asset:b"].alt).toBe("The pine");
+  });
   it("adds a work, tells which are unused, and removes only unused ones", () => {
     let s = O.addToLibrary(site(), "asset:x", { w: 3000, h: 2000, title: "New" });
     expect(O.unused(s)).toEqual(["asset:x"]);
