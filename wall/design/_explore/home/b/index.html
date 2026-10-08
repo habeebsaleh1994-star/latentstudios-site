@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Latent Wall</title>
+<meta name="description" content="A website for artists. Nine templates, thousands of ways, none of them anyone else's.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500&display=swap">
+<style>
+/* LATENT WALL — the front door, prototype B+C: the thousand walls, then your name on one of them. */
+:root {
+  --silk: #EEE9E7; --silk-deep: #E4DDDA; --ink: #29222A; --ink-soft: #6B5F66; --peony: #B87B8A; --rule: #D3C9C7;
+  --night: #161214; --night-ink: #ECE4E4; --night-soft: #A99BA1;
+  --serif: "Newsreader", "Iowan Old Style", Georgia, serif; --sans: "Instrument Sans", system-ui, sans-serif;
+  --gutter: clamp(20px, 5vw, 80px); --ease: cubic-bezier(.22, .61, .36, 1);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--silk); color: var(--ink); font-family: var(--serif); font-size: 19px; line-height: 1.6; -webkit-font-smoothing: antialiased; font-feature-settings: "liga", "onum"; }
+a { color: inherit; text-decoration-color: var(--rule); text-underline-offset: 4px; }
+:focus-visible { outline: 2px solid var(--peony); outline-offset: 4px; }
+.label { font-family: var(--sans); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
+h1, h2, h3 { font-weight: 300; margin: 0; text-wrap: balance; }
+p { margin: 0; text-wrap: pretty; }
+.wrap { max-width: 1440px; margin-inline: auto; padding-inline: var(--gutter); }
+.btn { display: inline-block; font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; padding: 16px 24px; border: 1px solid currentColor; transition: background .3s var(--ease), color .3s var(--ease); }
+.btn.ink { background: var(--ink); color: var(--silk); border-color: var(--ink); } .btn.ink:hover { background: transparent; color: var(--ink); }
+.btn.light { color: var(--night-ink); } .btn.light:hover { background: var(--night-ink); color: var(--night); }
+.link { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 4px; opacity: .8; } .link:hover { opacity: 1; }
+
+/* the header, over the dark field then over silk */
+.top { position: fixed; inset: 0 0 auto; z-index: 20; display: flex; justify-content: space-between; align-items: baseline; padding: 26px var(--gutter); mix-blend-mode: difference; color: #fff; transition: opacity .6s var(--ease), transform .6s var(--ease); }
+/* while one site fills the screen it is the only header there is */
+body.inside .top { opacity: 0; transform: translateY(-8px); pointer-events: none; }
+.brand { display: flex; align-items: baseline; gap: 12px; text-decoration: none; } .brand .mark { font-size: 27px; line-height: 1; } .brand .word { font-family: var(--sans); font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase; }
+.top nav { display: flex; gap: 34px; } .top nav a { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; opacity: .75; transition: opacity .3s; } .top nav a:hover { opacity: 1; }
+@media (max-width: 720px) { .top nav a:not(:last-child) { display: none; } }
+
+/* ------------------------------------------------ 1. the thousand walls: real sites, drifting */
+.field { position: relative; height: 100svh; min-height: 640px; overflow: hidden; background: var(--night); color: var(--night-ink); }
+.rows { position: absolute; inset: -8% -2%; display: grid; grid-template-rows: repeat(4, 1fr); gap: 2.2vh; transform: rotate(-3.5deg); }
+.row { display: flex; gap: 2.2vh; width: max-content; will-change: transform; animation: drift var(--t, 90s) linear infinite; }
+.row:nth-child(even) { animation-direction: reverse; }
+.row .t { flex: none; width: var(--w, 30vw); aspect-ratio: 16 / 10; background: #241E21; overflow: hidden; box-shadow: 0 30px 50px -30px rgba(0,0,0,.8); }
+.row .t img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; opacity: .92; }
+.row:nth-child(1) { --w: 26vw; --t: 110s; } .row:nth-child(2) { --w: 34vw; --t: 150s; } .row:nth-child(3) { --w: 29vw; --t: 95s; } .row:nth-child(4) { --w: 36vw; --t: 170s; }
+@keyframes drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.field::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(22,18,20,.92) 0%, rgba(22,18,20,.55) 32%, rgba(22,18,20,0) 62%), linear-gradient(to right, rgba(22,18,20,.35), rgba(22,18,20,0) 50%); pointer-events: none; }
+.claim { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 0 var(--gutter) clamp(36px, 7vh, 90px); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 24px 60px; align-items: end; }
+.claim .n { font-weight: 300; font-size: clamp(72px, 11vw, 190px); line-height: .86; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
+.claim .n small { display: block; font-size: clamp(18px, 1.7vw, 26px); letter-spacing: -.005em; line-height: 1.4; color: var(--night-soft); margin-top: 22px; max-width: 30ch; }
+.claim .n small em { color: var(--night-ink); font-style: normal; }
+.claim .side { display: grid; gap: 22px; justify-items: start; }
+.claim .side .label { color: var(--night-soft); }
+.claim h1 { font-size: clamp(34px, 3.6vw, 56px); line-height: 1.02; letter-spacing: -.02em; color: var(--night-ink); } .claim h1 em { color: #E5B9C4; }
+.claim .cta { display: flex; gap: 28px; align-items: center; }
+.down { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 2; width: 1px; height: 46px; background: linear-gradient(to bottom, transparent, var(--night-soft)); animation: breathe 3s ease-in-out infinite; }
+@keyframes breathe { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+@media (max-width: 920px) { .claim { grid-template-columns: 1fr; } .rows { grid-template-rows: repeat(3, 1fr); } .row:nth-child(4) { display: none; } .row { --w: 56vw !important; } }
+@media (prefers-reduced-motion: reduce) { .row { animation: none; } .down { animation: none; } }
+
+/* ------------------------------------------------ 2. one of them grows to fill the screen, in your name */
+.grow { position: relative; height: 260svh; background: var(--night); }
+.grow .stick { position: sticky; top: 0; height: 100svh; overflow: hidden; display: grid; place-items: center; }
+.grow .stage { position: relative; width: calc(28vw + var(--p) * 72vw); aspect-ratio: 16 / 10; max-height: 100svh; background: var(--silk-deep); overflow: hidden; box-shadow: 0 60px 120px -50px rgba(0,0,0,.9); transition: box-shadow .4s; }
+.grow .stage iframe { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; border: 0; transform-origin: 0 0; transform: scale(var(--s, .3)); pointer-events: none; opacity: 0; transition: opacity 1.2s var(--ease); }
+.grow .stage iframe.on { opacity: 1; }
+.grow .stage iframe.off { opacity: 0; }
+.grow .you { position: absolute; left: 0; right: 0; bottom: 0; padding: clamp(28px, 5vh, 70px) var(--gutter); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 60px; align-items: end; color: var(--night-ink); opacity: calc((var(--p) - .55) * 3); pointer-events: none; background: linear-gradient(to top, rgba(22,18,20,.78), rgba(22,18,20,0)); }
+.grow .you.live { pointer-events: auto; }
+.grow .you .label { color: var(--night-soft); display: block; margin-bottom: 12px; }
+.grow .you h2 { font-size: clamp(30px, 3.4vw, 54px); line-height: 1.02; letter-spacing: -.02em; } .grow .you h2 em { color: #E5B9C4; }
+.grow .ask { display: grid; gap: 10px; justify-items: start; }
+.grow .ask input { font-family: var(--serif); font-weight: 300; font-size: clamp(28px, 3vw, 46px); line-height: 1.1; letter-spacing: -.015em; color: var(--night-ink); background: none; border: 0; border-bottom: 1px solid rgba(236,228,228,.45); padding: 4px 0 8px; width: min(420px, 70vw); outline: none; transition: border-color .3s; }
+.grow .ask input:focus { border-color: var(--night-ink); } .grow .ask input::placeholder { color: var(--night-soft); opacity: .7; }
+.grow .ask .which { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--night-soft); display: flex; gap: 18px; align-items: center; }
+.grow .ask .which b { font-weight: 400; color: var(--night-ink); min-width: 7em; }
+.grow .ask .which i { display: inline-block; width: 18px; height: 1px; background: rgba(236,228,228,.35); } .grow .ask .which i.on { background: var(--night-ink); }
+@media (max-width: 920px) { .grow .you { grid-template-columns: 1fr; } .grow .stage { width: calc(60vw + var(--p) * 40vw); } }
+
+/* ------------------------------------------------ 3. five moments, shown */
+.moments { background: var(--silk); padding: clamp(80px, 14vh, 170px) 0 0; }
+.moments .head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 20px 80px; align-items: end; margin-bottom: clamp(40px, 7vh, 90px); }
+.moments h2 { font-size: clamp(40px, 5.2vw, 84px); line-height: .98; letter-spacing: -.026em; margin-top: 14px; } .moments h2 em { color: var(--peony); }
+.moments .head p { color: var(--ink-soft); font-weight: 300; max-width: 34em; }
+.moment { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 24px clamp(30px, 5vw, 90px); align-items: center; padding: clamp(36px, 6vh, 80px) 0; border-top: 1px solid var(--rule); }
+.moment:nth-child(even) { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); } .moment:nth-child(even) .w { order: 2; }
+.moment .w h3 { font-size: clamp(28px, 2.8vw, 42px); line-height: 1.06; letter-spacing: -.018em; } .moment .w p { margin-top: 16px; color: var(--ink-soft); font-weight: 300; max-width: 30em; }
+.moment .w .label { display: block; margin-bottom: 14px; }
+.moment .pic { aspect-ratio: 16 / 10; overflow: hidden; background: var(--silk-deep); box-shadow: 0 40px 80px -50px rgba(41,34,42,.45); }
+.moment .pic img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transform: scale(1.02); transition: transform 1.6s var(--ease); } .moment:hover .pic img { transform: none; }
+.moment.flip .pic { perspective: 1600px; } .moment.flip .pic .card { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 1.1s var(--ease); } .moment.flip:hover .pic .card { transform: rotateY(180deg); }
+.moment.flip .pic .card img { position: absolute; inset: 0; backface-visibility: hidden; } .moment.flip .pic .card img.back { transform: rotateY(180deg); }
+@media (max-width: 920px) { .moment, .moment:nth-child(even) { grid-template-columns: 1fr; } .moment:nth-child(even) .w { order: 0; } .moments .head { grid-template-columns: 1fr; } }
+
+/* ------------------------------------------------ 4. who it is for, plans in one line, start */
+.who { padding: clamp(80px, 14vh, 170px) 0; }
+.who h2 { font-size: clamp(40px, 5.2vw, 84px); line-height: .98; letter-spacing: -.026em; margin-top: 14px; } .who h2 em { color: var(--peony); }
+.who .four { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; margin-top: clamp(40px, 7vh, 80px); }
+.who .four a { display: block; text-decoration: none; } .who .four .pic { aspect-ratio: 16 / 10; overflow: hidden; background: var(--silk-deep); margin-bottom: 16px; } .who .four img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform 1.4s var(--ease); } .who .four a:hover img { transform: scale(1.03); }
+.who .four b { display: block; font-weight: 300; font-size: 26px; letter-spacing: -.012em; } .who .four span { display: block; font-size: 16px; color: var(--ink-soft); margin-top: 4px; }
+@media (max-width: 920px) { .who .four { grid-template-columns: repeat(2, 1fr); } }
+.last { padding: clamp(80px, 14vh, 170px) 0; border-top: 1px solid var(--rule); text-align: center; }
+.last h2 { font-size: clamp(44px, 6.4vw, 104px); line-height: .96; letter-spacing: -.03em; margin: 18px auto 0; max-width: 12ch; } .last h2 em { color: var(--peony); }
+.last .cta { display: flex; justify-content: center; gap: 28px; align-items: center; margin-top: 40px; flex-wrap: wrap; }
+.last .plans { margin-top: 48px; color: var(--ink-soft); font-weight: 300; }
+footer { border-top: 1px solid var(--rule); padding: 36px 0 60px; } .foot { display: flex; justify-content: space-between; gap: 20px 40px; align-items: baseline; flex-wrap: wrap; }
+.foot ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 26px; flex-wrap: wrap; } .foot a { font-family: var(--sans); font-size: 11px; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); } .foot .mark { font-size: 27px; text-decoration: none; }
+.rise { opacity: 0; transform: translateY(18px); transition: opacity 1s var(--ease), transform 1s var(--ease); } .rise.in { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#top" aria-label="Latent Wall, home"><span class="mark">l.</span><span class="word">Wall</span></a>
+  <nav aria-label="Primary"><a href="#moments">What a site can do</a><a href="#who">Who it is for</a><a href="/app/index.html">Your site</a></nav>
+</header>
+
+<main id="top">
+  <!-- 1. the field -->
+  <section class="field" aria-label="Sites made with Wall, drifting">
+    <div class="rows" id="rows" aria-hidden="true"></div>
+    <div class="claim">
+      <div class="n"><span id="count">79,328</span><small>designed ways a site can be set, before its colour, spacing or scale. Nine templates, each with looks and type made for it. <em>No two artists alike.</em></small></div>
+      <div class="side"><span class="label">A website for artists</span><h1>Your work, on its <em>own wall.</em></h1><div class="cta"><a class="btn light" href="/app/index.html">Start your site</a><a class="link" href="#grow" style="color:var(--night-ink)">Keep going</a></div></div>
+    </div>
+    <span class="down" aria-hidden="true"></span>
+  </section>
+
+  <!-- 2. one grows, in your name -->
+  <section class="grow" id="grow" style="--p:0">
+    <div class="stick">
+      <div class="stage" id="stage" aria-label="A site, running"></div>
+      <div class="you" id="you">
+        <div><span class="label">Find yourself here</span><h2>One of these is <em>yours.</em></h2></div>
+        <form class="ask" id="ask" autocomplete="off"><label class="label" for="name">Your name, and the sites are in it</label><input id="name" type="text" placeholder="Type your name" autocomplete="name" spellcheck="false"><div class="which"><b id="which">Folio</b><span id="dots"></span></div></form>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. the moments -->
+  <section class="moments" id="moments"><div class="wrap">
+    <div class="head rise"><div><span class="label">What a site can do</span><h2>Things no other <em>wall gives you.</em></h2></div><p>Every one is already built and runs in the sites above. None of them asks anything of you until you reach for it.</p></div>
+    <div class="moment rise"><div class="w"><span class="label">One</span><h3>A folder becomes a story.</h3><p>Drop a folder of photographs. The story appears in the order the pictures were taken, with the titles and captions you already wrote in the files. Your first site can begin this way, before you have chosen anything.</p></div><div class="pic"><img src="../stills/moment-folder.jpg" alt="The start page, a folder of photographs taken as a first story"></div></div>
+    <div class="moment flip rise"><div class="w"><span class="label">Two</span><h3>Turn it over.</h3><p>Every print has a back: where it was made, a line in your hand, the edition, the paper. A visitor turns it over; you write on it in place.</p></div><div class="pic"><div class="card"><img src="../stills/folio-story.jpg" alt="A photograph held large"><img class="back" src="../stills/moment-verso.jpg" alt="The back of the print: place, a line, edition, how it was made"></div></div></div>
+    <div class="moment rise"><div class="w"><span class="label">Three</span><h3>A door, when you want one.</h3><p>A page, or the whole site, behind a word; or a holding page before you open. In the published files a page behind a word is sealed, not hidden: nothing of it can be read without the word.</p></div><div class="pic"><img src="../stills/moment-door.jpg" alt="The holding page: a name, a line, the word"></div></div>
+    <div class="moment rise"><div class="w"><span class="label">Four</span><h3>Life size.</h3><p>A work with a real size can be seen at its centimetres on the screen, matched once to a bank card held against it. A sixty-centimetre print is sixty centimetres.</p></div><div class="pic"><img src="../stills/moment-life.jpg" alt="A photograph at life size, with the card outline to match"></div></div>
+    <div class="moment rise"><div class="w"><span class="label">Five</span><h3>Publish, and every version kept.</h3><p>Editing is always a draft. Publish says what changed, in your words. Every published version is kept, and any of them can be put back.</p></div><div class="pic"><img src="../stills/moment-publish.jpg" alt="The Publish panel: what changed, the versions kept"></div></div>
+  </div></section>
+
+  <!-- 4. who, plans, start -->
+  <section class="who" id="who"><div class="wrap rise">
+    <span class="label">Who it is for</span><h2>Photographs, films, paintings, <em>words.</em></h2>
+    <div class="four">
+      <a href="/app/index.html?site=habib&house=folio&space=sample:folio"><div class="pic"><img src="../stills/folio-story.jpg" alt=""></div><b>Photographers</b><span>Folio, Gallery, Passage, Lantern</span></a>
+      <a href="/app/index.html?site=habib&house=reel&space=sample:reel"><div class="pic"><img src="../stills/reel-story.jpg" alt=""></div><b>Filmmakers</b><span>Reel: a film fills the screen</span></a>
+      <a href="/app/index.html?site=habib&house=salon&space=sample:salon"><div class="pic"><img src="../stills/salon-story.jpg" alt=""></div><b>Painters</b><span>Salon: works at their true size</span></a>
+      <a href="/app/index.html?site=habib&house=index&space=sample:index"><div class="pic"><img src="../stills/index-story.jpg" alt=""></div><b>Writers</b><span>Index: words lead</span></a>
+    </div>
+  </div></section>
+
+  <section class="last"><div class="wrap rise">
+    <span class="label">Latent Wall</span>
+    <h2>Show the work <em>as you see it.</em></h2>
+    <div class="cta"><a class="btn ink" href="/app/index.html">Start your site</a><a class="link" href="#grow">See it in your name</a></div>
+    <p class="plans">Free to begin, with twenty photographs and a choice of templates. The full plan for a body of work: every template and look, films, your own domain.</p>
+  </div></section>
+</main>
+
+<footer><div class="wrap foot">
+  <a class="mark" href="#top" aria-label="Latent Wall, to the top">l.</a>
+  <ul><li><a href="/">Latent Studios</a></li><li><a href="/moment">The Moment</a></li><li><a href="/privacy">Privacy</a></li></ul>
+</div></footer>
+
+<script>
+(() => {
+  const stills = ["folio-story","monograph-front","passage-story","lantern-story","salon-front","folio-toned","index-front","folio-graphite","gallery-story","reel-story","folio-cyanotype","atelier-front","folio-darkroom","salon-plaster","monograph-story","passage-cinema","folio-etching","gallery-swiss","lantern-albumen","folio-monotype","index-story","atelier-story","reel-front","folio-front","monograph-nadia","passage-nadia","folio-nadia","salon-story","gallery-front","passage-front","lantern-front"];
+  // the field: four rows, each a different shuffle, doubled so the drift never ends
+  const rows = document.getElementById("rows");
+  for (let r = 0; r < 4; r++) {
+    const list = stills.slice().sort(() => (Math.sin(r * 7 + stills.length) > 0 ? 1 : -1) * (Math.random() - .5)).slice(0, 9);
+    const row = document.createElement("div"); row.className = "row";
+    row.innerHTML = [...list, ...list].map((n) => `<div class="t"><img src="../stills/${n}.jpg" alt="" loading="eager" decoding="async"></div>`).join("");
+    rows.appendChild(row);
+  }
+  // the number, counted up once it is seen
+  const count = document.getElementById("count"), final = 79328; let shown = false;
+  new IntersectionObserver((es) => { if (!es[0].isIntersecting || shown) return; shown = true; const t0 = performance.now(); const tick = (t) => { const k = Math.min(1, (t - t0) / 1800), e = 1 - Math.pow(1 - k, 3); count.textContent = Math.round(final * e).toLocaleString("en"); if (k < 1) requestAnimationFrame(tick); }; requestAnimationFrame(tick); }).observe(count);
+  // the one that grows: scroll progress drives its size; the site inside is the real app, in the visitor's name
+  const grow = document.getElementById("grow"), stage = document.getElementById("stage"), you = document.getElementById("you");
+  const houses = [["folio", "Folio"], ["monograph", "Monograph"], ["passage", "Passage"], ["lantern", "Lantern"], ["salon", "Salon"], ["index", "Index"]];
+  const dots = document.getElementById("dots"); dots.innerHTML = houses.map(() => "<i></i>").join("");
+  let at = 0, name = "", frames = [], timer = null;
+  const fit = () => { const s = stage.clientWidth / 1440; stage.style.setProperty("--s", s.toFixed(5)); };
+  const src = (h) => `/app/index.html?site=habib&house=${h}&preview&space=home-${h}${name ? `&name=${encodeURIComponent(name)}` : ""}#/`;
+  const show = (i) => {
+    at = (i + houses.length) % houses.length;
+    document.getElementById("which").textContent = houses[at][0] === "index" ? "Index" : houses[at][1];
+    dots.querySelectorAll("i").forEach((d, k) => d.classList.toggle("on", k === at));
+    const f = document.createElement("iframe"); f.title = `${houses[at][1]}, running`; f.tabIndex = -1; f.setAttribute("aria-hidden", "true"); f.src = src(houses[at][0]);
+    f.addEventListener("load", () => { f.classList.add("on"); frames.filter((x) => x !== f).forEach((x) => { x.classList.add("off"); setTimeout(() => x.remove(), 1300); }); frames = [f]; }, { once: true });
+    stage.appendChild(f); frames.push(f); fit();
+  };
+  const onScroll = () => {
+    const r = grow.getBoundingClientRect(), h = r.height - innerHeight, p = Math.max(0, Math.min(1, -r.top / Math.max(1, h)));
+    grow.style.setProperty("--p", p.toFixed(4)); you.classList.toggle("live", p > .7); document.body.classList.toggle("inside", p > .45 && r.bottom > innerHeight * .5); fit();
+  };
+  addEventListener("scroll", onScroll, { passive: true }); addEventListener("resize", () => { onScroll(); fit(); }); onScroll();
+  let started = false;
+  new IntersectionObserver((es) => { if (!es[0].isIntersecting || started) return; started = true; show(0); timer = setInterval(() => show(at + 1), 7000); }, { rootMargin: "200px" }).observe(stage);
+  // the name: typed, the site re-sets in it (after a pause in typing)
+  let t2 = null;
+  document.getElementById("name").addEventListener("input", (e) => { name = e.target.value.trim(); clearTimeout(t2); t2 = setTimeout(() => show(at), 500); clearInterval(timer); timer = setInterval(() => show(at + 1), 9000); });
+  document.getElementById("ask").addEventListener("submit", (e) => { e.preventDefault(); location.href = `/app/index.html?start=${houses[at][0]}`; });
+  // quiet rises
+  const io = new IntersectionObserver((es) => es.forEach((x) => { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }), { threshold: .12 });
+  document.querySelectorAll(".rise").forEach((el) => io.observe(el));
+})();
+</script>
+</body>
+</html>

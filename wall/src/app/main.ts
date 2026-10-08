@@ -123,6 +123,8 @@ async function start() {
     try { state.revision = await state.store.save(state.site, prev?.revision ?? 0); }
     catch { const again = await state.store.load(); if (again) { state.site = again.site; state.revision = again.revision; } }
   }
+  // ?name= sets a demo's name (the home page shows the sites in the visitor's own name); never the artist's own site
+  if (isDemo && params.get("name")?.trim()) { state.site.name = params.get("name")!.trim().slice(0, 80); }
   // ?house= tries a template on this space's copy (the study board uses it); the artist's own site is never changed by a link
   const h = params.get("house");
   if (h && isDemo) { const { applyHouse } = await import("./ops"); state.site = applyHouse(state.site, h as never).site; state.revision = await state.store.save(state.site, state.revision); }
