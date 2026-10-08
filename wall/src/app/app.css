@@ -453,3 +453,10 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
 .s-go:hover:not(:disabled) { background: transparent; color: var(--ink); } .s-go:disabled { opacity: .35; cursor: default; }
 @media (max-width: 1040px) { .s-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 760px) { .s-grid { grid-template-columns: 1fr; } .s-you { grid-template-columns: 1fr; } }
+
+/* the artist's mark in place of the name */
+.bar .name.has-logo { display: inline-block; line-height: 0; }
+.bar .logo { display: block; height: 30px; width: auto; max-width: min(240px, 50vw); object-fit: contain; }
+[data-header="centred"] .bar .logo, [data-header="stacked"] .bar .logo { height: 44px; }
+[data-header="rail"] .bar .logo { height: 36px; max-width: 170px; }
+[data-footer="large"] .site-foot .foot-name { display: block; }

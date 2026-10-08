@@ -2,7 +2,7 @@
  * Every change the artist can make, as a pure function: site in, new site out. The editor only
  * calls these; history is a list of sites; tests cover each one. Nothing here touches the screen.
  */
-import { siteSchema, workSchema, SITE_VERSION, assetsInTrash, type SiteDocument, type SitePage, type StoryPage, type Piece, type ArrangementId } from "../studio/site";
+import { siteSchema, workSchema, SITE_VERSION, assetsInTrash, siteAssets, type SiteDocument, type SitePage, type StoryPage, type Piece, type ArrangementId } from "../studio/site";
 import { themeSchema, type Theme } from "../studio/site";
 import { house, houseTheme, allows } from "./houses";
 
@@ -44,6 +44,7 @@ export function setField(site: S, field: string, value: string): S {
   const s = clone(site), v = value.replace(/\s+$/, "");
   let m: RegExpMatchArray | null;
   if ((m = field.match(/^site\.(name|contact)$/))) s[m[1] as "name" | "contact"] = v;
+  else if (field === "site.appears.description") s.appears.description = v;
   else if ((m = field.match(/^front\.(kicker|title|titleEm|note)$/))) s.front[m[1] as "title"] = v;
   else if ((m = field.match(/^work:(.+)\.(title|date|caption|alt)$/))) { const w = s.library[m[1]]; if (!w) throw new Error(`No work ${m[1]}.`); w[m[2] as "title"] = v; }
   else if ((m = field.match(/^piece:([^:]+):(\d+)\.(label|text|note)$/))) {
@@ -53,7 +54,8 @@ export function setField(site: S, field: string, value: string): S {
   } else if ((m = field.match(/^page:([^.]+)\.(.+)$/))) {
     const p = find(s, m[1]) as Record<string, unknown> & SitePage, f = m[2];
     let k: RegExpMatchArray | null;
-    if ((k = f.match(/^(para|principle)\.(\d+)$/))) { const list = (k[1] === "para" ? p.paras : (p as { principles: string[] }).principles) as string[] | undefined; if (!list) throw new Error(`No ${k[1]} on ${p.id}.`); list[+k[2]] = v; }
+    if ((k = f.match(/^appears\.(title|description)$/))) p.appears[k[1] as "title"] = v;
+    else if ((k = f.match(/^(para|principle)\.(\d+)$/))) { const list = (k[1] === "para" ? p.paras : (p as { principles: string[] }).principles) as string[] | undefined; if (!list) throw new Error(`No ${k[1]} on ${p.id}.`); list[+k[2]] = v; }
     else if (f === "credits" || f === "facts") p[f] = v.split("\n").map((t) => t.trim()).filter(Boolean);
     else if (f === "title" && p.kind !== "about" && p.kind !== "contact" && !v) p.title = "Untitled";
     else if (f in p && typeof p[f] === "string") p[f] = v;
@@ -66,7 +68,7 @@ export function setField(site: S, field: string, value: string): S {
 
 export function addPage(site: S, kind: PageKind, title?: string): { site: S; id: string } {
   const s = clone(site), t = title ?? ({ story: "New story", writing: "A new piece", film: "A new film", project: "A new project", about: "About", contact: "Contact" } as const)[kind];
-  const id = slug(s, t), base = { id, title: t, titleEm: "", inNav: true };
+  const id = slug(s, t), base = { id, title: t, titleEm: "", inNav: true, appears: { title: "", description: "", share: null } };
   const page: SitePage = kind === "story" ? { ...base, kind, kicker: "", note: "", arrangement: house(s.house).arrangements[0], pieces: [] }
     : kind === "writing" ? { ...base, kind, form: "Poem", place: "", year: String(new Date().getFullYear()), paras: [""], margin: "", image: null }
     : kind === "film" ? { ...base, kind, form: "Short film", year: String(new Date().getFullYear()), runtime: "", ratio: "16:9", synopsis: "", poster: null, video: null, link: "", stills: [], credits: [] }
@@ -172,7 +174,9 @@ export function replaceWork(site: S, from: string, to: string, size: { w: number
     else if (p.kind === "writing" && p.image) p.image.asset = swap(p.image.asset);
     else if (p.kind === "film") { if (p.poster) p.poster = swap(p.poster); if (p.video) p.video = swap(p.video); p.stills.forEach((x) => { x.asset = swap(x.asset); }); }
     else if (p.kind === "project") { p.outcome = p.outcome.map(swap); p.process = p.process.map(swap); }
+    if (p.appears.share) p.appears.share = swap(p.appears.share);
   }
+  if (s.mark.logo) s.mark.logo = swap(s.mark.logo); if (s.appears.share) s.appears.share = swap(s.appears.share);
   return done(s);
 }
 /** A dropped folder becomes a story: the works in order, the story named after the folder. */
@@ -182,7 +186,7 @@ export function storyFromWorks(site: S, name: string, assets: string[]): { site:
 }
 /** Works no page uses; removed only when the artist asks, never as a side effect. */
 export function unused(site: S): string[] {
-  const used = new Set([...site.pages.flatMap((p) => assetsOn(p)), ...assetsInTrash(site)]);
+  const used = new Set([...site.pages.flatMap((p) => assetsOn(p)), ...assetsInTrash(site), ...siteAssets(site), ...site.pages.flatMap((p) => (p.appears.share ? [p.appears.share] : []))]);
   return Object.keys(site.library).filter((a) => !used.has(a));
 }
 export function removeFromLibrary(site: S, asset: string): S {
@@ -190,6 +194,20 @@ export function removeFromLibrary(site: S, asset: string): S {
   const s = clone(site); delete s.library[asset]; return done(s);
 }
 const assetsOn = (p: SitePage): string[] => p.kind === "story" ? p.pieces.flatMap((x) => (x.type === "work" ? [x.asset] : [])) : p.kind === "writing" ? (p.image ? [p.image.asset] : []) : p.kind === "film" ? [p.poster, p.video, ...p.stills.map((x) => x.asset)].filter((a): a is string => !!a) : p.kind === "project" ? [...p.outcome, ...p.process] : [];
+/** The share image for a page (or, with no page, the site's own); null goes back to the cover. */
+export function setShare(site: S, pageId: string | null, asset: string | null): S {
+  if (asset && !site.library[asset]) throw new Error(`No work ${asset}.`);
+  const s = clone(site); if (pageId) find(s, pageId).appears.share = asset; else s.appears.share = asset; return done(s);
+}
+export function setLogo(site: S, asset: string | null): S {
+  if (asset && !site.library[asset]) throw new Error(`No work ${asset}.`);
+  const s = clone(site); s.mark.logo = asset; return done(s);
+}
+/** Where the picture's heart is, as a point in percent; crops that must cut keep it in view. */
+export function setFocal(site: S, asset: string, x: number, y: number): S {
+  const w = site.library[asset]; if (!w) throw new Error(`No work ${asset}.`);
+  const s = clone(site); s.library[asset].focal = { x: Math.round(Math.max(0, Math.min(100, x))), y: Math.round(Math.max(0, Math.min(100, y))) }; return done(s);
+}
 export function today() { const d = new Date(); return `${d.getDate()} ${["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][d.getMonth()]} ${d.getFullYear()}`; }
 
 /* ------------------------------------------------------------------ a story's works */

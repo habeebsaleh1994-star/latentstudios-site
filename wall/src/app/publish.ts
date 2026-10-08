@@ -4,7 +4,8 @@
  * is kept, so the site can be put back as it was.
  */
 import type { SiteDocument, SitePage } from "../studio/site";
-import { page as renderPage, titleText, type Ctx } from "./render";
+import { page as renderPage, appearsOf, type Ctx } from "./render";
+import { siteAssets } from "../studio/site";
 import { house } from "./houses";
 import { TYPEFACES } from "./theme";
 
@@ -77,6 +78,8 @@ export type Sources = {
   text: (url: string) => Promise<string>;
   /** the bytes of a photograph or film in the library */
   bytes: (asset: string) => Promise<Uint8Array>;
+  /** a share image (1200 × 630) cut from a photograph around its focal point; absent where there is no canvas */
+  share?: (asset: string, focal: { x: number; y: number }) => Promise<Uint8Array | null>;
 };
 /** A file name for an asset in the published site: its own name for a sample, its id for an upload. */
 export const fileOf = (asset: string, kind: "image" | "video") => asset.startsWith("asset:") ? `${asset.slice(6)}.${kind === "video" ? "mp4" : "jpg"}` : asset.split("/").pop()!.replace(/[^A-Za-z0-9._-]/g, "-");
@@ -93,14 +96,20 @@ export function pageFile(site: SiteDocument, p: SitePage | null, base: string): 
   const face = t.typeface ? TYPEFACES[t.typeface] : null;
   const style = Object.entries(vars).map(([k, v]) => `${k}:${v}`).concat(face ? [`--serif:${face.display}`, `--body:${face.body}`, `--sans:${face.label}`, `--title-weight:${face.weight}`] : []).join(";");
   const data = `data-look="${look}" data-header="${t.header}" data-opening="${t.opening}" data-title="${t.title}" data-captions="${t.captions}" data-footer="${t.footer}" data-scale="${t.scale}" data-mount="${t.mount}" data-motion="${t.motion}" data-read="${t.read}"${t.typeface ? ` data-typeface="${t.typeface}"` : ""} data-preview="on"`;
-  const desc = p ? ("note" in p ? p.note : "synopsis" in p ? p.synopsis : "summary" in p ? p.summary : site.front.note) : site.front.note;
+  const ap = appearsOf(ctx, p), shareFile = ap.share ? shareFileFor(site, p) : null;
   return `<!doctype html>
 <html lang="en" ${data}${style ? ` style="${esc(style)}"` : ""}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>${esc(titleText(site, p))}</title>
-<meta name="description" content="${esc((desc || "").slice(0, 300))}">
+<title>${esc(ap.title)}</title>
+<meta name="description" content="${esc(ap.description)}">
+<meta property="og:title" content="${esc(ap.title)}">
+<meta property="og:description" content="${esc(ap.description)}">
+<meta property="og:type" content="website">${shareFile ? `
+<meta property="og:image" content="${base}${shareFile}">
+<meta name="twitter:card" content="summary_large_image">` : ""}
+<link rel="icon" href="${base}assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="${FONTS}">
@@ -127,8 +136,30 @@ export async function buildFiles(site: SiteDocument, src: Sources): Promise<OutF
   files.push({ name: "index.html", data: enc.encode(pageFile(site, null, "")) });
   for (const p of site.pages) files.push({ name: `${p.id}/index.html`, data: enc.encode(pageFile(site, p, "../")) });
   await Promise.all(ASSETS.map(async ([name, url]) => files.push({ name, data: enc.encode(await src.text(url)) })));
-  const used = new Set(site.pages.flatMap(worksOn));
+  const used = new Set([...site.pages.flatMap(worksOn), ...siteAssets(site)]);
   await Promise.all([...used].map(async (a) => { const w = site.library[a]; if (w) files.push({ name: `assets/img/${fileOf(a, w.kind)}`, data: await src.bytes(a) }); }));
+  files.push({ name: "assets/favicon.svg", data: enc.encode(favicon(site)) });
+  if (src.share) {
+    // one share image per distinct picture and focal point; pages that share a source share the file
+    const done = new Set<string>();
+    await Promise.all([null, ...site.pages].map(async (p) => { const name = shareFileFor(site, p); if (!name || done.has(name)) return; done.add(name); const ap = appearsOf(bare(site), p); const data = await src.share!(ap.share!.asset, ap.share!.focal); if (data) files.push({ name, data }); }));
+  }
   return files.sort((a, b) => a.name.localeCompare(b.name));
+}
+const bare = (site: SiteDocument): Ctx => ({ site, editing: false, href: () => "", src: (a) => a });
+/** The share image file a page points at: named after the first page (the front first) that shows the same picture at the same focal point. */
+export function shareFileFor(site: SiteDocument, p: SitePage | null): string | null {
+  const c = bare(site), ap = appearsOf(c, p); if (!ap.share) return null;
+  const key = (q: SitePage | null) => { const a = appearsOf(c, q); return a.share ? `${a.share.asset}|${a.share.focal.x},${a.share.focal.y}` : ""; };
+  const all = [null, ...site.pages], mine = key(p), i = all.findIndex((q) => key(q) === mine), first = i < 0 ? p : all[i];
+  return `assets/share/${first ? first.id : "front"}.jpg`;
+}
+/** The site's icon: the artist's logo when they have one, else their initial on the site's ground, in its display face. */
+export function favicon(site: SiteDocument): string {
+  const L = (globalThis as unknown as { FolioTheme?: { LOOKS: Record<string, { vars?: Record<string, string> }> } }).FolioTheme;
+  const vars = site.theme.look !== "quiet" && L?.LOOKS[site.theme.look]?.vars ? L.LOOKS[site.theme.look].vars! : {};
+  const ground = vars["--silk"] ?? "#EEE9E7", ink = vars["--ink"] ?? "#29222A", face = (site.theme.typeface ? TYPEFACES[site.theme.typeface].display : vars["--serif"] ?? "Newsreader, Georgia, serif").replace(/"/g, "'");
+  const initial = (site.name.trim().match(/\p{L}/u)?.[0] ?? "l").toUpperCase();
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="${ground}"/><text x="32" y="45" text-anchor="middle" font-family="${esc(face)}" font-size="40" font-weight="300" fill="${ink}">${esc(initial)}</text></svg>`;
 }
 export const address = (name: string) => `${name.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "site"}.latent.site`;

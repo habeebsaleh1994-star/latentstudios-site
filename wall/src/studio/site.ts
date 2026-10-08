@@ -94,7 +94,9 @@ export type Piece = z.infer<typeof pieceSchema>;
 export const arrangementIds = ["held", "book", "passage", "contact", "wall", "slides"] as const;
 export type ArrangementId = (typeof arrangementIds)[number];
 
-const common = { id, title: short, titleEm: short.default(""), inNav: z.boolean().default(true) };
+/** How a page appears elsewhere: in a search result, as a link sent to someone. Empty means "from the page itself". */
+export const appearsSchema = z.object({ title: short.default(""), description: short.default(""), share: id.nullable().default(null) }).strict().default({ title: "", description: "", share: null });
+const common = { id, title: short, titleEm: short.default(""), inNav: z.boolean().default(true), appears: appearsSchema };
 
 export const storyPageSchema = z.object({
   ...common, kind: z.literal("story"),
@@ -159,6 +161,10 @@ export const siteSchema = z
     contact: short.default(""),
     email: z.union([z.literal(""), z.email()]).default(""),
     front: frontSchema,
+    /** The site's own: a line for search engines when a page has none, and a share image when a page has no cover. */
+    appears: z.object({ description: short.default(""), share: id.nullable().default(null) }).strict().default({ description: "", share: null }),
+    /** The artist's mark: a logo or wordmark shown in place of the name, when they have one. */
+    mark: z.object({ logo: id.nullable().default(null) }).strict().default({ logo: null }),
     theme: themeSchema,
     library: z.record(id, workSchema),
     pages: z.array(sitePageSchema).max(200),
@@ -173,19 +179,23 @@ export const siteSchema = z
       seen.add(p.id);
       for (const a of assetsOf(p)) if (!(a in s.library)) ctx.addIssue({ code: "custom", path: ["pages", i], message: `Page "${p.id}" refers to "${a}", which is not in the library.` });
     });
+    for (const a of siteAssets(s)) if (!(a in s.library)) ctx.addIssue({ code: "custom", path: ["mark"], message: `The site refers to "${a}", which is not in the library.` });
   });
 export type SiteDocument = z.infer<typeof siteSchema>;
 
-/** Every work a page refers to, in the order it shows them. */
+/** Every work a page refers to, in the order it shows them, then its own share image. */
 export function assetsOf(p: SitePage): string[] {
-  switch (p.kind) {
+  const own = (() => { switch (p.kind) {
     case "story": return p.pieces.flatMap((x) => (x.type === "work" ? [x.asset] : []));
     case "writing": return p.image ? [p.image.asset] : [];
     case "film": return [p.poster, p.video, ...p.stills.map((x) => x.asset)].filter((a): a is string => !!a);
     case "project": return [...p.outcome, ...p.process];
     default: return [];
-  }
+  } })();
+  return p.appears.share ? [...own, p.appears.share] : own;
 }
+/** What the site itself refers to: its logo and its own share image. */
+export const siteAssets = (s: { mark: { logo: string | null }; appears: { share: string | null } }) => [s.mark.logo, s.appears.share].filter((a): a is string => !!a);
 
 /** Every work a removed page still refers to: kept in the library so the page can come back whole. */
 export const assetsInTrash = (s: SiteDocument) => s.trash.flatMap((t) => assetsOf(t.page));
@@ -196,7 +206,7 @@ export function usesOf(site: SiteDocument, asset: string): string[] {
 
 /** How many photographs the site shows (a work placed twice counts once), for plan limits. */
 export function photographCount(site: SiteDocument): number {
-  const placed = new Set(site.pages.flatMap(assetsOf));
+  const placed = new Set([...site.pages.flatMap(assetsOf), ...siteAssets(site)]);
   return [...placed].filter((a) => site.library[a]?.kind !== "video").length;
 }
 

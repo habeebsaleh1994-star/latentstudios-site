@@ -48,10 +48,23 @@ export async function act(what: string, n: number, redraw: () => void) {
   }
 }
 
+/** A share image: the photograph cut to 1200 × 630 around its focal point, as a JPEG. */
+async function shareImage(asset: string, focal: { x: number; y: number }): Promise<Uint8Array | null> {
+  try {
+    const img = new Image(); img.src = state.store.src(asset); await img.decode();
+    const W = 1200, H = 630, r = img.naturalWidth / img.naturalHeight, scale = Math.max(W / img.naturalWidth, H / img.naturalHeight);
+    const sw = W / scale, sh = H / scale, sx = Math.max(0, Math.min(img.naturalWidth - sw, (focal.x / 100) * img.naturalWidth - sw / 2)), sy = Math.max(0, Math.min(img.naturalHeight - sh, (focal.y / 100) * img.naturalHeight - sh / 2));
+    void r;
+    const cv = document.createElement("canvas"); cv.width = W; cv.height = H; cv.getContext("2d")!.drawImage(img, sx, sy, sw, sh, 0, 0, W, H);
+    const blob = await new Promise<Blob | null>((ok) => cv.toBlob(ok, "image/jpeg", 0.86)); return blob ? new Uint8Array(await blob.arrayBuffer()) : null;
+  } catch { return null; }
+}
+
 async function build(v: Version) {
   const files = await buildFiles(v.site, {
     text: async (u) => { const r = await fetch(u + (u.endsWith(".css") || u.endsWith(".ts") ? "?raw" : "")); const t = await r.text(); const m = /^export default ("(?:[^"\\]|\\.)*")/.exec(t); return m ? JSON.parse(m[1]) : t; },
     bytes: (a) => state.store.bytes(a),
+    share: shareImage,
   });
   const blob = zip(files);
   if (lastUrl) URL.revokeObjectURL(lastUrl); lastUrl = URL.createObjectURL(blob);

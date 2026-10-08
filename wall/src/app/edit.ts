@@ -10,7 +10,8 @@ import { state, commit, undo, redo, draw, current, go, pageId, space, isDemo } f
 import * as P from "./pubpanel";
 import { inOrder } from "./meta";
 import { accentsFrom, accentsAcross, pixelsOf } from "./colour";
-import { esc } from "./render";
+import { esc, appearsOf } from "./render";
+import { address } from "./publish";
 import type { SitePage, StoryPage } from "../studio/site";
 import { photographCount } from "../studio/site";
 import { HOUSES, house, DIALS } from "./houses";
@@ -126,6 +127,7 @@ function renderPanel() {
 function siteTab() {
   const s = state.site, has = (k: string) => s.pages.some((p) => p.kind === k), cur = pageId();
   let h = `<h3>Words</h3>${input("site.name", s.name, "Your name")}${input("site.contact", s.contact, "A line at the foot of every page")}`;
+  h += appearsBlock(null) + `<h3>Your mark</h3>${s.mark.logo ? `<ol class="tray"><li>${thumb(s.mark.logo)}<span class="t">${esc(s.library[s.mark.logo]?.title || "Logo")}<small>in place of your name</small></span><span class="acts"><button type="button" data-a="logo-clear" aria-label="Show the name instead">&times;</button></span></li></ol>` : ""}<div class="adds"><button type="button" data-a="logo-pick">${s.mark.logo ? "Another logo" : "+ A logo or wordmark"}</button></div><p class="hint">Shown in place of your name at the top of every page. A PNG with a transparent ground works best.</p>`;
   h += `<h3>Pages</h3><ol class="pages"><li class="${cur ? "" : "on"}"><a href="#/">The front page<small>${{ covers: "Covers", list: "A list", sheet: "A sheet", walk: "A walk" }[s.front.form]}</small></a><span class="acts"></span></li>` +
     s.pages.map((p, i) => `<li class="${cur === p.id ? "on" : ""}${p.inNav ? "" : " off"}"><a href="#/${encodeURIComponent(p.id)}">${esc(title(p))}<small>${esc(kindLine(p))}${p.inNav ? "" : " · hidden"}</small></a><span class="acts"><button type="button" data-a="page-up" data-id="${esc(p.id)}"${i === 0 ? " disabled" : ""} aria-label="Move up">&uarr;</button><button type="button" data-a="page-down" data-id="${esc(p.id)}"${i === s.pages.length - 1 ? " disabled" : ""} aria-label="Move down">&darr;</button><button type="button" data-a="page-nav" data-id="${esc(p.id)}" aria-label="${p.inNav ? "Hide" : "Show"} ${esc(title(p))}" title="${p.inNav ? "Shown" : "Hidden"}">${p.inNav ? "&#9679;" : "&#9675;"}</button></span></li>`).join("") + `</ol>`;
   if (s.trash.length) h += `<h3>Removed</h3><ol class="pages trash">${s.trash.map((t) => `<li><span class="t">${esc(title(t.page))}<small>${esc(O.KIND_NAMES[t.page.kind])} · removed ${esc(new Date(t.removedAt).toLocaleDateString(undefined, { day: "numeric", month: "short" }))}</small></span><span class="acts wide"><button type="button" class="word" data-a="page-restore" data-id="${esc(t.page.id)}">Put back</button><button type="button" data-a="trash-empty" data-id="${esc(t.page.id)}" aria-label="Delete for good">&times;</button></span></li>`).join("")}</ol><p class="hint">Removed pages wait here for thirty days, with their work, and can be put back.</p>`;
@@ -157,7 +159,7 @@ function pageTab() {
       if (x.type === "pause") return `<li class="pause"><span class="th ps">&para;</span><span class="t">${esc(x.text || "A pause")}<small>A pause</small></span>${acts(k, p.pieces.length)}</li>`;
       const w = s.library[x.asset], opts = O.arrangeOptions(s, p.id, k), cur = opts.find((o) => o.current), tag = cur ? cur.title.toLowerCase() : "in the sheet";
       const note = x.arrange === "margin-note" && opts.some((o) => o.key === "margin-note") ? `<div class="menu wide">${input(`piece:${p.id}:${k}.note`, x.note, "The note beside it")}</div>` : "";
-      return `<li>${thumb(x.asset)}<span class="t">${esc(w?.title || "Untitled")}${opts.length ? `<button type="button" class="how" data-a="tray" data-k="${k}" aria-expanded="${trayOpen === k}" title="Change how it sits">${esc(tag)} &rsaquo;</button>` : `<small>${esc(tag)}</small>`}</span>${acts(k, p.pieces.length)}${note}${trayOpen === k ? `<div class="menu">${opts.map((o) => `<button type="button" data-a="arrange" data-k="${k}" data-key="${o.key}" aria-pressed="${o.current}">${o.title}</button>`).join("")}</div><div class="menu"><span class="h">Move to</span>${s.pages.filter((y) => y.kind === "story" && y.id !== p.id).map((y) => `<button type="button" data-a="move-to" data-k="${k}" data-to="${esc(y.id)}">${esc(title(y))}</button>`).join("")}<button type="button" data-a="move-to" data-k="${k}" data-to="new">A new story</button></div><div class="menu"><button type="button" data-a="pause-after" data-k="${k}">A pause after it</button><button type="button" data-a="replace" data-k="${k}">Replace the photograph</button></div>` : ""}</li>`;
+      return `<li>${thumb(x.asset)}<span class="t">${esc(w?.title || "Untitled")}${opts.length ? `<button type="button" class="how" data-a="tray" data-k="${k}" aria-expanded="${trayOpen === k}" title="Change how it sits">${esc(tag)} &rsaquo;</button>` : `<small>${esc(tag)}</small>`}</span>${acts(k, p.pieces.length)}${note}${trayOpen === k ? `<div class="menu">${opts.map((o) => `<button type="button" data-a="arrange" data-k="${k}" data-key="${o.key}" aria-pressed="${o.current}">${o.title}</button>`).join("")}</div><div class="menu"><span class="h">Move to</span>${s.pages.filter((y) => y.kind === "story" && y.id !== p.id).map((y) => `<button type="button" data-a="move-to" data-k="${k}" data-to="${esc(y.id)}">${esc(title(y))}</button>`).join("")}<button type="button" data-a="move-to" data-k="${k}" data-to="new">A new story</button></div><div class="menu"><button type="button" data-a="pause-after" data-k="${k}">A pause after it</button><button type="button" data-a="replace" data-k="${k}">Replace the photograph</button><button type="button" data-a="focal" data-asset="${esc(x.asset)}">Set the focal point</button></div>` : ""}</li>`;
     }).join("")}</ol><div class="adds"><button type="button" data-a="add-works" data-page="${esc(p.id)}" data-after="${p.pieces.length - 1}">+ Works</button><button type="button" data-a="pause-after" data-k="${p.pieces.length - 1}">+ A pause</button></div>`;
   }
   if (p.kind === "writing") {
@@ -181,7 +183,20 @@ function pageTab() {
     h += `<h3>Text</h3>${p.paras.map((t, i) => `<div class="para">${area(`${f("para")}.${i}`, t, "A paragraph", 4)}${p.paras.length > 1 ? `<button type="button" class="rm" data-a="para-remove" data-i="${i}" aria-label="Remove this paragraph">&times;</button>` : ""}</div>`).join("")}<div class="adds"><button type="button" data-a="para-add">+ A paragraph</button></div>`;
     if (p.kind === "about") h += `<h3>Principles</h3>${p.principles.map((t, i) => `<div class="para">${input(`${f("principle")}.${i}`, t, "A principle")}<button type="button" class="rm" data-a="prin-remove" data-i="${i}" aria-label="Remove">&times;</button></div>`).join("")}<div class="adds"><button type="button" data-a="prin-add">+ A principle</button></div><p class="hint">Principles are set large and numbered under the text. Leave them out if you have none.</p>`;
   }
+  h += appearsBlock(p);
   h += `<h3>Address</h3><p class="hint">Shown at <b>/${esc(p.id)}</b>.${p.inNav ? "" : " Hidden from the site; only its address reaches it."}</p><div class="adds"><button type="button" data-a="page-nav" data-id="${esc(p.id)}">${p.inNav ? "Hide this page" : "Show this page"}</button><button type="button" data-a="page-rename">Address from the title</button><button type="button" class="danger" data-a="page-remove" data-id="${esc(p.id)}">Remove this page</button></div>`;
+  return h;
+}
+/** How a page (or the site) appears elsewhere: title and description for a search result, the share image for a link; shown as they would look. */
+function appearsBlock(p: SitePage | null): string {
+  const s = state.site, c = { site: s, editing: false, href: (i: string) => "/" + i, src: (a: string) => state.store.src(a) }, ap = appearsOf(c, p), f = p ? `page:${p.id}.appears` : "site.appears", addr = address(s.name) + (p ? `/${p.id}` : "");
+  const set = p ? p.appears : { title: "", description: "", share: s.appears.share };
+  let h = `<h3>How it appears</h3><p class="hint top">In a search result, and as a link sent to someone. Left empty, it is taken from the page itself.</p>`;
+  if (p) h += input(`${f}.title`, set.title, ap.title);
+  h += area(`${f}.description`, set.description, p ? ap.description || "A line or two about this page" : "A line about the site, for pages that have none");
+  h += `<div class="appears"><div class="search"><b>${esc(ap.title)}</b><span>${esc(addr)}</span><p>${esc(ap.description || "")}</p></div>` +
+    `<div class="card-share">${ap.share ? `<img src="${esc(ap.share.src)}" alt="" style="--fx:${ap.share.focal.x}%;--fy:${ap.share.focal.y}%">` : `<span class="none">No image</span>`}<span class="t">${esc(ap.title)}</span></div></div>`;
+  h += `<div class="adds"><button type="button" data-a="share-pick" data-page="${esc(p?.id ?? "")}">${ap.own ? "Another share image" : "Choose a share image"}</button>${ap.own ? `<button type="button" data-a="share-clear" data-page="${esc(p?.id ?? "")}">${p ? "Back to the cover" : "None"}</button>` : ""}${ap.share ? `<button type="button" data-a="focal" data-asset="${esc(ap.share.asset)}">Set its focal point</button>` : ""}</div><p class="hint">${p ? "Without one, the page's cover is used, cut around its focal point." : "Used for pages that have no cover of their own."}</p>`;
   return h;
 }
 function acts(k: number, n: number) {
@@ -241,9 +256,9 @@ function workColours(): string[] | null {
 
 /* ------------------------------------------------------------------ the library */
 
-type Target = { kind: "story"; page: string; after: number } | { kind: "list"; page: string; list: "stills" | "outcome" | "process" } | { kind: "poster"; page: string } | { kind: "writing"; page: string };
+type Target = { kind: "story"; page: string; after: number } | { kind: "list"; page: string; list: "stills" | "outcome" | "process" } | { kind: "poster"; page: string } | { kind: "writing"; page: string } | { kind: "share"; page: string | null } | { kind: "logo" };
 let target: Target | null = null, chosen: string[] = [];
-const single = () => target?.kind === "poster" || target?.kind === "writing";
+const single = () => target?.kind === "poster" || target?.kind === "writing" || target?.kind === "share" || target?.kind === "logo";
 function openLib(t: Target) { target = t; chosen = []; renderLib(); lib.hidden = false; (lib.querySelector(".grid button") as HTMLElement | null)?.focus(); }
 function closeLib() { lib.hidden = true; target = null; }
 function renderLib(note?: string) {
@@ -305,6 +320,22 @@ async function onDrop(e: DragEvent) {
   catch (err) { return toast(`Could not read what was dropped: ${(err as Error).message}`); }
   await storyFrom(files.filter((f) => /^image\//.test(f.type) || /\.(heic|heif)$/i.test(f.name)), folder.replace(/[-_]+/g, " ") || (files.length === 1 ? "" : "New story"));
 }
+/** Where the picture's heart is: a point the artist sets by pressing on the picture; crops that must cut keep it in view. */
+function openFocal(asset: string) {
+  const w = state.site.library[asset]; if (!w) return;
+  let box = $("#focal");
+  if (!box) { document.body.insertAdjacentHTML("beforeend", `<div class="lib focal" id="focal" role="dialog" aria-modal="true" aria-label="The focal point"><div class="sheet2 narrow"><header><b>The focal point</b><button type="button" class="x" data-focal="close">Close</button></header><div class="focal-body"><p class="hint">Press where the picture's heart is. Where a crop must cut, this stays in view: the share image, the opening image.</p><div class="pic"><img alt=""><i></i></div></div></div></div>`); box = $("#focal")!; }
+  const img = box.querySelector<HTMLImageElement>("img")!, dot = box.querySelector<HTMLElement>(".pic i")!;
+  img.src = state.store.src(asset); dot.style.left = `${w.focal.x}%`; dot.style.top = `${w.focal.y}%`; box.dataset.asset = asset; box.hidden = false;
+}
+document.addEventListener("click", (e) => {
+  const t = e.target as HTMLElement, box = $("#focal"); if (!box || box.hidden) return;
+  if (t.closest("[data-focal=close]") || t === box) { box.hidden = true; return; }
+  const img = t.closest<HTMLImageElement>("#focal .pic img"); if (!img) return;
+  const r = img.getBoundingClientRect(), x = ((e.clientX - r.left) / r.width) * 100, y = ((e.clientY - r.top) / r.height) * 100;
+  commit(O.setFocal(state.site, box.dataset.asset!, x, y), { keep: true });
+  const dot = box.querySelector<HTMLElement>(".pic i")!; dot.style.left = `${Math.round(x)}%`; dot.style.top = `${Math.round(y)}%`;
+});
 let replacing: { page: string; k: number } | null = null;
 async function onReplaceFile(e: Event) {
   const inp = e.target as HTMLInputElement, f = inp.files?.[0]; inp.value = ""; if (!f || !replacing) return;
@@ -320,6 +351,8 @@ function place() {
   if (t.kind === "story") commit(O.addWorks(s, t.page, t.after, chosen));
   else if (t.kind === "list") commit(O.addToList(s, t.page, t.list, chosen));
   else if (t.kind === "poster") commit(O.setFilm(s, t.page, { poster: chosen[0] }));
+  else if (t.kind === "share") commit(O.setShare(s, t.page, chosen[0]));
+  else if (t.kind === "logo") commit(O.setLogo(s, chosen[0]));
   else commit(O.setWritingImage(s, t.page, { asset: chosen[0], at: "cover" }));
   toast(chosen.length === 1 ? "Added." : `${chosen.length} added.`);
 }
@@ -344,6 +377,11 @@ function act(a: string, d: DOMStringMap) {
       case "page-rename": { if (!p) return; const r = O.renamePage(s, p.id, title(p)); if (r.id === p.id) return toast("The address already follows the title."); commit(r.site); go(r.id); return; }
       case "lib-remove": return commit(O.removeFromLibrary(s, d.asset!));
       case "folder": return $<HTMLInputElement>("#folder")!.click();
+      case "share-pick": return openLib({ kind: "share", page: d.page || null });
+      case "share-clear": return commit(O.setShare(s, d.page || null, null));
+      case "logo-pick": return openLib({ kind: "logo" });
+      case "logo-clear": return commit(O.setLogo(s, null));
+      case "focal": return openFocal(d.asset!);
       case "replace": { if (!p || p.kind !== "story") return; replacing = { page: p.id, k }; openMenu = null; trayOpen = null; return $<HTMLInputElement>("#one-file")!.click(); }
       case "add-works": return openLib({ kind: "story", page: d.page!, after: Number(d.after) });
       case "piece-up": return commit(O.movePiece(s, id, k, -1));

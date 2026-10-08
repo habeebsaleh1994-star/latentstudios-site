@@ -62,7 +62,9 @@ function navLinks(c: Ctx, on: string) {
   return links.map(([id, t]) => `<a href="${c.href(id)}"${on === id ? ' aria-current="page"' : ""}>${esc(t)}</a>`).join("");
 }
 function bar(c: Ctx, on: string) {
-  return `<header class="bar"><a class="name" href="${c.href("")}">${esc(c.site.name)}</a><nav aria-label="Primary">${navLinks(c, on)}</nav></header>`;
+  const logo = c.site.mark.logo && c.site.library[c.site.mark.logo] ? work(c, c.site.mark.logo) : null;
+  const name = logo ? `<img class="logo" src="${esc(logo.src)}" alt="${esc(c.site.name)}" width="${logo.w}" height="${logo.h}" style="--r:${logo.r.toFixed(4)}">` : esc(c.site.name);
+  return `<header class="bar"><a class="name${logo ? " has-logo" : ""}" href="${c.href("")}">${name}</a><nav aria-label="Primary">${navLinks(c, on)}</nav></header>`;
 }
 /** The foot of every page. It carries the menu too, for sites whose header shows only the name. */
 function foot(c: Ctx, on: string) {
@@ -342,4 +344,12 @@ export function page(c: Ctx, p: SitePage | null): string {
 
 export function titleText(s: SiteDocument, p: SitePage | null) {
   return p ? `${[p.title, p.titleEm].filter(Boolean).join(" ")} · ${s.name}` : s.name;
+}
+/** How a page appears elsewhere: what the artist set, or else what the page itself says. */
+export function appearsOf(c: Ctx, p: SitePage | null): { title: string; description: string; share: W | null; own: boolean } {
+  const set = p ? p.appears : { title: "", description: "", share: c.site.appears.share };
+  const fromPage = p ? ("note" in p ? p.note : "synopsis" in p ? p.synopsis : "summary" in p ? p.summary : p.kind === "writing" ? (p.paras[0] ?? "").split("\n").slice(0, 2).join(" ") : (p.paras?.[0] ?? "")) : c.site.front.note;
+  const description = (set.description || fromPage || c.site.appears.description || "").replace(/\s+/g, " ").trim().slice(0, 300);
+  const shareId = (p ? p.appears.share : null) ?? (p ? coverOf(c, p)?.asset : null) ?? c.site.appears.share ?? workPages(c.site).map((x) => coverOf(c, x)).find(Boolean)?.asset ?? null;
+  return { title: set.title || titleText(c.site, p), description, share: shareId && c.site.library[shareId] ? work(c, shareId) : null, own: !!(p ? p.appears.share : c.site.appears.share) };
 }

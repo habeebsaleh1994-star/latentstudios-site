@@ -183,3 +183,19 @@
 .phone-frame iframe { width: 100%; height: 100%; border: 0; border-radius: 34px; background: #fff; }
 .phone-frame .x { position: fixed; top: 20px; right: 24px; font-family: var(--ed-font); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--ed-bg); background: var(--ed-ink); border: 1px solid rgba(255,255,255,.25); padding: 10px 16px; cursor: pointer; }
 @media (max-width: 760px) { #phone-btn { display: none; } }
+
+/* how it appears: a search result and a share card, as they would look */
+#panel .appears { display: grid; gap: 12px; margin-top: 14px; }
+#panel .search { font-family: Arial, system-ui, sans-serif; padding: 12px 14px; border: 1px solid var(--ed-rule); background: #fff; color: #1f1f1f; }
+#panel .search b { display: block; font-weight: 400; font-size: 16px; color: #1a0dab; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#panel .search span { display: block; font-size: 12px; color: #4d5156; margin: 2px 0 4px; } #panel .search p { margin: 0; font-size: 13px; line-height: 1.45; color: #4d5156; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+#panel .card-share { border: 1px solid var(--ed-rule); overflow: hidden; background: var(--ed-bg2); }
+#panel .card-share img { display: block; width: 100%; aspect-ratio: 1200 / 630; object-fit: cover; object-position: var(--fx, 50%) var(--fy, 50%); }
+#panel .card-share .none { display: grid; place-items: center; aspect-ratio: 1200 / 630; font-size: 12px; color: var(--ed-soft); }
+#panel .card-share .t { display: block; padding: 8px 12px; font-size: 13px; font-weight: 500; color: var(--ed-ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* the focal point */
+.lib.focal .sheet2.narrow { inset: 0 0 0 auto; max-height: none; width: min(100%, 560px); border-top: 0; border-left: 1px solid var(--ed-rule); grid-template-rows: auto 1fr; }
+.focal-body { overflow: auto; padding: 8px 28px 28px; }
+.focal-body .pic { position: relative; display: inline-block; max-width: 100%; margin-top: 14px; cursor: crosshair; }
+.focal-body .pic img { display: block; max-width: 100%; max-height: 70vh; }
+.focal-body .pic i { position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.6), 0 0 0 6px rgba(255,255,255,.25); pointer-events: none; }
