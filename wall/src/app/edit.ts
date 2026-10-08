@@ -8,7 +8,8 @@
 import * as O from "./ops";
 import { state, commit, undo, redo, draw, current, go, pageId, space, isDemo } from "./main";
 import * as P from "./pubpanel";
-import { inOrder } from "./meta";
+import { bringIn as bring, dropped, hasFiles, folderOf } from "./bring";
+import { ratioNumber } from "./util";
 import { accentsFrom, accentsAcross, pixelsOf } from "./colour";
 import { esc, appearsOf } from "./render";
 import { address } from "./publish";
@@ -38,7 +39,7 @@ export function init() {
     `<div class="dock" id="dock"><span class="meter" id="meter"></span><button type="button" id="undo">Undo</button><button type="button" id="redo">Redo</button><button type="button" id="edit" aria-pressed="false">Edit</button><button type="button" id="page-btn" hidden>Page</button><button type="button" id="tweak" aria-expanded="false">Customise</button><button type="button" id="phone-btn" aria-pressed="false" title="See it on a phone">Phone</button><button type="button" id="publish">Publish</button></div>` +
     `<aside id="panel" aria-label="Edit the site"></aside>` +
     `<div class="lib" id="lib" role="dialog" aria-modal="true" aria-label="Your work" hidden><div class="sheet2"><header><b>Your work</b><button type="button" class="x" data-lib="close">Close</button></header><div class="grid"></div><footer><span class="note"></span><button type="button" class="go" data-lib="add" disabled>Add</button></footer></div></div>` +
-    `<input type="file" id="files" accept="image/*,.heic,.heif" multiple hidden><input type="file" id="folder" webkitdirectory multiple hidden><input type="file" id="one-file" accept="image/*,.heic,.heif" hidden><div class="drop" id="drop" hidden><span></span></div><div class="phone-frame" id="phone" hidden><div class="device"><iframe title="Your site, on a phone"></iframe></div><button type="button" class="x" id="phone-close">Close</button></div><div class="toast" role="status" aria-live="polite" hidden></div>`);
+    `<input type="file" id="files" accept="image/*,.heic,.heif" multiple hidden><input type="file" id="folder" webkitdirectory multiple hidden><input type="file" id="one-file" accept="image/*,.heic,.heif" hidden><input type="file" id="video-file" accept="video/mp4,video/quicktime,video/webm,.mp4,.m4v,.mov,.webm" hidden><div class="drop" id="drop" hidden><span></span></div><div class="phone-frame" id="phone" hidden><div class="device"><iframe title="Your site, on a phone"></iframe></div><button type="button" class="x" id="phone-close">Close</button></div><div class="toast" role="status" aria-live="polite" hidden></div>`);
   panel = $("#panel")!; dock = $("#dock")!; lib = $("#lib")!;
   state.listeners.push(afterDraw);
   document.addEventListener("click", onClick);
@@ -58,6 +59,7 @@ export function init() {
   $<HTMLInputElement>("#files")!.addEventListener("change", onFiles);
   $<HTMLInputElement>("#folder")!.addEventListener("change", onFolder);
   $<HTMLInputElement>("#one-file")!.addEventListener("change", onReplaceFile);
+  $<HTMLInputElement>("#video-file")!.addEventListener("change", onVideoFile);
   for (const ev of ["dragenter", "dragover"]) document.addEventListener(ev, (e) => { if (!state.editing || !hasFiles(e as DragEvent)) return; e.preventDefault(); dropHint(true); });
   document.addEventListener("dragleave", (e) => { if ((e as DragEvent).relatedTarget === null) dropHint(false); });
   document.addEventListener("drop", onDrop);
@@ -183,8 +185,10 @@ function pageTab() {
     h += `<h3>Image</h3>${p.image ? `<ol class="tray"><li>${thumb(p.image.asset)}<span class="t">${esc(s.library[p.image.asset]?.title || "Image")}<small>${p.image.at === "cover" ? "above the text" : "inside the text"}</small></span><span class="acts"><button type="button" data-a="w-img-remove" aria-label="Remove the image">&times;</button></span></li></ol>${!/poem/i.test(p.form) && p.paras.length > 1 ? seg("img-at", [["cover", "Above the text"], ["in", "Inside the text"]], p.image.at === "cover" ? "cover" : "in") : ""}` : `<div class="adds"><button type="button" data-a="w-img">+ An image</button></div>`}`;
   }
   if (p.kind === "film") {
-    h += input(f("form"), p.form, "Form: short film, documentary") + input(f("year"), p.year, "Year") + input(f("runtime"), p.runtime, "Length: 28 sec, 12 min") + area(f("synopsis"), p.synopsis, "A line or two about the film") + input(`film:${p.id}.link`, p.link, "Where it can be watched (a link)") + area(f("credits"), p.credits.join("\n"), "Credits, one per line", 3);
+    h += input(f("form"), p.form, "Form: short film, documentary") + input(f("year"), p.year, "Year") + input(f("runtime"), p.runtime, "Length: 28 sec, 12 min") + area(f("synopsis"), p.synopsis, "A line or two about the film") + area(f("credits"), p.credits.join("\n"), "Credits, one per line", 3);
     h += `<h3>Ratio</h3>${seg("ratio", [["2.39:1", "2.39"], ["2.00:1", "2.00"], ["1.85:1", "1.85"], ["16:9", "16:9"], ["4:3", "4:3"], ["1:1", "1:1"]], p.ratio)}`;
+    { const v = p.video ? s.library[p.video] : null, secs = (n: number) => `${Math.floor(n / 60)}:${String(Math.round(n % 60)).padStart(2, "0")}`;
+      h += `<h3>The film</h3>${v ? `<ol class="tray"><li><span class="th film-th"><span>&#9654;</span></span><span class="t">${esc(v.title || "The film")}<small>${v.w} × ${v.h}${v.caption ? ` · ${esc(v.caption)}` : ""}</small></span><span class="acts"><button type="button" data-a="video-remove" aria-label="Remove the film file">&times;</button></span></li></ol>` : ""}<div class="adds"><button type="button" data-a="video">${v ? "Replace the film file" : "+ The film file"}</button></div><p class="hint">${v ? "Played on the page, over the poster." : "An MP4 or MOV, up to 400 MB, played on the page over the poster. Or give a link below."}</p>${input(`film:${p.id}.link`, p.link, "Or a link (Vimeo, YouTube)")}`; void secs; }
     h += `<h3>Poster</h3>${p.poster ? `<ol class="tray"><li>${thumb(p.poster)}<span class="t">${esc(s.library[p.poster]?.title || "Poster")}</span><span class="acts"><button type="button" data-a="poster-remove" aria-label="Remove the poster">&times;</button></span></li></ol>` : ""}<div class="adds"><button type="button" data-a="poster">${p.poster ? "Replace the poster" : "+ A poster"}</button></div>`;
     h += list("stills", "Stills", p.stills.map((x) => x.asset));
   }
@@ -297,17 +301,7 @@ async function onFiles(e: Event) {
   commit(s, { keep: true });
   renderLib(errors.length ? errors.join(" ") : "Added to your work, and chosen. Press Add to place them.");
 }
-/** Files from the computer into the library, in the order they were taken; what each file said is kept with it. */
-async function bringIn(files: File[]) {
-  let s = state.site; const errors: string[] = [], got: { id: string; taken?: string; name: string }[] = [];
-  for (const f of files) {
-    if (f.name.startsWith(".")) continue;
-    try { const r = await state.store.putImage(f); s = O.addToLibrary(s, r.id, r); got.push({ id: r.id, taken: r.taken, name: f.webkitRelativePath || f.name }); }
-    catch (err) { errors.push((err as Error).message); }
-  }
-  await state.store.prepare(Object.keys(s.library));
-  return { site: s, ids: inOrder(got).map((g) => g.id), errors };
-}
+const bringIn = (files: File[]) => bring(state.store, state.site, files);
 /** A folder (chosen, or dropped) becomes a story named after it; dropped on a story, the files join that story. */
 async function storyFrom(files: File[], folderName: string) {
   if (!files.length) return;
@@ -319,25 +313,30 @@ async function storyFrom(files: File[], folderName: string) {
   const r = O.storyFromWorks(s, folderName, ids); tab = "page"; commit(r.site); go(r.id);
   toast(`A new story, “${title(r.site.pages.find((x) => x.id === r.id)!)}”, with ${ids.length} ${ids.length === 1 ? "work" : "works"}.${errors.length ? ` ${errors.length} could not be read.` : ""}`);
 }
+/** The film file for the film page at hand: kept as it is, measured, and set to play on the page. */
+async function onVideoFile(e: Event) {
+  const inp = e.target as HTMLInputElement, f = inp.files?.[0]; inp.value = ""; const p = current(); if (!f || p?.kind !== "film") return;
+  toast(`Keeping ${f.name}…`);
+  try {
+    const r = await state.store.putVideo(f);
+    let s = O.addToLibrary(state.site, r.id, { w: r.w, h: r.h, title: r.title, kind: "video", caption: `${Math.floor(r.seconds / 60)}:${String(Math.round(r.seconds % 60)).padStart(2, "0")}` });
+    await state.store.prepare(Object.keys(s.library));
+    s = O.setFilm(s, p.id, { video: r.id, ratio: closestRatio(r.w / r.h) });
+    commit(s); toast(`The film is on the page (${r.w} × ${r.h}).`);
+  } catch (err) { toast((err as Error).message); }
+}
+const closestRatio = (r: number) => ["2.39:1", "2.00:1", "1.85:1", "16:9", "4:3", "1:1"].map((k) => ({ k, d: Math.abs(ratioNumber(k) - r) })).sort((a, b) => a.d - b.d)[0].k;
 async function onFolder(e: Event) {
   const inp = e.target as HTMLInputElement, files = [...(inp.files ?? [])]; inp.value = "";
-  const folder = files[0]?.webkitRelativePath?.split("/")[0] ?? "";
-  await storyFrom(files, folder.replace(/[-_]+/g, " "));
+  await storyFrom(files, folderOf(files));
 }
-const hasFiles = (e: DragEvent) => !!e.dataTransfer && [...e.dataTransfer.types].includes("Files");
 function dropHint(on: boolean) { const d = $("#drop")!; d.hidden = !on; if (on) { const p = current(); d.querySelector("span")!.textContent = p?.kind === "story" ? `Drop to add to “${title(p)}”` : "Drop to make a new story"; } }
 async function onDrop(e: DragEvent) {
   if (!state.editing || !hasFiles(e)) return;
   e.preventDefault(); dropHint(false);
-  const items = [...(e.dataTransfer?.items ?? [])], files: File[] = []; let folder = "";
-  const take = (f: File, prefix: string) => { if (prefix) Object.defineProperty(f, "webkitRelativePath", { value: prefix + f.name }); files.push(f); };
-  const walk = async (entry: FileSystemEntry, prefix: string, fallback: File | null): Promise<void> => {
-    if (entry.isFile) { try { take(await new Promise<File>((ok, no) => (entry as FileSystemFileEntry).file(ok, no)), prefix); } catch { if (fallback) take(fallback, prefix); } }
-    else if (entry.isDirectory) { folder ||= entry.name; const rd = (entry as FileSystemDirectoryEntry).createReader(); let batch: FileSystemEntry[]; do { batch = await new Promise((ok, no) => rd.readEntries(ok, no)); for (const x of batch) await walk(x, `${prefix}${entry.name}/`, null); } while (batch.length); }
-  };
-  try { for (const it of items) { const entry = it.webkitGetAsEntry?.(); if (entry) await walk(entry, "", it.getAsFile()); else { const f = it.getAsFile(); if (f) files.push(f); } } }
-  catch (err) { return toast(`Could not read what was dropped: ${(err as Error).message}`); }
-  await storyFrom(files.filter((f) => /^image\//.test(f.type) || /\.(heic|heif)$/i.test(f.name)), folder.replace(/[-_]+/g, " ") || (files.length === 1 ? "" : "New story"));
+  let got: { files: File[]; folder: string };
+  try { got = await dropped(e); } catch (err) { return toast(`Could not read what was dropped: ${(err as Error).message}`); }
+  await storyFrom(got.files, got.folder || (got.files.length === 1 ? "" : "New story"));
 }
 /** Where the picture's heart is: a point the artist sets by pressing on the picture; crops that must cut keep it in view. */
 function openFocal(asset: string) {
@@ -415,6 +414,8 @@ function act(a: string, d: DOMStringMap) {
       case "list-up": return commit(O.moveInList(s, id, d.list as "stills", Number(d.i), -1));
       case "list-down": return commit(O.moveInList(s, id, d.list as "stills", Number(d.i), 1));
       case "list-remove": return commit(O.removeFromList(s, id, d.list as "stills", Number(d.i)));
+      case "video": $<HTMLInputElement>("#video-file")!.click(); return;
+      case "video-remove": return commit(O.setFilm(s, id, { video: null }));
       case "poster": return openLib({ kind: "poster", page: id });
       case "poster-remove": return commit(O.setFilm(s, id, { poster: null }));
       case "w-img": return openLib({ kind: "writing", page: id });

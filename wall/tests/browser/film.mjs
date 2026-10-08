@@ -1,0 +1,36 @@
+/* The film file: chosen for a film page, kept as it is, played on the page over the poster, carried into the published files. Needs /tmp/wall-shots/tiny-film.mp4. */
+import { chromium, webkit } from "../../node_modules/playwright-core/index.mjs";
+import { mkdirSync, rmSync, readdirSync, statSync } from "node:fs";
+import { execSync } from "node:child_process";
+const which = process.argv[2] || "chromium", B = "http://127.0.0.1:5181", OUT = `/tmp/wall-shots/film-${which}`;
+const br = await (which === "webkit" ? webkit : chromium).launch(), fails = [];
+const ctx = await br.newContext({ viewport: { width: 1440, height: 900 }, acceptDownloads: true }), pg = await ctx.newPage(); pg.setDefaultTimeout(10000);
+const errs = []; pg.on("pageerror", (e) => errs.push(e.message));
+const ok = (c, m) => { if (!c) fails.push(m); }; const w = (ms) => pg.waitForTimeout(ms);
+const space = "fm" + Date.now(), film = () => pg.evaluate(() => window.__wall.site.pages.find((p) => p.kind === "film"));
+await pg.goto(`${B}/app/index.html?site=habib&space=${space}&edit#/the-film`, { waitUntil: "networkidle" }); await w(600);
+ok(!((await film()).video ?? "").startsWith("asset:"), "the sample film plays a sample file, not one the artist kept");
+const [fc] = await Promise.all([pg.waitForEvent("filechooser"), pg.click('#panel [data-a="video"]')]);
+await fc.setFiles("/tmp/wall-shots/tiny-film.mp4"); await pg.waitForFunction(() => !!window.__wall.site.pages.find((p) => p.kind === "film").video, null, { timeout: 30000 }); await w(500);
+const f = await film(), lib = await pg.evaluate((a) => window.__wall.site.library[a], f.video);
+ok(lib && lib.kind === "video" && lib.w === 320 && lib.h === 180 && lib.caption === "0:02", `the file is in the library as a film, measured: ${JSON.stringify(lib)}`);
+ok(f.ratio === "16:9", `the page's ratio follows the film (${f.ratio})`);
+ok(await pg.locator(".v-film .screen .play").count() === 1, "the screen offers Play");
+ok(/Replace the film file/.test(await pg.locator("#panel").innerText()), "the panel shows the film and offers to replace it");
+await pg.click("#edit"); await w(400); await pg.click(".v-film .screen .play"); await w(1500);
+ok(await pg.locator(".v-film .screen video").count() === 1 && (await pg.evaluate(() => document.querySelector(".v-film .screen video").readyState)) >= 1, "Play puts the film on the screen and it loads");
+// the files carry the film
+await pg.click("#publish"); await w(400); await pg.click('#panel [data-pub="publish"]'); await pg.waitForSelector("#panel .versions", { timeout: 30000 }); await w(300);
+rmSync(OUT, { recursive: true, force: true }); mkdirSync(OUT, { recursive: true });
+const [dl] = await Promise.all([pg.waitForEvent("download", { timeout: 60000 }), pg.click('#panel a[download], #panel [data-pub="download"]')]);
+await dl.saveAs(`${OUT}/site.zip`); execSync(`unzip -q -o ${OUT}/site.zip -d ${OUT}/site`);
+const mp4 = readdirSync(`${OUT}/site/assets/img`).find((n) => n.endsWith(".mp4"));
+ok(mp4 && statSync(`${OUT}/site/assets/img/${mp4}`).size === statSync("/tmp/wall-shots/tiny-film.mp4").size, `the film file travels whole in the files (${mp4})`);
+const p3 = await ctx.newPage(); await p3.goto(`file://${OUT}/site/the-film/index.html`); await p3.waitForTimeout(800);
+await p3.click(".v-film .screen .play"); await p3.waitForTimeout(1500);
+ok((await p3.evaluate(() => document.querySelector(".v-film .screen video")?.readyState ?? 0)) >= 1, "and plays from disk");
+await p3.close();
+await pg.click("#edit"); await w(400); await pg.click('#panel [data-a="video-remove"]'); await w(400);
+ok(!(await film()).video && await pg.locator(".v-film .screen .play").count() === 0, "removing the file takes Play off the screen");
+if (errs.length) fails.push(errs.join(" | "));
+console.log(which, fails.length ? "FAILS:\n  " + fails.join("\n  ") : "the film file is kept, played and carried"); await br.close();

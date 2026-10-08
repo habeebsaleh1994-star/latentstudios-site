@@ -20,7 +20,7 @@ interface WallDB extends DBSchema {
 }
 export class StaleError extends Error { constructor() { super("This site was changed in another window."); this.name = "StaleError"; } }
 
-const MAX_BYTES = 15 * 1024 * 1024, LONG_EDGE = 2400;
+const MAX_BYTES = 15 * 1024 * 1024, LONG_EDGE = 2400, MAX_FILM = 400 * 1024 * 1024;
 let dbp: Promise<IDBPDatabase<WallDB>> | null = null;
 const db = () => (dbp ??= openDB<WallDB>("latent-wall", 1, { upgrade(d) { d.createObjectStore("sites"); d.createObjectStore("assets"); } }));
 
@@ -69,6 +69,20 @@ export function createStore(space = "artist") {
   }
 
   /** Object urls for stored photographs, made once and kept for the session. */
+  /** A film file, kept as it is (MP4 or QuickTime with H.264/HEVC plays everywhere the site does), measured by the browser. */
+  async function putVideo(file: File): Promise<{ id: string; w: number; h: number; title: string; seconds: number; name: string }> {
+    if (!/^video\/(mp4|quicktime|webm)$/.test(file.type) && !/\.(mp4|m4v|mov|webm)$/i.test(file.name)) throw new Error(`${file.name} is not a film file (MP4, MOV or WebM).`);
+    if (file.size > MAX_FILM) throw new Error(`${file.name} is over 400 MB.`);
+    const url = URL.createObjectURL(file), v = document.createElement("video"); v.preload = "metadata"; v.muted = true;
+    const m = await new Promise<{ w: number; h: number; seconds: number }>((ok, no) => { v.onloadedmetadata = () => ok({ w: v.videoWidth, h: v.videoHeight, seconds: v.duration }); v.onerror = () => no(new Error(`${file.name} could not be played by this browser.`)); v.src = url; });
+    URL.revokeObjectURL(url);
+    if (!m.w || !m.h) throw new Error(`${file.name} has no picture this browser can read.`);
+    const id = crypto.randomUUID();
+    try { await (await db()).put("assets", { type: file.type || "video/mp4", data: await file.arrayBuffer() }, id); }
+    catch { throw new Error("This browser could not keep the film. In a private window, open the site in a normal one."); }
+    const base = file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ").trim();
+    return { id: `asset:${id}`, w: m.w, h: m.h, title: base ? base.charAt(0).toUpperCase() + base.slice(1) : "Film", seconds: m.seconds, name: file.name };
+  }
   async function prepare(ids: string[]) {
     const d = await db();
     await Promise.all(ids.filter((a) => a.startsWith("asset:") && !urls.has(a)).map(async (a) => {
@@ -94,6 +108,6 @@ export function createStore(space = "artist") {
     for (const k of gone) await d.delete("assets", k);
     return gone.length;
   }
-  return { load, save, onOther, putImage, prepare, src, bytes, clear, space, everyLibrary, sweep };
+  return { load, save, onOther, putImage, putVideo, prepare, src, bytes, clear, space, everyLibrary, sweep };
 }
 export type Store = ReturnType<typeof createStore>;

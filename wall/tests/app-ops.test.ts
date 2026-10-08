@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
-import { openSite, type SiteDocument, type StoryPage } from "../src/studio/site";
+import { openSite, photographCount, type SiteDocument, type StoryPage } from "../src/studio/site";
 import * as O from "../src/app/ops";
 
 const site = (): SiteDocument => openSite(JSON.parse(readFileSync("design/samples/habib-saleh.site.json", "utf8")));
@@ -252,5 +252,18 @@ describe("sequencing", () => {
     expect(works(O.reorder(s, "the-road-in", 3, 0), "the-road-in")).toEqual([before[3], before[0], before[1], before[2]]);
     expect(works(O.reorder(s, "the-road-in", 0, 4), "the-road-in")).toEqual([before[1], before[2], before[3], before[0]]); // to the very end
     expect(O.reorder(s, "the-road-in", 1, 1)).toBe(s); expect(O.reorder(s, "the-road-in", 1, 2)).toBe(s); expect(O.reorder(s, "the-road-in", 9, 0)).toBe(s);
+  });
+});
+
+describe("a film file", () => {
+  it("joins the library as a film and is set to play on the page; removing it leaves the link", () => {
+    let s = site();
+    s = O.addToLibrary(s, "asset:f1", { w: 1920, h: 1080, title: "The road in", kind: "video", caption: "0:28" });
+    expect(s.library["asset:f1"].kind).toBe("video");
+    s = O.setFilm(s, "the-film", { video: "asset:f1", ratio: "16:9" });
+    const f = () => s.pages.find((p) => p.id === "the-film") as Extract<SiteDocument["pages"][number], { kind: "film" }>;
+    expect(f().video).toBe("asset:f1"); expect(photographCount(s)).toBe(photographCount(site())); // a film is not a photograph
+    s = O.setFilm(s, "the-film", { video: null }); expect(f().video).toBeNull(); expect(f().link).toBeTruthy();
+    expect(() => O.setFilm(s, "about", { video: "asset:f1" })).toThrow();
   });
 });
