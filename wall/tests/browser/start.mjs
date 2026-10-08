@@ -7,7 +7,7 @@ const errs = []; pg.on("pageerror", (e) => errs.push(e.message));
 const ok = (c, m) => { if (!c) fails.push(m); };
 await pg.goto(`${B}/design/home/index.html`, { waitUntil: "networkidle" });
 await pg.click("text=Start your site >> nth=0"); await pg.waitForLoadState("networkidle"); await pg.waitForTimeout(600);
-ok(await pg.locator(".start .s-t").count() === 9, "the start page shows the nine templates");
+ok(await pg.locator(".start .s-t").count() === 18, "the start page shows every template");
 ok(!(await pg.evaluate(() => !!window.__wall?.site)), "no site exists before the artist makes one");
 ok(await pg.locator(".s-go").isDisabled(), "Make my site waits for a template");
 await pg.click('.s-t[data-house="monograph"]'); await pg.fill("#s-name", "Nadia Haddad"); await pg.fill("#s-title", "Salt and stone");

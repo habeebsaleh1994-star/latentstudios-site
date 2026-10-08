@@ -518,3 +518,59 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
 .s-pick:hover { background: var(--ink); color: #EEE9E7; }
 .s-got { font-size: 15px; line-height: 1.5; color: var(--ink-soft); } .s-got b { font-weight: 400; color: var(--ink); }
 .s-unpick { background: none; border: 0; padding: 0; font: inherit; color: var(--ink-soft); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+/* ================================================================== board: pinned close, at their own proportions */
+.v-board .pins { max-width: 1500px; margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-flow: dense; gap: calc(22px * var(--sp)) calc(18px * var(--sp)); align-items: start; }
+.v-board .pin { margin: 0; position: relative; }
+.v-board .pin.big { grid-column: span 2; }
+.v-board .pin .frame { position: relative; background: var(--silk-deep); border: var(--frame); box-shadow: var(--frame-shadow, none); }
+.v-board .pin .frame img { display: block; width: 100%; height: auto; cursor: zoom-in; }
+[data-editing] .v-board .pin .frame img { cursor: default; }
+.v-board .pin figcaption .cap { padding-top: 8px; font-size: 13px; }
+.v-board .pin.say { grid-column: span 2; align-self: center; padding: 6% 8%; font-family: var(--serif); font-size: clamp(18px, 1.7vw, 24px); line-height: 1.4; }
+.v-board .pin.say .label { display: block; margin-bottom: 10px; }
+[data-captions="hover"] .v-board .pin figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 12px; background: linear-gradient(to top, color-mix(in srgb, var(--silk) 85%, transparent), transparent); opacity: 0; transition: opacity .4s var(--ease); }
+[data-captions="hover"] .v-board .pin:hover figcaption { opacity: 1; }
+[data-captions="hidden"] .v-board .pin figcaption { display: none; }
+@media (max-width: 1100px) { .v-board .pins { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .v-board .pins { grid-template-columns: repeat(2, minmax(0, 1fr)); } .v-board .pin.big, .v-board .pin.say { grid-column: span 2; } }
+
+/* ================================================================== the fronts that run in time, and the ones that list */
+.f-journal, .f-archive, .f-ledger, .f-catalogue, .f-reading, .f-posters { max-width: 1500px; margin-inline: auto; padding-inline: var(--gutter); }
+.f-journal ol, .f-archive ol { list-style: none; margin: 0; padding: 0; border-top: var(--rule-w, 1px) solid var(--rule); }
+.f-journal li a, .f-archive li a { display: grid; grid-template-columns: 9em 150px minmax(0, 1fr); gap: 20px 32px; align-items: start; padding: calc(26px * var(--sp)) 0; border-bottom: 1px solid var(--rule); text-decoration: none; }
+.f-journal .th img, .f-archive .th img { display: block; width: 100%; height: auto; background: var(--silk-deep); border: var(--frame); }
+.f-journal h2, .f-archive h2 { font-size: clamp(22px, 2.3vw, 32px); line-height: 1.12; letter-spacing: -.012em; }
+.f-journal .what p { margin: 8px 0 10px; font-size: 17px; line-height: 1.5; color: var(--ink-soft); max-width: 44em; }
+.f-journal .when, .f-archive .when { padding-top: .5em; }
+.f-archive li a { grid-template-columns: 8em 7em 120px minmax(0, 1fr); }
+.f-archive .kinds { display: flex; flex-wrap: wrap; gap: 6px 22px; padding: 0 0 18px; }
+.f-archive .kinds button { background: none; border: 0; padding: 4px 0; cursor: pointer; color: var(--ink-soft); border-bottom: 1px solid transparent; }
+.f-archive .kinds button.on { color: var(--ink); border-bottom-color: var(--ink); }
+.f-archive .m { display: block; margin-top: 4px; font-family: var(--sans); font-size: 12px; color: var(--ink-soft); }
+.f-archive li[hidden] { display: none; }
+.f-ledger table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 14px; }
+.f-ledger th { text-align: left; font-family: var(--sans); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); font-weight: 400; padding: 0 12px 12px 0; border-bottom: var(--rule-w, 1px) solid var(--ink); }
+.f-ledger td { padding: calc(16px * var(--sp)) 12px calc(16px * var(--sp)) 0; border-bottom: 1px solid var(--rule); vertical-align: baseline; }
+.f-ledger td.t a { font-family: var(--serif); font-size: clamp(19px, 1.8vw, 26px); text-decoration: none; }
+.f-ledger .no, .f-ledger .y { font-variant-numeric: tabular-nums; color: var(--ink-soft); white-space: nowrap; } .f-ledger .y { text-align: right; }
+.f-ledger tr:hover td { background: color-mix(in srgb, var(--silk-deep) 60%, transparent); }
+.f-catalogue .cat-series { margin-bottom: calc(56px * var(--sp)); }
+.f-catalogue .cat-series h2 { display: flex; gap: 18px; align-items: baseline; font-size: clamp(24px, 2.6vw, 36px); letter-spacing: -.015em; padding-bottom: 12px; border-bottom: var(--rule-w, 1px) solid var(--ink); } .f-catalogue h2 a { text-decoration: none; }
+.f-catalogue ol { list-style: none; margin: 0; padding: 0; }
+.f-catalogue li a { display: grid; grid-template-columns: 3em 90px minmax(0, 2fr) minmax(0, 2fr) 9em 4em; gap: 20px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--rule); text-decoration: none; font-size: 16px; }
+.f-catalogue .th img { display: block; width: 100%; height: auto; background: var(--silk-deep); }
+.f-catalogue .no, .f-catalogue .y, .f-catalogue .dim { font-family: var(--sans); font-size: 12.5px; color: var(--ink-soft); font-variant-numeric: tabular-nums; } .f-catalogue .y { text-align: right; }
+.f-catalogue .t { font-style: italic; } .f-catalogue .m { color: var(--ink-soft); }
+.f-catalogue .also { margin-top: 30px; } .f-catalogue .also a { text-decoration: none; }
+.f-reading { max-width: 760px; }
+.f-reading .piece { padding: calc(40px * var(--sp)) 0 calc(56px * var(--sp)); border-bottom: 1px solid var(--rule); }
+.f-reading .piece header { margin-bottom: 26px; } .f-reading .piece h2 { font-size: clamp(30px, 3.6vw, 52px); line-height: 1.04; letter-spacing: -.02em; margin-top: 8px; } .f-reading h2 a { text-decoration: none; }
+.f-reading .piece p { font-size: clamp(19px, 1.5vw, 22px); line-height: 1.6; margin: 0 0 1.1em; }
+.f-reading .after, .f-posters .after { display: grid; gap: 12px; padding: calc(40px * var(--sp)) 0; } .f-reading .after a, .f-posters .after a { text-decoration: none; font-size: 20px; } .f-reading .after small, .f-posters .after small { display: block; font-family: var(--sans); font-size: 12px; color: var(--ink-soft); }
+.f-posters .wall { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(40px * var(--sp)) calc(28px * var(--sp)); align-items: end; }
+.f-posters .poster { display: block; text-decoration: none; }
+.f-posters .poster img, .f-posters .poster .lines { display: block; width: 100%; aspect-ratio: var(--r); object-fit: cover; background: var(--silk-deep); border: var(--frame); box-shadow: 0 40px 80px -50px rgba(0,0,0,.6); }
+.f-posters .poster .lines { display: grid; place-items: center; padding: 10%; font-size: clamp(22px, 2.4vw, 34px); text-align: center; }
+.f-posters .bill { display: grid; gap: 4px; padding-top: 14px; } .f-posters .bill b { font-weight: var(--title-weight, 300); font-size: clamp(20px, 2vw, 28px); letter-spacing: -.012em; }
+@media (max-width: 860px) { .f-journal li a { grid-template-columns: 1fr; } .f-archive li a { grid-template-columns: 1fr 1fr; } .f-catalogue li a { grid-template-columns: 3em 70px 1fr; } .f-catalogue .m, .f-catalogue .dim, .f-catalogue .y { display: none; } .f-posters .wall { grid-template-columns: repeat(2, minmax(0, 1fr)); } .f-ledger td:nth-child(3), .f-ledger th:nth-child(3), .f-ledger td:nth-child(4), .f-ledger th:nth-child(4) { display: none; } }

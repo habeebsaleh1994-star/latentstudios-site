@@ -128,11 +128,65 @@ function frontCard(c: Ctx) {
   }
   return words;
 }
+/** When a page was made: a story by its latest work, the others by their year. For the fronts that run in time. */
+function dateOf(c: Ctx, p: SitePage): { when: string; t: number } {
+  if (p.kind === "story") {
+    const ds = p.pieces.flatMap((x) => (x.type === "work" ? [c.site.library[x.asset]?.date ?? ""] : [])).filter(Boolean).map((d) => ({ d, t: Date.parse(d) })).filter((x) => !Number.isNaN(x.t)).sort((a, b) => b.t - a.t);
+    return ds[0] ? { when: ds[0].d, t: ds[0].t } : { when: p.kicker, t: 0 };
+  }
+  const y = "year" in p ? p.year : ""; return { when: y, t: y ? Date.parse(`${y}-07-01`) || 0 : 0 };
+}
+const KIND_WORD: Record<SitePage["kind"], string> = { story: "Photographs", writing: "Writing", film: "Film", project: "Project", about: "About", contact: "Contact", record: "Record" };
+const lineOf = (c: Ctx, p: SitePage) => (c.locked?.(p) ? "" : "note" in p ? p.note : "synopsis" in p ? p.synopsis : "summary" in p ? p.summary : p.kind === "writing" ? (p.paras[0] ?? "").split("\n").slice(0, 2).join(" ") : "");
+/** Journal: dated entries, newest first; a small cover, the title, a line. */
+function frontJournal(c: Ctx, list: SitePage[]) {
+  const rows = list.map((p) => ({ p, d: dateOf(c, p) })).sort((a, b) => b.d.t - a.d.t);
+  return `<div class="f-journal"><ol>${rows.map(({ p, d }) => { const w = coverOf(c, p); return `<li class="${p.kind}${p.inNav ? "" : " off"}"><a href="${c.href(p.id)}"><span class="when label">${esc(d.when)}</span><span class="th">${w ? img(c, w) : ""}</span><span class="what"><h2>${plainTitle(p.title, p.titleEm)}</h2><p>${esc(lineOf(c, p)).slice(0, 220)}</p><span class="label">${esc(metaOf(p))}</span></span></a></li>`; }).join("")}</ol></div>`;
+}
+/** Catalogue: every work of every story, numbered through, with medium, dimensions and year. */
+function frontCatalogue(c: Ctx, list: SitePage[]) {
+  let n = 0;
+  const sections = list.filter((p): p is StoryPage => p.kind === "story" && !c.locked?.(p)).map((p) => {
+    const ws = p.pieces.flatMap((x) => (x.type === "work" && c.site.library[x.asset] ? [work(c, x.asset)] : []));
+    return `<section class="cat-series"><h2><a href="${c.href(p.id)}">${plainTitle(p.title, p.titleEm)}</a><span class="label">${esc(p.kicker)}</span></h2><ol start="${n + 1}">${ws.map((w) => { n++; const s = w.size; return `<li><a href="${c.href(p.id)}"><span class="no">${n}</span><span class="th">${img(c, w)}</span><span class="t">${esc(w.title || "Untitled")}</span><span class="m">${esc(w.caption)}</span><span class="dim">${s ? `${cmText(s.w)} × ${cmText(s.h)} cm` : ""}</span><span class="y">${esc((w.date.match(/\d{4}/) ?? [""])[0])}</span></a></li>`; }).join("")}</ol></section>`;
+  }).join("");
+  const rest = list.filter((p) => p.kind !== "story");
+  return `<div class="f-catalogue">${sections}${rest.length ? `<p class="also label">Also: ${rest.map((p) => `<a href="${c.href(p.id)}">${plainTitle(p.title, p.titleEm)}</a>`).join(" · ")}</p>` : ""}</div>`;
+}
+/** Reading: the writing itself, one piece after another, set large; everything else waits at the end. */
+function frontReading(c: Ctx, list: SitePage[]) {
+  const pieces = list.filter((p): p is Extract<SitePage, { kind: "writing" }> => p.kind === "writing" && !c.locked?.(p));
+  const rest = list.filter((p) => p.kind !== "writing");
+  return `<div class="f-reading">${pieces.map((p) => `<article class="piece"><header><span class="label">${esc([p.form, p.place, p.year].filter(Boolean).join(" · "))}</span><h2><a href="${c.href(p.id)}">${plainTitle(p.title, p.titleEm)}</a></h2></header>${p.paras.map((t) => `<p>${esc(t).replace(/\n/g, "<br>")}</p>`).join("")}</article>`).join("")}${rest.length ? `<nav class="after" aria-label="Also"><span class="label">Also</span>${rest.map((p) => `<a href="${c.href(p.id)}">${plainTitle(p.title, p.titleEm)}<small>${esc(metaOf(p))}</small></a>`).join("")}</nav>` : ""}</div>`;
+}
+/** Posters: every film as its poster at its own ratio; the rest beneath. */
+function frontPosters(c: Ctx, list: SitePage[]) {
+  const films = list.filter((p): p is Extract<SitePage, { kind: "film" }> => p.kind === "film");
+  const rest = list.filter((p) => p.kind !== "film");
+  return `<div class="f-posters"><div class="wall">${films.map((p) => { const w = coverOf(c, p); return `<a class="poster${p.inNav ? "" : " off"}" href="${c.href(p.id)}" style="--r:${w ? w.r.toFixed(4) : 0.7}">${w ? img(c, w) : `<span class="lines">${plainTitle(p.title, p.titleEm)}</span>`}<span class="bill"><b>${plainTitle(p.title, p.titleEm)}</b><span class="label">${esc([p.form, p.year, p.runtime].filter(Boolean).join(" · "))}</span></span></a>`; }).join("")}</div>${rest.length ? `<nav class="after" aria-label="Also"><span class="label">Also</span>${rest.map((p) => `<a href="${c.href(p.id)}">${plainTitle(p.title, p.titleEm)}<small>${esc(metaOf(p))}</small></a>`).join("")}</nav>` : ""}</div>`;
+}
+/** Ledger: a table of projects, clients, disciplines and years; each row opens the case. */
+function frontLedger(c: Ctx, list: SitePage[]) {
+  const rows = list.map((p, i) => { const pr = p.kind === "project" ? p : null; return `<tr class="${p.kind}${p.inNav ? "" : " off"}" data-href="${c.href(p.id)}"><td class="no">${n2(i + 1)}</td><td class="t"><a href="${c.href(p.id)}">${plainTitle(p.title, p.titleEm)}</a></td><td>${esc(pr ? pr.client : KIND_WORD[p.kind])}</td><td>${esc(pr ? pr.discipline : "form" in p ? p.form : p.kind === "story" ? p.kicker : "")}</td><td class="y">${esc(dateOf(c, p).when.match(/\d{4}/)?.[0] ?? "")}</td></tr>`; }).join("");
+  return `<div class="f-ledger"><table><thead><tr><th class="no">No.</th><th>Project</th><th>Client</th><th>Discipline</th><th class="y">Year</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+/** Archive: every page by date, newest first, with its kind; sifted by kind. */
+function frontArchive(c: Ctx, list: SitePage[]) {
+  const rows = list.map((p) => ({ p, d: dateOf(c, p) })).sort((a, b) => b.d.t - a.d.t);
+  const kinds = [...new Set(list.map((p) => p.kind))];
+  return `<div class="f-archive"><nav class="kinds" aria-label="Sift by kind"><button type="button" class="label on" data-kind="">All</button>${kinds.map((k) => `<button type="button" class="label" data-kind="${k}">${KIND_WORD[k]}</button>`).join("")}</nav><ol>${rows.map(({ p, d }) => { const w = coverOf(c, p); return `<li class="${p.kind}${p.inNav ? "" : " off"}" data-kind="${p.kind}"><a href="${c.href(p.id)}"><span class="when label">${esc(d.when)}</span><span class="kind label">${KIND_WORD[p.kind]}</span><span class="th">${w ? img(c, w) : ""}</span><span class="what"><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="m">${esc(metaOf(p))}</span></span></a></li>`; }).join("")}</ol></div>`;
+}
 function front(c: Ctx) {
   const list = shown(c);
   let body = "";
   if (!list.length) body = `<div class="empty">${c.editing ? "No work yet. Add a story, a film, some writing or a project from Edit." : ""}</div>`;
   else if (c.site.front.form === "walk") return frontWalk(c, list);
+  else if (c.site.front.form === "journal") body = frontJournal(c, list);
+  else if (c.site.front.form === "catalogue") body = frontCatalogue(c, list);
+  else if (c.site.front.form === "reading") body = frontReading(c, list);
+  else if (c.site.front.form === "posters") body = frontPosters(c, list);
+  else if (c.site.front.form === "ledger") body = frontLedger(c, list);
+  else if (c.site.front.form === "archive") body = frontArchive(c, list);
   else if (c.site.front.form === "list") {
     body = `<div class="f-list"><ol${c.site.house === "monograph" ? ' aria-label="Contents"' : ""}>${c.site.house === "monograph" ? '<li class="contents-h"><span class="label">Contents</span></li>' : ""}${list.map((p, i) => `<li class="${p.kind}${p.inNav ? "" : " off"}"><a href="${c.href(p.id)}" data-i="${i}"><span class="n">${n2(i + 1)}</span><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="m">${esc(metaOf(p))}</span></a></li>`).join("")}</ol><div class="f-show" aria-hidden="true">${listShow(c, list[0])}</div></div>`;
   } else if (c.site.front.form === "sheet") {
@@ -158,6 +212,17 @@ export function listShow(c: Ctx, p: SitePage | undefined) {
   if (!p) return "";
   const w = coverOf(c, p);
   return (w ? img(c, w, false) : `<span class="lines">${esc(firstLines(c, p))}</span>`) + `<p class="cap"><span class="n">${esc(metaOf(p))}</span></p>`;
+}
+
+/** Board: many works pinned close on one wall, at their own proportions, the larger ones across two columns. */
+function board(c: Ctx, p: StoryPage) {
+  const { groups: G } = groups(c, p);
+  let i = 0;
+  const pins = G.map((g) => {
+    if (g.type === "pause") return `<div class="pin say"><span class="label">${pauseLabel(c, p, g)}</span>${pauseText(c, p, g)}</div>`;
+    return g.works.map((w) => { const big = p.pieces[w.k]?.type === "work" && (p.pieces[w.k] as { full: boolean }).full; const h = `<figure class="pin${big ? " big" : ""}" style="--r:${w.r.toFixed(4)}" data-view="${i}"><div class="frame">${img(c, w)}${verso(c, w)}${mark(c, p, w)}</div><figcaption>${cap(c, w, false)}</figcaption></figure>`; i++; return h; }).join("") + (c.editing ? gap(c, p, g.k) : "");
+  }).join("");
+  return `<main class="v-board">${storyCard(c, p)}<div class="pins">${pins}</div>${c.editing ? gap(c, p, p.pieces.length - 1, true) : ""}${next(c, p).html}</main>`;
 }
 
 /* ------------------------------------------------------------------ stories */
@@ -342,7 +407,7 @@ function words(c: Ctx, p: Extract<SitePage, { kind: "about" | "contact" }>) {
 
 /* ------------------------------------------------------------------ one page */
 
-export type View = "front" | "held" | "book" | "passage" | "contact" | "wall" | "slides" | "writing" | "film" | "project" | "words";
+export type View = "front" | "held" | "book" | "passage" | "contact" | "wall" | "slides" | "board" | "writing" | "film" | "project" | "words";
 
 export function viewOf(p: SitePage | null, s?: SiteDocument): View {
   if (!p) return s?.front.form === "walk" ? "passage" : "front";
@@ -371,7 +436,7 @@ export function page(c: Ctx, p: SitePage | null): string {
   if (why === "soon") return door(c, p, why);
   if (why === "word") return bar(c, on) + door(c, p, why) + foot(c, on);
   if (!p) main = front(c);
-  else if (p.kind === "story") main = { held, book, passage, contact, wall, slides }[p.arrangement](c, p);
+  else if (p.kind === "story") main = { held, book, passage, contact, wall, slides, board }[p.arrangement](c, p);
   else if (p.kind === "writing") main = writing(c, p);
   else if (p.kind === "film") main = film(c, p);
   else if (p.kind === "project") main = project(c, p);

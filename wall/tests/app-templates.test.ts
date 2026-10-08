@@ -93,6 +93,53 @@ describe("every template does what it says", () => {
     for (const h of HOUSES) expect(arrangements(as(h.id))).toEqual(new Set([h.arrangements[0]]));
   });
 
+  it("Journal: dated entries newest first, each a day held one picture at a time", () => {
+    const s = as("journal"); const f = front(s);
+    expect([s.front.form, house("journal").arrangements[0], menu(f)]).toEqual(["journal", "held", "Entries"]);
+    const whens = [...f.matchAll(/class="when label">([^<]*)</g)].map((m) => m[1]); expect(whens.length).toBeGreaterThan(3);
+    expect(f.indexOf("The door")).toBeLessThan(f.indexOf("He looked")); // newest first: the poem of 2026 before December 2025
+  });
+  it("Column: essays lead, dated; photographs never ahead of the words", () => {
+    const s = as("column"); expect([s.front.form, workPages(s)[0].kind, menu(front(s))]).toEqual(["journal", "writing", "Essays"]);
+  });
+  it("Catalogue: every work numbered through, with its facts; the series keep their dimensions", () => {
+    const s = as("catalogue"); const f = front(s);
+    expect([s.front.form, menu(f)]).toEqual(["catalogue", "Catalogue"]);
+    const nos = [...f.matchAll(/class="no">(\d+)</g)].map((m) => +m[1]); expect(nos.length).toBeGreaterThan(8); expect(nos).toEqual(nos.map((_, i) => i + 1));
+    expect(f).toMatch(/<ol start="4">/); // the second series carries on the numbering
+  });
+  it("Chapbook: the front page is the reading itself, set large; the rest waits at the end", () => {
+    const s = as("chapbook"); const f = front(s);
+    expect([s.front.form, workPages(s)[0].kind, menu(f)]).toEqual(["reading", "writing", "Poems"]);
+    expect(f).toMatch(/<article class="piece">[\s\S]*The door remembers[\s\S]*<\/article>/); expect(f.indexOf("The door remembers")).toBeLessThan(f.indexOf('class="after"'));
+    expect([s.theme.header, s.theme.captions]).toEqual(["name", "hidden"]);
+  });
+  it("Cinema: a poster wall, dark by nature; films lead", () => {
+    const s = as("cinema"); const f = front(s);
+    expect([s.front.form, workPages(s)[0].kind, s.theme.mode, menu(f)]).toEqual(["posters", "film", "dark", "Films"]);
+    expect(f).toMatch(/class="poster" href="#\/the-film" style="--r:/);
+  });
+  it("Ledger: a table of projects first; pictures kept for the pages", () => {
+    const s = as("ledger", withProject()); const f = front(s);
+    expect([s.front.form, workPages(s)[0].kind, menu(f)]).toEqual(["ledger", "project", "Projects"]);
+    expect(f).toMatch(/<table><thead><tr><th class="no">No\.<\/th><th>Project<\/th><th>Client<\/th>/); expect(f).not.toMatch(/<img/);
+  });
+  it("Pinboard: every story a board of pins, the larger ones across two", () => {
+    const s = as("pinboard"); expect(arrangements(s)).toEqual(new Set(["board"]));
+    const h = at(s, "the-road-in"); expect(h).toMatch(/<main class="v-board">/); expect(h).toMatch(/class="pin big"/); // the road's first work is set full in the sample
+    expect(s.theme.captions).toBe("hover");
+  });
+  it("Studio: boards for the making, walls at true size for the made, projects with process", () => {
+    const s = as("studio"); expect(house("studio").arrangements).toEqual(["board", "wall", "held"]); expect(house("studio").leads).toEqual(["story", "project"]);
+    expect(at(s, "the-road-in")).toMatch(/<main class="v-board">/);
+  });
+  it("Archive: everything by date, newest first, sifted by kind", () => {
+    const s = as("archive"); const f = front(s);
+    expect([s.front.form, menu(f)]).toEqual(["archive", "Archive"]);
+    expect(f).toMatch(/<nav class="kinds"[^>]*><button type="button" class="label on" data-kind="">All<\/button><button type="button" class="label" data-kind="story">Photographs<\/button>/);
+    expect(f.indexOf('<li class="writing" data-kind="writing"')).toBeLessThan(f.indexOf('<li class="story" data-kind="story"')); // the 2026 poem before the 2025 photographs
+    expect(workPages(s).map((p) => p.kind)).toContain("film");
+  });
   it("the words we use for each template are the words it shows: its name, who it is for, what leads", () => {
     for (const h of HOUSES) {
       expect(h.for.length).toBeGreaterThan(5);

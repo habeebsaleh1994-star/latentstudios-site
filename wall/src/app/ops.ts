@@ -291,6 +291,10 @@ export function arrangeOptions(site: S, id: string, k: number): Opt[] {
   const landscape = (a?: Piece) => isWork(a) && lib[a.asset].w >= lib[a.asset].h;
   const prev = p.pieces[k - 1], nx = p.pieces[k + 1], portrait = lib[x.asset].w < lib[x.asset].h, a = p.arrangement;
   if (a === "contact") return [];
+  if (a === "board") return [
+    { key: "full", title: "Larger", note: "Across two columns of the board", current: x.full },
+    { key: "alone", title: "One pin", note: "In one column", current: !x.full },
+  ];
   if (a === "wall") {
     // a wall ignores pauses: the next work is the next work, wherever it is
     const after = p.pieces.slice(k + 1).some(isWork), hangs = x.arrange === "with-next" && after;

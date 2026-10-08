@@ -42,11 +42,15 @@ export function wire(root: HTMLElement, c: Ctx, p: SitePage | null, view: View, 
   else if (view === "passage") passage(root, key);
   else if (view === "contact") contactSheet(root, c, p);
   else if (view === "wall") wall(root, c, p);
+  else if (view === "board") boardViewer(root, c, p);
   else if (view === "slides") slides(root, c, p, key);
   else heldViewer(root, c, p);
 }
 
 function front(root: HTMLElement, c: Ctx) {
+  // the archive: sift by kind
+  const sift = root.querySelector<HTMLElement>(".f-archive");
+  if (sift) on(sift, "click", (e: MouseEvent) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-kind]"); if (!b || b.tagName !== "BUTTON") return; const k = b.dataset.kind!; sift.querySelectorAll("button[data-kind]").forEach((x) => x.classList.toggle("on", x === b)); sift.querySelectorAll<HTMLElement>("li[data-kind]").forEach((li) => { li.hidden = !!k && li.dataset.kind !== k; }); });
   const show = root.querySelector<HTMLElement>(".f-show"); if (!show) return;
   const list = workPages(c.site).filter((p) => p.inNav || c.editing);
   root.querySelectorAll<HTMLAnchorElement>(".f-list a[data-i]").forEach((a) => {
@@ -55,6 +59,14 @@ function front(root: HTMLElement, c: Ctx) {
   });
 }
 
+function boardViewer(root: HTMLElement, c: Ctx, p: StoryPage) {
+  const ws = groups(c, p).works;
+  on(root, "click", (e: MouseEvent) => {
+    if (c.editing) return;
+    const f = (e.target as HTMLElement).closest<HTMLElement>(".pin[data-view]"); if (!f) return;
+    viewer()?.open(ws.map((w) => ({ src: w.src, alt: w.alt, title: w.title, meta: [w.caption, w.date].filter(Boolean).join(" · "), cm: w.size })), +f.dataset.view!);
+  });
+}
 function heldViewer(root: HTMLElement, c: Ctx, p: StoryPage) {
   const ws = groups(c, p).works;
   on(root, "click", (e: MouseEvent) => {
