@@ -5,6 +5,7 @@
  * Rendering returns html strings. In edit mode the same functions mark words as editable
  * (data-ed names the field) and add the editor's quiet marks; the page itself never changes shape.
  */
+import { fold } from "./lock";
 import type { SiteDocument, SitePage, StoryPage, Work, Piece } from "../studio/site";
 import { ratioNumber } from "./util";
 import { house } from "./houses";
@@ -16,7 +17,20 @@ export type Ctx = {
   href: (pageId: string) => string;
   /** Where an asset's file is, for the current runtime (dev server, stored upload, published files). */
   src: (asset: string) => string;
+  /** What stands between a visitor and this page right now: the holding page, the word, or nothing. Absent while editing. */
+  locked?: (p: SitePage | null) => "soon" | "word" | null;
+  /** Try a word at the door; true opens the page. */
+  open?: (word: string, p: SitePage | null) => Promise<boolean>;
 };
+/** The word a page is behind: the site's, or its own. */
+export const wordFor = (site: SiteDocument, p: SitePage | null) => site.door.word || p?.word || "";
+/** What stands between a visitor and a page, given the words they have already given. */
+export function lockOf(site: SiteDocument, p: SitePage | null, given: string[]): "soon" | "word" | null {
+  const has = (w: string) => given.some((g) => fold(g) === fold(w));
+  if (site.door.soon && !(site.door.word && has(site.door.word))) return "soon";
+  const w = wordFor(site, p);
+  return w && !has(w) ? "word" : null;
+}
 export type W = Work & { asset: string; src: string; r: number; n: string; k: number };
 
 const ENT: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
@@ -86,6 +100,7 @@ function next(c: Ctx, p: SitePage) {
 /* ------------------------------------------------------------------ covers: how a page shows on the front */
 
 function coverOf(c: Ctx, p: SitePage): W | null {
+  if (c.locked?.(p)) return null;
   const a = p.kind === "story" ? (p.pieces.find((x) => x.type === "work") as { asset: string } | undefined)?.asset
     : p.kind === "writing" ? p.image?.asset : p.kind === "film" ? p.poster ?? p.stills[0]?.asset : p.kind === "project" ? p.outcome[0] ?? p.process[0] : undefined;
   return a && c.site.library[a] ? work(c, a) : null;
@@ -97,7 +112,7 @@ function metaOf(p: SitePage) {
   if (p.kind === "project") return [p.discipline, p.client, p.year].filter(Boolean).join(" · ");
   return "";
 }
-const firstLines = (p: SitePage) => (p.kind === "writing" ? (p.paras[0] ?? "").split("\n").slice(0, 4).join("\n") : "");
+const firstLines = (c: Ctx, p: SitePage) => (c.locked?.(p) ? "" : p.kind === "writing" ? (p.paras[0] ?? "").split("\n").slice(0, 4).join("\n") : "");
 
 /* ------------------------------------------------------------------ the front page */
 
@@ -121,9 +136,9 @@ function front(c: Ctx) {
   else if (c.site.front.form === "list") {
     body = `<div class="f-list"><ol${c.site.house === "monograph" ? ' aria-label="Contents"' : ""}>${c.site.house === "monograph" ? '<li class="contents-h"><span class="label">Contents</span></li>' : ""}${list.map((p, i) => `<li class="${p.kind}${p.inNav ? "" : " off"}"><a href="${c.href(p.id)}" data-i="${i}"><span class="n">${n2(i + 1)}</span><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="m">${esc(metaOf(p))}</span></a></li>`).join("")}</ol><div class="f-show" aria-hidden="true">${listShow(c, list[0])}</div></div>`;
   } else if (c.site.front.form === "sheet") {
-    body = `<div class="f-sheet">${list.map((p) => { const w = coverOf(c, p); return `<a class="${p.kind}${p.inNav ? "" : " off"}" href="${c.href(p.id)}"><span class="fr">${w ? img(c, w) : `<span class="lines">${esc(firstLines(p))}</span>`}</span><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="label">${esc(metaOf(p))}</span></a>`; }).join("")}</div>`;
+    body = `<div class="f-sheet">${list.map((p) => { const w = coverOf(c, p); return `<a class="${p.kind}${p.inNav ? "" : " off"}" href="${c.href(p.id)}"><span class="fr">${w ? img(c, w) : `<span class="lines">${esc(firstLines(c, p))}</span>`}</span><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="label">${esc(metaOf(p))}</span></a>`; }).join("")}</div>`;
   } else {
-    body = `<div class="f-covers">${list.map((p, i) => { const w = coverOf(c, p); return `<a class="cover ${p.kind}${p.inNav ? "" : " off"}" href="${c.href(p.id)}" style="--r:${w ? w.r.toFixed(4) : 1.5}">${w ? img(c, w, i > 0) : `<span class="lines">${esc(firstLines(p))}</span>`}<span class="under"><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="label">${esc(metaOf(p))}</span></span></a>`; }).join("")}</div>`;
+    body = `<div class="f-covers">${list.map((p, i) => { const w = coverOf(c, p); return `<a class="cover ${p.kind}${p.inNav ? "" : " off"}" href="${c.href(p.id)}" style="--r:${w ? w.r.toFixed(4) : 1.5}">${w ? img(c, w, i > 0) : `<span class="lines">${esc(firstLines(c, p))}</span>`}<span class="under"><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="label">${esc(metaOf(p))}</span></span></a>`; }).join("")}</div>`;
   }
   return `<main class="v-front">${frontCard(c)}${body}</main>`;
 }
@@ -142,7 +157,7 @@ function frontWalk(c: Ctx, list: SitePage[]) {
 export function listShow(c: Ctx, p: SitePage | undefined) {
   if (!p) return "";
   const w = coverOf(c, p);
-  return (w ? img(c, w, false) : `<span class="lines">${esc(firstLines(p))}</span>`) + `<p class="cap"><span class="n">${esc(metaOf(p))}</span></p>`;
+  return (w ? img(c, w, false) : `<span class="lines">${esc(firstLines(c, p))}</span>`) + `<p class="cap"><span class="n">${esc(metaOf(p))}</span></p>`;
 }
 
 /* ------------------------------------------------------------------ stories */
@@ -336,9 +351,19 @@ export function viewOf(p: SitePage | null, s?: SiteDocument): View {
   return p.kind;
 }
 
+/** The door: what a visitor meets before a page they may not see yet. A holding page for "soon"; a line and a word for a page behind one. */
+export function door(c: Ctx, p: SitePage | null, why: "soon" | "word"): string {
+  const s = c.site, form = `<form class="door-form" data-door autocomplete="off"><label><span class="label">The word</span><input type="password" name="word" autocomplete="off" autocapitalize="none" spellcheck="false" required></label><button type="submit" class="label">Open</button><p class="wrong label" hidden>Not that word.</p></form>`;
+  if (why === "soon") return `<main class="v-door" data-why="soon"><section class="door"><h1>${esc(s.name)}</h1><p class="note">${esc(s.door.note || "Soon.")}</p>${s.door.word ? form : ""}</section></main>`;
+  const title = p ? plainTitle(p.title, p.titleEm) : esc(s.name);
+  return `<main class="v-door" data-why="word"><section class="door"><h1>${title}</h1><p class="note">${s.door.word ? "This site is shown to those who have the word." : "This page is shown to those who have the word."}</p>${form}</section></main>`;
+}
 export function page(c: Ctx, p: SitePage | null): string {
   const on = !p || workPages(c.site).some((x) => x.id === p.id) ? "" : p.id;
   let main: string;
+  const why = c.locked?.(p);
+  if (why === "soon") return door(c, p, why);
+  if (why === "word") return bar(c, on) + door(c, p, why) + foot(c, on);
   if (!p) main = front(c);
   else if (p.kind === "story") main = { held, book, passage, contact, wall, slides }[p.arrangement](c, p);
   else if (p.kind === "writing") main = writing(c, p);
@@ -354,6 +379,9 @@ export function titleText(s: SiteDocument, p: SitePage | null) {
 }
 /** How a page appears elsewhere: what the artist set, or else what the page itself says. */
 export function appearsOf(c: Ctx, p: SitePage | null): { title: string; description: string; share: W | null; own: boolean } {
+  const why = c.locked?.(p);
+  if (why === "soon") return { title: c.site.name, description: c.site.door.note, share: null, own: false };
+  if (why === "word") return { title: titleText(c.site, p), description: "", share: null, own: false };
   const set = p ? p.appears : { title: "", description: "", share: c.site.appears.share };
   const fromPage = p ? ("note" in p ? p.note : "synopsis" in p ? p.synopsis : "summary" in p ? p.summary : p.kind === "writing" ? (p.paras[0] ?? "").split("\n").slice(0, 2).join(" ") : (p.paras?.[0] ?? "")) : c.site.front.note;
   const description = (set.description || fromPage || c.site.appears.description || "").replace(/\s+/g, " ").trim().slice(0, 300);

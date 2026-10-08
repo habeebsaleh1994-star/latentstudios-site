@@ -4,8 +4,9 @@
  * is kept, so the site can be put back as it was.
  */
 import type { SiteDocument, SitePage } from "../studio/site";
-import { page as renderPage, appearsOf, type Ctx } from "./render";
+import { page as renderPage, appearsOf, lockOf, wordFor, type Ctx } from "./render";
 import { siteAssets } from "../studio/site";
+import { seal, type Sealed } from "./lock";
 import { house } from "./houses";
 import { TYPEFACES } from "./theme";
 
@@ -46,10 +47,13 @@ export function changes(prev: SiteDocument | null, next: SiteDocument): string[]
       if (!added && !removed && p.arrangement === q.arrangement && !sameJSON(p.pieces, q.pieces)) bits.push("the order or how works sit");
     }
     if (p.inNav !== q.inNav) bits.push(p.inNav ? "shown again" : "hidden");
+    if (p.word !== q.word) bits.push(p.word ? (q.word ? "its word" : "behind a word") : "no longer behind a word");
     if (!bits.length) bits.push("the words");
     out.push(`${titleOf(p)}: ${bits.join(", ")}.`);
   }
   for (const q of prev.pages) if (!now.has(q.id)) out.push(`Removed: ${titleOf(q)}.`);
+  if (prev.door.soon !== next.door.soon) out.push(next.door.soon ? "Only a holding page is shown now." : "The site is shown, not just a holding page.");
+  if (prev.door.word !== next.door.word) out.push(next.door.word ? (prev.door.word ? "The site's word." : "The site is behind a word now.") : "The site is no longer behind a word.");
   const order = (s: SiteDocument) => s.pages.map((p) => p.id).filter((id) => was.has(id) && now.has(id)).join("|");
   if (order(prev) !== order(next)) out.push("The order of the pages.");
   return out;
@@ -67,6 +71,9 @@ export function checks(s: SiteDocument): { text: string; stop?: boolean }[] {
     if (p.kind === "film" && !p.poster && !p.video && !p.link) out.push({ text: `“${titleOf(p)}” has no film, poster or link yet.` });
   }
   for (const p of s.pages) if ((p.kind === "about" || p.kind === "contact") && !p.paras.some((t) => t.trim())) out.push({ text: `${p.title} is empty.` });
+  if (s.door.soon) out.push({ text: `Visitors will see only a holding page${s.door.word ? "; those with the word get in" : ""}.` });
+  else if (s.door.word) out.push({ text: `The whole site is behind the word “${s.door.word}”.` });
+  else for (const p of s.pages) if (p.word) out.push({ text: `“${titleOf(p)}” is behind the word “${p.word}”.` });
   return out;
 }
 
@@ -88,9 +95,44 @@ const ASSETS: [string, string][] = [["assets/base.css", "/design/shared/base.css
 const FONTS = "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&family=Libre+Caslon+Text:ital,wght@0,400;1,400&family=Karla:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wght@400;500;600;700&family=Jost:wght@300;400;500&family=Fraunces:ital,wght@0,400;0,800;1,400;1,800&family=Courier+Prime:wght@400;700&family=Young+Serif&family=DM+Sans:wght@400;500&family=Bodoni+Moda:ital,wght@0,400;1,400&display=swap";
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 
+/** Whether a page stands behind the door for a visitor who has given nothing. */
+const hidden = (site: SiteDocument, p: SitePage | null) => site.door.soon || !!wordFor(site, p);
+/**
+ * The site as a visitor's browser may hold it: no words; the content of pages behind the door stripped,
+ * with the works only they use; the trash gone. `keep` is the page whose content may stay (the one being
+ * shown, once opened), or "all" inside something sealed with the site's own word.
+ */
+export function publicSite(site: SiteDocument, keep: string | "all" | null): SiteDocument {
+  const s = structuredClone(site);
+  const strip = (p: SitePage) => {
+    if (p.kind === "story") { p.pieces = []; p.note = ""; p.kicker = ""; }
+    else if (p.kind === "writing") { p.paras = []; p.image = null; p.margin = ""; }
+    else if (p.kind === "film") { p.poster = null; p.video = null; p.stills = []; p.synopsis = ""; p.credits = []; p.link = ""; }
+    else if (p.kind === "project") { p.outcome = []; p.process = []; p.summary = ""; p.facts = []; }
+    else p.paras = [];
+    p.appears = { title: "", description: "", share: null };
+  };
+  for (const p of s.pages) { if (keep !== "all" && hidden(site, p) && p.id !== keep) strip(p); p.word = ""; }
+  s.door.word = ""; s.trash = [];
+  if (keep !== "all" && hidden(site, null)) s.appears.share = null;
+  const used = new Set([...s.pages.flatMap(worksOn), ...siteAssets(s)]);
+  for (const a of Object.keys(s.library)) if (!used.has(a)) delete s.library[a];
+  return s;
+}
+type FileOpts = {
+  /** file names for the works of pages behind the door (unguessable, so the files are found only through the opened page) */
+  names?: Map<string, string>;
+  /** the door this file shows instead of the page */
+  lock?: "soon" | "word";
+  /** the page itself, sealed with its word, carried inside the door */
+  sealed?: Sealed;
+  /** inside a sealed page: whose content the carried document keeps */
+  keep?: string | "all" | null;
+};
 /** One page as a complete html file. `base` is the path back to the site's root from this page ("" or "../"). */
-export function pageFile(site: SiteDocument, p: SitePage | null, base: string): string {
-  const ctx: Ctx = { site, editing: false, href: (id) => (id ? `${base}${encodeURIComponent(id)}/` : base || "./"), src: (a) => `${base}assets/img/${fileOf(a, site.library[a]?.kind ?? "image")}` };
+export function pageFile(site: SiteDocument, p: SitePage | null, base: string, o: FileOpts = {}): string {
+  const ctx: Ctx = { site, editing: false, href: (id) => (id ? `${base}${encodeURIComponent(id)}/` : base || "./"), src: (a) => `${base}assets/img/${o.names?.get(a) ?? fileOf(a, site.library[a]?.kind ?? "image")}`, locked: o.lock ? () => o.lock! : undefined };
+  const carried = publicSite(site, o.lock ? null : (o.keep ?? null));
   const t = site.theme, look = t.look, L = (globalThis as unknown as { FolioTheme?: { LOOKS: Record<string, { vars?: Record<string, string> }> } }).FolioTheme;
   const vars = look !== "quiet" && L?.LOOKS[look]?.vars ? L.LOOKS[look].vars! : {};
   const face = t.typeface ? TYPEFACES[t.typeface] : null;
@@ -120,7 +162,7 @@ export function pageFile(site: SiteDocument, p: SitePage | null, base: string): 
 <link rel="stylesheet" href="${base}assets/app-looks.css">
 </head>
 <body><div id="app">${renderPage(ctx, p)}</div>
-<script>window.STATIC=${JSON.stringify({ page: p ? p.id : null, base, site }).replace(/</g, "\\u003c")}</script>
+<script>window.STATIC=${JSON.stringify({ page: p ? p.id : null, base, site: carried, sealed: o.sealed, names: o.lock ? undefined : Object.fromEntries([...(o.names ?? [])].filter(([a]) => a in carried.library)) }).replace(/</g, "\\u003c")}</script>
 <script src="${base}assets/theme.js"></script>
 <script src="${base}assets/viewer.js"></script>
 <script src="${base}assets/visitor.js"></script>
@@ -133,11 +175,20 @@ export function pageFile(site: SiteDocument, p: SitePage | null, base: string): 
 /** Every file of the published site. */
 export async function buildFiles(site: SiteDocument, src: Sources): Promise<OutFile[]> {
   const enc = new TextEncoder(), files: OutFile[] = [];
-  files.push({ name: "index.html", data: enc.encode(pageFile(site, null, "")) });
-  for (const p of site.pages) files.push({ name: `${p.id}/index.html`, data: enc.encode(pageFile(site, p, "../")) });
+  // works seen only behind the door get unguessable file names; they ship only when a word can open them
+  const open = publicSite(site, null), openUsed = new Set([...open.pages.flatMap(worksOn), ...siteAssets(site)]), names = new Map<string, string>();
+  const canOpen = !site.door.soon || !!site.door.word;
+  for (const p of site.pages) if (hidden(site, p) && canOpen) for (const a of worksOn(p)) if (!openUsed.has(a) && !names.has(a)) names.set(a, `${[...crypto.getRandomValues(new Uint8Array(12))].map((b) => b.toString(16).padStart(2, "0")).join("")}.${site.library[a]?.kind === "video" ? "mp4" : "jpg"}`);
+  const fileFor = async (p: SitePage | null, base: string) => {
+    if (!hidden(site, p)) return pageFile(site, p, base, { names });
+    const word = site.door.soon ? site.door.word : wordFor(site, p);
+    const sealed = word ? await seal(pageFile(site, p, base, { names, keep: site.door.word ? "all" : p!.id }), word) : undefined;
+    return pageFile(site, p, base, { names, lock: site.door.soon ? "soon" : "word", sealed });
+  };
+  files.push({ name: "index.html", data: enc.encode(await fileFor(null, "")) });
+  for (const p of site.pages) files.push({ name: `${p.id}/index.html`, data: enc.encode(await fileFor(p, "../")) });
   await Promise.all(ASSETS.map(async ([name, url]) => files.push({ name, data: enc.encode(await src.text(url)) })));
-  const used = new Set([...site.pages.flatMap(worksOn), ...siteAssets(site)]);
-  await Promise.all([...used].map(async (a) => { const w = site.library[a]; if (w) files.push({ name: `assets/img/${fileOf(a, w.kind)}`, data: await src.bytes(a) }); }));
+  await Promise.all([...openUsed, ...names.keys()].map(async (a) => { const w = site.library[a]; if (w) files.push({ name: `assets/img/${names.get(a) ?? fileOf(a, w.kind)}`, data: await src.bytes(a) }); }));
   files.push({ name: "assets/favicon.svg", data: enc.encode(favicon(site)) });
   if (src.share) {
     // one share image per distinct picture and focal point; pages that share a source share the file
@@ -146,7 +197,7 @@ export async function buildFiles(site: SiteDocument, src: Sources): Promise<OutF
   }
   return files.sort((a, b) => a.name.localeCompare(b.name));
 }
-const bare = (site: SiteDocument): Ctx => ({ site, editing: false, href: () => "", src: (a) => a });
+const bare = (site: SiteDocument): Ctx => ({ site, editing: false, href: () => "", src: (a) => a, locked: (p) => lockOf(site, p, []) });
 /** The share image file a page points at: named after the first page (the front first) that shows the same picture at the same focal point. */
 export function shareFileFor(site: SiteDocument, p: SitePage | null): string | null {
   const c = bare(site), ap = appearsOf(c, p); if (!ap.share) return null;

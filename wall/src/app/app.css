@@ -484,3 +484,18 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
 @media (prefers-reduced-motion: reduce) { .frame:has(> .verso) { transition: none; } }
 .v-passage .hang .frame { position: relative; }
 .v-book .pg figure .in .frame { position: relative; display: block; }
+
+/* ================================================================== the door: a holding page, or a word */
+.v-door { min-height: 70svh; display: grid; place-items: center; padding: calc(clamp(40px, 10vh, 120px) * var(--sp)) var(--gutter); }
+.v-door[data-why="soon"] { min-height: 100svh; }
+.v-door .door { max-width: 560px; text-align: center; display: grid; gap: 18px; justify-items: center; }
+.v-door h1 { font-size: clamp(36px, 5vw, 72px); line-height: var(--h1-lh); letter-spacing: var(--h1-track); text-transform: var(--h1-case); font-weight: var(--title-weight, 300); }
+.v-door .note { font-family: var(--serif); font-size: clamp(17px, 1.6vw, 21px); line-height: 1.5; color: var(--ink-soft); max-width: 36ch; margin: 0; }
+.door-form { margin-top: 18px; display: grid; gap: 14px; justify-items: center; }
+.door-form label { display: grid; gap: 8px; justify-items: center; }
+.door-form input { font-family: var(--serif); font-size: 22px; text-align: center; letter-spacing: .04em; width: min(320px, 70vw); padding: 8px 4px; color: var(--ink); background: none; border: 0; border-bottom: 1px solid var(--rule); outline: none; transition: border-color .3s var(--ease); }
+.door-form input:focus { border-color: var(--ink); }
+.door-form button { background: none; border: 1px solid var(--rule); color: var(--ink); padding: 10px 22px; cursor: pointer; transition: border-color .3s var(--ease); }
+.door-form button:hover { border-color: var(--ink); }
+.door-form .wrong { margin: 0; color: var(--accent); }
+.door-form.trying { opacity: .5; pointer-events: none; }

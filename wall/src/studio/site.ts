@@ -98,7 +98,8 @@ export type ArrangementId = (typeof arrangementIds)[number];
 
 /** How a page appears elsewhere: in a search result, as a link sent to someone. Empty means "from the page itself". */
 export const appearsSchema = z.object({ title: short.default(""), description: short.default(""), share: id.nullable().default(null) }).strict().default({ title: "", description: "", share: null });
-const common = { id, title: short, titleEm: short.default(""), inNav: z.boolean().default(true), appears: appearsSchema };
+/** A page behind a word is shown to those who have it; empty means open. */
+const common = { id, title: short, titleEm: short.default(""), inNav: z.boolean().default(true), appears: appearsSchema, word: short.default("") };
 
 export const storyPageSchema = z.object({
   ...common, kind: z.literal("story"),
@@ -165,6 +166,8 @@ export const siteSchema = z
     front: frontSchema,
     /** The site's own: a line for search engines when a page has none, and a share image when a page has no cover. */
     appears: z.object({ description: short.default(""), share: id.nullable().default(null) }).strict().default({ description: "", share: null }),
+    /** The door: a word the whole site is behind, and "soon", which publishes only a holding page (with the door, when there is a word). */
+    door: z.object({ word: short.default(""), soon: z.boolean().default(false), note: short.default("") }).strict().default({ word: "", soon: false, note: "" }),
     /** The artist's mark: a logo or wordmark shown in place of the name, when they have one. */
     mark: z.object({ logo: id.nullable().default(null) }).strict().default({ logo: null }),
     theme: themeSchema,

@@ -33,7 +33,7 @@ export function blankSite(name: string, houseId: S["house"], title = ""): S {
     version: SITE_VERSION, house: h.id, name: name.trim() || "Your name", contact: "", email: "",
     front: { form: h.fronts[0], kicker: "", title: words.join(" "), titleEm: em, note: "" },
     theme: themeSchema.parse(houseTheme(h)), library: {},
-    pages: [{ id: "about", kind: "about", title: "About", inNav: true, paras: [""], principles: [] }, { id: "contact", kind: "contact", title: "Contact", inNav: true, paras: [""] }],
+    pages: [{ id: "about", kind: "about", title: "About", inNav: true, word: "", paras: [""], principles: [] }, { id: "contact", kind: "contact", title: "Contact", inNav: true, word: "", paras: [""] }],
   });
 }
 
@@ -46,6 +46,8 @@ export function setField(site: S, field: string, value: string): S {
   if ((m = field.match(/^site\.(name|contact)$/))) s[m[1] as "name" | "contact"] = v;
   else if (field === "site.appears.description") s.appears.description = v;
   else if ((m = field.match(/^front\.(kicker|title|titleEm|note)$/))) s.front[m[1] as "title"] = v;
+  else if ((m = field.match(/^site\.door\.(word|note)$/))) s.door[m[1] as "word"] = v.trim();
+  else if ((m = field.match(/^page:([^.]+)\.word$/))) find(s, m[1]).word = v.trim();
   else if ((m = field.match(/^work:(.+)\.verso\.(place|line|edition|made)$/))) { const w = s.library[m[1]]; if (!w) throw new Error(`No work ${m[1]}.`); w.verso[m[2] as "place"] = v; }
   else if ((m = field.match(/^work:(.+)\.(title|date|caption|alt)$/))) { const w = s.library[m[1]]; if (!w) throw new Error(`No work ${m[1]}.`); w[m[2] as "title"] = v; }
   else if ((m = field.match(/^piece:([^:]+):(\d+)\.(label|text|note)$/))) {
@@ -69,7 +71,7 @@ export function setField(site: S, field: string, value: string): S {
 
 export function addPage(site: S, kind: PageKind, title?: string): { site: S; id: string } {
   const s = clone(site), t = title ?? ({ story: "New story", writing: "A new piece", film: "A new film", project: "A new project", about: "About", contact: "Contact" } as const)[kind];
-  const id = slug(s, t), base = { id, title: t, titleEm: "", inNav: true, appears: { title: "", description: "", share: null } };
+  const id = slug(s, t), base = { id, title: t, titleEm: "", inNav: true, word: "", appears: { title: "", description: "", share: null } };
   const page: SitePage = kind === "story" ? { ...base, kind, kicker: "", note: "", arrangement: house(s.house).arrangements[0], pieces: [] }
     : kind === "writing" ? { ...base, kind, form: "Poem", place: "", year: String(new Date().getFullYear()), paras: [""], margin: "", image: null }
     : kind === "film" ? { ...base, kind, form: "Short film", year: String(new Date().getFullYear()), runtime: "", ratio: "16:9", synopsis: "", poster: null, video: null, link: "", stills: [], credits: [] }
@@ -85,6 +87,14 @@ export function movePage(site: S, id: string, dir: -1 | 1): S {
   const s = clone(site), i = s.pages.findIndex((p) => p.id === id), j = i + dir;
   if (i < 0 || j < 0 || j >= s.pages.length) return site;
   [s.pages[i], s.pages[j]] = [s.pages[j], s.pages[i]]; return done(s);
+}
+/** Who can see the site: everyone, those with a word, or no one yet (a holding page; the word, if any, still opens it). */
+export function setDoor(site: S, mode: "open" | "word" | "soon"): S {
+  const s = clone(site);
+  if (mode === "open") { s.door.word = ""; s.door.soon = false; }
+  else if (mode === "word") s.door.soon = false;
+  else s.door.soon = true;
+  return done(s);
 }
 export function toggleNav(site: S, id: string): S { const s = clone(site), p = find(s, id); p.inNav = !p.inNav; return done(s); }
 export const TRASH_DAYS = 30;

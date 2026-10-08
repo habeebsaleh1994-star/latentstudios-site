@@ -128,6 +128,11 @@ function siteTab() {
   const s = state.site, has = (k: string) => s.pages.some((p) => p.kind === k), cur = pageId();
   let h = `<h3>Words</h3>${input("site.name", s.name, "Your name")}${input("site.contact", s.contact, "A line at the foot of every page")}`;
   h += appearsBlock(null) + `<h3>Your mark</h3>${s.mark.logo ? `<ol class="tray"><li>${thumb(s.mark.logo)}<span class="t">${esc(s.library[s.mark.logo]?.title || "Logo")}<small>in place of your name</small></span><span class="acts"><button type="button" data-a="logo-clear" aria-label="Show the name instead">&times;</button></span></li></ol>` : ""}<div class="adds"><button type="button" data-a="logo-pick">${s.mark.logo ? "Another logo" : "+ A logo or wordmark"}</button></div><p class="hint">Shown in place of your name at the top of every page. A PNG with a transparent ground works best.</p>`;
+  const mode = s.door.soon ? "soon" : s.door.word || doorWant ? "word" : "open";
+  h += `<h3>Who can see it</h3>${seg("door", [["open", "Everyone"], ["word", "Those with a word"], ["soon", "No one yet"]], mode)}`;
+  if (mode !== "open") h += `<input type="text" data-f="site.door.word" value="${esc(s.door.word)}" placeholder="The word" aria-label="The word" autocapitalize="none" spellcheck="false">`;
+  if (mode === "soon") h += input("site.door.note", s.door.note, "A line on the holding page (“Soon.”)");
+  h += `<p class="hint">${mode === "open" ? "The site is open to everyone." : mode === "word" ? (s.door.word ? "Visitors meet a door and give the word once; the published files keep every page sealed until it is given." : "Give a word; until then the site stays open.") : `Visitors see only your name and a line.${s.door.word ? " Those with the word still get in." : ""} Publish to let people know, then open the site when it is ready.`}</p>`;
   h += `<h3>Pages</h3><ol class="pages"><li class="${cur ? "" : "on"}"><a href="#/">The front page<small>${{ covers: "Covers", list: "A list", sheet: "A sheet", walk: "A walk" }[s.front.form]}</small></a><span class="acts"></span></li>` +
     s.pages.map((p, i) => `<li class="${cur === p.id ? "on" : ""}${p.inNav ? "" : " off"}"><a href="#/${encodeURIComponent(p.id)}">${esc(title(p))}<small>${esc(kindLine(p))}${p.inNav ? "" : " · hidden"}</small></a><span class="acts"><button type="button" data-a="page-up" data-id="${esc(p.id)}"${i === 0 ? " disabled" : ""} aria-label="Move up">&uarr;</button><button type="button" data-a="page-down" data-id="${esc(p.id)}"${i === s.pages.length - 1 ? " disabled" : ""} aria-label="Move down">&darr;</button><button type="button" data-a="page-nav" data-id="${esc(p.id)}" aria-label="${p.inNav ? "Hide" : "Show"} ${esc(title(p))}" title="${p.inNav ? "Shown" : "Hidden"}">${p.inNav ? "&#9679;" : "&#9675;"}</button></span></li>`).join("") + `</ol>`;
   if (s.trash.length) h += `<h3>Removed</h3><ol class="pages trash">${s.trash.map((t) => `<li><span class="t">${esc(title(t.page))}<small>${esc(O.KIND_NAMES[t.page.kind])} · removed ${esc(new Date(t.removedAt).toLocaleDateString(undefined, { day: "numeric", month: "short" }))}</small></span><span class="acts wide"><button type="button" class="word" data-a="page-restore" data-id="${esc(t.page.id)}">Put back</button><button type="button" data-a="trash-empty" data-id="${esc(t.page.id)}" aria-label="Delete for good">&times;</button></span></li>`).join("")}</ol><p class="hint">Removed pages wait here for thirty days, with their work, and can be put back.</p>`;
@@ -184,7 +189,7 @@ function pageTab() {
     if (p.kind === "about") h += `<h3>Principles</h3>${p.principles.map((t, i) => `<div class="para">${input(`${f("principle")}.${i}`, t, "A principle")}<button type="button" class="rm" data-a="prin-remove" data-i="${i}" aria-label="Remove">&times;</button></div>`).join("")}<div class="adds"><button type="button" data-a="prin-add">+ A principle</button></div><p class="hint">Principles are set large and numbered under the text. Leave them out if you have none.</p>`;
   }
   h += appearsBlock(p);
-  h += `<h3>Address</h3><p class="hint">Shown at <b>/${esc(p.id)}</b>.${p.inNav ? "" : " Hidden from the site; only its address reaches it."}</p><div class="adds"><button type="button" data-a="page-nav" data-id="${esc(p.id)}">${p.inNav ? "Hide this page" : "Show this page"}</button><button type="button" data-a="page-rename">Address from the title</button><button type="button" class="danger" data-a="page-remove" data-id="${esc(p.id)}">Remove this page</button></div>`;
+  h += `<h3>Address</h3><p class="hint">Shown at <b>/${esc(p.id)}</b>.${p.inNav ? "" : " Hidden from the site; only its address reaches it."}${s.door.word ? " The whole site is behind a word." : p.word ? " Shown to those who have the word; its cover and lines stay out of sight." : ""}</p>${s.door.word ? "" : `<input type="text" data-f="page:${esc(p.id)}.word" value="${esc(p.word)}" placeholder="Behind a word (leave empty for open)" aria-label="A word this page is behind" autocapitalize="none" spellcheck="false">`}<div class="adds"><button type="button" data-a="page-nav" data-id="${esc(p.id)}">${p.inNav ? "Hide this page" : "Show this page"}</button><button type="button" data-a="page-rename">Address from the title</button><button type="button" class="danger" data-a="page-remove" data-id="${esc(p.id)}">Remove this page</button></div>`;
   return h;
 }
 /** How a page (or the site) appears elsewhere: title and description for a search result, the share image for a link; shown as they would look. */
@@ -408,9 +413,11 @@ function act(a: string, d: DOMStringMap) {
   });
 }
 
+let doorWant = false;
 function onSet(key: string, v: string) {
   const s = state.site, p = current();
   try {
+    if (key === "door") { doorWant = v === "word"; return commit(O.setDoor(s, v as "open")); }
     if (key === "front") return commit(O.setFront(s, v as "covers"));
     if (key === "arrangement" && p) return commit(O.setArrangement(s, p.id, v as "held"), { keep: false });
     if (key === "form" && p) return commit(O.setField(s, `page:${p.id}.form`, v));

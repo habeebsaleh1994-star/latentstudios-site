@@ -22,6 +22,13 @@ const phone = () => matchMedia("(max-width: 700px)").matches;
 
 export function wire(root: HTMLElement, c: Ctx, p: SitePage | null, view: View, keep: boolean) {
   cleanup.forEach((f) => f()); cleanup = [];
+  // the door: giving the word
+  const door = root.querySelector<HTMLFormElement>("[data-door]");
+  if (door) on(door, "submit", async (e: Event) => {
+    e.preventDefault(); const input = door.querySelector<HTMLInputElement>("input")!, wrong = door.querySelector<HTMLElement>(".wrong")!;
+    door.classList.add("trying"); const ok = await c.open?.(input.value, p); door.classList.remove("trying");
+    if (!ok) { wrong.hidden = false; input.select(); }
+  });
   // turning a work over, wherever it is framed
   on(root, "click", (e: MouseEvent) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-turn]"); if (!b) return; e.preventDefault(); e.stopPropagation(); const f = b.closest<HTMLElement>(".frame"); if (f) { f.classList.toggle("turned"); b.setAttribute("aria-pressed", String(f.classList.contains("turned"))); } }, { capture: true });
   document.documentElement.dataset.view = view;

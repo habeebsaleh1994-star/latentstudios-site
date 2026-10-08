@@ -4,7 +4,7 @@
  * Every change goes through `commit`: history, saving (with a revision), and a redraw in place.
  */
 import { openSite, siteSchema, type SiteDocument, type SitePage } from "../studio/site";
-import { page, viewOf, titleText, workPages, type Ctx } from "./render";
+import { page, viewOf, titleText, workPages, type Ctx, lockOf } from "./render";
 import { wire } from "./behave";
 import { createStore, StaleError, type Store } from "./store";
 import { applyTheme } from "./theme";
@@ -41,9 +41,18 @@ export function current(): SitePage | null {
   return state.site.pages.find((p) => p.id === id) ?? null;
 }
 export function go(id: string) { location.hash = `/${encodeURIComponent(id)}`; }
+/** The words a visitor has given at the door this session, per space. */
+const WORDS = `wall-words:${space}`;
+const given = (): string[] => { try { return JSON.parse(sessionStorage.getItem(WORDS) ?? "[]"); } catch { return []; } };
+const remember = (w: string) => { try { sessionStorage.setItem(WORDS, JSON.stringify([...given(), w])); } catch { /* a private window may refuse */ } };
 export function ctx(): Ctx {
   const q = location.search.replace(/[?&](edit|panel|look)(=[^&]*)?/g, "").replace(/^&/, "?");
-  return { site: state.site, editing: state.editing, href: (id) => `${q}#/${encodeURIComponent(id)}`, src: (a) => state.store.src(a) };
+  return {
+    site: state.site, editing: state.editing, href: (id) => `${q}#/${encodeURIComponent(id)}`, src: (a) => state.store.src(a),
+    // the door stands only for a visitor; the editor always sees the site
+    locked: state.editing ? undefined : (p) => lockOf(state.site, p, given()),
+    open: async (word, p) => { if (lockOf(state.site, p, [...given(), word])) return false; remember(word); draw(false); return true; },
+  };
 }
 
 /** Draw the page for the current address. `keep` holds the reader's place (an edit, not a navigation). */
