@@ -153,7 +153,7 @@ async function start() {
 /** A demo says so, and offers to start the artist's own site in the same template. */
 async function demoNote(h: string) {
   const { house } = await import("./houses"), name = house(h).name;
-  document.body.insertAdjacentHTML("beforeend", `<div class="demo-note" role="note"><span>A demo of <b>${name}</b>, with sample work. Edit and Customise freely; nothing here is kept.</span><a href="/app/index.html?start=${h}">Start your own site in ${name} &rarr;</a></div>`);
+  document.body.insertAdjacentHTML("afterbegin", `<div class="demo-note" role="note"><span>A demo of <b>${name}</b>, with sample work. Edit and Customise freely; nothing here is kept.</span><a href="/app/index.html?start=${h}">Start your own site in ${name} &rarr;</a></div>`);
 }
 
 start().catch((e) => { app.innerHTML = `<main class="v-words"><section class="words"><div><h1>This site could not be opened.</h1></div><div class="body"><p>${String((e as Error).message ?? e)}</p></div></section></main>`; });

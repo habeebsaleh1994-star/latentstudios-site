@@ -146,7 +146,8 @@
 #panel .scroll > *, #panel .looks > *, #panel .types > *, #panel .houses > * { min-width: 0; max-width: 100%; }
 #panel .tn, #panel .houses b, #panel .houses small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #panel .looks button, #panel .types button { overflow: hidden; }
-.demo-note { position: fixed; z-index: 21; left: 50%; transform: translateX(-50%); top: 14px; display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; max-width: calc(100vw - 32px); padding: 10px 18px; background: var(--ed-ink); color: var(--ed-bg); font-family: var(--ed-font); font-size: 12.5px; box-shadow: 0 18px 40px -24px rgba(0,0,0,.5); }
+.demo-note { position: sticky; top: 0; z-index: 21; display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; width: 100%; padding: 10px var(--gutter); background: var(--ed-ink); color: var(--ed-bg); font-family: var(--ed-font); font-size: 12.5px; box-shadow: 0 18px 40px -24px rgba(0,0,0,.5); }
+.demo-note > * { max-width: min(100%, 720px); }
 .demo-note b { font-weight: 500; } .demo-note a { color: var(--ed-bg); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255,255,255,.4); white-space: nowrap; }
 [data-panel] .demo-note { left: calc(50% - 180px); }
 
@@ -224,4 +225,4 @@
 #panel .go-there { color: var(--ed-ink); text-decoration: underline; text-underline-offset: 3px; }
 
 /* on a phone the demo note sits above the dock, not over the site's header */
-@media (max-width: 760px) { .demo-note { top: auto; bottom: calc(72px + env(safe-area-inset-bottom, 0px)); left: 12px; right: 12px; transform: none; max-width: none; font-size: 12px; padding: 9px 14px; gap: 4px 14px; } }
+@media (max-width: 760px) { .demo-note { position: fixed; top: auto; bottom: calc(72px + env(safe-area-inset-bottom, 0px)); left: 12px; right: 12px; width: auto; font-size: 12px; padding: 9px 14px; gap: 4px 14px; } }
