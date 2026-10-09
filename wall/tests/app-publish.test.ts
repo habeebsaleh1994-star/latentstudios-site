@@ -88,3 +88,14 @@ describe("night and colour in the files", () => {
     expect(quietNight).toMatch(/--silk:#151A19/); // the fog palette's night
   });
 });
+
+describe("the site's faces travel with it", () => {
+  it("the files carry fonts.css and every face it names, and no page asks Google for type", async () => {
+    const s = site();
+    const files = await buildFiles(s, { text: async (u) => (u.endsWith("fonts.css") ? "@font-face { font-family: 'Newsreader'; src: url(fonts/Newsreader-normal-300.woff2) format('woff2'); }" : `/* ${u} */`), bytes: async (a) => new Uint8Array(a.endsWith(".woff2") ? [1, 2, 3] : [a.length]) });
+    const names = files.map((f) => f.name);
+    expect(names).toContain("assets/fonts.css"); expect(names).toContain("assets/fonts/Newsreader-normal-300.woff2");
+    const page = new TextDecoder().decode(files.find((f) => f.name === "index.html")!.data);
+    expect(page).toMatch(/assets\/fonts\.css/); expect(page).not.toMatch(/fonts\.googleapis|fonts\.gstatic/);
+  });
+});

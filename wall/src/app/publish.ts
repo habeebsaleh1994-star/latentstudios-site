@@ -92,8 +92,7 @@ export type Sources = {
 /** A file name for an asset in the published site: its own name for a sample, its id for an upload. */
 export const fileOf = (asset: string, kind: "image" | "video") => asset.startsWith("asset:") ? `${asset.slice(6)}.${kind === "video" ? "mp4" : "jpg"}` : asset.split("/").pop()!.replace(/[^A-Za-z0-9._-]/g, "-");
 
-const ASSETS: [string, string][] = [["assets/base.css", "/design/shared/base.css"], ["assets/looks.css", "/design/shared/looks.css"], ["assets/viewer.css", "/design/shared/viewer.css"], ["assets/app.css", "/src/app/app.css"], ["assets/app-looks.css", "/src/app/looks.css"], ["assets/theme.js", "/design/shared/theme.js"], ["assets/viewer.js", "/design/shared/viewer.js"], ["assets/visitor.js", "/app/visitor.js"]];
-const FONTS = "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&family=Libre+Caslon+Text:ital,wght@0,400;1,400&family=Karla:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wght@400;500;600;700&family=Jost:wght@300;400;500&family=Fraunces:ital,wght@0,400;0,800;1,400;1,800&family=Courier+Prime:wght@400;700&family=Young+Serif&family=DM+Sans:wght@400;500&family=Bodoni+Moda:ital,wght@0,400;1,400&display=swap";
+const ASSETS: [string, string][] = [["assets/fonts.css", "/design/shared/fonts.css"], ["assets/base.css", "/design/shared/base.css"], ["assets/looks.css", "/design/shared/looks.css"], ["assets/viewer.css", "/design/shared/viewer.css"], ["assets/app.css", "/src/app/app.css"], ["assets/app-looks.css", "/src/app/looks.css"], ["assets/theme.js", "/design/shared/theme.js"], ["assets/viewer.js", "/design/shared/viewer.js"], ["assets/visitor.js", "/app/visitor.js"]];
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 
 type ThemeLib = { LOOKS: Record<string, { scheme?: string; vars?: Record<string, string>; night?: Record<string, string>; day?: Record<string, string> }>; PALETTES: Record<string, { light: Record<string, string>; dark: Record<string, string> }>; accentFor: (look: string, chosen: string | null, dark: boolean, palette: string, vars?: Record<string, string>) => { peony: string; text: string; on: string } };
@@ -175,9 +174,7 @@ export function pageFile(site: SiteDocument, p: SitePage | null, base: string, o
 <meta property="og:image" content="${base}${shareFile}">
 <meta name="twitter:card" content="summary_large_image">` : ""}
 <link rel="icon" href="${base}assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="${FONTS}">
+<link rel="stylesheet" href="${base}assets/fonts.css">
 <link rel="stylesheet" href="${base}assets/base.css">
 <link rel="stylesheet" href="${base}assets/looks.css">
 <link rel="stylesheet" href="${base}assets/viewer.css">
@@ -212,6 +209,9 @@ export async function buildFiles(site: SiteDocument, src: Sources): Promise<OutF
   files.push({ name: "index.html", data: enc.encode(await fileFor(null, "")) });
   for (const p of site.pages) files.push({ name: `${p.id}/index.html`, data: enc.encode(await fileFor(p, "../")) });
   await Promise.all(ASSETS.map(async ([name, url]) => files.push({ name, data: enc.encode(await src.text(url)) })));
+  // the faces themselves, so the site depends on no one at load
+  const faces = [...(await src.text("/design/shared/fonts.css")).matchAll(/url\(fonts\/([^)]+)\)/g)].map((m) => m[1]);
+  await Promise.all(faces.map(async (f) => { try { files.push({ name: `assets/fonts/${f}`, data: await src.bytes(`/design/shared/fonts/${f}`) }); } catch { /* a face that is not there is left out */ } }));
   await Promise.all([...openUsed, ...names.keys()].map(async (a) => { const w = site.library[a]; if (w) files.push({ name: `assets/img/${names.get(a) ?? fileOf(a, w.kind)}`, data: await src.bytes(a) }); }));
   files.push({ name: "assets/favicon.svg", data: enc.encode(favicon(site)) });
   if (src.share) {
