@@ -570,12 +570,13 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
 .f-reading .piece header { margin-bottom: 26px; } .f-reading .piece h2 { font-size: clamp(30px, 3.6vw, 52px); line-height: 1.04; letter-spacing: -.02em; margin-top: 8px; } .f-reading h2 a { text-decoration: none; }
 .f-reading .piece p { font-size: clamp(19px, 1.5vw, 22px); line-height: 1.6; margin: 0 0 1.1em; }
 .f-reading .after, .f-posters .after { display: grid; gap: 12px; padding: calc(40px * var(--sp)) 0; } .f-reading .after a, .f-posters .after a { text-decoration: none; font-size: 20px; } .f-reading .after small, .f-posters .after small { display: block; font-family: var(--sans); font-size: 12px; color: var(--ink-soft); }
-.f-posters .wall { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(40px * var(--sp)) calc(28px * var(--sp)); align-items: end; }
+.f-posters .wall { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: calc(40px * var(--sp)) calc(28px * var(--sp)); align-items: end; }
+.f-posters .poster { max-width: 520px; }
 .f-posters .poster { display: block; text-decoration: none; }
 .f-posters .poster img, .f-posters .poster .lines { display: block; width: 100%; aspect-ratio: var(--r); object-fit: cover; background: var(--silk-deep); border: var(--frame); box-shadow: 0 40px 80px -50px rgba(0,0,0,.6); }
 .f-posters .poster .lines { display: grid; place-items: center; padding: 10%; font-size: clamp(22px, 2.4vw, 34px); text-align: center; }
 .f-posters .bill { display: grid; gap: 4px; padding-top: 14px; } .f-posters .bill b { font-weight: var(--title-weight, 300); font-size: clamp(20px, 2vw, 28px); letter-spacing: -.012em; }
-@media (max-width: 860px) { .f-journal li a { grid-template-columns: 1fr; } .f-archive li a { grid-template-columns: 1fr 1fr; } .f-catalogue li a { grid-template-columns: 3em 70px 1fr; } .f-catalogue .m, .f-catalogue .dim, .f-catalogue .y { display: none; } .f-posters .wall { grid-template-columns: repeat(2, minmax(0, 1fr)); } .f-ledger td:nth-child(3), .f-ledger th:nth-child(3), .f-ledger td:nth-child(4), .f-ledger th:nth-child(4) { display: none; } }
+@media (max-width: 860px) { .f-journal li a { grid-template-columns: 1fr; } .f-archive li a { grid-template-columns: 1fr 1fr; } .f-catalogue li a { grid-template-columns: 3em 70px 1fr; } .f-catalogue .m, .f-catalogue .dim, .f-catalogue .y { display: none; } .f-ledger td:nth-child(3), .f-ledger th:nth-child(3), .f-ledger td:nth-child(4), .f-ledger th:nth-child(4) { display: none; } }
 
 /* ================================================================== reading size reaches every kind of prose */
 .v-words .body p { font-size: calc(19px * var(--read)); }
@@ -594,7 +595,7 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
 [data-scale="intimate"] .v-slides .slide .frame img { max-height: calc(100svh - 440px); } [data-scale="monumental"] .v-slides .slide .frame img { max-height: calc(100svh - 250px); }
 [data-scale="intimate"] .v-board .pins { grid-template-columns: repeat(5, minmax(0, 1fr)); } [data-scale="monumental"] .v-board .pins { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 [data-scale="intimate"] .v-book .pg figure img { --h: min(62cqh, 34cqw / var(--r)); } [data-scale="monumental"] .v-book .pg figure img { --h: min(88cqh, 46cqw / var(--r)); }
-[data-scale="intimate"] .f-posters .wall { grid-template-columns: repeat(4, minmax(0, 1fr)); } [data-scale="monumental"] .f-posters .wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+[data-scale="intimate"] .f-posters .wall { grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); } [data-scale="intimate"] .f-posters .poster { max-width: 380px; } [data-scale="monumental"] .f-posters .wall { grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); } [data-scale="monumental"] .f-posters .poster { max-width: 720px; }
 @media (max-width: 1100px) { [data-scale="intimate"] .v-board .pins { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (max-width: 700px) { [data-scale="intimate"] .v-board .pins, [data-scale="monumental"] .v-board .pins { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
@@ -622,3 +623,8 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
 /* the walk's covers take the mount too */
 [data-mount="line"] .v-front-walk .hang img { outline: 1px solid var(--rule); outline-offset: clamp(6px, 1vw, 12px); }
 [data-mount="matte"] .v-front-walk .hang img { box-shadow: 0 0 0 clamp(10px, 1.6vw, 24px) var(--silk-deep); }
+
+/* ================================================================== asked for stillness: nothing moves */
+@media (prefers-reduced-motion: reduce) {
+  #app *, #app *::before, #app *::after, .lb, .lb * { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; scroll-behavior: auto !important; }
+}

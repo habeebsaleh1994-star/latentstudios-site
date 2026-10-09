@@ -1,0 +1,362 @@
+[
+ {
+  "house": "folio",
+  "page": "front",
+  "lcp": 1976,
+  "cls": 0.029,
+  "long": 0,
+  "imgs": 4,
+  "kb": 544,
+  "load": 3449
+ },
+ {
+  "house": "folio",
+  "page": "the-road-in",
+  "lcp": 368,
+  "cls": 0.029,
+  "long": 0,
+  "imgs": 3,
+  "kb": 2145,
+  "load": 1829
+ },
+ {
+  "house": "gallery",
+  "page": "front",
+  "lcp": 412,
+  "cls": 0,
+  "long": 0,
+  "imgs": 6,
+  "kb": 948,
+  "load": 1864
+ },
+ {
+  "house": "gallery",
+  "page": "the-road-in",
+  "lcp": 340,
+  "cls": 0.001,
+  "long": 0,
+  "imgs": 3,
+  "kb": 1376,
+  "load": 1794
+ },
+ {
+  "house": "monograph",
+  "page": "front",
+  "lcp": 340,
+  "cls": 0.003,
+  "long": 0,
+  "imgs": 1,
+  "kb": 770,
+  "load": 1808
+ },
+ {
+  "house": "monograph",
+  "page": "the-road-in",
+  "lcp": 332,
+  "cls": 0.001,
+  "long": 0,
+  "imgs": 0,
+  "kb": 0,
+  "load": 1810
+ },
+ {
+  "house": "passage",
+  "page": "front",
+  "lcp": 336,
+  "cls": 0,
+  "long": 0,
+  "imgs": 2,
+  "kb": 770,
+  "load": 1805
+ },
+ {
+  "house": "passage",
+  "page": "the-road-in",
+  "lcp": 324,
+  "cls": 0,
+  "long": 0,
+  "imgs": 2,
+  "kb": 1065,
+  "load": 1782
+ },
+ {
+  "house": "reel",
+  "page": "front",
+  "lcp": 312,
+  "cls": 0,
+  "long": 0,
+  "imgs": 3,
+  "kb": 855,
+  "load": 1781
+ },
+ {
+  "house": "reel",
+  "page": "the-film",
+  "lcp": 332,
+  "cls": 0.001,
+  "long": 0,
+  "imgs": 5,
+  "kb": 1376,
+  "load": 1787
+ },
+ {
+  "house": "salon",
+  "page": "front",
+  "lcp": 52,
+  "cls": 0,
+  "long": 0,
+  "imgs": 4,
+  "kb": 1718,
+  "load": 1789
+ },
+ {
+  "house": "salon",
+  "page": "the-road-in",
+  "lcp": 320,
+  "cls": 0.001,
+  "long": 0,
+  "imgs": 3,
+  "kb": 1065,
+  "load": 1784
+ },
+ {
+  "house": "index",
+  "page": "front",
+  "lcp": 352,
+  "cls": 0.002,
+  "long": 0,
+  "imgs": 1,
+  "kb": 781,
+  "load": 1811
+ },
+ {
+  "house": "index",
+  "page": "the-door",
+  "lcp": 324,
+  "cls": 0.004,
+  "long": 0,
+  "imgs": 1,
+  "kb": 781,
+  "load": 1787
+ },
+ {
+  "house": "atelier",
+  "page": "front",
+  "lcp": 308,
+  "cls": 0.294,
+  "long": 0,
+  "imgs": 6,
+  "kb": 781,
+  "load": 1781
+ },
+ {
+  "house": "atelier",
+  "page": "the-road-in",
+  "lcp": 360,
+  "cls": 0.001,
+  "long": 0,
+  "imgs": 3,
+  "kb": 1065,
+  "load": 1809
+ },
+ {
+  "house": "lantern",
+  "page": "front",
+  "lcp": 40,
+  "cls": 0,
+  "long": 0,
+  "imgs": 4,
+  "kb": 816,
+  "load": 1799
+ },
+ {
+  "house": "lantern",
+  "page": "the-road-in",
+  "lcp": 340,
+  "cls": 0.001,
+  "long": 0,
+  "imgs": 3,
+  "kb": 1376,
+  "load": 1797
+ },
+ {
+  "house": "journal",
+  "page": "front",
+  "lcp": 316,
+  "cls": 0.007,
+  "long": 0,
+  "imgs": 6,
+  "kb": 948,
+  "load": 1794
+ },
+ {
+  "house": "journal",
+  "page": "the-road-in",
+  "lcp": 328,
+  "cls": 0.006,
+  "long": 0,
+  "imgs": 3,
+  "kb": 1376,
+  "load": 1791
+ },
+ {
+  "house": "column",
+  "page": "front",
+  "lcp": 324,
+  "cls": 0.004,
+  "long": 0,
+  "imgs": 6,
+  "kb": 948,
+  "load": 1805
+ },
+ {
+  "house": "column",
+  "page": "the-door",
+  "lcp": 336,
+  "cls": 0,
+  "long": 0,
+  "imgs": 1,
+  "kb": 781,
+  "load": 1795
+ },
+ {
+  "house": "catalogue",
+  "page": "front",
+  "lcp": 312,
+  "cls": 0.004,
+  "long": 0,
+  "imgs": 12,
+  "kb": 1325,
+  "load": 1793
+ },
+ {
+  "house": "catalogue",
+  "page": "the-road-in",
+  "lcp": 352,
+  "cls": 0.001,
+  "long": 0,
+  "imgs": 3,
+  "kb": 1376,
+  "load": 1820
+ },
+ {
+  "house": "chapbook",
+  "page": "front",
+  "lcp": 308,
+  "cls": 0.001,
+  "long": 0,
+  "imgs": 0,
+  "kb": 0,
+  "load": 1787
+ },
+ {
+  "house": "chapbook",
+  "page": "the-door",
+  "lcp": 324,
+  "cls": 0,
+  "long": 0,
+  "imgs": 1,
+  "kb": 781,
+  "load": 1789
+ },
+ {
+  "house": "cinema",
+  "page": "front",
+  "lcp": 332,
+  "cls": 0.006,
+  "long": 0,
+  "imgs": 1,
+  "kb": 85,
+  "load": 1784
+ },
+ {
+  "house": "cinema",
+  "page": "the-film",
+  "lcp": 360,
+  "cls": 0,
+  "long": 0,
+  "imgs": 5,
+  "kb": 986,
+  "load": 1823
+ },
+ {
+  "house": "ledger",
+  "page": "front",
+  "lcp": 420,
+  "cls": 0.001,
+  "long": 0,
+  "imgs": 0,
+  "kb": 0,
+  "load": 1892
+ },
+ {
+  "house": "ledger",
+  "page": "the-road-in",
+  "lcp": 388,
+  "cls": 0,
+  "long": 0,
+  "imgs": 3,
+  "kb": 1376,
+  "load": 1864
+ },
+ {
+  "house": "pinboard",
+  "page": "front",
+  "lcp": 1788,
+  "cls": 0,
+  "long": 0,
+  "imgs": 5,
+  "kb": 781,
+  "load": 3249
+ },
+ {
+  "house": "pinboard",
+  "page": "the-road-in",
+  "lcp": 360,
+  "cls": 0.002,
+  "long": 0,
+  "imgs": 3,
+  "kb": 1376,
+  "load": 1805
+ },
+ {
+  "house": "studio",
+  "page": "front",
+  "lcp": 340,
+  "cls": 0,
+  "long": 0,
+  "imgs": 3,
+  "kb": 816,
+  "load": 1799
+ },
+ {
+  "house": "studio",
+  "page": "the-road-in",
+  "lcp": 336,
+  "cls": 0.006,
+  "long": 0,
+  "imgs": 3,
+  "kb": 1376,
+  "load": 1802
+ },
+ {
+  "house": "archive",
+  "page": "front",
+  "lcp": 320,
+  "cls": 0.004,
+  "long": 0,
+  "imgs": 6,
+  "kb": 948,
+  "load": 1800
+ },
+ {
+  "house": "archive",
+  "page": "the-road-in",
+  "lcp": 332,
+  "cls": 0.004,
+  "long": 0,
+  "imgs": 3,
+  "kb": 2145,
+  "load": 1791
+ }
+]

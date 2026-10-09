@@ -222,3 +222,6 @@
 #panel .film-th { display: grid; place-items: center; background: var(--ed-rule); color: var(--ed-ink); font-size: 11px; }
 
 #panel .go-there { color: var(--ed-ink); text-decoration: underline; text-underline-offset: 3px; }
+
+/* on a phone the demo note sits above the dock, not over the site's header */
+@media (max-width: 760px) { .demo-note { top: auto; bottom: calc(72px + env(safe-area-inset-bottom, 0px)); left: 12px; right: 12px; transform: none; max-width: none; font-size: 12px; padding: 9px 14px; gap: 4px 14px; } }
