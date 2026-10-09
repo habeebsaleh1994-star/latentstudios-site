@@ -27,7 +27,7 @@ export function wire(root: HTMLElement, c: Ctx, p: SitePage | null, view: View, 
     const k = (e as CustomEvent<{ k: number }>).detail.k, has = (html: string) => html.includes(`data-k="${k}"`);
     if (view === "book") { const i = bookState?.leaves.findIndex(has) ?? -1; if (i >= 0) bookState?.go(i); return; }
     if (view === "slides") { const i = slideState?.list.findIndex(has) ?? -1; if (i >= 0) slideState?.go(i); return; }
-    const el = root.querySelector<HTMLElement>(`.tb-slot[data-k="${k}"]`)?.closest<HTMLElement>("figure, .hang, .art, .pin");
+    const el = (k < 0 ? root.querySelector<HTMLElement>(".walk .hang") : root.querySelector<HTMLElement>(`[data-k="${k}"]`)?.closest<HTMLElement>("figure, .hang, .art, .pin")) ?? null;
     if (!el) return;
     if (view === "passage") { const walk = root.querySelector<HTMLElement>(".walk"); if (walk) walk.scrollTo({ left: el.offsetLeft - walk.clientWidth / 2 + el.offsetWidth / 2, behavior: "smooth" }); return; }
     el.scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
@@ -171,7 +171,8 @@ function wall(root: HTMLElement, c: Ctx, p: StoryPage) {
   const fit = () => {
     const widest = +s.style.getPropertyValue("--widest") || 1, tallest = +s.style.getPropertyValue("--tallest") || 1;
     const cs = getComputedStyle(s), inner = s.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-    const byWidth = (inner - 96) / widest, byHeight = (innerHeight * 0.7 - 112) / tallest;
+    const cap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--wall-cap")) || 0.7;
+    const byWidth = (inner - 96) / widest, byHeight = (innerHeight * cap - 112) / tallest;
     s.style.setProperty("--k", Math.min(byWidth, byHeight).toFixed(4));
   };
   fit(); on(window, "resize", fit);

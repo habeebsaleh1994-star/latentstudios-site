@@ -388,6 +388,8 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
   [data-captions="hover"] .v-held figure:hover figcaption, [data-captions="hover"] .v-held figure:focus-within figcaption, [data-captions="hover"] .v-passage .hang:hover figcaption, [data-captions="hover"] .v-contact .cell:hover .cap { opacity: 1; }
 }
 [data-captions="hidden"]:not([data-editing]) .v-held figcaption, [data-captions="hidden"]:not([data-editing]) .v-passage figcaption, [data-captions="hidden"]:not([data-editing]) .v-contact .cell .cap, [data-captions="hidden"]:not([data-editing]) .v-slides figcaption, [data-captions="hidden"]:not([data-editing]) .v-book .pg .cap { visibility: hidden; }
+[data-captions="hidden"]:not([data-editing]) .v-wall .key, [data-captions="hidden"]:not([data-editing]) .v-wall .art .cap-m { display: none; }
+[data-captions="hover"]:not([data-editing]) .v-wall .key { display: none; } [data-captions="hover"]:not([data-editing]) .v-wall .art .cap-m { display: block; opacity: 0; transition: opacity .5s var(--ease); } [data-captions="hover"] .v-wall .art:hover .cap-m { opacity: 1; }
 
 /* footer */
 [data-footer="large"] .site-foot { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 28px 40px; padding-block: clamp(56px, 12vh, 140px) 40px; }
@@ -584,7 +586,9 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
 .v-film .syn, .v-project .summary, .f-journal .what p { font-size: calc(17px * var(--read)); }
 .f-reading .piece p { font-size: calc(clamp(19px, 1.5vw, 22px) * var(--read)); }
 .verso-in p { font-size: calc(clamp(14px, 1.3vw, 18px) * var(--read)); }
-.cap, figcaption .cap { font-size: calc(1em * var(--read)); }
+.cap { font-size: calc(15px * var(--read)); }
+.v-board .pin figcaption .cap { font-size: calc(13px * var(--read)); }
+.v-wall .key li, .v-wall .art .cap-m { font-size: calc(14px * var(--read)); }
 
 /* ================================================================== scale reaches slides, boards and books */
 [data-scale="intimate"] .v-slides .slide .frame img { max-height: calc(100svh - 440px); } [data-scale="monumental"] .v-slides .slide .frame img { max-height: calc(100svh - 250px); }
@@ -593,3 +597,28 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
 [data-scale="intimate"] .f-posters .wall { grid-template-columns: repeat(4, minmax(0, 1fr)); } [data-scale="monumental"] .f-posters .wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 1100px) { [data-scale="intimate"] .v-board .pins { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (max-width: 700px) { [data-scale="intimate"] .v-board .pins, [data-scale="monumental"] .v-board .pins { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ================================================================== the mount reaches the front page's pictures and the contact sheet */
+[data-mount="line"] .f-covers img, [data-mount="line"] .f-sheet .fr, [data-mount="line"] .f-show img, [data-mount="line"] .f-journal .th img, [data-mount="line"] .f-archive .th img, [data-mount="line"] .f-posters .poster img, [data-mount="line"] .f-catalogue .th img, [data-mount="line"] .v-contact .cell img { outline: 1px solid var(--rule); outline-offset: clamp(5px, .8vw, 10px); }
+[data-mount="matte"] .f-covers img, [data-mount="matte"] .f-sheet .fr, [data-mount="matte"] .f-show img, [data-mount="matte"] .f-journal .th img, [data-mount="matte"] .f-archive .th img, [data-mount="matte"] .f-posters .poster img, [data-mount="matte"] .v-contact .cell img { box-shadow: 0 0 0 clamp(8px, 1.6vw, 24px) var(--silk-deep); }
+[data-mount="matte"] .f-covers .cover, [data-mount="matte"] .f-sheet a, [data-mount="matte"] .v-contact .cell { padding: clamp(8px, 1.6vw, 24px); }
+/* the wall's height, by scale (read by the wall's fit) */
+:root { --wall-cap: .7; } [data-scale="intimate"] { --wall-cap: .55; } [data-scale="monumental"] { --wall-cap: .85; }
+
+/* scale also sets the covers' rhythm, so it shows even where the window caps their width */
+[data-scale="intimate"] .f-covers .cover { margin-bottom: calc(clamp(48px, 10vh, 140px) * var(--sp)); }
+[data-scale="monumental"] .f-covers .cover { margin-bottom: calc(clamp(96px, 22vh, 260px) * var(--sp)); }
+
+/* a hairline inside frames that clip (slides, spreads, sheet cells): the frame pads, the line sits at its edge */
+[data-mount="line"] .v-slides .slide .frame, [data-mount="line"] .v-book .frame, [data-mount="line"] .v-contact .cell img { outline-offset: -1px; padding: 0; }
+[data-mount="line"] .v-slides .slide .frame, [data-mount="line"] .v-book .frame { padding: clamp(6px, .8vw, 12px); }
+[data-mount="line"] .v-contact .cell { padding: 6px; } [data-mount="line"] .v-contact .cell img { outline: 1px solid var(--rule); }
+/* a mat as padding where a shadow would be clipped */
+[data-mount="matte"] .f-show img, [data-mount="matte"] .f-journal .th img, [data-mount="matte"] .f-archive .th img, [data-mount="matte"] .f-catalogue .th img { box-shadow: none; }
+[data-mount="matte"] .f-show, [data-mount="matte"] .f-journal .th, [data-mount="matte"] .f-archive .th, [data-mount="matte"] .f-catalogue .th { padding: clamp(6px, 1vw, 14px); background: var(--silk-deep); }
+/* the book's captions follow the reading size; the sheet's gaps follow the spacing */
+.v-book .pg .cap { font-size: calc(clamp(12px, 1.12cqw, 16px) * var(--read)); }
+.v-contact .sheet { gap: calc(clamp(22px, 2.6vw, 38px) * var(--sp)) calc(clamp(12px, 1.5vw, 22px) * var(--sp)); }
+/* the walk's covers take the mount too */
+[data-mount="line"] .v-front-walk .hang img { outline: 1px solid var(--rule); outline-offset: clamp(6px, 1vw, 12px); }
+[data-mount="matte"] .v-front-walk .hang img { box-shadow: 0 0 0 clamp(10px, 1.6vw, 24px) var(--silk-deep); }

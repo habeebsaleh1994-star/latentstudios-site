@@ -241,7 +241,9 @@ function customise() {
   const swatch = (a: string | null, cls = "") => { const shown = L.accentFor(t.look, a, dark, t.palette).peony; const on = a === null ? !t.accent : t.accent?.toLowerCase() === a!.toLowerCase(); return `<button type="button" class="sw${a === null ? " own" : ""}${cls}" data-accent="${a ?? ""}" aria-pressed="${on}" aria-label="${a === null ? "The look's own accent" : `Accent ${a}`}"><i style="background:${shown}"></i></button>`; };
   // the accent colours the italic word of titles, and whatever a look paints with it (its rules, a frame's shadow); offered only where it can be seen
   const lookVars = L.LOOKS[t.look]?.vars ?? {}, lookPaints = Object.entries(lookVars).some(([k, v]) => k !== "--em-color" && /--peony\b/.test(String(v)));
-  if (t.title === "accent" || lookPaints) {
+  const pageHere = current(), italicHere = pageHere ? !!pageHere.titleEm : !!state.site.front.titleEm;
+  if (t.title === "accent" && !lookPaints && !italicHere) h2 += `<h3>Accent</h3><p class="hint">On the italic word of titles; this page's title has none. Shows on ${pageHere ? `<a class="go-there" href="#/">the front page</a>` : "pages whose title has an italic part"}.</p>`;
+  else if (t.title === "accent" || lookPaints) {
     h2 += `<h3>Accent</h3><div class="swatches">${[null, ...L.ACCENTS].map((a) => swatch(a)).join("")}</div>`;
     const fromWork = workColours();
     if (fromWork === null) h2 += `<p class="hint">Reading the colours in your work…</p>`;
@@ -258,12 +260,14 @@ function customise() {
   const here = (key: string): true | { where: string; href: string } => {
     const story = p?.kind === "story", front = !p, withFoot = !(view === "book" || view === "passage"), flowing = !(view === "book" || view === "passage" || view === "slides");
     const toFront = { where: "the front page", href: "#/" }, toStory = { where: "a story", href: `#/${encodeURIComponent(firstStory?.id ?? "")}` }, toAbout = { where: "a page with a foot", href: `#/${encodeURIComponent(state.site.pages.find((x) => x.kind === "about" || x.kind === "contact")?.id ?? "")}` };
-    if (key === "opening") return front ? true : toFront;
-    if (key === "captions") return story && view !== "book" ? true : toStory;
+    if (key === "opening") return front && state.site.front.form !== "walk" ? true : toFront;
+    if (key === "title") return italicHere || p?.kind === "story" || front ? true : toFront;
+    if (key === "captions") return story && view !== "book" && view !== "contact" ? true : toStory;
+    if (key === "read") return view !== "contact" && !(front && state.site.front.form === "sheet") ? true : toAbout;
     if (key === "scale") return story || (front && (state.site.front.form === "covers" || state.site.front.form === "sheet" || state.site.front.form === "walk")) ? true : toStory;
     if (key === "footer") return withFoot ? true : toAbout;
     if (key === "space") return flowing ? true : toStory;
-    if (key === "mount") return story || front ? true : toStory;
+    if (key === "mount") return story || (front && !["ledger", "reading"].includes(state.site.front.form)) ? true : toStory;
     return true;
   };
   const dial = (key: string, name: string, opts: [string, string][], cur: string, hint: string) => {
@@ -278,7 +282,7 @@ function customise() {
   h2 += sub("Details");
   h2 += dial("mount", "Mount", [["bare", "Bare"], ["line", "A hairline"], ["matte", "A mat"]], t.mount, "Around every picture: nothing, a hairline, or a mat.");
   h2 += dial("space", "Spacing", [["airy", "Airy"], ["standard", "Standard"], ["close", "Close"]], t.space, "How much air between the works and the words.");
-  h2 += `<h3>Reading size</h3>${seg("read", [["small", "Small"], ["standard", "Standard"], ["large", "Large"]], t.read)}<p class="hint">The size of your words: writing, statements, notes and captions.</p>`;
+  h2 += dial("read", "Reading size", [["small", "Small"], ["standard", "Standard"], ["large", "Large"]], t.read, "The size of your words: writing, statements, notes and captions.");
   h2 += `<h3>Motion</h3>${seg("motion", [["slow", "Slow arrivals"], ["still", "Still"]], t.motion)}<p class="hint">Whether pages and works arrive slowly, or are simply there.</p>`;
   return h2;
 }
@@ -471,7 +475,15 @@ function onSet(key: string, v: string) {
     if (key === "ratio" && p) return commit(O.setFilm(s, p.id, { ratio: v }));
     if (key === "compare" && p) return commit(O.setCompare(s, p.id, v === "on"));
     if (key === "img-at" && p?.kind === "writing" && p.image) return commit(O.setWritingImage(s, p.id, { asset: p.image.asset, at: v === "cover" ? "cover" : 1 }));
-    if (["mode", "mount", "space", "read", "motion", "header", "opening", "title", "captions", "footer", "scale"].includes(key)) return commit(O.setTheme(s, { [key]: v }));
+    if (["mode", "mount", "space", "read", "motion", "header", "opening", "title", "captions", "footer", "scale"].includes(key)) {
+      commit(O.setTheme(s, { [key]: v }));
+      // in a book or a slide show the title comes first: turn to the first work so the change is seen
+      if (["mount", "captions", "scale", "read", "space"].includes(key)) {
+        if (p?.kind === "story" && (p.arrangement === "book" || p.arrangement === "slides" || p.arrangement === "passage")) { const k = p.pieces.findIndex((x) => x.type === "work"); if (k >= 0) showPiece(k); }
+        else if (!p && state.site.front.form === "walk") showPiece(-1); // the walk: its first hang
+      }
+      return;
+    }
   } catch (err) { toast((err as Error).message); }
 }
 

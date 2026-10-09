@@ -202,7 +202,7 @@ function frontWalk(c: Ctx, list: SitePage[]) {
   let h = `<section class="wall-text title"><span class="label">${ed(c, "front.kicker", f.kicker, "span", "", "Above the title")}</span><h1>${titleOf(c, "front", f.title, f.titleEm)}</h1>${ed(c, "front.note", f.note, "p", "", "A line or two to introduce the site")}</section>`;
   list.forEach((p, i) => {
     const w = coverOf(c, p);
-    h += w ? `<a class="hang door${w.r < 1 ? " tall" : ""}" href="${c.href(p.id)}" style="--r:${w.r.toFixed(4)}" data-n="${n2(i + 1)}">${img(c, w, i > 1)}<span class="cap"><span class="n">${n2(i + 1)}</span><span>${esc([p.title, p.titleEm].filter(Boolean).join(" "))}</span><span class="d">${esc(metaOf(p))}</span></span></a>`
+    h += w ? `<a class="hang door${w.r < 1 ? " tall" : ""}" href="${c.href(p.id)}" style="--r:${w.r.toFixed(4)}" data-n="${n2(i + 1)}" data-k="${w.k}">${img(c, w, i > 1)}<span class="cap"><span class="n">${n2(i + 1)}</span><span>${esc([p.title, p.titleEm].filter(Boolean).join(" "))}</span><span class="d">${esc(metaOf(p))}</span></span></a>`
       : `<a class="wall-text say door" href="${c.href(p.id)}" data-n="${n2(i + 1)}"><span class="label">${esc(metaOf(p))}</span><p>${esc([p.title, p.titleEm].filter(Boolean).join(" "))}</p></a>`;
   });
   return `<main class="v-passage v-front-walk"><div class="walk" tabindex="0" aria-label="The work, hung in order. Scroll or use the arrow keys to walk along it.">${h}</div><footer class="rail"><span class="label">${esc(c.site.name)}</span><div class="line"><i></i></div><span class="label at"></span></footer></main>`;
@@ -220,7 +220,7 @@ function board(c: Ctx, p: StoryPage) {
   let i = 0;
   const pins = G.map((g) => {
     if (g.type === "pause") return `<div class="pin say"><span class="label">${pauseLabel(c, p, g)}</span>${pauseText(c, p, g)}</div>`;
-    return g.works.map((w) => { const big = p.pieces[w.k]?.type === "work" && (p.pieces[w.k] as { full: boolean }).full; const h = `<figure class="pin${big ? " big" : ""}" style="--r:${w.r.toFixed(4)}" data-view="${i}"><div class="frame">${img(c, w)}${verso(c, w)}${mark(c, p, w)}</div><figcaption>${cap(c, w, false)}</figcaption></figure>`; i++; return h; }).join("") + (c.editing ? gap(c, p, g.k) : "");
+    return g.works.map((w) => { const big = p.pieces[w.k]?.type === "work" && (p.pieces[w.k] as { full: boolean }).full; const h = `<figure class="pin${big ? " big" : ""}" style="--r:${w.r.toFixed(4)}" data-view="${i}" data-k="${w.k}"><div class="frame">${img(c, w)}${verso(c, w)}${mark(c, p, w)}</div><figcaption>${cap(c, w, false)}</figcaption></figure>`; i++; return h; }).join("") + (c.editing ? gap(c, p, g.k) : "");
   }).join("");
   return `<main class="v-board">${storyCard(c, p)}<div class="pins">${pins}</div>${c.editing ? gap(c, p, p.pieces.length - 1, true) : ""}${next(c, p).html}</main>`;
 }
@@ -261,7 +261,7 @@ const gap = (c: Ctx, p: StoryPage, after: number, end = false) => (c.editing ? `
 
 function held(c: Ctx, p: StoryPage) {
   const { groups: G } = groups(c, p);
-  const fig = (w: W, lazy: boolean) => `<figure style="--r:${w.r.toFixed(4)}"><div class="frame">${img(c, w, lazy)}${verso(c, w)}${mark(c, p, w)}</div><figcaption>${cap(c, w)}</figcaption></figure>`;
+  const fig = (w: W, lazy: boolean) => `<figure style="--r:${w.r.toFixed(4)}" data-k="${w.k}"><div class="frame">${img(c, w, lazy)}${verso(c, w)}${mark(c, p, w)}</div><figcaption>${cap(c, w)}</figcaption></figure>`;
   let h = "";
   G.forEach((g, i) => {
     const lazy = i > 0;
@@ -280,8 +280,8 @@ function held(c: Ctx, p: StoryPage) {
 export function bookLeaves(c: Ctx, p: StoryPage, one: boolean) {
   const { groups: G } = groups(c, p), out: string[] = [];
   const pg = (h: string, cls = "") => `<div class="pg ${cls}">${h}</div>`;
-  const plate = (w: W, extra = "") => `<figure><div class="in"><div class="frame">${img(c, w, false)}${verso(c, w)}${mark(c, p, w)}</div>${cap(c, w)}${extra}</div></figure>`;
-  const bare = (w: W) => `<figure><div class="in"><div class="frame">${img(c, w, false)}${verso(c, w)}${mark(c, p, w)}</div></div></figure>`;
+  const plate = (w: W, extra = "") => `<figure data-k="${w.k}"><div class="in"><div class="frame">${img(c, w, false)}${verso(c, w)}${mark(c, p, w)}</div>${cap(c, w)}${extra}</div></figure>`;
+  const bare = (w: W) => `<figure data-k="${w.k}"><div class="in"><div class="frame">${img(c, w, false)}${verso(c, w)}${mark(c, p, w)}</div></div></figure>`;
   const top = `<div class="top"><span class="label">${ed(c, `page:${p.id}.kicker`, p.kicker, "span", "", "Above the title")}</span></div>`, h1 = `<h1>${titleOf(c, `page:${p.id}`, p.title, p.titleEm)}</h1>`;
   const note = ed(c, `page:${p.id}.note`, p.note, "p", "", "A line or two to introduce it");
   out.push(one ? pg(`${top}<div class="low">${h1}${note}</div>`) : pg(`${top}<div class="low">${note}</div>`) + pg(`<div class="low">${h1}</div>`));
@@ -302,7 +302,7 @@ const book = (_c: Ctx, p: StoryPage) => `<main class="v-book" data-page="${p.id}
 
 function passage(c: Ctx, p: StoryPage) {
   const { groups: G } = groups(c, p);
-  const hang = (w: W, cls = "", aside = "") => `<figure class="hang${w.r < 1 ? " tall" : ""}${cls}" style="--r:${w.r.toFixed(4)}" data-n="${w.n}">${aside}<div class="frame">${img(c, w)}${verso(c, w)}${mark(c, p, w)}</div><figcaption>${cap(c, w)}</figcaption></figure>`;
+  const hang = (w: W, cls = "", aside = "") => `<figure class="hang${w.r < 1 ? " tall" : ""}${cls}" style="--r:${w.r.toFixed(4)}" data-k="${w.k}" data-n="${w.n}">${aside}<div class="frame">${img(c, w)}${verso(c, w)}${mark(c, p, w)}</div><figcaption>${cap(c, w)}</figcaption></figure>`;
   let h = `<section class="wall-text title"><span class="label">${ed(c, `page:${p.id}.kicker`, p.kicker, "span", "", "Above the title")}</span><h1>${titleOf(c, `page:${p.id}`, p.title, p.titleEm)}</h1>${ed(c, `page:${p.id}.note`, p.note, "p", "", "A line or two to introduce it")}</section>`;
   for (const g of G) {
     if (g.type === "pause") h += `<section class="wall-text say">${pauseLabel(c, p, g)}${pauseText(c, p, g)}</section>`;
@@ -343,7 +343,7 @@ function wall(c: Ctx, p: StoryPage) {
   const biggest = Math.max(1, ...works.map((w) => cmOf(w).w)), tallest = Math.max(1, ...works.map((w) => cmOf(w).h));
   let n = 0;
   const hangs = walls.map((ws) => {
-    const figs = ws.map((w) => { n++; const s = cmOf(w); return `<figure class="art" style="--cw:${s.w}" data-view="${n - 1}"><div class="frame">${img(c, w)}${verso(c, w)}${mark(c, p, w)}</div><span class="no">${n}</span><span class="cap-m">${esc(w.title)}, ${cmText(s.w)} × ${cmText(s.h)} cm</span></figure>`; }).join("");
+    const figs = ws.map((w) => { n++; const s = cmOf(w); return `<figure class="art" style="--cw:${s.w}" data-view="${n - 1}" data-k="${w.k}"><div class="frame">${img(c, w)}${verso(c, w)}${mark(c, p, w)}</div><span class="no">${n}</span><span class="cap-m">${esc(w.title)}, ${cmText(s.w)} × ${cmText(s.h)} cm</span></figure>`; }).join("");
     const key = ws.map((w, i) => { const s = cmOf(w), k = n - ws.length + i + 1; return `<li><span class="k">${k}</span><span>${ed(c, `work:${w.asset}.title`, w.title, "b", "", "Title")}${w.caption || c.editing ? ", " + ed(c, `work:${w.asset}.caption`, w.caption, "span", "", "Medium") : ""}, <span class="sz">${cmText(s.w)} × ${cmText(s.h)} cm</span>${w.date || c.editing ? ", " + ed(c, `work:${w.asset}.date`, w.date, "span", "", "Year") : ""}</span></li>`; }).join("");
     return `<section class="hang-wall"><div class="wall">${figs}</div><ol class="key">${key}</ol></section>`;
   }).join("");
@@ -356,7 +356,7 @@ export function slideList(c: Ctx, p: StoryPage) {
   list.push(`<div class="slide title">${storyCard(c, p)}</div>`); thumbs.push(`<span class="t0">Title</span>`);
   for (const g of G) {
     if (g.type === "pause") { list.push(`<div class="slide words">${pauseLabel(c, p, g)}${pauseText(c, p, g)}</div>`); thumbs.push(`<span class="t0">&ldquo;&rdquo;</span>`); continue; }
-    for (const w of g.works) { list.push(`<div class="slide"><figure><div class="frame">${img(c, w, false)}${verso(c, w)}${mark(c, p, w)}</div><figcaption>${cap(c, w)}</figcaption></figure>${g.type === "note" ? noteText(c, p, g, "p", "label") : ""}</div>`); thumbs.push(`<img src="${esc(w.src)}" alt="" loading="lazy">`); }
+    for (const w of g.works) { list.push(`<div class="slide"><figure data-k="${w.k}"><div class="frame">${img(c, w, false)}${verso(c, w)}${mark(c, p, w)}</div><figcaption>${cap(c, w)}</figcaption></figure>${g.type === "note" ? noteText(c, p, g, "p", "label") : ""}</div>`); thumbs.push(`<img src="${esc(w.src)}" alt="" loading="lazy">`); }
   }
   return { list, thumbs };
 }

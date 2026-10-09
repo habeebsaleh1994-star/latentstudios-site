@@ -108,7 +108,7 @@ export const HOUSES: House[] = [
   { id: "studio", name: "Studio", for: "Painters who show the making", leads: ["story", "project"], menu: "Work", idea: "The studio wall and the finished plate: works pinned as they are made, hung at true size when done, process beside outcome.",
     owns: "Making and made: boards for work in progress, walls at true size for the finished, projects with process beside outcome.",
     arrangements: ["board", "wall", "held"], fronts: ["covers", "walk"],
-    dials: { header: ["stacked", "name"], opening: ["image", "words"], title: ["accent", "plain"], captions: ["beside", "under"], footer: ["line", "minimal"], scale: ["monumental", "standard"] },
+    dials: { header: ["stacked", "name"], opening: ["image", "words"], title: ["accent", "plain"], captions: ["under", "hover"], footer: ["line", "minimal"], scale: ["monumental", "standard"] },
     looks: ["etching", "gesso", "toned", "monotype", "riso", "quiet", "graphite", "soft"], typefaces: ["instrument", "caslon", "bodoni", "fraunces", "grotesk"] },
   { id: "archive", name: "Archive", for: "Artists whose work takes many forms", leads: ["story", "film", "writing", "project"], menu: "Archive", idea: "One chronology of everything: photographs, films, writing and projects in the order they were made, with a filter by kind.",
     owns: "Everything in time: the front page is an archive of every page by date, sifted by kind.",
