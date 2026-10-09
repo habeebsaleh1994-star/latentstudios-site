@@ -30,3 +30,7 @@ All print `all ... passed` or the failures. Run all of them before showing any c
 - `npx tsx scripts/looks-board.ts`: every template × every look it offers × day and night, with the distances between them. Writes `design/_explore/looks/index.html`.
 - `node tests/browser/hands.mjs`: every template's front, story and About tabbed through (every stop visible, with a focus ring), every picture with alt text, every button and link named, landmarks present, nothing moving under reduced motion. Writes `design/_explore/audit/hands.json`.
 - `npx tsx scripts/speed.ts`: largest paint, layout shift, image weight and longest task for every template's front and story, as a visitor's browser measures them. Writes `design/_explore/audit/speed.json`.
+
+## The sample bodies of work
+
+The home page and the start page run each template with a body of work of its own kind (`House.sample` → `SAMPLES` in `src/app/main.ts` → `design/samples/*.site.json`; sources in `design/samples/CREDITS.md`). The promises sweep follows the home page's own links, so it checks those samples; the audits (`visible`, `distinct`, `speed`, `looks-board`) and the other sweeps keep `?site=habib`, a stable fixture with every kind of page. To check a sample document against the schema and every template: `npx tsx` a script that calls `openSite`, `conform` and `applyHouse` on it (the builder's check did; see `docs/PRODUCT.md`, 10 October 2026).

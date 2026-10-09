@@ -1,0 +1,703 @@
+{
+ "version": 15,
+ "house": "atelier",
+ "name": "Historic American Buildings Survey",
+ "contact": "Records in the public domain, Library of Congress",
+ "email": "",
+ "front": {
+  "form": "list",
+  "kicker": "Measured drawings and photographs · four houses · 1908 – 1951",
+  "title": "Drawn and",
+  "titleEm": "photographed",
+  "note": "Four houses from the survey's record, each measured and photographed."
+ },
+ "theme": {
+  "look": "blueprint",
+  "options": {},
+  "palette": "silk",
+  "mode": "system",
+  "accent": null,
+  "type": "silk",
+  "mount": "bare",
+  "space": "standard",
+  "motion": "slow",
+  "read": "standard"
+ },
+ "library": {
+  "/design/samples/habs/img/farnsworth-p1.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1720,
+   "title": "Edith Farnsworth House: South elevation, eastern bays",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Edith Farnsworth House: south elevation, eastern bays",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "SOUTH ELEVATION, EASTERN BAYS - Edith Farnsworth House, 14520 River Road, Plano, Kendall County, IL HABS ILL,47-PLAN.V,1-7",
+    "edition": "HABS ILL,47-PLANO.V,1-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/farnsworth-p2.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1720,
+   "title": "Edith Farnsworth House: North elevation",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Edith Farnsworth House: north elevation",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "NORTH ELEVATION - Edith Farnsworth House, 14520 River Road, Plano, Kendall County, IL HABS ILL,47-PLAN.V,1-9",
+    "edition": "HABS ILL,47-PLANO.V,1-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/farnsworth-p3.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1722,
+   "title": "Edith Farnsworth House: South elevation",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Edith Farnsworth House: south elevation",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "SOUTH ELEVATION - Edith Farnsworth House, 14520 River Road, Plano, Kendall County, IL HABS ILL,47-PLAN.V,1-4",
+    "edition": "HABS ILL,47-PLANO.V,1-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/farnsworth-p4.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1710,
+   "title": "Edith Farnsworth House: North and west elevations",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Edith Farnsworth House: north and west elevations",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "NORTH AND WEST ELEVATIONS - Edith Farnsworth House, 14520 River Road, Plano, Kendall County, IL HABS ILL,47-PLAN.V,1-8",
+    "edition": "HABS ILL,47-PLANO.V,1-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/farnsworth-p5.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1716,
+   "title": "Edith Farnsworth House: South elevation detail of entrance",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Edith Farnsworth House: south elevation detail of entrance",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "SOUTH ELEVATION DETAIL OF ENTRANCE - Edith Farnsworth House, 14520 River Road, Plano, Kendall County, IL HABS ILL,47-PLAN.V,1-5",
+    "edition": "HABS ILL,47-PLANO.V,1-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/farnsworth-p6.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1724,
+   "title": "Edith Farnsworth House: North elevation, seen from northeast",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Edith Farnsworth House: north elevation, seen from northeast",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "NORTH ELEVATION, SEEN FROM NORTHEAST - Edith Farnsworth House, 14520 River Road, Plano, Kendall County, IL HABS ILL,47-PLAN.V,1-10",
+    "edition": "HABS ILL,47-PLANO.V,1-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/farnsworth-s1.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1600,
+   "title": "Edith Farnsworth House: Sheet 3 of 8",
+   "date": "",
+   "caption": "Measured drawing",
+   "alt": "Measured drawing of the Edith Farnsworth House: sheet 3 of 8",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Plan - Edith Farnsworth House, 14520 River Road, Plano, Kendall County, IL HABS ILL,47-PLAN.V,1- (sheet 3 of 8)",
+    "edition": "HABS ILL,47-PLANO.V,1-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/farnsworth-s2.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1600,
+   "title": "Edith Farnsworth House: Sheet 4 of 8",
+   "date": "",
+   "caption": "Measured drawing",
+   "alt": "Measured drawing of the Edith Farnsworth House: sheet 4 of 8",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "South and North Elevations - Edith Farnsworth House, 14520 River Road, Plano, Kendall County, IL HABS ILL,47-PLAN.V,1- (sheet 4 of 8)",
+    "edition": "HABS ILL,47-PLANO.V,1-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/farnsworth-s3.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1600,
+   "title": "Edith Farnsworth House: Sheet 2 of 8",
+   "date": "",
+   "caption": "Measured drawing",
+   "alt": "Measured drawing of the Edith Farnsworth House: sheet 2 of 8",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Site Evolution - Edith Farnsworth House, 14520 River Road, Plano, Kendall County, IL HABS ILL,47-PLAN.V,1- (sheet 2 of 8)",
+    "edition": "HABS ILL,47-PLANO.V,1-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/robie-s1.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1892,
+   "title": "Frederick C. Robie House: Sheet 7 of 10",
+   "date": "",
+   "caption": "Measured drawing",
+   "alt": "Measured drawing of the Frederick C. Robie House: sheet 7 of 10",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Frederick C. Robie House, 5757 Woodlawn Avenue, Chicago, Cook County, IL HABS ILL,16-CHIG,33- (sheet 7 of 10)",
+    "edition": "HABS ILL,16-CHIG,33-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/robie-s2.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1888,
+   "title": "Frederick C. Robie House: Sheet 1 of 1",
+   "date": "",
+   "caption": "Measured drawing",
+   "alt": "Measured drawing of the Frederick C. Robie House: sheet 1 of 1",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Frederick C. Robie House, 5757 Woodlawn Avenue, Chicago, Cook County, IL HABS ILL,16-CHIG,33- (sheet 1 of 1)",
+    "edition": "HABS ILL,16-CHIG,33-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/robie-s3.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1894,
+   "title": "Frederick C. Robie House: Sheet 6 of 14",
+   "date": "",
+   "caption": "Measured drawing",
+   "alt": "Measured drawing of the Frederick C. Robie House: sheet 6 of 14",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Frederick C. Robie House, 5757 Woodlawn Avenue, Chicago, Cook County, IL HABS ILL,16-CHIG,33- (sheet 6 of 14)",
+    "edition": "HABS ILL,16-CHIG,33-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/gamble-p1.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1943,
+   "title": "Gamble House: David Berry Gamble house",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Gamble House: david berry gamble house",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Title: David Berry Gamble house, 4 Westmoreland Place, Pasadena, California. Water terrace] Abstract/medium: 1 photographic print.",
+    "edition": "HABS CAL,19-PASA,5-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/gamble-p2.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1923,
+   "title": "Gamble House: David Berry Gamble house",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Gamble House: david berry gamble house",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Title: David Berry Gamble house, 4 Westmoreland Place, Pasadena, California. Water terrace Abstract/medium: 1 photographic print : gelatin silver.",
+    "edition": "HABS CAL,19-PASA,5-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/gamble-p3.jpg": {
+   "kind": "image",
+   "w": 1932,
+   "h": 2400,
+   "title": "Gamble House: David Berry Gamble house",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Gamble House: david berry gamble house",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Title: David Berry Gamble house, 4 Westmoreland Place, Pasadena, California. View to sleeping porch Abstract/medium: 1 photographic print.",
+    "edition": "HABS CAL,19-PASA,5-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/gamble-p4.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1942,
+   "title": "Gamble House: David Berry Gamble house",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Gamble House: david berry gamble house",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Title: David Berry Gamble house, 4 Westmoreland Place, Pasadena, California. Water terrace Abstract/medium: 1 photograph : glass lantern slide, hand-colored ; 3.25 x 4 in.",
+    "edition": "HABS CAL,19-PASA,5-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/gamble-s1.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1632,
+   "title": "Gamble House: Sheet 7 of 11",
+   "date": "",
+   "caption": "Measured drawing",
+   "alt": "Measured drawing of the Gamble House: sheet 7 of 11",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Gamble House, 4 Westmoreland Place, Pasadena, Los Angeles County, CA HABS CAL,19-PASA,5- (sheet 7 of 11)",
+    "edition": "HABS CAL,19-PASA,5-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/gamble-s2.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1629,
+   "title": "Gamble House: Sheet 10 of 11",
+   "date": "",
+   "caption": "Measured drawing",
+   "alt": "Measured drawing of the Gamble House: sheet 10 of 11",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Gamble House, 4 Westmoreland Place, Pasadena, Los Angeles County, CA HABS CAL,19-PASA,5- (sheet 10 of 11)",
+    "edition": "HABS CAL,19-PASA,5-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/gamble-s3.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1631,
+   "title": "Gamble House: Sheet 8 of 11",
+   "date": "",
+   "caption": "Measured drawing",
+   "alt": "Measured drawing of the Gamble House: sheet 8 of 11",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Gamble House, 4 Westmoreland Place, Pasadena, Los Angeles County, CA HABS CAL,19-PASA,5- (sheet 8 of 11)",
+    "edition": "HABS CAL,19-PASA,5-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/lovell-beach-p1.jpg": {
+   "kind": "image",
+   "w": 1924,
+   "h": 2400,
+   "title": "Lovell Beach House: North elevation, close view",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Lovell Beach House: north elevation, close view",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "NORTH ELEVATION, CLOSE VIEW - Lovell Beach House, 1242 West Ocean Front, Newport Beach, Orange County, CA HABS CAL,30-NEWBE,1-7",
+    "edition": "HABS CAL,30-NEWBE,1-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/lovell-beach-p2.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1917,
+   "title": "Lovell Beach House: General view from southwest",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Lovell Beach House: general view from southwest",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "GENERAL VIEW FROM SOUTHWEST - Lovell Beach House, 1242 West Ocean Front, Newport Beach, Orange County, CA HABS CAL,30-NEWBE,1-1",
+    "edition": "HABS CAL,30-NEWBE,1-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/lovell-beach-p3.jpg": {
+   "kind": "image",
+   "w": 1913,
+   "h": 2400,
+   "title": "Lovell Beach House: General view, north facade",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Lovell Beach House: general view, north facade",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "GENERAL VIEW, NORTH FACADE - Lovell Beach House, 1242 West Ocean Front, Newport Beach, Orange County, CA HABS CAL,30-NEWBE,1-6",
+    "edition": "HABS CAL,30-NEWBE,1-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/lovell-beach-p4.jpg": {
+   "kind": "image",
+   "w": 1914,
+   "h": 2400,
+   "title": "Lovell Beach House: West facade from northwest",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Lovell Beach House: west facade from northwest",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "WEST FACADE FROM NORTHWEST - Lovell Beach House, 1242 West Ocean Front, Newport Beach, Orange County, CA HABS CAL,30-NEWBE,1-2",
+    "edition": "HABS CAL,30-NEWBE,1-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/lovell-beach-p5.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1908,
+   "title": "Lovell Beach House: Clerestory, living area",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Lovell Beach House: clerestory, living area",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "CLERESTORY, LIVING AREA - Lovell Beach House, 1242 West Ocean Front, Newport Beach, Orange County, CA HABS CAL,30-NEWBE,1-8",
+    "edition": "HABS CAL,30-NEWBE,1-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/lovell-beach-p6.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1905,
+   "title": "Lovell Beach House: Clerestory, dining area",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Lovell Beach House: clerestory, dining area",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "CLERESTORY, DINING AREA - Lovell Beach House, 1242 West Ocean Front, Newport Beach, Orange County, CA HABS CAL,30-NEWBE,1-9",
+    "edition": "HABS CAL,30-NEWBE,1-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  }
+ },
+ "pages": [
+  {
+   "id": "farnsworth",
+   "kind": "project",
+   "title": "Farnsworth",
+   "titleEm": "House",
+   "inNav": true,
+   "discipline": "Measured drawings and photographs",
+   "client": "National Park Service",
+   "year": "1951",
+   "summary": "A weekend house of steel and glass on the bank of the Fox River, raised above the flood. The survey photographed it and measured it; the sheets are set against the photographs.",
+   "outcome": [
+    "/design/samples/habs/img/farnsworth-p1.jpg",
+    "/design/samples/habs/img/farnsworth-p2.jpg",
+    "/design/samples/habs/img/farnsworth-p3.jpg",
+    "/design/samples/habs/img/farnsworth-p4.jpg",
+    "/design/samples/habs/img/farnsworth-p5.jpg",
+    "/design/samples/habs/img/farnsworth-p6.jpg"
+   ],
+   "process": [
+    "/design/samples/habs/img/farnsworth-s1.jpg",
+    "/design/samples/habs/img/farnsworth-s2.jpg",
+    "/design/samples/habs/img/farnsworth-s3.jpg"
+   ],
+   "compare": true,
+   "facts": [
+    "Architect: Ludwig Mies van der Rohe",
+    "Built: 1951",
+    "Survey: HABS ILL,47-PLANO.V,1-"
+   ]
+  },
+  {
+   "id": "robie",
+   "kind": "project",
+   "title": "Robie",
+   "titleEm": "House",
+   "inNav": true,
+   "discipline": "Measured drawings and photographs",
+   "client": "National Park Service",
+   "year": "1910",
+   "summary": "Long brick planes and cantilevered roofs on a corner lot in Hyde Park: the fullest of the Prairie houses. The survey's drawings record it floor by floor.",
+   "outcome": [],
+   "process": [
+    "/design/samples/habs/img/robie-s1.jpg",
+    "/design/samples/habs/img/robie-s2.jpg",
+    "/design/samples/habs/img/robie-s3.jpg"
+   ],
+   "compare": false,
+   "facts": [
+    "Architect: Frank Lloyd Wright",
+    "Built: 1910",
+    "Survey: HABS ILL,16-CHIG,33-"
+   ]
+  },
+  {
+   "id": "gamble",
+   "kind": "project",
+   "title": "Gamble",
+   "titleEm": "House",
+   "inNav": true,
+   "discipline": "Measured drawings and photographs",
+   "client": "National Park Service",
+   "year": "1908",
+   "summary": "A house of timber, joinery and shadow, built for the Gamble family of Cincinnati. The survey drew its plans and elevations sheet by sheet.",
+   "outcome": [
+    "/design/samples/habs/img/gamble-p1.jpg",
+    "/design/samples/habs/img/gamble-p2.jpg",
+    "/design/samples/habs/img/gamble-p3.jpg",
+    "/design/samples/habs/img/gamble-p4.jpg"
+   ],
+   "process": [
+    "/design/samples/habs/img/gamble-s1.jpg",
+    "/design/samples/habs/img/gamble-s2.jpg",
+    "/design/samples/habs/img/gamble-s3.jpg"
+   ],
+   "compare": true,
+   "facts": [
+    "Architect: Greene & Greene",
+    "Built: 1908",
+    "Survey: HABS CAL,19-PASA,5-"
+   ]
+  },
+  {
+   "id": "lovell-beach",
+   "kind": "project",
+   "title": "Lovell",
+   "titleEm": "Beach House",
+   "inNav": true,
+   "discipline": "Measured drawings and photographs",
+   "client": "National Park Service",
+   "year": "1926",
+   "summary": "Five concrete frames lift the house above the sand; the living room hangs between them. Photographed and drawn by the survey.",
+   "outcome": [
+    "/design/samples/habs/img/lovell-beach-p1.jpg",
+    "/design/samples/habs/img/lovell-beach-p2.jpg",
+    "/design/samples/habs/img/lovell-beach-p3.jpg",
+    "/design/samples/habs/img/lovell-beach-p4.jpg",
+    "/design/samples/habs/img/lovell-beach-p5.jpg",
+    "/design/samples/habs/img/lovell-beach-p6.jpg"
+   ],
+   "process": [],
+   "compare": false,
+   "facts": [
+    "Architect: Rudolph Schindler",
+    "Built: 1926",
+    "Survey: HABS CAL,30-NEWBE,1-"
+   ]
+  },
+  {
+   "id": "about",
+   "kind": "about",
+   "title": "About",
+   "inNav": true,
+   "paras": [
+    "The Historic American Buildings Survey has recorded buildings across the United States since 1933: measured drawings, large-format photographs and written histories, made to a standard and given to the Library of Congress. It is the oldest federal preservation programme in the country, and a studio of record in all but name.",
+    "This is a sample site built from four of its records. The drawings and photographs are works of the United States government and in the public domain, from the Library of Congress by way of Wikimedia Commons; the words here are the sample's own."
+   ],
+   "principles": []
+  },
+  {
+   "id": "record",
+   "kind": "record",
+   "title": "Record",
+   "inNav": true,
+   "paras": [
+    "The survey, in dates."
+   ],
+   "sections": [
+    {
+     "title": "Programme",
+     "entries": [
+      {
+       "year": "1933",
+       "text": "Founded under the Civil Works Administration"
+      },
+      {
+       "year": "1934",
+       "text": "A tripartite agreement with the Library of Congress and the American Institute of Architects"
+      },
+      {
+       "year": "1969",
+       "text": "The Historic American Engineering Record is added"
+      },
+      {
+       "year": "2000",
+       "text": "The Historic American Landscapes Survey is added"
+      }
+     ]
+    },
+    {
+     "title": "Collection",
+     "entries": [
+      {
+       "year": "",
+       "text": "Library of Congress, Prints and Photographs Division"
+      },
+      {
+       "year": "",
+       "text": "More than 45,000 buildings and sites recorded"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "contact",
+   "kind": "contact",
+   "title": "Contact",
+   "inNav": true,
+   "paras": [
+    "A sample site. The drawings and photographs are in the public domain, from the Library of Congress.",
+    "Latent Wall shows them to show what an architecture studio's site can be."
+   ]
+  }
+ ]
+}

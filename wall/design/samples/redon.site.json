@@ -1,0 +1,637 @@
+{
+ "version": 15,
+ "house": "salon",
+ "name": "Odilon Redon",
+ "contact": "Works CC0, The Cleveland Museum of Art",
+ "email": "",
+ "front": {
+  "form": "sheet",
+  "kicker": "Paintings, pastels and lithographs · 1866 – 1916",
+  "title": "Closed",
+  "titleEm": "eyes",
+  "note": "Flowers, heads and the noirs, from the Cleveland Museum of Art's open collection."
+ },
+ "theme": {
+  "look": "gesso",
+  "options": {},
+  "palette": "silk",
+  "mode": "system",
+  "accent": null,
+  "type": "silk",
+  "mount": "bare",
+  "space": "standard",
+  "motion": "slow",
+  "read": "standard"
+ },
+ "library": {
+  "/design/samples/redon/img/1935-233.jpg": {
+   "kind": "image",
+   "w": 1764,
+   "h": 2400,
+   "title": "Vase of Flowers",
+   "date": "c. 1905",
+   "caption": "Oil on fabric",
+   "alt": "A vase of flowers in reds and whites against a warm ground",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 59.0,
+    "h": 73.0
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1935.233",
+    "made": "Oil on fabric. Gift of Roberta Holden Bole. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/redon/img/1958-46.jpg": {
+   "kind": "image",
+   "w": 1508,
+   "h": 2400,
+   "title": "Vase of Flowers",
+   "date": "1916",
+   "caption": "Pastel",
+   "alt": "A tall vase of mixed flowers in pastel, blues and oranges",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 58.0,
+    "h": 84.1
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1958.46",
+    "made": "Pastel. Bequest of Leonard C. Hanna Jr.. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/redon/img/1926-1976.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1881,
+   "title": "Violette Heymann",
+   "date": "1910",
+   "caption": "Pastel on gray wove paper",
+   "alt": "A woman in profile among flowers, in pastel",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 92.0,
+    "h": 72.0
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1926.1976",
+    "made": "Pastel on gray wove paper. Hinman B. Hurlbut Collection. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/redon/img/1988-91.jpg": {
+   "kind": "image",
+   "w": 1704,
+   "h": 2400,
+   "title": "Symbolic Head",
+   "date": "c. 1890",
+   "caption": "Oil on paper mounted on canvas",
+   "alt": "A head in profile with closed eyes, in blue and gold",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 38.0,
+    "h": 53.3
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1988.91",
+    "made": "Oil on paper mounted on canvas. Gift of the Mildred Andrews Fund. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/redon/img/1926-25.jpg": {
+   "kind": "image",
+   "w": 1978,
+   "h": 2400,
+   "title": "Orpheus",
+   "date": "c. 1903–10",
+   "caption": "Pastel on brown paper",
+   "alt": "Orpheus's head on a lyre among rocks, in pastel",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 56.8,
+    "h": 68.8
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1926.25",
+    "made": "Pastel on brown paper. Gift from J. H. Wade. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/redon/img/1927-306.jpg": {
+   "kind": "image",
+   "w": 1861,
+   "h": 2400,
+   "title": "Closed Eyes",
+   "date": "1890",
+   "caption": "Lithograph on China paper laid on wove paper",
+   "alt": "A face with closed eyes, lithograph",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 24.2,
+    "h": 31.2
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1927.306",
+    "made": "Lithograph on China paper laid on wove paper. Gift of The Print Club of Cleveland. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/redon/img/1927-344-2.jpg": {
+   "kind": "image",
+   "w": 1784,
+   "h": 2400,
+   "title": "The Marsh Flower, a Sad Human Head",
+   "date": "1885",
+   "caption": "Lithograph on China paper laid on wove paper",
+   "alt": "A sad human face on the stem of a marsh flower",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 20.5,
+    "h": 27.5
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1927.344.2",
+    "made": "Lithograph on China paper laid on wove paper. Gift of The Print Club of Cleveland. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/redon/img/1927-299.jpg": {
+   "kind": "image",
+   "w": 1858,
+   "h": 2400,
+   "title": "Melancholy",
+   "date": "c. 1868",
+   "caption": "Graphite on beige wove paper",
+   "alt": "A pensive figure in graphite",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 22.0,
+    "h": 32.1
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1927.299",
+    "made": "Graphite on beige wove paper. Gift of The Print Club of Cleveland. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/redon/img/2020-63.jpg": {
+   "kind": "image",
+   "w": 2153,
+   "h": 2400,
+   "title": "Quasimodo",
+   "date": "c. 1875–80",
+   "caption": "Charcoal with fabricated black chalk and touches of white and gray gouache on gray wove paper",
+   "alt": "A hunched figure in charcoal",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 32.9,
+    "h": 36.8
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "2020.63",
+    "made": "Charcoal with fabricated black chalk and touches of white and gray gouache on gray wove paper. Mr. and Mrs. William H. Marlatt Fund. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/redon/img/1998-69.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1486,
+   "title": "Fear",
+   "date": "1866",
+   "caption": "Etching",
+   "alt": "Two figures running from an unseen fear, etching",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 20.0,
+    "h": 11.0
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1998.69",
+    "made": "Etching. Gift of The Print Club of Cleveland. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/redon/img/1925-21.jpg": {
+   "kind": "image",
+   "w": 1817,
+   "h": 2400,
+   "title": "Parsifal",
+   "date": "1892",
+   "caption": "Lithograph",
+   "alt": "Parsifal with a lance, lithograph",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 24.2,
+    "h": 32.2
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1925.21",
+    "made": "Lithograph. Gift of Ralph King. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/redon/img/1945-389.jpg": {
+   "kind": "image",
+   "w": 1864,
+   "h": 2400,
+   "title": "Brünnhilde in Twilight of the Gods",
+   "date": "1894",
+   "caption": "Lithograph",
+   "alt": "Brünnhilde in twilight, lithograph",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 29.2,
+    "h": 38.0
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1945.389",
+    "made": "Lithograph. Gift of William Mathewson Milliken, in memory of H. Oothout Milliken. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/redon/img/1926-140-6.jpg": {
+   "kind": "image",
+   "w": 1884,
+   "h": 2400,
+   "title": "A Woman Clothed with the Sun",
+   "date": "1899",
+   "caption": "Lithograph",
+   "alt": "A woman clothed with the sun, lithograph",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1926.140.6",
+    "made": "Lithograph. Gift of Ralph King. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/redon/img/1926-140-7.jpg": {
+   "kind": "image",
+   "w": 1593,
+   "h": 2400,
+   "title": "And Another Angel Came Out of the Temple which is in Heaven, and He also Having a Sharp Sickle",
+   "date": "1899",
+   "caption": "Lithograph",
+   "alt": "An angel coming out of the temple, lithograph",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 21.2,
+    "h": 31.3
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1926.140.7",
+    "made": "Lithograph. Gift of Ralph King. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/redon/img/1966-413-1.jpg": {
+   "kind": "image",
+   "w": 1729,
+   "h": 2400,
+   "title": "Title Plate",
+   "date": "1896",
+   "caption": "Lithograph on wove paper",
+   "alt": "A title plate, lithograph",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 31.9,
+    "h": 44.9
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1966.413.1",
+    "made": "Lithograph on wove paper. Gift of The Print Club of Cleveland. CC0, clevelandart.org"
+   }
+  }
+ },
+ "pages": [
+  {
+   "id": "flowers",
+   "kind": "story",
+   "title": "Flowers",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "1905 – 1916",
+   "note": "The late still lifes, in oil and in pastel, that brought Redon his success.",
+   "arrangement": "wall",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/redon/img/1935-233.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "pause",
+     "label": "From the museum",
+     "text": "Rapturous flower still lifes like this dominated the last decade and a half of Odilon Redon’s career and provided his greatest commercial success. His interest in plants and flowers began in his youth; child of wine producers, he grew up northwest of Bordeaux and was sensitive to fluctuations in weather, light, and temperature affecting the grape harvest. When he was 20, Redon met Armond Clavaud, a botanist and draft"
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/redon/img/1958-46.jpg",
+     "arrange": "with-next",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/redon/img/1926-1976.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "heads",
+   "kind": "story",
+   "title": "Heads, with",
+   "titleEm": "closed eyes",
+   "inNav": true,
+   "kicker": "1868 – 1910",
+   "note": "Faces that look inward: a motif Redon kept from his first drawings to his last pastels.",
+   "arrangement": "wall",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/redon/img/1988-91.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/redon/img/1926-25.jpg",
+     "arrange": "margin-note",
+     "note": "Pastel on brown paper, c. 1903 – 10.",
+     "full": false
+    },
+    {
+     "type": "pause",
+     "label": "From the museum",
+     "text": "Drawn in vivid layers of pastel crayon, this work depicts the head of the poet and musician Orpheus. The story of the god of music, whose music carried on after his death through his lyre and head, fascinated Redon, who related to Orpheus's dedication to his art. The subject also aligned with Redon's broader interest in dreams and spirituality around this time and he represented Orpheus several times throughout his c"
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/redon/img/1927-306.jpg",
+     "arrange": "with-next",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/redon/img/1927-344-2.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/redon/img/1927-299.jpg",
+     "arrange": "with-next",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/redon/img/2020-63.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "the-noirs",
+   "kind": "story",
+   "title": "The",
+   "titleEm": "noirs",
+   "inNav": true,
+   "kicker": "1866 – 1899",
+   "note": "Twenty years in black: etchings and lithographs made before colour arrived.",
+   "arrangement": "wall",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/redon/img/1998-69.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "pause",
+     "label": "From the museum",
+     "text": "Odilon Redon used parallel lines of varying density throughout this etching to enhance its tonal and emotional darkness. The subject was inspired by Johann Wolfgang Goethe's 1782 poem describing a father who discovered his child's death after a cold and windy nighttime journey. The figures and the man's white cape contrast dramatically with the scale and tone of their surroundings. Redon made few etchings during his "
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/redon/img/1925-21.jpg",
+     "arrange": "with-next",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/redon/img/1945-389.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/redon/img/1926-140-6.jpg",
+     "arrange": "with-next",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/redon/img/1926-140-7.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/redon/img/1966-413-1.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "from-black-to-colour",
+   "kind": "project",
+   "title": "From black",
+   "titleEm": "to colour",
+   "inNav": true,
+   "discipline": "Lithography, pastel",
+   "client": "",
+   "year": "1890 – 1916",
+   "summary": "Redon worked in charcoal and lithography for two decades, and then, after 1890, almost entirely in pastel and oil. The sequence below sets a lithograph against the pastel that came after it.",
+   "outcome": [
+    "/design/samples/redon/img/1988-91.jpg",
+    "/design/samples/redon/img/1926-1976.jpg",
+    "/design/samples/redon/img/1935-233.jpg"
+   ],
+   "process": [
+    "/design/samples/redon/img/1998-69.jpg",
+    "/design/samples/redon/img/1927-306.jpg",
+    "/design/samples/redon/img/1926-140-6.jpg"
+   ],
+   "compare": true,
+   "facts": [
+    "Charcoal, lithographic crayon, pastel, oil",
+    "The noirs: c. 1865 – 1900",
+    "The colour work: c. 1890 – 1916"
+   ]
+  },
+  {
+   "id": "about",
+   "kind": "about",
+   "title": "About",
+   "inNav": true,
+   "paras": [
+    "A leader of the symbolist movement in France, Odilon Redon was born in Bordeaux in 1840 and grew up in the surrounding region. During his early years he studied drawing, architecture, and the violin. A friendship with Armand Clavaud, a local botanist and philosopher, stimulated Redon's passion for romantic art and literature. In 1864, after a brief and discouraging period of instruction with Gérôme in Paris, Redon returned to Bordeaux, where he studied printmaking with Rodolphe Bresdin (1825-1885). Deploring the emphasis on rational, phenomenal experience in academic and naturalist art, Redon turned for inspiration to the imaginative paintings of Delacroix, the prints of Francisco José de Goya (1746-1828), and the poetry of Charles Baudelaire. In 1870, after military service in the Franco-Prussian War, Redon settled in Paris and produced his first <em>Noirs</em>.",
+    "This is a sample site built from works in the Cleveland Museum of Art's open collection, released under CC0. The works are Redon's; the arrangement is the sample's own."
+   ],
+   "principles": []
+  },
+  {
+   "id": "record",
+   "kind": "record",
+   "title": "Record",
+   "inNav": true,
+   "paras": [
+    "Odilon Redon, 1840 – 1916."
+   ],
+   "sections": [
+    {
+     "title": "Life",
+     "entries": [
+      {
+       "year": "1840",
+       "text": "Born in Bordeaux, 20 April"
+      },
+      {
+       "year": "1863",
+       "text": "Studies etching with Rodolphe Bresdin"
+      },
+      {
+       "year": "1879",
+       "text": "Dans le rêve, his first album of lithographs"
+      },
+      {
+       "year": "1890",
+       "text": "Turns from black to colour: pastel and oil"
+      },
+      {
+       "year": "1904",
+       "text": "A room of his own at the Salon d'Automne"
+      },
+      {
+       "year": "1916",
+       "text": "Dies in Paris, 6 July"
+      }
+     ]
+    },
+    {
+     "title": "Collections",
+     "entries": [
+      {
+       "year": "",
+       "text": "The Cleveland Museum of Art"
+      },
+      {
+       "year": "",
+       "text": "Musée d'Orsay, Paris"
+      },
+      {
+       "year": "",
+       "text": "The Art Institute of Chicago"
+      },
+      {
+       "year": "",
+       "text": "The Museum of Modern Art, New York"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "contact",
+   "kind": "contact",
+   "title": "Contact",
+   "inNav": true,
+   "paras": [
+    "A sample site. The works are in the Cleveland Museum of Art and are shared by the museum under CC0.",
+    "Latent Wall shows them to show what a painter's site can be."
+   ]
+  }
+ ]
+}

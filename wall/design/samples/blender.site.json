@@ -1,0 +1,872 @@
+{
+ "version": 15,
+ "house": "reel",
+ "name": "Blender Studio",
+ "contact": "Films © Blender Foundation, CC BY",
+ "email": "",
+ "front": {
+  "form": "posters",
+  "kicker": "Open movies · Amsterdam · 2008 – 2019",
+  "title": "Four",
+  "titleEm": "films",
+  "note": "Short films made in the open, with everything that went into them given away."
+ },
+ "theme": {
+  "look": "cinema",
+  "options": {},
+  "palette": "silk",
+  "mode": "system",
+  "accent": null,
+  "type": "silk",
+  "mount": "bare",
+  "space": "standard",
+  "motion": "slow",
+  "read": "standard"
+ },
+ "library": {
+  "/design/samples/blender/img/sintel-poster-jpg.jpg": {
+   "kind": "image",
+   "w": 1697,
+   "h": 2400,
+   "title": "Sintel, poster",
+   "date": "2010",
+   "caption": "Theatrical poster",
+   "alt": "Poster for Sintel: a young woman with red hair stands before a mountain, a small dragon at her feet",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "© Blender Foundation · CC BY 3.0",
+    "edition": "",
+    "made": "Durian open movie project"
+   }
+  },
+  "/design/samples/blender/img/peach-bunny-poster-jpg.jpg": {
+   "kind": "image",
+   "w": 1591,
+   "h": 2400,
+   "title": "Big Buck Bunny, poster",
+   "date": "2008",
+   "caption": "Theatrical poster",
+   "alt": "Poster for Big Buck Bunny: a large white rabbit beams in a sunlit meadow",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "© Blender Foundation · CC BY 3.0",
+    "edition": "",
+    "made": "Peach open movie project"
+   }
+  },
+  "/design/samples/blender/img/tos-poster-png.jpg": {
+   "kind": "image",
+   "w": 1620,
+   "h": 2400,
+   "title": "Tears of Steel, poster",
+   "date": "2012",
+   "caption": "Theatrical poster",
+   "alt": "Poster for Tears of Steel: a lone figure before a vast robotic hand over a ruined Amsterdam",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "© Blender Foundation · CC BY 3.0",
+    "edition": "",
+    "made": "Mango open movie project"
+   }
+  },
+  "/design/samples/blender/img/blender-foundation-spring-closing-title-card-jpg.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1005,
+   "title": "Spring, title card",
+   "date": "2019",
+   "caption": "Closing title card",
+   "alt": "Title card for Spring: a shepherd girl and her dog on a mountain pass under a wide sky",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "© Blender Foundation · CC BY 4.0",
+    "edition": "",
+    "made": "Spring open movie project"
+   }
+  },
+  "/design/samples/blender/img/sintel-still-6.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1350,
+   "title": "Sintel, the mountain pass",
+   "date": "2010",
+   "caption": "Still",
+   "alt": "Still from Sintel: the mountain pass",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "",
+    "edition": "",
+    "made": "© Blender Foundation · CC BY 3.0"
+   }
+  },
+  "/design/samples/blender/img/sintel-still-14.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1350,
+   "title": "Sintel, Sintel",
+   "date": "2010",
+   "caption": "Still",
+   "alt": "Still from Sintel: Sintel",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "",
+    "edition": "",
+    "made": "© Blender Foundation · CC BY 3.0"
+   }
+  },
+  "/design/samples/blender/img/sintel-still-20.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1350,
+   "title": "Sintel, the city",
+   "date": "2010",
+   "caption": "Still",
+   "alt": "Still from Sintel: the city",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "",
+    "edition": "",
+    "made": "© Blender Foundation · CC BY 3.0"
+   }
+  },
+  "/design/samples/blender/img/sintel-still-27.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1350,
+   "title": "Sintel, at dusk",
+   "date": "2010",
+   "caption": "Still",
+   "alt": "Still from Sintel: at dusk",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "",
+    "edition": "",
+    "made": "© Blender Foundation · CC BY 3.0"
+   }
+  },
+  "/design/samples/blender/img/sintel-still-34.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1350,
+   "title": "Sintel, the dragon",
+   "date": "2010",
+   "caption": "Still",
+   "alt": "Still from Sintel: the dragon",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "",
+    "edition": "",
+    "made": "© Blender Foundation · CC BY 3.0"
+   }
+  },
+  "/design/samples/blender/img/sintel-still-38.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1350,
+   "title": "Sintel, the desert",
+   "date": "2010",
+   "caption": "Still",
+   "alt": "Still from Sintel: the desert",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "",
+    "edition": "",
+    "made": "© Blender Foundation · CC BY 3.0"
+   }
+  },
+  "/design/samples/blender/img/bbb-still-4.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1350,
+   "title": "Big Buck Bunny, the burrow",
+   "date": "2008",
+   "caption": "Still",
+   "alt": "Still from Big Buck Bunny: the burrow",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "",
+    "edition": "",
+    "made": "© Blender Foundation · CC BY 3.0"
+   }
+  },
+  "/design/samples/blender/img/bbb-still-9.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1350,
+   "title": "Big Buck Bunny, the meadow",
+   "date": "2008",
+   "caption": "Still",
+   "alt": "Still from Big Buck Bunny: the meadow",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "",
+    "edition": "",
+    "made": "© Blender Foundation · CC BY 3.0"
+   }
+  },
+  "/design/samples/blender/img/bbb-still-13.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1350,
+   "title": "Big Buck Bunny, three rodents",
+   "date": "2008",
+   "caption": "Still",
+   "alt": "Still from Big Buck Bunny: three rodents",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "",
+    "edition": "",
+    "made": "© Blender Foundation · CC BY 3.0"
+   }
+  },
+  "/design/samples/blender/img/bbb-still-16.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1350,
+   "title": "Big Buck Bunny, Bunny",
+   "date": "2008",
+   "caption": "Still",
+   "alt": "Still from Big Buck Bunny: Bunny",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "",
+    "edition": "",
+    "made": "© Blender Foundation · CC BY 3.0"
+   }
+  },
+  "/design/samples/blender/img/bbb-still-20.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1350,
+   "title": "Big Buck Bunny, the plan",
+   "date": "2008",
+   "caption": "Still",
+   "alt": "Still from Big Buck Bunny: the plan",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "",
+    "edition": "",
+    "made": "© Blender Foundation · CC BY 3.0"
+   }
+  },
+  "/design/samples/blender/img/bbb-still-25.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1350,
+   "title": "Big Buck Bunny, the butterfly",
+   "date": "2008",
+   "caption": "Still",
+   "alt": "Still from Big Buck Bunny: the butterfly",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "",
+    "edition": "",
+    "made": "© Blender Foundation · CC BY 3.0"
+   }
+  },
+  "/design/samples/blender/img/tears-of-steel-frame-00-1c-jpg.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1000,
+   "title": "Tears of Steel, the launch site",
+   "date": "2012",
+   "caption": "Still",
+   "alt": "Still from Tears of Steel: the launch site",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "© Blender Foundation · CC BY 3.0",
+    "edition": "",
+    "made": "Mango open movie project"
+   }
+  },
+  "/design/samples/blender/img/tears-of-steel-frame-01-2a-jpg.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1000,
+   "title": "Tears of Steel, the bridge",
+   "date": "2012",
+   "caption": "Still",
+   "alt": "Still from Tears of Steel: the bridge",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "© Blender Foundation · CC BY 3.0",
+    "edition": "",
+    "made": "Mango open movie project"
+   }
+  },
+  "/design/samples/blender/img/tears-of-steel-frame-02-4a-jpg.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1000,
+   "title": "Tears of Steel, the lab",
+   "date": "2012",
+   "caption": "Still",
+   "alt": "Still from Tears of Steel: the lab",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "© Blender Foundation · CC BY 3.0",
+    "edition": "",
+    "made": "Mango open movie project"
+   }
+  },
+  "/design/samples/blender/img/tears-of-steel-frame-03-1a-jpg.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1000,
+   "title": "Tears of Steel, Amsterdam",
+   "date": "2012",
+   "caption": "Still",
+   "alt": "Still from Tears of Steel: Amsterdam",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "© Blender Foundation · CC BY 3.0",
+    "edition": "",
+    "made": "Mango open movie project"
+   }
+  },
+  "/design/samples/blender/img/tears-of-steel-frame-03-2e-jpg.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1000,
+   "title": "Tears of Steel, the attack",
+   "date": "2012",
+   "caption": "Still",
+   "alt": "Still from Tears of Steel: the attack",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "© Blender Foundation · CC BY 3.0",
+    "edition": "",
+    "made": "Mango open movie project"
+   }
+  },
+  "/design/samples/blender/img/tears-of-steel-frame-03-3c-jpg.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1000,
+   "title": "Tears of Steel, the rooftops",
+   "date": "2012",
+   "caption": "Still",
+   "alt": "Still from Tears of Steel: the rooftops",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "© Blender Foundation · CC BY 3.0",
+    "edition": "",
+    "made": "Mango open movie project"
+   }
+  },
+  "/design/samples/blender/img/springopenmovie-aplha-jpg.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1018,
+   "title": "Spring, the spirit",
+   "date": "2019",
+   "caption": "Still",
+   "alt": "Still from Spring: the spirit",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "© Blender Foundation · CC BY-SA 4.0",
+    "edition": "",
+    "made": "Spring open movie project"
+   }
+  },
+  "/design/samples/blender/img/springopenmovie-desend-jpg.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1043,
+   "title": "Spring, over the clouds",
+   "date": "2019",
+   "caption": "Still",
+   "alt": "Still from Spring: over the clouds",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "© Blender Foundation · CC BY-SA 4.0",
+    "edition": "",
+    "made": "Spring open movie project"
+   }
+  },
+  "/design/samples/blender/img/springopenmovie-final-scene-jpg.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1033,
+   "title": "Spring, the valley",
+   "date": "2019",
+   "caption": "Still",
+   "alt": "Still from Spring: the valley",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "© Blender Foundation · CC BY-SA 4.0",
+    "edition": "",
+    "made": "Spring open movie project"
+   }
+  },
+  "/design/samples/blender/img/big-buck-bunny-forest-jpg.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1347,
+   "title": "Big Buck Bunny, the forest",
+   "date": "2008",
+   "caption": "Still",
+   "alt": "Still from Big Buck Bunny: the forest floor in morning light",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Blender Studio, Amsterdam",
+    "line": "© Blender Foundation · CC BY 3.0",
+    "edition": "",
+    "made": "Peach open movie project"
+   }
+  },
+  "/design/samples/blender/media/sintel-clip.mp4": {
+   "kind": "video",
+   "w": 1280,
+   "h": 720,
+   "title": "Sintel, excerpt",
+   "date": "",
+   "caption": "A twenty second excerpt",
+   "alt": "Sintel, excerpt",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "",
+    "line": "",
+    "edition": "",
+    "made": ""
+   }
+  },
+  "/design/samples/blender/media/bbb-clip.mp4": {
+   "kind": "video",
+   "w": 1280,
+   "h": 720,
+   "title": "Big Buck Bunny, excerpt",
+   "date": "",
+   "caption": "A twenty second excerpt",
+   "alt": "Big Buck Bunny, excerpt",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "",
+    "line": "",
+    "edition": "",
+    "made": ""
+   }
+  },
+  "/design/samples/blender/media/tos-clip.mp4": {
+   "kind": "video",
+   "w": 1280,
+   "h": 534,
+   "title": "Tears of Steel, excerpt",
+   "date": "",
+   "caption": "A twenty second excerpt",
+   "alt": "Tears of Steel, excerpt",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "",
+    "line": "",
+    "edition": "",
+    "made": ""
+   }
+  },
+  "/design/samples/blender/media/spring-clip.mp4": {
+   "kind": "video",
+   "w": 1280,
+   "h": 536,
+   "title": "Spring, excerpt",
+   "date": "",
+   "caption": "A twenty second excerpt",
+   "alt": "Spring, excerpt",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "",
+    "line": "",
+    "edition": "",
+    "made": ""
+   }
+  }
+ },
+ "pages": [
+  {
+   "id": "sintel",
+   "kind": "film",
+   "title": "Sintel",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Short film",
+   "year": "2010",
+   "runtime": "14 min",
+   "ratio": "2.35:1",
+   "synopsis": "A lonely young woman, Sintel, helps and befriends a dragon she calls Scales. When he is kidnapped by an adult dragon, she undertakes a journey to find him, and finds, at the end of it, something she did not expect. The third open movie, made in Amsterdam by the Durian team.",
+   "poster": "/design/samples/blender/img/sintel-poster-jpg.jpg",
+   "video": "/design/samples/blender/media/sintel-clip.mp4",
+   "link": "https://durian.blender.org",
+   "stills": [
+    {
+     "asset": "/design/samples/blender/img/sintel-still-6.jpg",
+     "caption": "The pass, in snow"
+    },
+    {
+     "asset": "/design/samples/blender/img/sintel-still-14.jpg",
+     "caption": "Sintel"
+    },
+    {
+     "asset": "/design/samples/blender/img/sintel-still-20.jpg",
+     "caption": "The city"
+    },
+    {
+     "asset": "/design/samples/blender/img/sintel-still-27.jpg",
+     "caption": "Dusk"
+    },
+    {
+     "asset": "/design/samples/blender/img/sintel-still-34.jpg",
+     "caption": "Scales"
+    },
+    {
+     "asset": "/design/samples/blender/img/sintel-still-38.jpg",
+     "caption": "The desert"
+    }
+   ],
+   "credits": [
+    "Directed by Colin Levy",
+    "Produced by Ton Roosendaal, Blender Foundation",
+    "Screenplay by Esther Wouda",
+    "Music by Jan Morgenstern",
+    "© Blender Foundation, durian.blender.org · CC BY 3.0"
+   ]
+  },
+  {
+   "id": "big-buck-bunny",
+   "kind": "film",
+   "title": "Big Buck",
+   "titleEm": "Bunny",
+   "inNav": true,
+   "form": "Short film",
+   "year": "2008",
+   "runtime": "10 min",
+   "ratio": "16:9",
+   "synopsis": "A giant rabbit with a heart bigger than himself wakes to a spring morning. Three rodents torment him and the butterflies he loves, and he plans, with care, a payback. The first open movie made with a studio and a team, in Amsterdam.",
+   "poster": "/design/samples/blender/img/peach-bunny-poster-jpg.jpg",
+   "video": "/design/samples/blender/media/bbb-clip.mp4",
+   "link": "https://peach.blender.org",
+   "stills": [
+    {
+     "asset": "/design/samples/blender/img/bbb-still-4.jpg",
+     "caption": "The burrow"
+    },
+    {
+     "asset": "/design/samples/blender/img/bbb-still-9.jpg",
+     "caption": "The meadow"
+    },
+    {
+     "asset": "/design/samples/blender/img/bbb-still-13.jpg",
+     "caption": "Three rodents"
+    },
+    {
+     "asset": "/design/samples/blender/img/bbb-still-16.jpg",
+     "caption": "Bunny"
+    },
+    {
+     "asset": "/design/samples/blender/img/bbb-still-20.jpg",
+     "caption": "The plan"
+    },
+    {
+     "asset": "/design/samples/blender/img/bbb-still-25.jpg",
+     "caption": "The butterfly"
+    },
+    {
+     "asset": "/design/samples/blender/img/big-buck-bunny-forest-jpg.jpg",
+     "caption": "The forest"
+    }
+   ],
+   "credits": [
+    "Directed by Sacha Goedegebure",
+    "Produced by Ton Roosendaal, Blender Foundation",
+    "Music by Jan Morgenstern",
+    "© Blender Foundation, peach.blender.org · CC BY 3.0"
+   ]
+  },
+  {
+   "id": "tears-of-steel",
+   "kind": "film",
+   "title": "Tears of",
+   "titleEm": "Steel",
+   "inNav": true,
+   "form": "Short film",
+   "year": "2012",
+   "runtime": "12 min",
+   "ratio": "2.40:1",
+   "synopsis": "In a future Amsterdam, a group of warriors and scientists gather at the Oude Kerk to stage a crucial event from the past, in a desperate attempt to rescue the world from destructive robots. Live action and computer graphics, made to test Blender's tools for film.",
+   "poster": "/design/samples/blender/img/tos-poster-png.jpg",
+   "video": "/design/samples/blender/media/tos-clip.mp4",
+   "link": "https://mango.blender.org",
+   "stills": [
+    {
+     "asset": "/design/samples/blender/img/tears-of-steel-frame-00-1c-jpg.jpg",
+     "caption": "The launch site"
+    },
+    {
+     "asset": "/design/samples/blender/img/tears-of-steel-frame-01-2a-jpg.jpg",
+     "caption": "The bridge"
+    },
+    {
+     "asset": "/design/samples/blender/img/tears-of-steel-frame-02-4a-jpg.jpg",
+     "caption": "The lab"
+    },
+    {
+     "asset": "/design/samples/blender/img/tears-of-steel-frame-03-1a-jpg.jpg",
+     "caption": "Amsterdam"
+    },
+    {
+     "asset": "/design/samples/blender/img/tears-of-steel-frame-03-2e-jpg.jpg",
+     "caption": "The attack"
+    },
+    {
+     "asset": "/design/samples/blender/img/tears-of-steel-frame-03-3c-jpg.jpg",
+     "caption": "On the rooftops"
+    }
+   ],
+   "credits": [
+    "Directed by Ian Hubert",
+    "Produced by Ton Roosendaal, Blender Foundation",
+    "Music by Joram Letwory",
+    "© Blender Foundation, mango.blender.org · CC BY 3.0"
+   ]
+  },
+  {
+   "id": "spring",
+   "kind": "film",
+   "title": "Spring",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Short film",
+   "year": "2019",
+   "runtime": "8 min",
+   "ratio": "2.39:1",
+   "synopsis": "A shepherd girl and her dog face ancient spirits to continue the cycle of life. Painted light, a mountain, and a wide sky; the open movie that tested Blender 2.8.",
+   "poster": "/design/samples/blender/img/springopenmovie-final-scene-jpg.jpg",
+   "video": "/design/samples/blender/media/spring-clip.mp4",
+   "link": "https://studio.blender.org/films/spring/",
+   "stills": [
+    {
+     "asset": "/design/samples/blender/img/springopenmovie-aplha-jpg.jpg",
+     "caption": "The spirit"
+    },
+    {
+     "asset": "/design/samples/blender/img/springopenmovie-desend-jpg.jpg",
+     "caption": "Over the clouds"
+    },
+    {
+     "asset": "/design/samples/blender/img/blender-foundation-spring-closing-title-card-jpg.jpg",
+     "caption": "The title"
+    }
+   ],
+   "credits": [
+    "Directed by Andy Goralczyk",
+    "Produced by Francesco Siddi, Blender Animation Studio",
+    "Music by Torin Borrowdale",
+    "© Blender Foundation, studio.blender.org · CC BY 4.0"
+   ]
+  },
+  {
+   "id": "about",
+   "kind": "about",
+   "title": "About",
+   "inNav": true,
+   "paras": [
+    "Blender Studio is the film team of the Blender Foundation, in Amsterdam. Since 2006 it has made short films in the open: the films, and everything that went into making them, are released under Creative Commons licences for anyone to watch, study and reuse.",
+    "This is a sample site built from four of those films. The films and their stills are © Blender Foundation, used under CC BY; the words here are the sample's own."
+   ],
+   "principles": []
+  },
+  {
+   "id": "record",
+   "kind": "record",
+   "title": "Record",
+   "inNav": true,
+   "paras": [
+    "The open movies, in order."
+   ],
+   "sections": [
+    {
+     "title": "Films",
+     "entries": [
+      {
+       "year": "2006",
+       "text": "Elephants Dream, the first open movie"
+      },
+      {
+       "year": "2008",
+       "text": "Big Buck Bunny"
+      },
+      {
+       "year": "2010",
+       "text": "Sintel"
+      },
+      {
+       "year": "2012",
+       "text": "Tears of Steel"
+      },
+      {
+       "year": "2015",
+       "text": "Cosmos Laundromat"
+      },
+      {
+       "year": "2019",
+       "text": "Spring"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "contact",
+   "kind": "contact",
+   "title": "Contact",
+   "inNav": true,
+   "paras": [
+    "A sample site. The films are by Blender Foundation and its studio, studio.blender.org, and are used here under their Creative Commons licences.",
+    "Latent Wall shows them to show what a filmmaker's site can be."
+   ]
+  }
+ ]
+}

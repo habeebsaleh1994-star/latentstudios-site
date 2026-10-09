@@ -10,9 +10,12 @@ import { createStore, StaleError, type Store } from "./store";
 import { applyTheme } from "./theme";
 
 
-/** The sample sites. The artist's own site starts from "habib" until they bring their own. */
+/** The sample sites: one body of work per kind of artist, each from an open collection (see design/samples/CREDITS.md). The artist's own site starts from "habib" until they bring their own. */
 export const SAMPLES: Record<string, string> = {
   habib: "/design/samples/habib-saleh.site.json",
+  redon: "/design/samples/redon.site.json", palmer: "/design/samples/palmer.site.json", hiroshige: "/design/samples/hiroshige.site.json",
+  atget: "/design/samples/atget.site.json", lange: "/design/samples/lange.site.json", blender: "/design/samples/blender.site.json",
+  dickinson: "/design/samples/dickinson.site.json", woolf: "/design/samples/woolf.site.json", habs: "/design/samples/habs.site.json",
   folio: "/design/folio/doc/before-it-disappears.site.json", index: "/design/index/doc/noor-rahal.site.json", salon: "/design/salon/doc/sora-vale.site.json",
   reel: "/design/reel/doc/ivo-sen.site.json", atelier: "/design/atelier/doc/common-form.site.json", lantern: "/design/lantern/doc/lantern.site.json",
 };

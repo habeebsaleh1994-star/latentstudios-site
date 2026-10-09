@@ -205,11 +205,12 @@ footer { border-top: 1px solid var(--rule); padding: 36px 0 60px; } .foot { disp
   new IntersectionObserver((es) => { if (!es[0].isIntersecting || shown) return; shown = true; const t0 = performance.now(); const tick = (t) => { const k = Math.min(1, (t - t0) / 1800), e = 1 - Math.pow(1 - k, 3); count.textContent = Math.round(final * e).toLocaleString("en"); if (k < 1) requestAnimationFrame(tick); }; requestAnimationFrame(tick); }).observe(count);
   // the one that grows: scroll progress drives its size; the site inside is the real app, in the visitor's name
   const grow = document.getElementById("grow"), stage = document.getElementById("stage"), you = document.getElementById("you");
-  const houses = [["folio", "Folio"], ["monograph", "Monograph"], ["passage", "Passage"], ["lantern", "Lantern"], ["salon", "Salon"], ["index", "Index"]];
+  // each with a body of work of its kind: photographs, paintings, poems (see design/samples/CREDITS.md)
+  const houses = [["folio", "Folio", "habib"], ["monograph", "Monograph", "habib"], ["passage", "Passage", "lange"], ["lantern", "Lantern", "atget"], ["salon", "Salon", "redon"], ["index", "Index", "dickinson"]];
   const dots = document.getElementById("dots"); dots.innerHTML = houses.map(() => "<i></i>").join("");
   let at = 0, name = "", frames = [], timer = null;
   const fit = () => { const s = stage.clientWidth / 1440; stage.style.setProperty("--s", s.toFixed(5)); };
-  const src = (h) => `/app/index.html?site=habib&house=${h}&preview&space=home-${h}${name ? `&name=${encodeURIComponent(name)}` : ""}#/`;
+  const src = (h) => `/app/index.html?site=${houses.find((x) => x[0] === h)[2]}&house=${h}&preview&space=home-${h}${name ? `&name=${encodeURIComponent(name)}` : ""}#/`;
   const show = (i) => {
     at = (i + houses.length) % houses.length;
     document.getElementById("which").textContent = houses[at][0] === "index" ? "Index" : houses[at][1];
@@ -233,15 +234,17 @@ footer { border-top: 1px solid var(--rule); padding: 36px 0 60px; } .foot { disp
   document.getElementById("ask").addEventListener("submit", (e) => { e.preventDefault(); location.href = `/app/index.html?start=${houses[at][0]}`; });
   // the eighteen, by kind of artist; a name pointed at shows the template running beside it
   const T = [
-    ["Photographers", [["folio","Folio","One work at a time, held large and still, with a caption like a print mount."],["gallery","Gallery","A white wall and great space; the work first, the name alone at the top."],["monograph","Monograph","Your name as the cover, each series as spreads turned like a photobook."],["passage","Passage","A dark room and one long walk past the work, sideways, on one line."],["lantern","Lantern","One slide at a time in the middle of the screen, like a lantern show."],["journal","Journal","A diary kept in photographs: dated entries, newest first."]]],
-    ["Painters, illustrators, printmakers", [["salon","Salon","Works hung together at their true size, plates under each wall."],["studio","Studio","The studio wall and the finished plate: boards for the making, walls for the made."],["catalogue","Catalogue","A catalogue raisonné: every work numbered, with medium, dimensions and year."],["pinboard","Pinboard","Many small works pinned close on one wall, at their own proportions."]]],
-    ["Filmmakers", [["reel","Reel","Films lead: the site opens on a still from your first film, in the dark."],["cinema","Cinema","A poster wall, every film at its own ratio, the house lights down."]]],
-    ["Writers and poets", [["index","Index","Words lead: writing first in the contents, a side column, quiet titles."],["chapbook","Chapbook","The site opens into the reading: the poems one after another, set large."],["column","Column","A quiet magazine: essays dated and listed newest first."]]],
-    ["Studios, and work of many kinds", [["atelier","Atelier","Projects lead, as case studies: process beside outcome, a grid."],["ledger","Ledger","The work as a table of projects, clients and years; each row opens the case."],["archive","Archive","One chronology of everything, sifted by kind."]]],
+    ["Photographers", [["folio","habib","Folio","One work at a time, held large and still, with a caption like a print mount."],["gallery","habib","Gallery","A white wall and great space; the work first, the name alone at the top."],["monograph","habib","Monograph","Your name as the cover, each series as spreads turned like a photobook."],["passage","lange","Passage","A dark room and one long walk past the work, sideways, on one line."],["lantern","atget","Lantern","One slide at a time in the middle of the screen, like a lantern show."],["journal","lange","Journal","A diary kept in photographs: dated entries, newest first."]]],
+    ["Painters, illustrators, printmakers", [["salon","redon","Salon","Works hung together at their true size, plates under each wall."],["studio","palmer","Studio","The studio wall and the finished plate: boards for the making, walls for the made."],["catalogue","redon","Catalogue","A catalogue raisonné: every work numbered, with medium, dimensions and year."],["pinboard","hiroshige","Pinboard","Many small works pinned close on one wall, at their own proportions."]]],
+    ["Filmmakers", [["reel","blender","Reel","Films lead: the site opens on a still from your first film, in the dark."],["cinema","blender","Cinema","A poster wall, every film at its own ratio, the house lights down."]]],
+    ["Writers and poets", [["index","dickinson","Index","Words lead: writing first in the contents, a side column, quiet titles."],["chapbook","dickinson","Chapbook","The site opens into the reading: the poems one after another, set large."],["column","woolf","Column","A quiet magazine: essays dated and listed newest first."]]],
+    ["Studios, and work of many kinds", [["atelier","habs","Atelier","Projects lead, as case studies: process beside outcome, a grid."],["ledger","habs","Ledger","The work as a table of projects, clients and years; each row opens the case."],["archive","habib","Archive","One chronology of everything, sifted by kind."]]],
   ];
   const tlist = document.getElementById("tlist"), tlive = document.getElementById("tlive"), tname = document.getElementById("tname");
-  const previewOf = (id) => `/app/index.html?site=habib&house=${id}&preview&space=home-${id}`, tryOf = (id) => `/app/index.html?site=habib&house=${id}&space=try-${id}&edit`;
-  tlist.innerHTML = T.map(([kind, list]) => `<li class="kind label">${kind}</li>` + list.map(([id, name, idea]) => `<li><a class="t" data-id="${id}" href="${tryOf(id)}"><b>${name}</b><span class="go">Try it</span><small>${idea}</small><iframe data-src="${previewOf(id)}" title="${name}, running" tabindex="-1" aria-hidden="true"></iframe></a></li>`).join("")).join("");
+  // each template runs with a body of work of its own kind: a painter's, a printmaker's, a filmmaker's, a poet's (see design/samples/CREDITS.md)
+  const sampleOf = Object.fromEntries(T.flatMap(([, list]) => list.map(([id, sample]) => [id, sample])));
+  const previewOf = (id) => `/app/index.html?site=${sampleOf[id]}&house=${id}&preview&space=home-${id}`, tryOf = (id) => `/app/index.html?site=${sampleOf[id]}&house=${id}&space=try-${id}&edit`;
+  tlist.innerHTML = T.map(([kind, list]) => `<li class="kind label">${kind}</li>` + list.map(([id, , name, idea]) => `<li><a class="t" data-id="${id}" href="${tryOf(id)}"><b>${name}</b><span class="go">Try it</span><small>${idea}</small><iframe data-src="${previewOf(id)}" title="${name}, running" tabindex="-1" aria-hidden="true"></iframe></a></li>`).join("")).join("");
   let liveFrames = [], liveAt = "";
   const fitLive = () => tlive.style.setProperty("--s", (tlive.clientWidth / 1440).toFixed(5));
   const showT = (id, name) => {

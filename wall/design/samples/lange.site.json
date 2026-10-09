@@ -1,0 +1,1126 @@
+{
+ "version": 15,
+ "house": "journal",
+ "name": "Dorothea Lange",
+ "contact": "Photographs in the public domain, Library of Congress",
+ "email": "",
+ "front": {
+  "form": "journal",
+  "kicker": "Photographs for the Farm Security Administration · 1936 – 1939",
+  "title": "The road",
+  "titleEm": "and the people on it",
+  "note": "Entries from four years on the road, in her own captions."
+ },
+ "theme": {
+  "look": "toned",
+  "options": {},
+  "palette": "silk",
+  "mode": "system",
+  "accent": null,
+  "type": "silk",
+  "mount": "bare",
+  "space": "standard",
+  "motion": "slow",
+  "read": "standard"
+ },
+ "library": {
+  "/design/samples/lange/img/01-portrait-of-a-mexican-americ.jpg": {
+   "kind": "image",
+   "w": 2225,
+   "h": 2400,
+   "title": "Portrait of a Mexican-American child",
+   "date": "March 1935",
+   "caption": "Farm Security Administration",
+   "alt": "Portrait of a Mexican-American child",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Portrait of a Mexican-American child. Imperial Valley, California",
+    "edition": "Portrait of a Mexican-American child. Imperial Valley, California",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/02-oklahoma-dust-bowl-refugees.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1800,
+   "title": "Oklahoma dust bowl refugees, San Fernando, California",
+   "date": "June 1935",
+   "caption": "Farm Security Administration",
+   "alt": "Oklahoma dust bowl refugees, San Fernando, California",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Oklahoma dust bowl refugees, San Fernando, California.",
+    "edition": "Oklahoma dust bowl refugees, San Fernando, California, 8b27316",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/03-child-in-shack-town-by-dorot.jpg": {
+   "kind": "image",
+   "w": 2253,
+   "h": 2400,
+   "title": "Damaged Child, Shacktown, Elm Grove, Oklahoma",
+   "date": "1936",
+   "caption": "Farm Security Administration",
+   "alt": "Damaged Child, Shacktown, Elm Grove, Oklahoma",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Damaged Child, Shacktown, Elm Grove, Oklahoma.",
+    "edition": "Child in Shack Town by Dorothea Lange, 1936, 8b38490a",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/04-concrete-mixing-plant-birmin.jpg": {
+   "kind": "image",
+   "w": 1920,
+   "h": 2400,
+   "title": "Concrete mixing plant",
+   "date": "June 1936",
+   "caption": "Farm Security Administration",
+   "alt": "Concrete mixing plant",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Concrete mixing plant. Birmingham, Alabama.",
+    "edition": "Concrete mixing plant, Birmingham, Alabama, view 2",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/05-one-side-of-the-monument-ere.jpg": {
+   "kind": "image",
+   "w": 2301,
+   "h": 2400,
+   "title": "One side of the monument erected to race prejudice",
+   "date": "July 1936",
+   "caption": "Farm Security Administration",
+   "alt": "One side of the monument erected to race prejudice",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "\"One side of the monument erected to race prejudice. New Orleans, Louisiana\".",
+    "edition": "One side of the monument erected to race prejudice New Orleans Louisiana 1936",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/06-family-between-dallas-and-au.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 2041,
+   "title": "Family between Dallas and Austin, Texas",
+   "date": "August 1936",
+   "caption": "Farm Security Administration",
+   "alt": "Family between Dallas and Austin, Texas",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Family between Dallas and Austin, Texas. The people have left their home and connections in South Texas, and hope to reach the Arkansas Delta for work in the cotton fields. Penniless people. No food and three gallons of gas in the tank. The father is trying to repair a tire. Three children. Father says, “It's tough but life's tough anyway you take it.”",
+    "edition": "Family between Dallas and Austin, Texas, 8b29790",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/07-aged-woman-from-oklahoma-ker.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1876,
+   "title": "Aged woman from Oklahoma, Kern County migrant camp, California",
+   "date": "November 1936",
+   "caption": "Farm Security Administration",
+   "alt": "Aged woman from Oklahoma, Kern County migrant camp, California",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Aged woman from Oklahoma, Kern County migrant camp, California.",
+    "edition": "Aged woman from Oklahoma, Kern County migrant camp, California, 8b31631",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/08-young-penniless-family-hitch.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1401,
+   "title": "Young penniless family hitchhiking on U.S. Highway 99, California",
+   "date": "November 1936",
+   "caption": "Farm Security Administration",
+   "alt": "Young penniless family hitchhiking on U.S. Highway 99, California",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Young penniless family hitchhiking on U.S. Highway 99, California. The father, twenty-four, and the mother, seventeen, came from Winston-Salem, North Carolina, early in 1935. Their baby was born in the Imperial Valley, California, where they were working as field laborers.",
+    "edition": "Young penniless family hitchhiking on U.S. Highway 99, California, 8b38618",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/09-broke-baby-sick-and-car-trou.jpg": {
+   "kind": "image",
+   "w": 2278,
+   "h": 2400,
+   "title": "Tracy (vicinity), California",
+   "date": "February 1937",
+   "caption": "Farm Security Administration",
+   "alt": "Tracy (vicinity), California",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Tracy (vicinity), California. Missouri family of five who are seven months from the drought area on U.S. Highway 99. \"Broke, baby sick, and car trouble!\"",
+    "edition": "Broke, baby sick, and car trouble! - Dorothea Langes photo of a Missouri family of five in the vicinity of Tracy, California",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/10-young-penniless-oklahoma-mot.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 2387,
+   "title": "Young penniless Oklahoma mother stranded in Imperial Valley, California",
+   "date": "March 1937",
+   "caption": "Farm Security Administration",
+   "alt": "Young penniless Oklahoma mother stranded in Imperial Valley, California",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Young penniless Oklahoma mother stranded in Imperial Valley, California.",
+    "edition": "Young penniless Oklahoma mother stranded in Imperial Valley, California, 8b31803",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/11-a-former-tenant-farmer-from.jpg": {
+   "kind": "image",
+   "w": 1848,
+   "h": 2400,
+   "title": "A former tenant farmer from Texas now working in California as a pea picker, Nipomo, California",
+   "date": "March 1937",
+   "caption": "Farm Security Administration",
+   "alt": "A former tenant farmer from Texas now working in California as a pea picker, Nipomo, California",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "A former tenant farmer from Texas now working in California as a pea picker, Nipomo, California.",
+    "edition": "A former tenant farmer from Texas now working in California as a pea picker, Nipomo, California, 8b31737",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/12-migratory-mexican-field-work.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1992,
+   "title": "Migratory Mexican field worker's home on the edge of a frozen pea field, Imperial Valley, California",
+   "date": "March 1937",
+   "caption": "Farm Security Administration",
+   "alt": "Migratory Mexican field worker's home on the edge of a frozen pea field, Imperial Valley, California",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Migratory Mexican field worker's home on the edge of a frozen pea field, Imperial Valley, California.",
+    "edition": "Migratory Mexican field worker's home on the edge of a frozen pea field, Imperial Valley, California, 8b38632, edit",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/13-migratory-field-worker-s-hom.jpg": {
+   "kind": "image",
+   "w": 2265,
+   "h": 2400,
+   "title": "Migratory field worker's home on the edge of a pea field, Imperial Valley, California",
+   "date": "March 1937",
+   "caption": "Farm Security Administration",
+   "alt": "Migratory field worker's home on the edge of a pea field, Imperial Valley, California",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Migratory field worker's home on the edge of a pea field, Imperial Valley, California. The family lived here through the winter.",
+    "edition": "Migratory field worker's home on the edge of a pea field, Imperial Valley, California, 8b31858",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/14-mexican-melon-picker-of-the.jpg": {
+   "kind": "image",
+   "w": 1946,
+   "h": 2400,
+   "title": "Mexican melon picker of the Imperial Valley, unloading his bag",
+   "date": "May 1937",
+   "caption": "Farm Security Administration",
+   "alt": "Mexican melon picker of the Imperial Valley, unloading his bag",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Mexican melon picker of the Imperial Valley, unloading his bag. California",
+    "edition": "Mexican melon picker of the Imperial Valley, unloading his bag. California",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/15-twelve-year-old-son-of-a-cot.jpg": {
+   "kind": "image",
+   "w": 1925,
+   "h": 2400,
+   "title": "Twelve year-old son of a cotton sharecropper near Cleveland, Mississippi",
+   "date": "June 1937",
+   "caption": "Farm Security Administration",
+   "alt": "Twelve year-old son of a cotton sharecropper near Cleveland, Mississippi",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Twelve year-old son of a cotton sharecropper near Cleveland, Mississippi.",
+    "edition": "Twelve year-old son of a cotton sharecropper near Cleveland, Mississippi, 8b32066",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/16-lange-migrantmother02.jpg": {
+   "kind": "image",
+   "w": 1846,
+   "h": 2400,
+   "title": "Migrant Mother, Nipomo, California",
+   "date": "1936",
+   "caption": "Farm Security Administration",
+   "alt": "Migrant Mother, Nipomo, California",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Migrant Mother, Nipomo, California. Florence Owens Thompson, thirty-two, with three of her children, in a pea pickers' camp.",
+    "edition": "Lange-MigrantMother02",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/17-rex-theatre.jpg": {
+   "kind": "image",
+   "w": 2283,
+   "h": 2400,
+   "title": "Rex theatre",
+   "date": "June 1937",
+   "caption": "Farm Security Administration",
+   "alt": "Rex theatre",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Rex theatre",
+    "edition": "Rex theatre",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/18-migrant-pea-pickers-from-man.jpg": {
+   "kind": "image",
+   "w": 2284,
+   "h": 2400,
+   "title": "Migrant pea pickers from many states line up with their filled hampers on the edge of the field",
+   "date": "April 1938",
+   "caption": "Farm Security Administration",
+   "alt": "Migrant pea pickers from many states line up with their filled hampers on the edge of the field",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Migrant pea pickers from many states line up with their filled hampers on the edge of the field. They wait their turn for weighing. Near Westley, California.",
+    "edition": "Migrant pea pickers from many states line up with their filled hampers on the edge of the field, 8b32443",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/19-dust-bowl-farm-coldwater-dis.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1842,
+   "title": "Dust Bowl farm",
+   "date": "June 1938",
+   "caption": "Farm Security Administration",
+   "alt": "Dust Bowl farm",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Dust Bowl farm. Coldwater District, north of Dalhart, Texas. This house is occupied; most of the houses in this district have been abandoned.",
+    "edition": "Dust Bowl farm. Coldwater District, north of Dalhart, Texas",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/20-power-farming-displaces-tena.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1773,
+   "title": "Power farming displaces tenants from the land in the western dry cotton area, Childress County, Texas Panhandle",
+   "date": "June 1938",
+   "caption": "Farm Security Administration",
+   "alt": "Power farming displaces tenants from the land in the western dry cotton area, Childress County, Texas Panhandle",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Power farming displaces tenants from the land in the western dry cotton area, Childress County, Texas Panhandle.",
+    "edition": "Power farming displaces tenants from the land in the western dry cotton area, Childress County, Texas Panhandle, 8b32422",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/21-this-farm-was-abandoned-in-1.jpg": {
+   "kind": "image",
+   "w": 1742,
+   "h": 2400,
+   "title": "This farm was abandoned in 1937",
+   "date": "June 1938",
+   "caption": "Farm Security Administration",
+   "alt": "This farm was abandoned in 1937",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "This farm was abandoned in 1937. Near Dalhart, Coldwater District, Texas.",
+    "edition": "This farm was abandoned in 1937. Near Dalhart, Coldwater District, Texas, 8b32408",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/22-from-texas-farmer-to-migrato.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1848,
+   "title": "From Texas farmer to migratory worker in Kern County, California, because of industrialized agriculture",
+   "date": "November 1938",
+   "caption": "Farm Security Administration",
+   "alt": "From Texas farmer to migratory worker in Kern County, California, because of industrialized agriculture",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "From Texas farmer to migratory worker in Kern County, California, because of industrialized agriculture.",
+    "edition": "From Texas farmer to migratory worker in Kern County, California, because of industrialized agriculture, 8b32693",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/23-oilfields-california.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1843,
+   "title": "Oil fields",
+   "date": "November 1938",
+   "caption": "Farm Security Administration",
+   "alt": "Oil fields",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Oil fields. Kern County, California",
+    "edition": "Oilfields California",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/24-strike-leader-in-kern-county.jpg": {
+   "kind": "image",
+   "w": 1843,
+   "h": 2400,
+   "title": "From Oklahoma farm (April 1938) to strike leader in California",
+   "date": "November 1938",
+   "caption": "Farm Security Administration",
+   "alt": "From Oklahoma farm (April 1938) to strike leader in California",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "From Oklahoma farm (April 1938) to strike leader in California. Cotton strike (Nov. 1938). He displays his union membership book. \"Vote No on No. 1\" refers to proposed anti-picketing law which was later defeated by California electorate. Kern County, California.",
+    "edition": "Strike leader in Kern County, California, 8b32699",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/25-migrant-cotton-picker-s-chil.jpg": {
+   "kind": "image",
+   "w": 2283,
+   "h": 2400,
+   "title": "Migrant cotton picker's child who lives in a tent in the government camp instead of along the highway or in a ditch bank",
+   "date": "November 1938",
+   "caption": "Farm Security Administration",
+   "alt": "Migrant cotton picker's child who lives in a tent in the government camp instead of along the highway or in a ditch bank",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Migrant cotton picker's child who lives in a tent in the government camp instead of along the highway or in a ditch bank. Shafter Camp for migrants, California.",
+    "edition": "Migrant cotton picker's child, 8b32567a",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/26-undernourished-cotton-picker.jpg": {
+   "kind": "image",
+   "w": 2314,
+   "h": 2400,
+   "title": "Undernourished cotton picker's child listening to speeches of organizer at strike meeting to raise wages from seventy-fi",
+   "date": "November 1938",
+   "caption": "Farm Security Administration",
+   "alt": "Undernourished cotton picker's child listening to speeches of organizer at strike meeting to raise wages from seventy-fi",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Undernourished cotton picker's child listening to speeches of organizer at strike meeting to raise wages from seventy-five cents to ninety cents a hundred pounds. Strike unsuccessful. Kern County, California.",
+    "edition": "Undernourished cotton picker's child listening to speeches of organizer at strike meeting, 8b32810",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/27-father-mother-and-eleven-chi.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1840,
+   "title": "Father, mother and eleven children originally from Mangum, Oklahoma",
+   "date": "February 1939",
+   "caption": "Farm Security Administration",
+   "alt": "Father, mother and eleven children originally from Mangum, Oklahoma",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Father, mother and eleven children originally from Mangum, Oklahoma",
+    "edition": "Father, mother and eleven children originally from Mangum, Oklahoma, 8b33251",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/28-migratory-labor-workers-braw.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1840,
+   "title": "Migratory labor workers",
+   "date": "February 1939",
+   "caption": "Farm Security Administration",
+   "alt": "Migratory labor workers",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Migratory labor workers. Brawley, Imperial Valley, California.",
+    "edition": "Migratory labor workers. Brawley, Imperial Valley, California, 8b33265",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/29-baby-from-mississippi-parked.jpg": {
+   "kind": "image",
+   "w": 2295,
+   "h": 2400,
+   "title": "Baby from Mississippi parked in truck at FSA camp, Merrill, Oregon",
+   "date": "October 1939",
+   "caption": "Farm Security Administration",
+   "alt": "Baby from Mississippi parked in truck at FSA camp, Merrill, Oregon",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Baby from Mississippi parked in truck at FSA camp, Merrill, Oregon",
+    "edition": "Baby from Mississippi parked in truck at FSA camp, Merrill, Oregon, 8b35579",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  },
+  "/design/samples/lange/img/30-chandler-maricopa-county-ari.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 2010,
+   "title": "Auto camp for cotton pickers",
+   "date": "1940",
+   "caption": "Farm Security Administration",
+   "alt": "Auto camp for cotton pickers",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Auto camp for cotton pickers. Sixteen one-room cabins, rent - $1.00 per week. No garbage service, water from grocery store, quarter of mile away, leaky roofs and sides to houses. Compare with photographs of FSA cooperative part-time farm about one mile away.",
+    "edition": "Chandler, Maricopa County, Arizona. Auto camp for cotton pickers. Sixteen one-room cabins, rent - $1 . . . - NARA - 522532",
+    "made": "Public domain: a work of the United States government. Library of Congress via Wikimedia Commons."
+   }
+  }
+ },
+ "pages": [
+  {
+   "id": "1935-03",
+   "kind": "story",
+   "title": "March 1935",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "Imperial Valley, California",
+   "note": "Portrait of a Mexican-American child. Imperial Valley, California",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/01-portrait-of-a-mexican-americ.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    }
+   ]
+  },
+  {
+   "id": "1935-06",
+   "kind": "story",
+   "title": "June 1935",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "San Fernando, California",
+   "note": "Oklahoma dust bowl refugees, San Fernando, California.",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/02-oklahoma-dust-bowl-refugees.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    }
+   ]
+  },
+  {
+   "id": "1936-00",
+   "kind": "story",
+   "title": "In 1936",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "Elm Grove, Oklahoma",
+   "note": "Damaged Child, Shacktown, Elm Grove, Oklahoma.",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/03-child-in-shack-town-by-dorot.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/16-lange-migrantmother02.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "1936-06",
+   "kind": "story",
+   "title": "June 1936",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "Birmingham, Alabama",
+   "note": "Concrete mixing plant. Birmingham, Alabama.",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/04-concrete-mixing-plant-birmin.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    }
+   ]
+  },
+  {
+   "id": "1936-07",
+   "kind": "story",
+   "title": "July 1936",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "New Orleans, Louisiana",
+   "note": "\"One side of the monument erected to race prejudice. New Orleans, Louisiana\".",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/05-one-side-of-the-monument-ere.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    }
+   ]
+  },
+  {
+   "id": "1936-08",
+   "kind": "story",
+   "title": "August 1936",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "Austin, Texas",
+   "note": "Family between Dallas and Austin, Texas. The people have left their home and connections in South Texas, and hope to reach the Arkansas Delta for work in the cotton fields. Penniless people. No food and three gallons of gas in the tank. The father is trying to repair a tire. Three children.",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/06-family-between-dallas-and-au.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    }
+   ]
+  },
+  {
+   "id": "1936-11",
+   "kind": "story",
+   "title": "November 1936",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "Imperial Valley, California",
+   "note": "Aged woman from Oklahoma, Kern County migrant camp, California.",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/07-aged-woman-from-oklahoma-ker.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/08-young-penniless-family-hitch.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "1937-02",
+   "kind": "story",
+   "title": "February 1937",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "On the road",
+   "note": "Tracy (vicinity), California. Missouri family of five who are seven months from the drought area on U.S. Highway 99. \"Broke, baby sick, and car trouble!\"",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/09-broke-baby-sick-and-car-trou.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    }
+   ]
+  },
+  {
+   "id": "1937-03",
+   "kind": "story",
+   "title": "March 1937",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "Imperial Valley, California",
+   "note": "Young penniless Oklahoma mother stranded in Imperial Valley, California.",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/10-young-penniless-oklahoma-mot.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/11-a-former-tenant-farmer-from.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/12-migratory-mexican-field-work.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/13-migratory-field-worker-s-hom.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "1937-05",
+   "kind": "story",
+   "title": "May 1937",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "On the road",
+   "note": "Mexican melon picker of the Imperial Valley, unloading his bag. California",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/14-mexican-melon-picker-of-the.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    }
+   ]
+  },
+  {
+   "id": "1937-06",
+   "kind": "story",
+   "title": "June 1937",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "Cleveland, Mississippi",
+   "note": "Twelve year-old son of a cotton sharecropper near Cleveland, Mississippi.",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/15-twelve-year-old-son-of-a-cot.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/17-rex-theatre.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "1938-04",
+   "kind": "story",
+   "title": "April 1938",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "Near Westley, California",
+   "note": "Migrant pea pickers from many states line up with their filled hampers on the edge of the field. They wait their turn for weighing. Near Westley, California.",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/18-migrant-pea-pickers-from-man.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    }
+   ]
+  },
+  {
+   "id": "1938-06",
+   "kind": "story",
+   "title": "June 1938",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "Childress County, Texas",
+   "note": "Dust Bowl farm. Coldwater District, north of Dalhart, Texas. This house is occupied; most of the houses in this district have been abandoned.",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/19-dust-bowl-farm-coldwater-dis.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/20-power-farming-displaces-tena.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/21-this-farm-was-abandoned-in-1.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "1938-11",
+   "kind": "story",
+   "title": "November 1938",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "Kern County, California",
+   "note": "From Texas farmer to migratory worker in Kern County, California, because of industrialized agriculture.",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/22-from-texas-farmer-to-migrato.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/23-oilfields-california.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/24-strike-leader-in-kern-county.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/25-migrant-cotton-picker-s-chil.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/26-undernourished-cotton-picker.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "1939-02",
+   "kind": "story",
+   "title": "February 1939",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "Mangum, Oklahoma",
+   "note": "Father, mother and eleven children originally from Mangum, Oklahoma",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/27-father-mother-and-eleven-chi.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/28-migratory-labor-workers-braw.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "1939-10",
+   "kind": "story",
+   "title": "October 1939",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "On the road",
+   "note": "Baby from Mississippi parked in truck at FSA camp, Merrill, Oregon",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/29-baby-from-mississippi-parked.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    }
+   ]
+  },
+  {
+   "id": "1940-00",
+   "kind": "story",
+   "title": "In 1940",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "1940",
+   "note": "Auto camp for cotton pickers. Sixteen one-room cabins, rent - $1.00 per week. No garbage service, water from grocery store, quarter of mile away, leaky roofs and sides to houses. Compare with photographs of FSA cooperative part-time farm about one mile away.",
+   "arrangement": "held",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/lange/img/30-chandler-maricopa-county-ari.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    }
+   ]
+  },
+  {
+   "id": "about",
+   "kind": "about",
+   "title": "About",
+   "inNav": true,
+   "paras": [
+    "Dorothea Lange photographed for the Resettlement Administration and then the Farm Security Administration from 1935 to 1939, driving the roads of California and the South and writing down, beside each negative, what the people in it had told her. The captions here are hers, as the Library of Congress keeps them.",
+    "This is a sample site: the photographs are works of the United States government and in the public domain, from the Library of Congress by way of Wikimedia Commons. The entries follow her dates; the words about them are the sample's own."
+   ],
+   "principles": []
+  },
+  {
+   "id": "record",
+   "kind": "record",
+   "title": "Record",
+   "inNav": true,
+   "paras": [
+    "Dorothea Lange, 1895 – 1965."
+   ],
+   "sections": [
+    {
+     "title": "Life",
+     "entries": [
+      {
+       "year": "1895",
+       "text": "Born in Hoboken, New Jersey, 26 May"
+      },
+      {
+       "year": "1918",
+       "text": "Opens a portrait studio in San Francisco"
+      },
+      {
+       "year": "1935",
+       "text": "Begins photographing for the Resettlement Administration"
+      },
+      {
+       "year": "1936",
+       "text": "Migrant Mother, Nipomo, California, in March"
+      },
+      {
+       "year": "1939",
+       "text": "An American Exodus, with Paul Taylor"
+      },
+      {
+       "year": "1942",
+       "text": "Photographs the internment of Japanese Americans"
+      },
+      {
+       "year": "1965",
+       "text": "Dies in San Francisco, 11 October"
+      }
+     ]
+    },
+    {
+     "title": "Collections",
+     "entries": [
+      {
+       "year": "",
+       "text": "Library of Congress, Washington"
+      },
+      {
+       "year": "",
+       "text": "Oakland Museum of California"
+      },
+      {
+       "year": "",
+       "text": "The Museum of Modern Art, New York"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "contact",
+   "kind": "contact",
+   "title": "Contact",
+   "inNav": true,
+   "paras": [
+    "A sample site. The photographs are in the public domain, from the Library of Congress.",
+    "Latent Wall shows them to show what a documentary photographer's site can be."
+   ]
+  }
+ ]
+}

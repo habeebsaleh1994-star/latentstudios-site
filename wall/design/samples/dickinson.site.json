@@ -1,0 +1,422 @@
+{
+ "version": 15,
+ "house": "chapbook",
+ "name": "Emily Dickinson",
+ "contact": "Poems in the public domain",
+ "email": "",
+ "front": {
+  "form": "reading",
+  "kicker": "Poems · Amherst · 1890 – 1896",
+  "title": "Twenty-one",
+  "titleEm": "poems",
+  "note": "From the three series her friends printed after her death."
+ },
+ "theme": {
+  "look": "typewriter",
+  "options": {},
+  "palette": "silk",
+  "mode": "system",
+  "accent": null,
+  "type": "silk",
+  "mount": "bare",
+  "space": "standard",
+  "motion": "slow",
+  "read": "standard"
+ },
+ "library": {},
+ "pages": [
+  {
+   "id": "hope",
+   "kind": "writing",
+   "title": "Hope",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "Hope is the thing with feathers\nThat perches in the soul,\nAnd sings the tune without the words,\nAnd never stops at all,\n\nAnd sweetest in the gale is heard;\nAnd sore must be the storm\nThat could abash the little bird\nThat kept so many warm.\n\nI 've heard it in the chillest land,\nAnd on the strangest sea;\nYet, never, in extremity,\nIt asked a crumb of me."
+   ],
+   "margin": "",
+   "image": null
+  },
+  {
+   "id": "the-chariot",
+   "kind": "writing",
+   "title": "The Chariot",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "Because I could not stop for Death,\nHe kindly stopped for me;\nThe carriage held but just ourselves\nAnd Immortality.\n\nWe slowly drove, he knew no haste,\nAnd I had put away\nMy labor, and my leisure too,\nFor his civility.\n\nWe passed the school where children played,\nTheir lessons scarcely done;\nWe passed the fields of gazing grain,\nWe passed the setting sun.\n\nWe paused before a house that seemed\nA swelling of the ground;\nThe roof was scarcely visible,\nThe cornice but a mound.\n\nSince then 't is centuries; but each\nFeels shorter than the day\nI first surmised the horses' heads\nWere toward eternity."
+   ],
+   "margin": "",
+   "image": null
+  },
+  {
+   "id": "i-taste-a-liquor-never-brewed",
+   "kind": "writing",
+   "title": "I taste a liquor never brewed",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "I taste a liquor never brewed,\nFrom tankards scooped in pearl;\nNot all the vats upon the Rhine\nYield such an alcohol!\n\nInebriate of air am I,\nAnd debauchee of dew,\nReeling, through endless summer days,\nFrom inns of molten blue.\n\nWhen landlords turn the drunken bee\nOut of the foxglove's door,\nWhen butterflies renounce their drams,\nI shall but drink the more!\n\nTill seraphs swing their snowy hats,\nAnd saints to windows run,\nTo see the little tippler\nLeaning against the sun!"
+   ],
+   "margin": "untitled",
+   "image": null
+  },
+  {
+   "id": "the-snake",
+   "kind": "writing",
+   "title": "The Snake",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "A narrow fellow in the grass\nOccasionally rides;\nYou may have met him, — did you not,\nHis notice sudden is.\n\nThe grass divides as with a comb,\nA spotted shaft is seen;\nAnd then it closes at your feet\nAnd opens further on.\n\nHe likes a boggy acre,\nA floor too cool for corn.\nYet when a child, and barefoot,\nI more than once, at morn,\n\nHave passed, I thought, a whip-lash\nUnbraiding in the sun, — When, stooping to secure it,\nIt wrinkled, and was gone.\n\nSeveral of nature's people\nI know, and they know me;\nI feel for them a transport\nOf cordiality;\n\nBut never met this fellow,\nAttended or alone,\nWithout a tighter breathing,\nAnd zero at the bone."
+   ],
+   "margin": "",
+   "image": null
+  },
+  {
+   "id": "there-s-a-certain-slant-of-light",
+   "kind": "writing",
+   "title": "There's a certain slant of light",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "There's a certain slant of light,\nOn winter afternoons,\nThat oppresses, like the weight\nOf cathedral tunes.\n\nHeavenly hurt it gives us;\nWe can find no scar,\nBut internal difference\nWhere the meanings are.\n\nNone may teach it anything,\n'T is the seal, despair, — An imperial affliction\nSent us of the air.\n\nWhen it comes, the landscape listens,\nShadows hold their breath;\nWhen it goes, 't is like the distance\nOn the look of death."
+   ],
+   "margin": "untitled",
+   "image": null
+  },
+  {
+   "id": "dying",
+   "kind": "writing",
+   "title": "Dying",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "I heard a fly buzz when I died;\nThe stillness round my form\nWas like the stillness in the air\nBetween the heaves of storm.\n\nThe eyes beside had wrung them dry,\nAnd breaths were gathering sure\nFor that last onset, when the king\nBe witnessed in his power.\n\nI willed my keepsakes, signed away\nWhat portion of me I\nCould make assignable, — and then\nThere interposed a fly,\n\nWith blue, uncertain, stumbling buzz,\nBetween the light and me;\nAnd then the windows failed, and then\nI could not see to see."
+   ],
+   "margin": "",
+   "image": null
+  },
+  {
+   "id": "exclusion",
+   "kind": "writing",
+   "title": "Exclusion",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "The soul selects her own society,\nThen shuts the door;\nOn her divine majority\nObtrude no more.\n\nUnmoved, she notes the chariot's pausing\nAt her low gate;\nUnmoved, an emperor is kneeling\nUpon her mat.\n\nI've known her from an ample nation\nChoose one;\nThen close the valves of her attention\nLike stone."
+   ],
+   "margin": "",
+   "image": null
+  },
+  {
+   "id": "much-madness-is-divinest-sense",
+   "kind": "writing",
+   "title": "Much madness is divinest sense",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "Much madness is divinest sense\nTo a discerning eye;\nMuch sense the starkest madness.\n'T is the majority\nIn this, as all, prevails.\nAssent, and you are sane;\nDemur, — you're straightway dangerous,\nAnd handled with a chain.\n\nI asked no other thing,\nNo other was denied.\nI offered Being for it;\nThe mighty merchant smiled.\n\nBrazil? He twirled a button,\nWithout a glance my way:\n\"But, madam, is there nothing else\nThat we can show to-day?\""
+   ],
+   "margin": "untitled",
+   "image": null
+  },
+  {
+   "id": "i-died-for-beauty-but-was-scarce",
+   "kind": "writing",
+   "title": "I died for beauty, but was scarce",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "I died for beauty, but was scarce\nAdjusted in the tomb,\nWhen one who died for truth was lain\nIn an adjoining room.\n\nHe questioned softly why I failed?\n\"For beauty,\" I replied.\n\"And I for truth, — the two are one;\nWe brethren are,\" he said.\n\nAnd so, as kinsmen met a night,\nWe talked between the rooms,\nUntil the moss had reached our lips,\nAnd covered up our names."
+   ],
+   "margin": "untitled",
+   "image": null
+  },
+  {
+   "id": "the-brain",
+   "kind": "writing",
+   "title": "The Brain",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "The brain is wider than the sky,\nFor, put them side by side,\nThe one the other will include\nWith ease, and you beside.\n\nThe brain is deeper than the sea,\nFor, hold them, blue to blue,\nThe one the other will absorb,\nAs sponges, buckets do.\n\nThe brain is just the weight of God,\nFor, lift them, pound for pound,\nAnd they will differ, if they do,\nAs syllable from sound."
+   ],
+   "margin": "",
+   "image": null
+  },
+  {
+   "id": "in-the-garden",
+   "kind": "writing",
+   "title": "In The Garden",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "A bird came down the walk:\nHe did not know I saw;\nHe bit an angle-worm in halves\nAnd ate the fellow, raw.\n\nAnd then he drank a dew\nFrom a convenient grass,\nAnd then hopped sidewise to the wall\nTo let a beetle pass.\n\nHe glanced with rapid eyes\nThat hurried all abroad, — They looked like frightened beads, I thought;\nHe stirred his velvet head\n\nLike one in danger; cautious,\nI offered him a crumb,\nAnd he unrolled his feathers\nAnd rowed him softer home\n\nThan oars divide the ocean,\nToo silver for a seam,\nOr butterflies, off banks of noon,\nLeap, splashless, as they swim."
+   ],
+   "margin": "",
+   "image": null
+  },
+  {
+   "id": "i-never-saw-a-moor",
+   "kind": "writing",
+   "title": "I never saw a moor",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "I never saw a moor,\nI never saw the sea;\nYet know I how the heather looks,\nAnd what a wave must be.\n\nI never spoke with God,\nNor visited in heaven;\nYet certain am I of the spot\nAs if the chart were given."
+   ],
+   "margin": "untitled",
+   "image": null
+  },
+  {
+   "id": "parting",
+   "kind": "writing",
+   "title": "Parting",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "My life closed twice before its close;\nIt yet remains to see\nIf Immortality unveil\nA third event to me,\n\nSo huge, so hopeless to conceive,\nAs these that twice befell.\nParting is all we know of heaven,\nAnd all we need of hell."
+   ],
+   "margin": "",
+   "image": null
+  },
+  {
+   "id": "the-heart-asks-pleasure-first",
+   "kind": "writing",
+   "title": "The heart asks pleasure first",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "The heart asks pleasure first,\nAnd then, excuse from pain;\nAnd then, those little anodynes\nThat deaden suffering;\n\nAnd then, to go to sleep;\nAnd then, if it should be\nThe will of its Inquisitor,\nThe liberty to die."
+   ],
+   "margin": "untitled",
+   "image": null
+  },
+  {
+   "id": "wild-nights-wild-nights",
+   "kind": "writing",
+   "title": "Wild nights! Wild nights",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "Wild nights! Wild nights!\nWere I with thee,\nWild nights should be\nOur luxury!\n\nFutile the winds\nTo a heart in port, — Done with the compass,\nDone with the chart.\n\nRowing in Eden!\nAh! the sea!\nMight I but moor\nTo-night in thee!"
+   ],
+   "margin": "untitled",
+   "image": null
+  },
+  {
+   "id": "i-felt-a-funeral-in-my-brain",
+   "kind": "writing",
+   "title": "I felt a funeral in my brain",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "I felt a funeral in my brain,\nAnd mourners, to and fro,\nKept treading, treading, till it seemed\nThat sense was breaking through.\n\nAnd when they all were seated,\nA service like a drum\nKept beating, beating, till I thought\nMy mind was going numb.\n\nAnd then I heard them lift a box,\nAnd creak across my soul\nWith those same boots of lead, again.\nThen space began to toll\n\nAs all the heavens were a bell,\nAnd Being but an ear,\nAnd I and silence some strange race,\nWrecked, solitary, here."
+   ],
+   "margin": "untitled",
+   "image": null
+  },
+  {
+   "id": "a-book",
+   "kind": "writing",
+   "title": "A Book",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "There is no frigate like a book\nTo take us lands away,\nNor any coursers like a page\nOf prancing poetry.\nThis traverse may the poorest take\nWithout oppress of toll;\nHow frugal is the chariot\nThat bears a human soul!"
+   ],
+   "margin": "",
+   "image": null
+  },
+  {
+   "id": "to-make-a-prairie-it-takes-a-clover-and-one-bee",
+   "kind": "writing",
+   "title": "To make a prairie it takes a clover and one bee",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "To make a prairie it takes a clover and one bee, — One clover, and a bee,\nAnd revery.\nThe revery alone will do\nIf bees are few."
+   ],
+   "margin": "untitled",
+   "image": null
+  },
+  {
+   "id": "the-bustle-in-a-house",
+   "kind": "writing",
+   "title": "The bustle in a house",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "The bustle in a house\nThe morning after death\nIs solemnest of industries\nEnacted upon earth, — \n\nThe sweeping up the heart,\nAnd putting love away\nWe shall not want to use again\nUntil eternity."
+   ],
+   "margin": "untitled",
+   "image": null
+  },
+  {
+   "id": "presentiment-is-that-long-shadow-on-the-lawn",
+   "kind": "writing",
+   "title": "Presentiment is that long shadow on the lawn",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "Presentiment is that long shadow on the lawn\nIndicative that suns go down;\nThe notice to the startled grass\nThat darkness is about to pass."
+   ],
+   "margin": "untitled",
+   "image": null
+  },
+  {
+   "id": "a-word",
+   "kind": "writing",
+   "title": "A Word",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Poem",
+   "place": "Amherst",
+   "year": "",
+   "paras": [
+    "A word is dead\nWhen it is said,\nSome say.\nI say it just\nBegins to live\nThat day."
+   ],
+   "margin": "",
+   "image": null
+  },
+  {
+   "id": "about",
+   "kind": "about",
+   "title": "About",
+   "inNav": true,
+   "paras": [
+    "Emily Dickinson wrote nearly eighteen hundred poems, and published almost none of them in her lifetime. They were found in her room after her death in 1886, sewn into small booklets, and first printed in 1890.",
+    "This is a sample site: the poems are from the first three series, edited by Mabel Loomis Todd and Thomas Wentworth Higginson (1890 – 1896), as kept by Project Gutenberg. The poems are in the public domain; the words about them are the sample's own."
+   ],
+   "principles": []
+  },
+  {
+   "id": "record",
+   "kind": "record",
+   "title": "Record",
+   "inNav": true,
+   "paras": [
+    "A life, briefly."
+   ],
+   "sections": [
+    {
+     "title": "Life",
+     "entries": [
+      {
+       "year": "1830",
+       "text": "Born in Amherst, Massachusetts, 10 December"
+      },
+      {
+       "year": "1847",
+       "text": "A year at Mount Holyoke Female Seminary"
+      },
+      {
+       "year": "1858",
+       "text": "Begins to gather her poems into hand-sewn booklets"
+      },
+      {
+       "year": "1862",
+       "text": "Writes to Thomas Wentworth Higginson, asking whether her verse is alive"
+      },
+      {
+       "year": "1886",
+       "text": "Dies at the Homestead, Amherst, 15 May"
+      }
+     ]
+    },
+    {
+     "title": "Publication",
+     "entries": [
+      {
+       "year": "1890",
+       "text": "Poems, first series, edited by Todd and Higginson"
+      },
+      {
+       "year": "1891",
+       "text": "Poems, second series"
+      },
+      {
+       "year": "1896",
+       "text": "Poems, third series"
+      },
+      {
+       "year": "1955",
+       "text": "The complete poems, in Johnson's edition"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "contact",
+   "kind": "contact",
+   "title": "Contact",
+   "inNav": true,
+   "paras": [
+    "A sample site. The texts are in the public domain, from Project Gutenberg.",
+    "Latent Wall shows them to show what a poet's site can be."
+   ]
+  }
+ ]
+}

@@ -1,0 +1,498 @@
+{
+ "version": 15,
+ "house": "studio",
+ "name": "Samuel Palmer",
+ "contact": "Works CC0, The Cleveland Museum of Art",
+ "email": "",
+ "front": {
+  "form": "sheet",
+  "kicker": "Etchings and drawings · Shoreham, Redhill · 1850 – 1883",
+  "title": "The valley",
+  "titleEm": "of vision",
+  "note": "Plates, their states and the drawings before them, from the Cleveland Museum of Art's open collection."
+ },
+ "theme": {
+  "look": "etching",
+  "options": {},
+  "palette": "silk",
+  "mode": "system",
+  "accent": null,
+  "type": "silk",
+  "mount": "bare",
+  "space": "standard",
+  "motion": "slow",
+  "read": "standard"
+ },
+ "library": {
+  "/design/samples/palmer/img/2009-3.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1732,
+   "title": "The Golden Hour",
+   "date": "1865",
+   "caption": "Watercolor and gouache with graphite and scraping",
+   "alt": "A golden sunset over a valley with sheep and a shepherd, in watercolour",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 35.4,
+    "h": 25.6
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "2009.3",
+    "made": "Watercolor and gouache with graphite and scraping. The Severance and Greta Millikin Purchase Fund. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/palmer/img/1945-330.jpg": {
+   "kind": "image",
+   "w": 1445,
+   "h": 2400,
+   "title": "The Skylark",
+   "date": "c. 1850",
+   "caption": "Pen and ink over graphite with white heightening",
+   "alt": "A skylark rising over a cottage at dawn, pen and ink",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 6.8,
+    "h": 8.8
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1945.330",
+    "made": "Pen and ink over graphite with white heightening. The Mr. and Mrs. Lewis B. Williams Collection. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/palmer/img/1966-181.jpg": {
+   "kind": "image",
+   "w": 1760,
+   "h": 2400,
+   "title": "The Skylark",
+   "date": "1850",
+   "caption": "Etching",
+   "alt": "A skylark rising over a cottage at dawn, etching",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1966.181",
+    "made": "Etching. Gift of Mr. and Mrs. Lewis B. Williams, presented in honor of Henry Sayles Francis, Curator of Prints. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/palmer/img/1966-185.jpg": {
+   "kind": "image",
+   "w": 1771,
+   "h": 2400,
+   "title": "The Vine",
+   "date": "1852",
+   "caption": "Etching",
+   "alt": "Figures at a vine in moonlight, etching",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 22.0,
+    "h": 30.0
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1966.185",
+    "made": "Etching. Gift of Mr. and Mrs. Lewis B. Williams, presented in honor of Henry Sayles Francis, Curator of Prints. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/palmer/img/1966-191.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1637,
+   "title": "The Early Plowman",
+   "date": "before 1861",
+   "caption": "Etching",
+   "alt": "A ploughman at dawn with a church beyond, etching",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1966.191",
+    "made": "Etching. Gift of Mr. and Mrs. Lewis B. Williams, presented in honor of Henry Sayles Francis, Curator of Prints. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/palmer/img/1966-188.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1527,
+   "title": "The Rising Moon",
+   "date": "1857",
+   "caption": "Etching",
+   "alt": "A rising moon over a valley, etching",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1966.188",
+    "made": "Etching. Gift of Mr. and Mrs. Lewis B. Williams, presented in honor of Henry Sayles Francis, Curator of Prints. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/palmer/img/1966-194.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1704,
+   "title": "The Morning of Life",
+   "date": "1860–1861",
+   "caption": "Etching",
+   "alt": "Children at play in a wooded morning, etching",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1966.194",
+    "made": "Etching. Gift of Mr. and Mrs. Lewis B. Williams, presented in honor of Henry Sayles Francis, Curator of Prints. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/palmer/img/1966-197.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1839,
+   "title": "The Bellman",
+   "date": "1879",
+   "caption": "Etching",
+   "alt": "A bellman walking a village street at night, etching",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1966.197",
+    "made": "Etching. Gift of Mr. and Mrs. Lewis B. Williams, presented in honor of Henry Sayles Francis, Curator of Prints. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/palmer/img/1966-199.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1777,
+   "title": "The Lonely Tower",
+   "date": "1879",
+   "caption": "Etching",
+   "alt": "A lone tower on a hill under stars, etching",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1966.199",
+    "made": "Etching. Gift of Mr. and Mrs. Lewis B. Williams, presented in honor of Henry Sayles Francis, Curator of Prints. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/palmer/img/1966-204.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1620,
+   "title": "The Cypress Grove",
+   "date": "1883",
+   "caption": "Etching",
+   "alt": "A cypress grove by moonlight, etching",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1966.204",
+    "made": "Etching. Gift of Mr. and Mrs. Lewis B. Williams, presented in honor of Henry Sayles Francis, Curator of Prints. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/palmer/img/1966-198.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1745,
+   "title": "The Bellman",
+   "date": "1879",
+   "caption": "Etching",
+   "alt": "The Bellman, another state of the plate",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1966.198",
+    "made": "Etching. Gift of Mr. and Mrs. Lewis B. Williams, presented in honor of Henry Sayles Francis, Curator of Prints. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/palmer/img/1921-966.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1798,
+   "title": "The Lonely Tower",
+   "date": "1879",
+   "caption": "Etching",
+   "alt": "The Lonely Tower, another state of the plate",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1921.966",
+    "made": "Etching. Gift of Ralph King. CC0, clevelandart.org"
+   }
+  }
+ },
+ "pages": [
+  {
+   "id": "the-etchings",
+   "kind": "story",
+   "title": "The",
+   "titleEm": "etchings",
+   "inNav": true,
+   "kicker": "1850 – 1883",
+   "note": "Thirteen plates in thirty years: moonlight, dawn, and the valley of vision.",
+   "arrangement": "wall",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/palmer/img/1966-185.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "pause",
+     "label": "From the museum",
+     "text": "This early proof (an impression created while the artist is still working on the design) by Samuel Palmer features his illustrations before the accompanying text for <em>Songs and Ballads of Shakespeare </em>was printed. Both images relate to a drinking song featured in act 2 of William Shakespeare’s <em>Antony and Cleopatra</em>, praising Bacchus, the Roman god of wine, and his products. Palmer’s handwritten notes d"
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/palmer/img/1966-191.jpg",
+     "arrange": "with-next",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/palmer/img/1966-188.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/palmer/img/1966-194.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/palmer/img/1966-197.jpg",
+     "arrange": "with-next",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/palmer/img/1966-199.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/palmer/img/1966-204.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "the-golden-hour",
+   "kind": "story",
+   "title": "The golden",
+   "titleEm": "hour",
+   "inNav": true,
+   "kicker": "1865",
+   "note": "A late watercolour, worked up over years.",
+   "arrangement": "wall",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/palmer/img/2009-3.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "pause",
+     "label": "From the museum",
+     "text": "Samuel Palmer developed a personal and emotionally charged style of landscape painting that celebrated nature as the product of divine creation. This watercolor of a spectacularly colorful sunset over the hills of Surrey was painted by Palmer toward the end of his life. An autumn sky heavy with rows of cumulus clouds shimmers in a pattern of pink and amethyst, as slivers of golden light emanate from the setting sun. "
+    }
+   ]
+  },
+  {
+   "id": "the-skylark",
+   "kind": "project",
+   "title": "The",
+   "titleEm": "skylark",
+   "inNav": true,
+   "discipline": "Pen and ink, then etching",
+   "client": "",
+   "year": "1850",
+   "summary": "The drawing came first: pen and ink over graphite, heightened with white. The plate followed the same year, and Palmer went on reworking it in state after state. Here the drawing is set against the print.",
+   "outcome": [
+    "/design/samples/palmer/img/1966-181.jpg"
+   ],
+   "process": [
+    "/design/samples/palmer/img/1945-330.jpg"
+   ],
+   "compare": true,
+   "facts": [
+    "Drawing: pen and ink over graphite, c. 1850",
+    "Plate: etching, 1850",
+    "The Cleveland Museum of Art, 1945.330 and 1966.181"
+   ]
+  },
+  {
+   "id": "states-of-a-plate",
+   "kind": "project",
+   "title": "States of",
+   "titleEm": "a plate",
+   "inNav": true,
+   "discipline": "Etching",
+   "client": "",
+   "year": "1879",
+   "summary": "An etching is finished more than once. The Bellman and The Lonely Tower, both of 1879, exist in several states, and the museum keeps two of each: one is set against the other.",
+   "outcome": [
+    "/design/samples/palmer/img/1966-197.jpg",
+    "/design/samples/palmer/img/1966-199.jpg"
+   ],
+   "process": [
+    "/design/samples/palmer/img/1966-198.jpg",
+    "/design/samples/palmer/img/1921-966.jpg"
+   ],
+   "compare": true,
+   "facts": [
+    "The Bellman, 1879: two states",
+    "The Lonely Tower, 1879: two states"
+   ]
+  },
+  {
+   "id": "about",
+   "kind": "about",
+   "title": "About",
+   "inNav": true,
+   "paras": [
+    ".",
+    "This is a sample site built from works in the Cleveland Museum of Art's open collection, released under CC0. The works are Palmer's; the arrangement is the sample's own."
+   ],
+   "principles": []
+  },
+  {
+   "id": "record",
+   "kind": "record",
+   "title": "Record",
+   "inNav": true,
+   "paras": [
+    "Samuel Palmer, 1805 – 1881."
+   ],
+   "sections": [
+    {
+     "title": "Life",
+     "entries": [
+      {
+       "year": "1805",
+       "text": "Born in Newington, London, 27 January"
+      },
+      {
+       "year": "1824",
+       "text": "Meets William Blake"
+      },
+      {
+       "year": "1826",
+       "text": "Moves to Shoreham, Kent: the valley of vision"
+      },
+      {
+       "year": "1837",
+       "text": "Marries Hannah Linnell; two years in Italy"
+      },
+      {
+       "year": "1850",
+       "text": "Takes up etching; The Skylark"
+      },
+      {
+       "year": "1881",
+       "text": "Dies at Redhill, Surrey, 24 May"
+      }
+     ]
+    },
+    {
+     "title": "Collections",
+     "entries": [
+      {
+       "year": "",
+       "text": "The Cleveland Museum of Art"
+      },
+      {
+       "year": "",
+       "text": "The British Museum, London"
+      },
+      {
+       "year": "",
+       "text": "Yale Center for British Art, New Haven"
+      },
+      {
+       "year": "",
+       "text": "Ashmolean Museum, Oxford"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "contact",
+   "kind": "contact",
+   "title": "Contact",
+   "inNav": true,
+   "paras": [
+    "A sample site. The works are in the Cleveland Museum of Art and are shared by the museum under CC0.",
+    "Latent Wall shows them to show what a printmaker's studio site can be."
+   ]
+  }
+ ]
+}

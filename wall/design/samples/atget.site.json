@@ -1,0 +1,553 @@
+{
+ "version": 15,
+ "house": "lantern",
+ "name": "Eugène Atget",
+ "contact": "Photographs CC0, The Cleveland Museum of Art",
+ "email": "",
+ "front": {
+  "form": "covers",
+  "kicker": "Photographs · Paris · 1897 – 1925",
+  "title": "Documents",
+  "titleEm": "for artists",
+  "note": "Thirteen albumen prints from the Cleveland Museum of Art's open collection."
+ },
+ "theme": {
+  "look": "albumen",
+  "options": {},
+  "palette": "silk",
+  "mode": "system",
+  "accent": null,
+  "type": "silk",
+  "mount": "bare",
+  "space": "standard",
+  "motion": "slow",
+  "read": "standard"
+ },
+ "library": {
+  "/design/samples/atget/img/1985-115.jpg": {
+   "kind": "image",
+   "w": 1877,
+   "h": 2400,
+   "title": "Rue de la Montagne-Sainte-Geneviève",
+   "date": "1898",
+   "caption": "Albumen print, gold toned",
+   "alt": "A narrow Paris street climbing a hill, early morning",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 17.4,
+    "h": 22.0
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1985.115",
+    "made": "Albumen print, gold toned. John L. Severance Fund. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/atget/img/1980-35.jpg": {
+   "kind": "image",
+   "w": 1997,
+   "h": 2400,
+   "title": "Rue du Regard",
+   "date": "1899",
+   "caption": "Albumen print, gold toned",
+   "alt": "A quiet street with a cart and shuttered shops",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 18.1,
+    "h": 21.9
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1980.35",
+    "made": "Albumen print, gold toned. Norman O. Stone and Ella A. Stone Memorial Fund. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/atget/img/1993-88.jpg": {
+   "kind": "image",
+   "w": 1992,
+   "h": 2400,
+   "title": "Hôtel Cheruseau, Rue Louis en L'Ile",
+   "date": "c. 1905–06",
+   "caption": "Albumen print, gold toned",
+   "alt": "The doorway of an old hôtel on the Île Saint-Louis",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 17.7,
+    "h": 22.1
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1993.88",
+    "made": "Albumen print, gold toned. Gift of Lilyan and Toby Miller. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/atget/img/1985-116.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1949,
+   "title": "Fountain of the L'École Polytechnique",
+   "date": "1902",
+   "caption": "Albumen print, gold toned",
+   "alt": "A fountain against a wall at the École Polytechnique",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 21.5,
+    "h": 17.6
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1985.116",
+    "made": "Albumen print, gold toned. John L. Severance Fund. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/atget/img/2019-83.jpg": {
+   "kind": "image",
+   "w": 1913,
+   "h": 2400,
+   "title": "Clamart (Vielle Rue)",
+   "date": "before 1914",
+   "caption": "Albumen print from glass negative",
+   "alt": "An old street in Clamart",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 18.1,
+    "h": 22.0
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "2019.83",
+    "made": "Albumen print from glass negative. Gift of Arielle Kozloff Brodkey in memory of Dr. Jerald S. Brodkey. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/atget/img/1985-113.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1896,
+   "title": "Versailles, Chaste Venus",
+   "date": "1922–1923",
+   "caption": "Albumen print, gold toned",
+   "alt": "A statue of Venus among trees at Versailles",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 22.6,
+    "h": 18.1
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1985.113",
+    "made": "Albumen print, gold toned. John L. Severance Fund. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/atget/img/1985-114.jpg": {
+   "kind": "image",
+   "w": 1937,
+   "h": 2400,
+   "title": "Versailles, Fountain of Triumphant France",
+   "date": "1904",
+   "caption": "Albumen print, gold toned",
+   "alt": "A fountain with a statue of France triumphant",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 18.2,
+    "h": 22.0
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1985.114",
+    "made": "Albumen print, gold toned. John L. Severance Fund. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/atget/img/1985-117.jpg": {
+   "kind": "image",
+   "w": 1864,
+   "h": 2400,
+   "title": "Versailles, Fountain of Enceladus",
+   "date": "1922–1923",
+   "caption": "Albumen print, gold toned",
+   "alt": "The fountain of Enceladus, half-buried in rock",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 17.8,
+    "h": 22.5
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1985.117",
+    "made": "Albumen print, gold toned. John L. Severance Fund. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/atget/img/2002-68.jpg": {
+   "kind": "image",
+   "w": 1864,
+   "h": 2400,
+   "title": "The Park at Sceaux [April 1925, 7a.m.]",
+   "date": "1925",
+   "caption": "Arrowroot print, gold-toned",
+   "alt": "The park at Sceaux at seven in the morning, in April",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 17.6,
+    "h": 22.9
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "2002.68",
+    "made": "Arrowroot print, gold-toned. The Severance and Greta Millikin Purchase Fund. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/atget/img/2019-84.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1870,
+   "title": "St. Cloud",
+   "date": "1915–19, printed 1931-late 1950s",
+   "caption": "Gelatin silver print",
+   "alt": "A path through the park at Saint-Cloud",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 21.5,
+    "h": 16.8
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "2019.84",
+    "made": "Gelatin silver print. Gift of Arielle Kozloff Brodkey in memory of Dr. Jerald S. Brodkey. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/atget/img/2007-26.jpg": {
+   "kind": "image",
+   "w": 1940,
+   "h": 2400,
+   "title": "Mullein in Bloom",
+   "date": "c. 1897–1899",
+   "caption": "Albumen print",
+   "alt": "A mullein plant in bloom",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 17.6,
+    "h": 21.8
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "2007.26",
+    "made": "Albumen print. John L. Severance Fund. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/atget/img/2002-69.jpg": {
+   "kind": "image",
+   "w": 1966,
+   "h": 2400,
+   "title": "Nymphéa",
+   "date": "1922–23",
+   "caption": "Albumen print, gold-toned",
+   "alt": "A water lily in a pond",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 17.6,
+    "h": 22.2
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "2002.69",
+    "made": "Albumen print, gold-toned. The Severance and Greta Millikin Purchase Fund. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/atget/img/2019-85.jpg": {
+   "kind": "image",
+   "w": 1879,
+   "h": 2400,
+   "title": "Trees and Roots",
+   "date": "1900s",
+   "caption": "Albumen print from wet collodion negative",
+   "alt": "The roots of an old tree on a bank",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 17.7,
+    "h": 22.5
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "2019.85",
+    "made": "Albumen print from wet collodion negative. Gift of Arielle Kozloff Brodkey in memory of Dr. Jerald S. Brodkey. CC0, clevelandart.org"
+   }
+  }
+ },
+ "pages": [
+  {
+   "id": "old-paris",
+   "kind": "story",
+   "title": "Old",
+   "titleEm": "Paris",
+   "inNav": true,
+   "kicker": "1898 – 1914",
+   "note": "The streets before the city woke: doorways, carts, fountains, shutters.",
+   "arrangement": "slides",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/atget/img/1985-115.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "pause",
+     "label": "From the museum",
+     "text": "Eugène Atget became a photographer in the 1890s. His goal, like that of Charles Marville decades before, was to document the old buildings and streets of Paris before they were demolished. This narrow street, the site of the founding of the University of Paris in 1112, ends in a church built in the 1600s. Atget sold his photographs not as art but as “documents for artists,” similar in purpose to the nude studies othe"
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/atget/img/1980-35.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/atget/img/1993-88.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/atget/img/1985-116.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/atget/img/2019-83.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "versailles-and-the-parks",
+   "kind": "story",
+   "title": "Versailles and",
+   "titleEm": "the parks",
+   "inNav": true,
+   "kicker": "1904 – 1925",
+   "note": "Statues and fountains in the royal parks, photographed as if they were people.",
+   "arrangement": "slides",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/atget/img/1985-113.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "pause",
+     "label": "From the museum",
+     "text": "During the first quarter of the 20th century, Eugène Atget photographed the French urban experience. Periodically, from 1901 to 1926, Atget was particularly attracted to the grounds and gardens at the palace of Versailles, photographing its walks, fountains, and statues during different seasons. An eerie silence and mysteriousness frequently suffuses his images, as it does in this haunting photograph of Antoine Coyse"
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/atget/img/1985-114.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/atget/img/1985-117.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/atget/img/2002-68.jpg",
+     "arrange": "margin-note",
+     "note": "April 1925, 7 a.m.",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/atget/img/2019-84.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "plants",
+   "kind": "story",
+   "title": "Plants",
+   "titleEm": "",
+   "inNav": true,
+   "kicker": "1897 – 1923",
+   "note": "Documents for artists: a mullein, a water lily, roots.",
+   "arrangement": "slides",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/atget/img/2007-26.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/atget/img/2002-69.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "pause",
+     "label": "From the museum",
+     "text": "A prolific Parisian artist who enjoyed a three-decade career, Atget was one of the most important and original photographers active at the beginning of the 20th century. This sparkling landscape of a mass of white water lily blossoms (Nymphéa) is among Atget's best compositions, created in the 1920s, when he was at the height of his artistic prowess. This scene, full of luxurious botany, was probably taken in Bagatel"
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/atget/img/2019-85.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "about",
+   "kind": "about",
+   "title": "About",
+   "inNav": true,
+   "paras": [
+    "Eugène Atget French, 1857-1927\r\n\r\nRelatively unknown to the public during his lifetime, Eugène Atget is today an icon -- one of the most celebrated and influential photographers of the 20th century. Born near Bordeaux, Atget first directed his efforts to painting and the stage before turning to photography shortly before 1890. He is best known for his documentary scenes of Paris and Versailles, but he photographed a number of other sites as well. Atget viewed his work as a historical and aesthetic record, regarding it as documentation for use by artists. Indeed, several artists are known to have painted from his images.\r\n\tUsing relatively unsophisticated, even outdated equipment, Atget achieved a view of French architecture and culture that is both personal and factual.",
+    "This is a sample site built from photographs in the Cleveland Museum of Art's open collection, released under CC0. The photographs are Atget's; the arrangement is the sample's own."
+   ],
+   "principles": []
+  },
+  {
+   "id": "record",
+   "kind": "record",
+   "title": "Record",
+   "inNav": true,
+   "paras": [
+    "Eugène Atget, 1857 – 1927."
+   ],
+   "sections": [
+    {
+     "title": "Life",
+     "entries": [
+      {
+       "year": "1857",
+       "text": "Born in Libourne, near Bordeaux, 12 February"
+      },
+      {
+       "year": "1879",
+       "text": "An actor in provincial touring companies"
+      },
+      {
+       "year": "1890",
+       "text": "Takes up photography in Paris: documents pour artistes"
+      },
+      {
+       "year": "1898",
+       "text": "Begins to photograph old Paris, street by street"
+      },
+      {
+       "year": "1920",
+       "text": "Sells some 2,600 negatives to the French state"
+      },
+      {
+       "year": "1927",
+       "text": "Dies in Paris, 4 August"
+      }
+     ]
+    },
+    {
+     "title": "Collections",
+     "entries": [
+      {
+       "year": "",
+       "text": "The Cleveland Museum of Art"
+      },
+      {
+       "year": "",
+       "text": "The Museum of Modern Art, New York"
+      },
+      {
+       "year": "",
+       "text": "Bibliothèque nationale de France, Paris"
+      },
+      {
+       "year": "",
+       "text": "Musée Carnavalet, Paris"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "contact",
+   "kind": "contact",
+   "title": "Contact",
+   "inNav": true,
+   "paras": [
+    "A sample site. The photographs are in the Cleveland Museum of Art and are shared by the museum under CC0.",
+    "Latent Wall shows them to show what a photographer's site can be."
+   ]
+  }
+ ]
+}

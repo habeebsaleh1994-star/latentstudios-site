@@ -1,0 +1,799 @@
+{
+ "version": 15,
+ "house": "pinboard",
+ "name": "Utagawa Hiroshige",
+ "contact": "Prints CC0, The Cleveland Museum of Art",
+ "email": "",
+ "front": {
+  "form": "sheet",
+  "kicker": "Woodblock prints · Edo · 1833 – 1858",
+  "title": "Rain, snow",
+  "titleEm": "and moonlight",
+  "note": "Twenty-two prints from the Cleveland Museum of Art's open collection."
+ },
+ "theme": {
+  "look": "riso",
+  "options": {},
+  "palette": "silk",
+  "mode": "system",
+  "accent": null,
+  "type": "silk",
+  "mount": "bare",
+  "space": "standard",
+  "motion": "slow",
+  "read": "standard"
+ },
+ "library": {
+  "/design/samples/hiroshige/img/1921-318.jpg": {
+   "kind": "image",
+   "w": 1613,
+   "h": 2400,
+   "title": "Sudden Shower over Shin-Ōhashi Bridge and Atake, from One Hundred Famous Views of Edo",
+   "date": "1857",
+   "caption": "Color woodblock print",
+   "alt": "People crossing a bridge under a sudden shower",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 23.2,
+    "h": 35.3
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1921.318",
+    "made": "Color woodblock print. Gift from J. H. Wade. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1985-320.jpg": {
+   "kind": "image",
+   "w": 1635,
+   "h": 2400,
+   "title": "The Moon-Viewing Promontory, from One Hundred Views of Famous Places in Edo",
+   "date": "1857",
+   "caption": "Color woodblock print",
+   "alt": "A moonlit promontory seen from a room",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 22.8,
+    "h": 33.9
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1985.320",
+    "made": "Color woodblock print. The Kelvin Smith Collection, given by Mrs. Kelvin Smith. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1940-986.jpg": {
+   "kind": "image",
+   "w": 1584,
+   "h": 2400,
+   "title": "Fireworks at Ryōgoku, from the series One Hundred Views of Famous Places in Edo",
+   "date": "1858",
+   "caption": "Color woodblock print",
+   "alt": "Fireworks over a bridge at night",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 22.0,
+    "h": 33.7
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1940.986",
+    "made": "Color woodblock print. Bequest of James Parmelee. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1992-73.jpg": {
+   "kind": "image",
+   "w": 1632,
+   "h": 2400,
+   "title": "Tsukudajima from  Eitai Bridge, from the series One Hundred Views of Famous Places in Edo",
+   "date": "1858",
+   "caption": "Color woodblock print",
+   "alt": "Boats and an island seen from a bridge",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 24.5,
+    "h": 36.5
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1992.73",
+    "made": "Color woodblock print. Bequest of Harley C. Lee and Elizabeth K. Lee. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1924-971.jpg": {
+   "kind": "image",
+   "w": 1564,
+   "h": 2400,
+   "title": "Meguro Drum Bridge and Sunset Hill, from One Hundred Views of Famous Places in Edo",
+   "date": "1857",
+   "caption": "Color woodblock print",
+   "alt": "A drum bridge in snow",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1924.971",
+    "made": "Color woodblock print. Gift of Mrs. Francis F. Prentiss for the Dudley P. Allen Collection. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1924-967.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1186,
+   "title": "Eight Views of Kanazawa at Night",
+   "date": "1857",
+   "caption": "Triptych of color woodblock prints",
+   "alt": "Eight views of Kanazawa at night, a triptych",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1924.967",
+    "made": "Triptych of color woodblock prints. Gift of Mrs. Francis F. Prentiss for the Dudley P. Allen Collection. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1930-183.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1230,
+   "title": "The Whirlpools of Awa",
+   "date": "1857",
+   "caption": "Triptych of color woodblock prints",
+   "alt": "The whirlpools of Awa, a triptych",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1930.183",
+    "made": "Triptych of color woodblock prints. Bequest of Edward L. Whittemore. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1948-306.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1602,
+   "title": "Driving Rain at Shōno, from Fifty-Three Stations of the Tokaidō",
+   "date": "1833",
+   "caption": "Color woodblock print",
+   "alt": "Travellers in driving rain",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1948.306",
+    "made": "Color woodblock print. Gift of Mrs. T. Wingate Todd from the Collection of Dr. T. Wingate Todd. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1948-307.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1602,
+   "title": "Yokkaichi: View of the Mie River, from the series The Fifty-Three Stations of the Tōkaidō",
+   "date": "c. 1833–34",
+   "caption": "Color woodblock print",
+   "alt": "A man in wind on a bridge over the Mie river",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1948.307",
+    "made": "Color woodblock print. Gift of Mrs. T. Wingate Todd from the Collection of Dr. T. Wingate Todd. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1985-317.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1599,
+   "title": "Evening Snow at Kambara (number sixteen of the series Fifty-three Stations of the Tokaido)",
+   "date": "1833",
+   "caption": "Color woodblock print",
+   "alt": "Figures in evening snow at Kambara",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 35.5,
+    "h": 22.6
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1985.317",
+    "made": "Color woodblock print. The Kelvin Smith Collection, given by Mrs. Kelvin Smith. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1985-323.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1554,
+   "title": "Nissaka: The Night-Weeping Stone at Sayo no Nakayama, from the series The Fifty-Three Stations of the Tōkaidō",
+   "date": "c. 1848–50",
+   "caption": "Color woodblock print",
+   "alt": "A night-weeping stone at Sayo no Nakayama",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 34.7,
+    "h": 22.0
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1985.323",
+    "made": "Color woodblock print. The Kelvin Smith Collection, given by Mrs. Kelvin Smith. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1930-186.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1606,
+   "title": "Seki, from the series The Fifty-Three Stations of the Tōkaidō",
+   "date": "c. 1848–49",
+   "caption": "Color woodblock print",
+   "alt": "A procession at Seki at dawn",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 37.5,
+    "h": 24.8
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1930.186",
+    "made": "Color woodblock print. Bequest of Edward L. Whittemore. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1916-939.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1580,
+   "title": "Yahagi Bridge at Okazaki (Station 39),  From the series Fifty-Three Stations of the Tokaido",
+   "date": "1833",
+   "caption": "Color woodblock print",
+   "alt": "Yahagi bridge at Okazaki",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 35.0,
+    "h": 23.0
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1916.939",
+    "made": "Color woodblock print. Gift of Mrs. Henry S. Upson. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1940-985.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1562,
+   "title": "Picture of the Tenryu River near Mitsuke (Station 29), from the series Fifty-Three Stations of the Tokaido",
+   "date": "1833",
+   "caption": "Color woodblock print",
+   "alt": "The Tenryu river near Mitsuke",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 34.6,
+    "h": 22.3
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1940.985",
+    "made": "Color woodblock print. Bequest of James Parmelee. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1985-322.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1647,
+   "title": "Shimosuwa, from Sixty-Nine Stations of the Kisokaidō",
+   "date": "1835–38",
+   "caption": "Color woodblock print",
+   "alt": "Shimosuwa on the Kisokaidō",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 37.7,
+    "h": 25.3
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1985.322",
+    "made": "Color woodblock print. The Kelvin Smith Collection, given by Mrs. Kelvin Smith. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1942-144.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1556,
+   "title": "Nagakubo (Station 28) from the series Sixty-Nine Stations of the Kisokaido",
+   "date": "1835 or 1836",
+   "caption": "Color woodblock print",
+   "alt": "Nagakubo at night",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 35.4,
+    "h": 22.8
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1942.144",
+    "made": "Color woodblock print. Gift of Mrs. Henry S. Upson. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1985-321.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1606,
+   "title": "Kanō, from the series Sixty-nine Stations of the Kisokaidō",
+   "date": "c. 1835–37",
+   "caption": "Color woodblock print, ink and color on paper",
+   "alt": "Kanō on the Kisokaidō",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 34.7,
+    "h": 22.1
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1985.321",
+    "made": "Color woodblock print, ink and color on paper. The Kelvin Smith Collection, given by Mrs. Kelvin Smith. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1985-315.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1577,
+   "title": "Gathering Shellfish at Low Tide at Susaki, from Famous Places in Edo",
+   "date": "mid-1830s",
+   "caption": "Color woodblock print",
+   "alt": "Gathering shellfish at low tide",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 34.7,
+    "h": 22.3
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1985.315",
+    "made": "Color woodblock print. The Kelvin Smith Collection, given by Mrs. Kelvin Smith. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1942-145.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1551,
+   "title": "Night Rain at the Azuma Shrine (from the series Eight Views of the Environs of Edo)",
+   "date": "mid-1830s",
+   "caption": "Color woodblock print",
+   "alt": "Night rain at the Azuma shrine",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 34.4,
+    "h": 21.6
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1942.145",
+    "made": "Color woodblock print. Gift of Mrs. Henry S. Upson. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1940-983.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1553,
+   "title": "Evening Snow at Asuka Hill, from the series Eight Views of the Environs of Edo",
+   "date": "c. 1837–38",
+   "caption": "Color woodblock print",
+   "alt": "Evening snow at Asuka hill",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 34.4,
+    "h": 22.0
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1940.983",
+    "made": "Color woodblock print. Bequest of James Parmelee. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1985-312.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1615,
+   "title": "Night Rain at Karasaki, from Eight Views of Ōmi",
+   "date": "c. 1835",
+   "caption": "Color woodblock print",
+   "alt": "Night rain at Karasaki",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 36.8,
+    "h": 24.4
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1985.312",
+    "made": "Color woodblock print. The Kelvin Smith Collection, given by Mrs. Kelvin Smith. CC0, clevelandart.org"
+   }
+  },
+  "/design/samples/hiroshige/img/1977-174.jpg": {
+   "kind": "image",
+   "w": 872,
+   "h": 2400,
+   "title": "Gathering Shells at Low Tide at Susaki; from the series 100 Views of Famous Places in Edo",
+   "date": "1837–38",
+   "caption": "Color woodblock print",
+   "alt": "Gathering shells, a tall pillar print",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": {
+    "w": 12.6,
+    "h": 36.6
+   },
+   "verso": {
+    "place": "The Cleveland Museum of Art",
+    "line": "",
+    "edition": "1977.174",
+    "made": "Color woodblock print. Gift of Mr. and Mrs. Edward B. Henning. CC0, clevelandart.org"
+   }
+  }
+ },
+ "pages": [
+  {
+   "id": "one-hundred-views-of-edo",
+   "kind": "story",
+   "title": "One Hundred Views",
+   "titleEm": "of Edo",
+   "inNav": true,
+   "kicker": "1856 – 1858",
+   "note": "The last great series: the city in rain, snow, fireworks and moonlight.",
+   "arrangement": "wall",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1921-318.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "pause",
+     "label": "From the museum",
+     "text": "Published two years after the great earthquake and fire of 1855, this print design illustrates the newly rebuilt Great Bridge over the Sumida River in Edo (now Tokyo). The design shows Utagawa Hiroshige’s skill in capturing atmospheric conditions. People try to protect themselves from sudden sheets of rain as they cross the bridge in opposite directions. The Atake neighborhood is seen in the dista"
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1985-320.jpg",
+     "arrange": "with-next",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1940-986.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1992-73.jpg",
+     "arrange": "with-next",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1924-971.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1924-967.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1930-183.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    }
+   ]
+  },
+  {
+   "id": "the-roads",
+   "kind": "story",
+   "title": "The",
+   "titleEm": "roads",
+   "inNav": true,
+   "kicker": "1833 – 1850",
+   "note": "Stations of the Tōkaidō and the Kisokaidō: weather, hour and road.",
+   "arrangement": "wall",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1948-306.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "pause",
+     "label": "From the museum",
+     "text": "Utagawa Hiroshige’s design for this print captures the atmospheric qualities of rain and its effects on two groups of travelers. Three printing blocks were required to produce the three shades of gray used to suggest distance in the thickets of bamboo in the background. The publisher’s name, “Takenouchi,” and part of the series title, <em>Fifty-Three Stations</em>, are written on one person’s umbr"
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1948-307.jpg",
+     "arrange": "with-next",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1985-317.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1985-323.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1930-186.jpg",
+     "arrange": "with-next",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1916-939.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1940-985.jpg",
+     "arrange": "with-next",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1985-322.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1942-144.jpg",
+     "arrange": "with-next",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1985-321.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "eight-views",
+   "kind": "story",
+   "title": "Eight",
+   "titleEm": "views",
+   "inNav": true,
+   "kicker": "1830s",
+   "note": "Night rain, evening snow, low tide: the eight classical views, moved to Japan.",
+   "arrangement": "wall",
+   "pieces": [
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1985-315.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": true
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1942-145.jpg",
+     "arrange": "with-next",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1940-983.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1985-312.jpg",
+     "arrange": "margin-note",
+     "note": "Night rain at Karasaki, from Eight Views of Ōmi, c. 1835.",
+     "full": false
+    },
+    {
+     "type": "work",
+     "asset": "/design/samples/hiroshige/img/1977-174.jpg",
+     "arrange": "alone",
+     "note": "",
+     "full": false
+    }
+   ]
+  },
+  {
+   "id": "about",
+   "kind": "about",
+   "title": "About",
+   "inNav": true,
+   "paras": [
+    ".",
+    "This is a sample site built from prints in the Cleveland Museum of Art's open collection, released under CC0. The prints are Hiroshige's; the arrangement is the sample's own."
+   ],
+   "principles": []
+  },
+  {
+   "id": "record",
+   "kind": "record",
+   "title": "Record",
+   "inNav": true,
+   "paras": [
+    "Utagawa Hiroshige, 1797 – 1858."
+   ],
+   "sections": [
+    {
+     "title": "Life",
+     "entries": [
+      {
+       "year": "1797",
+       "text": "Born in Edo, the son of a fire warden"
+      },
+      {
+       "year": "1811",
+       "text": "Enters the studio of Utagawa Toyohiro"
+      },
+      {
+       "year": "1832",
+       "text": "Travels the Tōkaidō; the Fifty-three Stations follow"
+      },
+      {
+       "year": "1856",
+       "text": "Begins One Hundred Famous Views of Edo"
+      },
+      {
+       "year": "1858",
+       "text": "Dies in Edo, 12 October"
+      }
+     ]
+    },
+    {
+     "title": "Collections",
+     "entries": [
+      {
+       "year": "",
+       "text": "The Cleveland Museum of Art"
+      },
+      {
+       "year": "",
+       "text": "The Metropolitan Museum of Art, New York"
+      },
+      {
+       "year": "",
+       "text": "The British Museum, London"
+      },
+      {
+       "year": "",
+       "text": "Museum of Fine Arts, Boston"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "contact",
+   "kind": "contact",
+   "title": "Contact",
+   "inNav": true,
+   "paras": [
+    "A sample site. The prints are in the Cleveland Museum of Art and are shared by the museum under CC0.",
+    "Latent Wall shows them to show what a printmaker's site can be."
+   ]
+  }
+ ]
+}

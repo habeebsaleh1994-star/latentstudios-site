@@ -38,7 +38,7 @@ await pg.goto(`${B}/design/home/index.html`, { waitUntil: "networkidle" });
 const tryHref = await pg.getAttribute('.t[data-id="reel"]', "href");
 await pg.goto(B + tryHref, { waitUntil: "networkidle" }); await pg.waitForTimeout(600);
 ok(/A demo of Reel/.test(await pg.locator(".demo-note").innerText().catch(() => "")), "the Reel demo says it is a demo");
-ok((await pg.evaluate(() => window.__wall.site.name)) === "Habib Saleh", "the demo uses sample work");
+ok((await pg.evaluate(() => window.__wall.site.name)) === "Blender Studio", "the Reel demo runs with the filmmaker's sample work");
 const ctx2 = await br.newContext({ viewport: { width: 1440, height: 900 } }), p2 = await ctx2.newPage();
 await p2.goto(`${B}/app/index.html?start=reel`, { waitUntil: "networkidle" }); await p2.waitForTimeout(500);
 ok((await p2.getAttribute('.s-t[data-house="reel"]', "aria-pressed")) === "true", "Start your own site in Reel arrives with Reel chosen");
