@@ -4,278 +4,257 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Latent Wall</title>
-<meta name="description" content="A website for artists. Nine templates made for photographs, films, paintings and words. Choose one, add your work, publish.">
+<meta name="description" content="A website for artists. Nine templates, thousands of ways, none of them anyone else's.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500&display=swap">
 <style>
-/* LATENT WALL — the front door. One quiet column; the templates are shown running, and move when pointed at. */
+/* LATENT WALL — the front door, prototype B+C: the thousand walls, then your name on one of them. */
 :root {
   --silk: #EEE9E7; --silk-deep: #E4DDDA; --ink: #29222A; --ink-soft: #6B5F66; --peony: #B87B8A; --peony-text: #A0697A; --rule: #D3C9C7;
+  --night: #161214; --night-ink: #ECE4E4; --night-soft: #A99BA1;
   --serif: "Newsreader", "Iowan Old Style", Georgia, serif; --sans: "Instrument Sans", system-ui, sans-serif;
   --gutter: clamp(20px, 5vw, 80px); --ease: cubic-bezier(.22, .61, .36, 1);
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --silk: #1B1619; --silk-deep: #241E21; --ink: #ECE4E4; --ink-soft: #A99BA1; --peony: #D49BA8; --rule: #372F33; color-scheme: dark; } }
-:root[data-theme="dark"] { --silk: #1B1619; --silk-deep: #241E21; --ink: #ECE4E4; --ink-soft: #A99BA1; --peony: #D49BA8; --rule: #372F33; color-scheme: dark; }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--silk); color: var(--ink); font-family: var(--serif); font-size: 19px; line-height: 1.6; -webkit-font-smoothing: antialiased; font-feature-settings: "liga", "onum"; }
 a { color: inherit; text-decoration-color: var(--rule); text-underline-offset: 4px; }
 :focus-visible { outline: 2px solid var(--peony); outline-offset: 4px; }
 .label { font-family: var(--sans); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
-.wrap { max-width: 1440px; margin-inline: auto; padding-inline: var(--gutter); }
 h1, h2, h3 { font-weight: 300; margin: 0; text-wrap: balance; }
-p { margin: 0 0 1em; text-wrap: pretty; }
-.link { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: 4px; transition: border-color .4s var(--ease); }
-.link:hover { border-color: var(--peony); }
-.btn { display: inline-block; font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; padding: 16px 24px; border: 1px solid var(--ink); background: var(--ink); color: var(--silk); transition: background .4s var(--ease), color .4s var(--ease); }
-.btn:hover { background: transparent; color: var(--ink); }
+p { margin: 0; text-wrap: pretty; }
+.wrap { max-width: 1440px; margin-inline: auto; padding-inline: var(--gutter); }
+.btn { display: inline-block; font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; padding: 16px 24px; border: 1px solid currentColor; transition: background .3s var(--ease), color .3s var(--ease); }
+.btn.ink { background: var(--ink); color: var(--silk); border-color: var(--ink); } .btn.ink:hover { background: transparent; color: var(--ink); }
+.btn.light { color: var(--night-ink); } .btn.light:hover { background: var(--night-ink); color: var(--night); }
+.link { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 4px; opacity: .8; } .link:hover { opacity: 1; }
 
-/* header */
-.top { display: flex; justify-content: space-between; align-items: baseline; padding-block: 30px; }
-.brand { display: flex; align-items: baseline; gap: 12px; text-decoration: none; }
-.brand .mark { font-size: 27px; line-height: 1; }
-.brand .word { font-family: var(--sans); font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase; }
-.top nav { display: flex; gap: 34px; align-items: baseline; }
-.top nav a { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); transition: color .3s; }
-.top nav a:hover { color: var(--ink); }
+/* the header, over the dark field then over silk */
+.top { position: fixed; inset: 0 0 auto; z-index: 20; display: flex; justify-content: space-between; align-items: baseline; padding: 26px var(--gutter); mix-blend-mode: difference; color: #fff; transition: opacity .6s var(--ease), transform .6s var(--ease); }
+/* while one site fills the screen it is the only header there is */
+body.inside .top { opacity: 0; transform: translateY(-8px); pointer-events: none; }
+.brand { display: flex; align-items: baseline; gap: 12px; text-decoration: none; } .brand .mark { font-size: 27px; line-height: 1; } .brand .word { font-family: var(--sans); font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase; }
+.top nav { display: flex; gap: 34px; } .top nav a { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; opacity: .75; transition: opacity .3s; } .top nav a:hover { opacity: 1; }
 @media (max-width: 720px) { .top nav a:not(:last-child) { display: none; } }
 
-/* a template, running: drawn at full size and scaled into its frame */
-.live { position: relative; overflow: hidden; background: var(--silk-deep); }
-.live iframe { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; border: 0; transform-origin: 0 0; transform: scale(var(--s, .4)); pointer-events: none; opacity: 0; transition: opacity 1.4s var(--ease); }
-.live iframe.on { opacity: 1; }
+/* ------------------------------------------------ 1. the thousand walls: real sites, drifting */
+.field { position: relative; height: 100svh; min-height: 640px; overflow: hidden; background: var(--night); color: var(--night-ink); }
+.rows { position: absolute; inset: -8% -2%; display: grid; grid-template-rows: repeat(4, 1fr); gap: 2.2vh; transform: rotate(-3.5deg); }
+.row { display: flex; gap: 2.2vh; width: max-content; will-change: transform; animation: drift var(--t, 90s) linear infinite; }
+.row:nth-child(even) { animation-direction: reverse; }
+.row .tile { flex: none; width: var(--w, 30vw); aspect-ratio: 16 / 10; background: #241E21; overflow: hidden; box-shadow: 0 30px 50px -30px rgba(0,0,0,.8); }
+.row .tile img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; opacity: .92; }
+.row:nth-child(1) { --w: 26vw; --t: 110s; } .row:nth-child(2) { --w: 34vw; --t: 150s; } .row:nth-child(3) { --w: 29vw; --t: 95s; } .row:nth-child(4) { --w: 36vw; --t: 170s; }
+@keyframes drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.field::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(22,18,20,.92) 0%, rgba(22,18,20,.55) 32%, rgba(22,18,20,0) 62%), linear-gradient(to right, rgba(22,18,20,.35), rgba(22,18,20,0) 50%); pointer-events: none; }
+.claim { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 0 var(--gutter) clamp(36px, 7vh, 90px); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 24px 60px; align-items: end; }
+.claim .n { font-weight: 300; font-size: clamp(72px, 11vw, 190px); line-height: .86; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
+.claim .n small { display: block; font-size: clamp(18px, 1.7vw, 26px); letter-spacing: -.005em; line-height: 1.4; color: var(--night-soft); margin-top: 22px; max-width: 30ch; }
+.claim .n small em { color: var(--night-ink); font-style: normal; }
+.claim .side { display: grid; gap: 22px; justify-items: start; }
+.claim .side .label { color: var(--night-soft); }
+.claim h1 { font-size: clamp(34px, 3.6vw, 56px); line-height: 1.02; letter-spacing: -.02em; color: var(--night-ink); } .claim h1 em { color: #E5B9C4; }
+.claim .cta { display: flex; gap: 28px; align-items: center; }
+.down { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 2; width: 1px; height: 46px; background: linear-gradient(to bottom, transparent, var(--night-soft)); animation: breathe 3s ease-in-out infinite; }
+@keyframes breathe { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+@media (max-width: 920px) { .claim { grid-template-columns: 1fr; } .rows { grid-template-rows: repeat(3, 1fr); } .row:nth-child(4) { display: none; } .row { --w: 56vw !important; } }
+@media (prefers-reduced-motion: reduce) { .row { animation: none; } .down { animation: none; } }
 
-/* hero */
-.hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(36px, 6vw, 110px); align-items: center; padding-block: clamp(36px, 8vh, 100px) clamp(80px, 14vh, 170px); }
-.hero h1 { font-size: clamp(50px, 7.4vw, 116px); line-height: .96; letter-spacing: -.028em; margin: 24px 0 34px; }
-.hero h1 em { color: var(--peony-text); }
-.hero .sub { font-size: clamp(19px, 1.5vw, 22px); line-height: 1.55; color: var(--ink-soft); max-width: 27em; font-weight: 300; }
-.cta { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; margin-top: 40px; }
-.hero .live { aspect-ratio: 16 / 10; box-shadow: 0 50px 90px -60px rgba(41, 34, 42, .45); }
-.hero figcaption { display: flex; justify-content: space-between; align-items: baseline; margin-top: 22px; }
-.hero figcaption b { font-family: var(--serif); font-weight: 300; font-size: 20px; letter-spacing: -.01em; transition: opacity .6s var(--ease); }
-.dots { display: flex; gap: 8px; } .dots i { width: 22px; height: 1px; background: var(--rule); transition: background .6s var(--ease); } .dots i.on { background: var(--ink); }
-@media (max-width: 920px) { .hero { grid-template-columns: 1fr; } }
+/* ------------------------------------------------ 2. one of them grows to fill the screen, in your name */
+.grow { position: relative; height: 260svh; background: var(--night); }
+.grow .stick { position: sticky; top: 0; height: 100svh; overflow: hidden; display: grid; place-items: center; }
+.grow .stage { position: relative; width: calc(28vw + var(--p) * 72vw); aspect-ratio: 16 / 10; max-height: 100svh; background: var(--silk-deep); overflow: hidden; box-shadow: 0 60px 120px -50px rgba(0,0,0,.9); transition: box-shadow .4s; }
+.grow .stage iframe { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; border: 0; transform-origin: 0 0; transform: scale(var(--s, .3)); pointer-events: none; opacity: 0; transition: opacity 1.2s var(--ease); }
+.grow .stage iframe.on { opacity: 1; }
+.grow .stage iframe.off { opacity: 0; }
+.grow .you { position: absolute; left: 0; right: 0; bottom: 0; padding: clamp(28px, 5vh, 70px) var(--gutter); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 60px; align-items: end; color: var(--night-ink); opacity: calc((var(--p) - .55) * 3); pointer-events: none; background: linear-gradient(to top, rgba(22,18,20,.78), rgba(22,18,20,0)); }
+.grow .you.live { pointer-events: auto; }
+.grow .you .label { color: var(--night-soft); display: block; margin-bottom: 12px; }
+.grow .you h2 { font-size: clamp(30px, 3.4vw, 54px); line-height: 1.02; letter-spacing: -.02em; } .grow .you h2 em { color: #E5B9C4; }
+.grow .ask { display: grid; gap: 10px; justify-items: start; }
+.grow .ask input { font-family: var(--serif); font-weight: 300; font-size: clamp(28px, 3vw, 46px); line-height: 1.1; letter-spacing: -.015em; color: var(--night-ink); background: none; border: 0; border-bottom: 1px solid rgba(236,228,228,.45); padding: 4px 0 8px; width: min(420px, 70vw); outline: none; transition: border-color .3s; }
+.grow .ask input:focus { border-color: var(--night-ink); } .grow .ask input::placeholder { color: var(--night-soft); opacity: .7; }
+.grow .ask .which { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--night-soft); display: flex; gap: 18px; align-items: center; }
+.grow .ask .which b { font-weight: 400; color: var(--night-ink); min-width: 7em; }
+.grow .ask .which i { display: inline-block; width: 18px; height: 1px; background: rgba(236,228,228,.35); } .grow .ask .which i.on { background: var(--night-ink); }
+@media (max-width: 920px) { .grow .you { grid-template-columns: 1fr; } .grow .stage { width: calc(60vw + var(--p) * 40vw); } }
 
-/* sections */
-section.s { padding-block: clamp(80px, 15vh, 180px); border-top: 1px solid var(--rule); }
-.head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 24px clamp(36px, 6vw, 110px); margin-bottom: clamp(48px, 8vh, 96px); align-items: end; }
-.head h2 { font-size: clamp(36px, 4.8vw, 68px); line-height: 1.02; letter-spacing: -.022em; margin-top: 16px; }
-.head h2 em { color: var(--peony); }
-.head p { color: var(--ink-soft); max-width: 31em; margin: 0; font-size: 19px; font-weight: 300; }
-@media (max-width: 860px) { .head { grid-template-columns: 1fr; } }
+/* ------------------------------------------------ 3. five moments, shown */
+.moments { background: var(--silk); padding: clamp(80px, 14vh, 170px) 0 0; }
+.moments .head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 20px 80px; align-items: end; margin-bottom: clamp(40px, 7vh, 90px); }
+.moments h2 { font-size: clamp(40px, 5.2vw, 84px); line-height: .98; letter-spacing: -.026em; margin-top: 14px; } .moments h2 em { color: var(--peony-text); }
+.moments .head p { color: var(--ink-soft); font-weight: 300; max-width: 34em; }
+.moment { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 24px clamp(30px, 5vw, 90px); align-items: center; padding: clamp(36px, 6vh, 80px) 0; border-top: 1px solid var(--rule); }
+.moment:nth-child(even) { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); } .moment:nth-child(even) .w { order: 2; }
+.moment .w h3 { font-size: clamp(28px, 2.8vw, 42px); line-height: 1.06; letter-spacing: -.018em; } .moment .w p { margin-top: 16px; color: var(--ink-soft); font-weight: 300; max-width: 30em; }
+.moment .w .label { display: block; margin-bottom: 14px; }
+.moment .pic { aspect-ratio: 16 / 10; overflow: hidden; background: var(--silk-deep); box-shadow: 0 40px 80px -50px rgba(41,34,42,.45); }
+.moment .pic img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transform: scale(1.02); transition: transform 1.6s var(--ease); } .moment:hover .pic img { transform: none; }
+.moment.flip .pic { perspective: 1600px; } .moment.flip .pic .card { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 1.1s var(--ease); } .moment.flip:hover .pic .card { transform: rotateY(180deg); }
+.moment.flip .pic .card img { position: absolute; inset: 0; backface-visibility: hidden; } .moment.flip .pic .card img.back { transform: rotateY(180deg); }
+@media (max-width: 920px) { .moment, .moment:nth-child(even) { grid-template-columns: 1fr; } .moment:nth-child(even) .w { order: 0; } .moments .head { grid-template-columns: 1fr; } }
 
-/* the nine templates */
-.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(56px, 8vh, 96px) clamp(22px, 2.6vw, 44px); }
-.t { display: block; text-decoration: none; }
-.t .live { aspect-ratio: 16 / 10; outline: 1px solid var(--rule); outline-offset: -1px; transition: box-shadow .8s var(--ease); }
-.t:hover .live, .t:focus-visible .live { box-shadow: 0 40px 70px -48px rgba(41, 34, 42, .5); }
-.t .meta { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 4px 16px; margin-top: 22px; }
-.t h3 { font-size: 30px; letter-spacing: -.012em; line-height: 1.1; }
-.t .for { grid-column: 1 / -1; }
-.t p { grid-column: 1 / -1; margin: 8px 0 0; font-size: 16.5px; line-height: 1.5; color: var(--ink-soft); max-width: 30em; }
-.t .try { font-family: var(--sans); font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-soft); opacity: 0; transform: translateX(-6px); transition: opacity .5s var(--ease), transform .5s var(--ease), color .3s; }
-.t:hover .try, .t:focus-visible .try { opacity: 1; transform: none; color: var(--ink); }
-@media (hover: none) { .t .try { opacity: 1; transform: none; } }
-.hint { margin-top: clamp(40px, 6vh, 64px); font-family: var(--sans); font-size: 12px; color: var(--ink-soft); }
-@media (max-width: 1040px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
-
-/* the split: what the template decides, what you choose, what is guaranteed */
-.three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--rule); }
-.three > div { padding: 32px 36px 8px 0; }
-.three > div + div { padding-left: 36px; border-left: 1px solid var(--rule); }
-.three h3 { font-size: 28px; line-height: 1.15; margin: 14px 0 18px; }
-.three ul { list-style: none; margin: 0; padding: 0; font-size: 17px; }
-.three li { padding: 10px 0; border-top: 1px solid var(--rule); color: var(--ink); }
-.three li:last-child { border-bottom: 1px solid var(--rule); }
-.three li small { display: block; font-size: 14.5px; color: var(--ink-soft); margin-top: 2px; }
-.three .n { font-family: var(--sans); font-size: 11px; letter-spacing: .16em; color: var(--peony); }
-@media (max-width: 900px) { .three { grid-template-columns: 1fr; } .three > div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); } }
-
-/* steps */
-.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 4vw, 64px); }
-.step { border-top: 1px solid var(--ink); padding-top: 22px; }
-.step h3 { font-size: 30px; line-height: 1.12; margin: 14px 0 14px; }
-.step p { color: var(--ink-soft); font-size: 17px; font-weight: 300; }
-@media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
-
-/* plans */
-.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 5vw, 80px); max-width: 1000px; }
-.plan { border-top: 1px solid var(--ink); padding-top: 22px; }
-.plan h3 { font-size: 34px; margin-bottom: 6px; }
-.plan ul { list-style: none; padding: 0; margin: 22px 0 0; font-size: 17px; color: var(--ink-soft); }
-.plan li { padding: 10px 0; border-bottom: 1px solid var(--rule); }
-.fine { margin-top: 32px; font-family: var(--sans); font-size: 12px; color: var(--ink-soft); }
-@media (max-width: 720px) { .plans { grid-template-columns: 1fr; } }
-
-/* the last word */
-.last { padding-block: clamp(90px, 18vh, 220px); border-top: 1px solid var(--rule); text-align: center; }
-.last h2 { font-size: clamp(40px, 6vw, 92px); line-height: 1; letter-spacing: -.025em; }
-.last h2 em { color: var(--peony-text); }
-.last .cta { justify-content: center; }
-
-footer { border-top: 1px solid var(--rule); padding-block: 48px 56px; }
-.foot { display: flex; flex-wrap: wrap; gap: 28px 56px; justify-content: space-between; align-items: baseline; }
-.foot .mark { font-size: 28px; text-decoration: none; }
-.foot ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 28px; font-family: var(--sans); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; }
-.foot ul a { text-decoration: none; color: var(--ink-soft); } .foot ul a:hover { color: var(--ink); }
-.foot .by { flex-basis: 100%; font-family: var(--sans); font-size: 12px; color: var(--ink-soft); margin: 0; }
-
-.rise { opacity: 0; transform: translateY(16px); transition: opacity 1.2s var(--ease), transform 1.2s var(--ease); }
-.rise.in { opacity: 1; transform: none; }
-@media (prefers-reduced-motion: reduce) { .rise { opacity: 1; transform: none; transition: none; } .live iframe { transition: none; } html { scroll-behavior: auto; } }
+/* ------------------------------------------------ 4. the eighteen: a list, with one running beside it */
+.eighteen { padding: clamp(80px, 14vh, 170px) 0 0; }
+.eighteen .head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 20px 80px; align-items: end; margin-bottom: clamp(40px, 7vh, 90px); }
+.eighteen h2 { font-size: clamp(40px, 5.2vw, 84px); line-height: .98; letter-spacing: -.026em; margin-top: 14px; } .eighteen h2 em { color: var(--peony-text); }
+.eighteen .head p { color: var(--ink-soft); font-weight: 300; max-width: 34em; }
+.eighteen .list { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px clamp(30px, 5vw, 90px); align-items: start; }
+.eighteen ol { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.eighteen .kind { padding: 26px 0 8px; }
+.eighteen .t { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 20px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--rule); text-decoration: none; color: var(--ink); transition: color .3s; }
+.eighteen .t b { font-weight: 300; font-size: clamp(24px, 2.4vw, 34px); letter-spacing: -.015em; } .eighteen .t small { grid-column: 1 / -1; color: var(--ink-soft); font-weight: 300; font-size: 16px; }
+.eighteen .t .go { font-family: var(--sans); font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-soft); opacity: 0; transition: opacity .3s; } .eighteen .t:hover .go, .eighteen .t:focus-visible .go, .eighteen .t.on .go { opacity: 1; }
+.eighteen .t.on b { color: var(--peony-text); }
+.eighteen .t iframe { display: none; }
+.live-side { position: sticky; top: 40px; } .live-side .live { aspect-ratio: 16 / 10; background: var(--silk-deep); box-shadow: 0 50px 90px -60px rgba(41,34,42,.45); position: relative; overflow: hidden; }
+.live-side .live iframe { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; border: 0; transform-origin: 0 0; transform: scale(var(--s, .4)); pointer-events: none; opacity: 0; transition: opacity 1s var(--ease); } .live-side .live iframe.on { opacity: 1; }
+.live-side #tname { margin-top: 14px; }
+@media (max-width: 920px) { .eighteen .head, .eighteen .list { grid-template-columns: 1fr; } .live-side { position: static; } }
+/* ------------------------------------------------ start */
+.who { padding: clamp(80px, 14vh, 170px) 0; }
+.who h2 { font-size: clamp(40px, 5.2vw, 84px); line-height: .98; letter-spacing: -.026em; margin-top: 14px; } .who h2 em { color: var(--peony-text); }
+.who .four { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; margin-top: clamp(40px, 7vh, 80px); }
+.who .four a { display: block; text-decoration: none; } .who .four .pic { aspect-ratio: 16 / 10; overflow: hidden; background: var(--silk-deep); margin-bottom: 16px; } .who .four img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform 1.4s var(--ease); } .who .four a:hover img { transform: scale(1.03); }
+.who .four b { display: block; font-weight: 300; font-size: 26px; letter-spacing: -.012em; } .who .four span { display: block; font-size: 16px; color: var(--ink-soft); margin-top: 4px; }
+@media (max-width: 920px) { .who .four { grid-template-columns: repeat(2, 1fr); } }
+.last { padding: clamp(80px, 14vh, 170px) 0; border-top: 1px solid var(--rule); text-align: center; }
+.last h2 { font-size: clamp(44px, 6.4vw, 104px); line-height: .96; letter-spacing: -.03em; margin: 18px auto 0; max-width: 12ch; } .last h2 em { color: var(--peony-text); }
+.last .cta { display: flex; justify-content: center; gap: 28px; align-items: center; margin-top: 40px; flex-wrap: wrap; }
+.last .plans { margin-top: 48px; color: var(--ink-soft); font-weight: 300; }
+footer { border-top: 1px solid var(--rule); padding: 36px 0 60px; } .foot { display: flex; justify-content: space-between; gap: 20px 40px; align-items: baseline; flex-wrap: wrap; }
+.foot ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 26px; flex-wrap: wrap; } .foot a { font-family: var(--sans); font-size: 11px; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); } .foot .mark { font-size: 27px; text-decoration: none; }
+.rise { opacity: 0; transform: translateY(18px); transition: opacity 1s var(--ease), transform 1s var(--ease); } .rise.in { opacity: 1; transform: none; }
 </style>
 </head>
 <body>
-
-<div class="wrap">
-  <header class="top">
-    <a class="brand" href="#top" aria-label="Latent Wall, home"><span class="mark">l.</span><span class="word">Wall</span></a>
-    <nav aria-label="Primary"><a href="#templates">Templates</a><a href="#yours">Make it yours</a><a href="#plans">Plans</a><a href="/app/index.html">Your site</a></nav>
-  </header>
-</div>
+<header class="top">
+  <a class="brand" href="#top" aria-label="Latent Wall, home"><span class="mark">l.</span><span class="word">Wall</span></a>
+  <nav aria-label="Primary"><a href="#moments">What you need</a><a href="#eighteen">The eighteen</a><a href="/app/index.html">Your site</a></nav>
+</header>
 
 <main id="top">
-  <div class="wrap hero">
-    <div>
-      <span class="label">A website for artists</span>
-      <h1>Your work, on its <em>own wall.</em></h1>
-      <p class="sub">Eighteen templates made for photographs, films, paintings and words. Choose one, add your work, and publish. Then make it yours, with no choice that can go wrong.</p>
-      <div class="cta"><a class="btn" href="/app/index.html">Start your site</a><a class="link" href="#templates">See the templates</a></div>
+  <!-- 1. the field -->
+  <section class="field" aria-label="Sites made with Wall, drifting">
+    <div class="rows" id="rows" aria-hidden="true"></div>
+    <div class="claim">
+      <div class="n"><span id="count">378,080</span><small>designed ways a site can be set, before its accent, palette, spacing or mount. Eighteen templates, each with looks and type made for it, every look by day and by night. <em>No two artists alike.</em></small></div>
+      <div class="side"><span class="label">A website for artists</span><h1>Your work, on its <em>own wall.</em></h1><div class="cta"><a class="btn light" href="/app/index.html">Start your site</a><a class="link" href="#grow" style="color:var(--night-ink)">Keep going</a></div></div>
     </div>
-    <figure style="margin:0">
-      <div class="live" id="hero" aria-label="Templates, running"></div>
-      <figcaption><b id="hero-name">Folio</b><span class="dots" id="dots"></span></figcaption>
-    </figure>
-  </div>
+    <span class="down" aria-hidden="true"></span>
+  </section>
 
-  <section class="s" id="templates"><div class="wrap">
-    <div class="head rise"><div><span class="label">Templates</span><h2>Eighteen ways for work <em>to be seen.</em></h2></div><p>Each template makes the big decisions for you: how its pages are built, how a story moves, the looks and type that suit it. Point at one to see it move; open it to try it with your own work.</p></div>
-    <div class="grid" id="grid"></div>
-    <p class="hint">Every preview is the real site, running. The work in them is ours, to show how each one holds a body of photographs, a film and a poem.</p>
+  <!-- 2. one grows, in your name -->
+  <section class="grow" id="grow" style="--p:0">
+    <div class="stick">
+      <div class="stage" id="stage" aria-label="A site, running"></div>
+      <div class="you" id="you">
+        <div><span class="label">Find yourself here</span><h2>One of these is <em>yours.</em></h2></div>
+        <form class="ask" id="ask" autocomplete="off"><label class="label" for="name">Your name, and the sites are in it</label><input id="name" type="text" placeholder="Type your name" autocomplete="name" spellcheck="false"><div class="which"><b id="which">Folio</b><span id="dots"></span></div></form>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. the moments -->
+  <section class="moments" id="moments"><div class="wrap">
+    <div class="head rise"><div><span class="label">What you need</span><h2>Made for how artists <em>actually work.</em></h2></div><p>Not features. The things you have had to work around everywhere else, each already built and waiting in the sites above, and none of them asking anything of you until you reach for it.</p></div>
+    <div class="moment rise"><div class="w"><span class="label">One</span><h3>You already sequenced it. In Lightroom, last night.</h3><p>Drop the folder. The story arrives in the order you took the pictures, with the titles and captions you already wrote in the files. Nothing is retyped. Your first site can begin this way, before you have chosen anything.</p></div><div class="pic"><img src="stills/moment-folder.jpg" alt="The start page, a folder of photographs taken as a first story"></div></div>
+    <div class="moment flip rise"><div class="w"><span class="label">Two</span><h3>A collector asks what paper it is on.</h3><p>Every print has a back: where it was made, a line in your hand, the edition, the paper. A visitor turns it over. You write on it in place, once.</p></div><div class="pic"><div class="card"><img src="stills/folio-story.jpg" alt="A photograph held large"><img class="back" src="stills/moment-verso.jpg" alt="The back of the print: place, a line, edition, how it was made"></div></div></div>
+    <div class="moment rise"><div class="w"><span class="label">Three</span><h3>The series is not ready. The gallery is.</h3><p>A page, or the whole site, behind a word you give to whom you choose; or a holding page before you open. A page behind a word is sealed in the files, not hidden: nothing of it can be read without the word.</p></div><div class="pic"><img src="stills/moment-door.jpg" alt="The holding page: a name, a line, the word"></div></div>
+    <div class="moment rise"><div class="w"><span class="label">Four</span><h3>A sixty-centimetre print is sixty centimetres.</h3><p>Give a work its real size and it can be seen at its centimetres on the screen, matched once to a bank card held against it. A painter's wall hangs at true relative scale.</p></div><div class="pic"><img src="stills/moment-life.jpg" alt="A photograph at life size, with the card outline to match"></div></div>
+    <div class="moment rise"><div class="w"><span class="label">Five</span><h3>Change your mind without losing a thing.</h3><p>Editing is always a draft; publishing is a decision. Every published version is kept and any can be put back. Change the template and every photograph and word stays where it was.</p></div><div class="pic"><img src="stills/moment-publish.jpg" alt="The Publish panel: what changed, the versions kept"></div></div>
   </div></section>
 
-  <section class="s" id="yours"><div class="wrap">
-    <div class="head rise"><div><span class="label">Make it yours</span><h2>The template decides. <em>You choose within it.</em></h2></div><p>So you are never flooded with decisions, and two artists never end up with the same site. Every choice is designed, and every one is tested to change the page.</p></div>
-    <div class="three rise">
-      <div><span class="n">The template</span><h3>Makes the big decisions.</h3><ul><li>How every page is built<small>The header, the opening, how titles and captions speak</small></li><li>How a story moves<small>Held, as a book, a walk, a wall, slides</small></li><li>Its front page<small>Covers, a list, a sheet</small></li><li>The looks and type that suit it</li></ul></div>
-      <div><span class="n">You</span><h3>Choose within it.</h3><ul><li>A look, and an accent<small>Each template has looks made for it</small></li><li>Type, from its pairings</li><li>Its own ways to be set<small>A centred header or a stacked one; captions under, beside or hidden</small></li><li>Scale, spacing, mount, motion</li></ul></div>
-      <div><span class="n">Always</span><h3>Nothing can go wrong.</h3><ul><li>Every combination is tested<small>Desktop and phone, in every browser</small></li><li>No choice that does nothing</li><li>Your work is never touched by a choice<small>Change the look or the template; every photograph and word stays</small></li><li>Undo, always</li></ul></div>
+  <!-- 4. the eighteen -->
+  <section class="eighteen" id="eighteen"><div class="wrap">
+    <div class="head rise"><div><span class="label">The eighteen</span><h2>One of them is <em>for you.</em></h2></div><p>Each template makes the big decisions for a kind of artist, so you are not flooded with them. Point at a name to see it running; open one to try it with your own work.</p></div>
+    <div class="list rise">
+      <ol id="tlist"></ol>
+      <div class="live-side"><div class="live" id="tlive" aria-label="A template, running"></div><p class="label" id="tname"></p></div>
     </div>
-  </div></section>
-
-  <section class="s" id="how"><div class="wrap">
-    <div class="head rise"><div><span class="label">How it works</span><h2>Three steps, and the work <em>stays yours.</em></h2></div><p>Your work is kept apart from the design around it, so you can change your mind about the design at any time.</p></div>
-    <div class="steps rise">
-      <div class="step"><span class="label">One</span><h3>Choose a template.</h3><p>Each is a finished design for a kind of work. Start from the one that fits yours; you can change it later.</p></div>
-      <div class="step"><span class="label">Two</span><h3>Add your work.</h3><p>Drop in your photographs. They live in one library, and one can sit in several stories. Type your words where they will be read.</p></div>
-      <div class="step"><span class="label">Three</span><h3>Publish.</h3><p>Your site goes live at its own address, and at your own domain when you want one.</p></div>
-    </div>
-  </div></section>
-
-  <section class="s" id="plans"><div class="wrap">
-    <div class="head rise"><div><span class="label">Plans</span><h2>Free to <em>start.</em></h2></div><p>Begin with a choice of templates and twenty photographs. Move to the full plan when you need more work, every template, film, or your own domain.</p></div>
-    <div class="plans rise">
-      <div class="plan"><h3>Free</h3><span class="label">To begin</span><ul><li>Twenty photographs</li><li>A choice of templates</li><li>Two looks</li><li>Your site at a Latent address</li></ul></div>
-      <div class="plan"><h3>Full</h3><span class="label">For a body of work</span><ul><li>Many more photographs</li><li>Every template and every look</li><li>Films</li><li>Your own domain</li></ul></div>
-    </div>
-    <p class="fine">Plans, limits and prices are still being decided.</p>
   </div></section>
 
   <section class="last"><div class="wrap rise">
     <span class="label">Latent Wall</span>
-    <h2 style="margin-top:20px">Show the work <em>as you see it.</em></h2>
-    <div class="cta"><a class="btn" href="/app/index.html">Start your site</a><a class="link" href="#templates">See the templates</a></div>
+    <h2>Show the work <em>as you see it.</em></h2>
+    <div class="cta"><a class="btn ink" href="/app/index.html">Start your site</a><a class="link" href="#eighteen">Choose a template</a></div>
+    <p class="plans">Free to begin, with twenty photographs and a choice of templates. The full plan for a body of work: every template and look, films, your own domain.</p>
   </div></section>
 </main>
 
 <footer><div class="wrap foot">
   <a class="mark" href="#top" aria-label="Latent Wall, to the top">l.</a>
-  <ul><li><a href="/">Latent Studios</a></li><li><a href="/moment">The Moment</a></li><li><a href="#">The Ritual</a></li><li><a href="#">The Lab</a></li><li><a href="/privacy">Privacy</a></li></ul>
-  <p class="by">Latent Wall is made by Latent Studios.</p>
+  <ul><li><a href="/">Latent Studios</a></li><li><a href="/moment">The Moment</a></li><li><a href="/privacy">Privacy</a></li></ul>
 </div></footer>
 
 <script>
-(function () {
-  var T = [
-    ["folio","Folio","Photographers","One work at a time, held large and still, with a caption like a print mount."],
-    ["gallery","Gallery","Photographers and artists","A white wall and great space. The name alone at the top; the work first, its words when pointed at."],
-    ["monograph","Monograph","Photographers who make books","Your name as the cover, each series as spreads turned like a photobook, captions in the margin."],
-    ["passage","Passage","Photographers who work in long series","A dark room and one long walk past the work: the front page and every story, sideways, on one line."],
-    ["reel","Reel","Filmmakers","Films lead: the site opens on a still from your first film, each film at its own ratio, in the dark."],
-    ["salon","Salon","Painters and visual artists","Works hung together at their true size, a centred header and a quiet introduction, plates under each wall."],
-    ["index","Index","Writers and poets","Words lead: writing first in the contents, a side column for your name and the pages, quiet titles."],
-    ["atelier","Atelier","Studios and designers","Projects lead, as case studies: process beside outcome, a grid, your name set large at the foot."],
-    ["lantern","Lantern","Photographers who tell stories in sequence","One slide at a time in the middle of the screen, like a lantern show; titles in capitals on an early print's cream."],
-    ["journal","Journal","Photographers who shoot every day","A diary kept in photographs: dated entries, newest first, each a day's pictures held one at a time."],
-    ["column","Column","Essayists and critics","A quiet magazine: essays dated and listed newest first, each set wide and read slowly."],
-    ["catalogue","Catalogue","Painters, and the estates of artists","A catalogue raisonné: every work numbered, with its medium, dimensions and year; the pictures plain, the facts exact."],
-    ["chapbook","Chapbook","Poets and short-form writers","The site opens into the reading: the poems one after another on a single page, large and unhurried."],
-    ["cinema","Cinema","Filmmakers with more than one film","A poster wall: every film as its poster at its own ratio, the house lights down; each film a programme page."],
-    ["ledger","Ledger","Design studios and architects","The work as a ledger: a table of projects, clients, disciplines and years, nothing decorative; each row opens the case."],
-    ["pinboard","Pinboard","Illustrators and printmakers","Many small works pinned close on one wall, at their own proportions, a few larger; the eye wanders."],
-    ["studio","Studio","Painters who show the making","The studio wall and the finished plate: works pinned as they are made, hung at true size when done, process beside outcome."],
-    ["archive","Archive","Artists whose work takes many forms","One chronology of everything: photographs, films, writing and projects in the order they were made, with a filter by kind."]
+(() => {
+  const stills = ["folio-story","monograph-front","passage-story","lantern-story","salon-front","folio-toned","index-front","folio-graphite","gallery-story","reel-story","folio-cyanotype","atelier-front","folio-darkroom","salon-plaster","monograph-story","passage-cinema","folio-etching","gallery-swiss","lantern-albumen","folio-monotype","index-story","atelier-story","reel-front","folio-front","monograph-nadia","passage-nadia","folio-nadia","salon-story","gallery-front","passage-front","lantern-front"];
+  // the field: four rows, each a different shuffle, doubled so the drift never ends
+  const rows = document.getElementById("rows");
+  for (let r = 0; r < 4; r++) {
+    const list = stills.slice().sort(() => (Math.sin(r * 7 + stills.length) > 0 ? 1 : -1) * (Math.random() - .5)).slice(0, 9);
+    const row = document.createElement("div"); row.className = "row";
+    row.innerHTML = [...list, ...list].map((n) => `<div class="tile"><img src="stills/${n}.jpg" alt="" loading="eager" decoding="async"></div>`).join("");
+    rows.appendChild(row);
+  }
+  // the number, counted up once it is seen
+  const count = document.getElementById("count"), final = 378080; let shown = false;
+  new IntersectionObserver((es) => { if (!es[0].isIntersecting || shown) return; shown = true; const t0 = performance.now(); const tick = (t) => { const k = Math.min(1, (t - t0) / 1800), e = 1 - Math.pow(1 - k, 3); count.textContent = Math.round(final * e).toLocaleString("en"); if (k < 1) requestAnimationFrame(tick); }; requestAnimationFrame(tick); }).observe(count);
+  // the one that grows: scroll progress drives its size; the site inside is the real app, in the visitor's name
+  const grow = document.getElementById("grow"), stage = document.getElementById("stage"), you = document.getElementById("you");
+  const houses = [["folio", "Folio"], ["monograph", "Monograph"], ["passage", "Passage"], ["lantern", "Lantern"], ["salon", "Salon"], ["index", "Index"]];
+  const dots = document.getElementById("dots"); dots.innerHTML = houses.map(() => "<i></i>").join("");
+  let at = 0, name = "", frames = [], timer = null;
+  const fit = () => { const s = stage.clientWidth / 1440; stage.style.setProperty("--s", s.toFixed(5)); };
+  const src = (h) => `/app/index.html?site=habib&house=${h}&preview&space=home-${h}${name ? `&name=${encodeURIComponent(name)}` : ""}#/`;
+  const show = (i) => {
+    at = (i + houses.length) % houses.length;
+    document.getElementById("which").textContent = houses[at][0] === "index" ? "Index" : houses[at][1];
+    dots.querySelectorAll("i").forEach((d, k) => d.classList.toggle("on", k === at));
+    const f = document.createElement("iframe"); f.title = `${houses[at][1]}, running`; f.tabIndex = -1; f.setAttribute("aria-hidden", "true"); f.src = src(houses[at][0]);
+    f.addEventListener("load", () => { f.classList.add("on"); frames.filter((x) => x !== f).forEach((x) => { x.classList.add("off"); setTimeout(() => x.remove(), 1300); }); frames = [f]; }, { once: true });
+    stage.appendChild(f); frames.push(f); fit();
+  };
+  const onScroll = () => {
+    const r = grow.getBoundingClientRect(), h = r.height - innerHeight, p = Math.max(0, Math.min(1, -r.top / Math.max(1, h)));
+    grow.style.setProperty("--p", p.toFixed(4)); you.classList.toggle("live", p > .7); document.body.classList.toggle("inside", p > .45 && r.bottom > innerHeight * .5); fit();
+  };
+  addEventListener("scroll", onScroll, { passive: true }); addEventListener("resize", () => { onScroll(); fit(); }); onScroll();
+  let started = false;
+  new IntersectionObserver((es) => { if (!es[0].isIntersecting || started) return; started = true; show(0); timer = setInterval(() => show(at + 1), 7000); }, { rootMargin: "200px" }).observe(stage);
+  // the name: typed, the site re-sets in it (after a pause in typing)
+  let t2 = null;
+  document.getElementById("name").addEventListener("input", (e) => { name = e.target.value.trim(); clearTimeout(t2); t2 = setTimeout(() => show(at), 500); clearInterval(timer); timer = setInterval(() => show(at + 1), 9000); });
+  document.getElementById("ask").addEventListener("submit", (e) => { e.preventDefault(); location.href = `/app/index.html?start=${houses[at][0]}`; });
+  // the eighteen, by kind of artist; a name pointed at shows the template running beside it
+  const T = [
+    ["Photographers", [["folio","Folio","One work at a time, held large and still, with a caption like a print mount."],["gallery","Gallery","A white wall and great space; the work first, the name alone at the top."],["monograph","Monograph","Your name as the cover, each series as spreads turned like a photobook."],["passage","Passage","A dark room and one long walk past the work, sideways, on one line."],["lantern","Lantern","One slide at a time in the middle of the screen, like a lantern show."],["journal","Journal","A diary kept in photographs: dated entries, newest first."]]],
+    ["Painters, illustrators, printmakers", [["salon","Salon","Works hung together at their true size, plates under each wall."],["studio","Studio","The studio wall and the finished plate: boards for the making, walls for the made."],["catalogue","Catalogue","A catalogue raisonné: every work numbered, with medium, dimensions and year."],["pinboard","Pinboard","Many small works pinned close on one wall, at their own proportions."]]],
+    ["Filmmakers", [["reel","Reel","Films lead: the site opens on a still from your first film, in the dark."],["cinema","Cinema","A poster wall, every film at its own ratio, the house lights down."]]],
+    ["Writers and poets", [["index","Index","Words lead: writing first in the contents, a side column, quiet titles."],["chapbook","Chapbook","The site opens into the reading: the poems one after another, set large."],["column","Column","A quiet magazine: essays dated and listed newest first."]]],
+    ["Studios, and work of many kinds", [["atelier","Atelier","Projects lead, as case studies: process beside outcome, a grid."],["ledger","Ledger","The work as a table of projects, clients and years; each row opens the case."],["archive","Archive","One chronology of everything, sifted by kind."]]],
   ];
-  var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var preview = function (id) { return "/app/index.html?site=habib&house=" + id + "&preview&space=home-" + id; };
-  var tryIt = function (id) { return "/app/index.html?site=habib&house=" + id + "&space=try-" + id + "&edit"; };
-
-  document.getElementById("grid").innerHTML = T.map(function (t) {
-    return '<a class="t rise" href="' + tryIt(t[0]) + '" data-id="' + t[0] + '"><div class="live"><iframe data-src="' + preview(t[0]) + '" title="' + t[1] + ', running" tabindex="-1" aria-hidden="true"></iframe></div>' +
-      '<div class="meta"><h3>' + t[1] + '</h3><span class="try">Try ' + t[1] + ' &rarr;</span><span class="label for">' + t[2] + "</span><p>" + t[3] + "</p></div></a>";
-  }).join("");
-
-  /* scale every running template to its frame */
-  function fit() { document.querySelectorAll(".live").forEach(function (l) { l.style.setProperty("--s", (l.clientWidth / 1440).toFixed(5)); }); }
-  addEventListener("resize", fit);
-  function load(f) { if (f.dataset.src) { f.src = f.dataset.src; f.removeAttribute("data-src"); f.addEventListener("load", function () { f.classList.add("on"); }, { once: true }); } }
-
-  /* pointing at a template walks slowly down its real front page; leaving brings it back to the top */
-  function tour(frame) {
-    var win = null, raf = 0, dir = 0, last = 0;
-    function step(now) {
-      try { win = frame.contentWindow; } catch (e) { return; }
-      if (!win || !win.document || !win.document.documentElement) { raf = 0; return; }
-      var max = win.document.documentElement.scrollHeight - win.innerHeight, dt = Math.min(64, now - (last || now)); last = now;
-      var y = win.scrollY + (dir > 0 ? 0.34 : -2.6) * dt;
-      win.scrollTo(0, Math.max(0, Math.min(max, y)));
-      if ((dir > 0 && y < max) || (dir < 0 && y > 0)) raf = requestAnimationFrame(step); else raf = 0;
-    }
-    return {
-      start: function () { if (still) return; dir = 1; last = 0; if (!raf) raf = requestAnimationFrame(step); },
-      stop: function () { dir = -1; last = 0; if (!raf) raf = requestAnimationFrame(step); }
-    };
-  }
-  document.querySelectorAll(".t").forEach(function (t) {
-    var f = t.querySelector("iframe"), tr = tour(f);
-    t.addEventListener("mouseenter", tr.start); t.addEventListener("focus", tr.start);
-    t.addEventListener("mouseleave", tr.stop); t.addEventListener("blur", tr.stop);
-  });
-
-  /* the hero shows four templates in turn, each walking slowly down its page while it is shown */
-  var hero = document.getElementById("hero"), HERO = ["folio", "monograph", "gallery", "reel"], frames = [], at = 0;
-  hero.innerHTML = HERO.map(function (id) { return '<iframe data-src="' + preview(id) + '" title="' + id + '" tabindex="-1" aria-hidden="true"></iframe>'; }).join("");
-  frames = [].slice.call(hero.querySelectorAll("iframe"));
-  document.getElementById("dots").innerHTML = HERO.map(function (_, i) { return '<i class="' + (i ? "" : "on") + '"></i>'; }).join("");
-  var tours = frames.map(tour), names = { folio: "Folio", monograph: "Monograph", gallery: "Gallery", reel: "Reel" };
-  function show(i) {
-    frames.forEach(function (f, k) { f.classList.toggle("shown", k === i); f.style.opacity = k === i ? "" : "0"; });
-    if (frames[i].dataset.src) load(frames[i]); else frames[i].classList.add("on");
-    document.getElementById("hero-name").textContent = names[HERO[i]];
-    document.querySelectorAll("#dots i").forEach(function (d, k) { d.classList.toggle("on", k === i); });
-    tours.forEach(function (t, k) { if (k !== i) t.stop(); });
-    setTimeout(function () { tours[i].start(); }, 1600);
-  }
-  fit(); load(frames[0]); show(0);
-  if (!still) setInterval(function () { var n = (at + 1) % frames.length; load(frames[n]); setTimeout(function () { at = n; show(n); }, 1800); }, 9000);
-
-  /* load the templates as they come near; sections rise into place */
-  var io = "IntersectionObserver" in window ? new IntersectionObserver(function (es) { es.forEach(function (e) { if (!e.isIntersecting) return; e.target.classList.add("in"); var f = e.target.querySelector && e.target.querySelector("iframe[data-src]"); if (f) load(f); io.unobserve(e.target); }); }, { rootMargin: "200px 0px" }) : null;
-  document.querySelectorAll(".rise").forEach(function (r) { if (io) io.observe(r); else { r.classList.add("in"); var f = r.querySelector("iframe[data-src]"); if (f) load(f); } });
-  fit();
+  const tlist = document.getElementById("tlist"), tlive = document.getElementById("tlive"), tname = document.getElementById("tname");
+  const previewOf = (id) => `/app/index.html?site=habib&house=${id}&preview&space=home-${id}`, tryOf = (id) => `/app/index.html?site=habib&house=${id}&space=try-${id}&edit`;
+  tlist.innerHTML = T.map(([kind, list]) => `<li class="kind label">${kind}</li>` + list.map(([id, name, idea]) => `<li><a class="t" data-id="${id}" href="${tryOf(id)}"><b>${name}</b><span class="go">Try it</span><small>${idea}</small><iframe data-src="${previewOf(id)}" title="${name}, running" tabindex="-1" aria-hidden="true"></iframe></a></li>`).join("")).join("");
+  let liveFrames = [], liveAt = "";
+  const fitLive = () => tlive.style.setProperty("--s", (tlive.clientWidth / 1440).toFixed(5));
+  const showT = (id, name) => {
+    if (id === liveAt) return; liveAt = id; tname.textContent = name;
+    tlist.querySelectorAll(".t").forEach((a) => a.classList.toggle("on", a.dataset.id === id));
+    const f = document.createElement("iframe"); f.title = `${name}, running`; f.tabIndex = -1; f.setAttribute("aria-hidden", "true"); f.src = previewOf(id);
+    f.addEventListener("load", () => { f.classList.add("on"); liveFrames.filter((x) => x !== f).forEach((x) => { x.classList.remove("on"); setTimeout(() => x.remove(), 1100); }); liveFrames = [f]; }, { once: true });
+    tlive.appendChild(f); liveFrames.push(f); fitLive();
+  };
+  tlist.addEventListener("mouseover", (e) => { const a = e.target.closest(".t"); if (a) showT(a.dataset.id, a.querySelector("b").textContent); });
+  tlist.addEventListener("focusin", (e) => { const a = e.target.closest(".t"); if (a) showT(a.dataset.id, a.querySelector("b").textContent); });
+  addEventListener("resize", fitLive);
+  new IntersectionObserver((es) => { if (es[0].isIntersecting && !liveAt) showT("folio", "Folio"); }, { rootMargin: "200px" }).observe(tlive);
+  // quiet rises
+  const io = new IntersectionObserver((es) => es.forEach((x) => { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }), { threshold: .12 });
+  document.querySelectorAll(".rise").forEach((el) => io.observe(el));
 })();
 </script>
 </body>

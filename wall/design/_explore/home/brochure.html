@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Latent Wall</title>
+<meta name="description" content="A website for artists. Nine templates made for photographs, films, paintings and words. Choose one, add your work, publish.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Instrument+Sans:wght@400;500&display=swap">
+<style>
+/* LATENT WALL — the front door. One quiet column; the templates are shown running, and move when pointed at. */
+:root {
+  --silk: #EEE9E7; --silk-deep: #E4DDDA; --ink: #29222A; --ink-soft: #6B5F66; --peony: #B87B8A; --peony-text: #A0697A; --rule: #D3C9C7;
+  --serif: "Newsreader", "Iowan Old Style", Georgia, serif; --sans: "Instrument Sans", system-ui, sans-serif;
+  --gutter: clamp(20px, 5vw, 80px); --ease: cubic-bezier(.22, .61, .36, 1);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --silk: #1B1619; --silk-deep: #241E21; --ink: #ECE4E4; --ink-soft: #A99BA1; --peony: #D49BA8; --rule: #372F33; color-scheme: dark; } }
+:root[data-theme="dark"] { --silk: #1B1619; --silk-deep: #241E21; --ink: #ECE4E4; --ink-soft: #A99BA1; --peony: #D49BA8; --rule: #372F33; color-scheme: dark; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body { margin: 0; background: var(--silk); color: var(--ink); font-family: var(--serif); font-size: 19px; line-height: 1.6; -webkit-font-smoothing: antialiased; font-feature-settings: "liga", "onum"; }
+a { color: inherit; text-decoration-color: var(--rule); text-underline-offset: 4px; }
+:focus-visible { outline: 2px solid var(--peony); outline-offset: 4px; }
+.label { font-family: var(--sans); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
+.wrap { max-width: 1440px; margin-inline: auto; padding-inline: var(--gutter); }
+h1, h2, h3 { font-weight: 300; margin: 0; text-wrap: balance; }
+p { margin: 0 0 1em; text-wrap: pretty; }
+.link { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: 4px; transition: border-color .4s var(--ease); }
+.link:hover { border-color: var(--peony); }
+.btn { display: inline-block; font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; padding: 16px 24px; border: 1px solid var(--ink); background: var(--ink); color: var(--silk); transition: background .4s var(--ease), color .4s var(--ease); }
+.btn:hover { background: transparent; color: var(--ink); }
+
+/* header */
+.top { display: flex; justify-content: space-between; align-items: baseline; padding-block: 30px; }
+.brand { display: flex; align-items: baseline; gap: 12px; text-decoration: none; }
+.brand .mark { font-size: 27px; line-height: 1; }
+.brand .word { font-family: var(--sans); font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase; }
+.top nav { display: flex; gap: 34px; align-items: baseline; }
+.top nav a { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); transition: color .3s; }
+.top nav a:hover { color: var(--ink); }
+@media (max-width: 720px) { .top nav a:not(:last-child) { display: none; } }
+
+/* a template, running: drawn at full size and scaled into its frame */
+.live { position: relative; overflow: hidden; background: var(--silk-deep); }
+.live iframe { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; border: 0; transform-origin: 0 0; transform: scale(var(--s, .4)); pointer-events: none; opacity: 0; transition: opacity 1.4s var(--ease); }
+.live iframe.on { opacity: 1; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(36px, 6vw, 110px); align-items: center; padding-block: clamp(36px, 8vh, 100px) clamp(80px, 14vh, 170px); }
+.hero h1 { font-size: clamp(50px, 7.4vw, 116px); line-height: .96; letter-spacing: -.028em; margin: 24px 0 34px; }
+.hero h1 em { color: var(--peony-text); }
+.hero .sub { font-size: clamp(19px, 1.5vw, 22px); line-height: 1.55; color: var(--ink-soft); max-width: 27em; font-weight: 300; }
+.cta { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; margin-top: 40px; }
+.hero .live { aspect-ratio: 16 / 10; box-shadow: 0 50px 90px -60px rgba(41, 34, 42, .45); }
+.hero figcaption { display: flex; justify-content: space-between; align-items: baseline; margin-top: 22px; }
+.hero figcaption b { font-family: var(--serif); font-weight: 300; font-size: 20px; letter-spacing: -.01em; transition: opacity .6s var(--ease); }
+.dots { display: flex; gap: 8px; } .dots i { width: 22px; height: 1px; background: var(--rule); transition: background .6s var(--ease); } .dots i.on { background: var(--ink); }
+@media (max-width: 920px) { .hero { grid-template-columns: 1fr; } }
+
+/* sections */
+section.s { padding-block: clamp(80px, 15vh, 180px); border-top: 1px solid var(--rule); }
+.head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 24px clamp(36px, 6vw, 110px); margin-bottom: clamp(48px, 8vh, 96px); align-items: end; }
+.head h2 { font-size: clamp(36px, 4.8vw, 68px); line-height: 1.02; letter-spacing: -.022em; margin-top: 16px; }
+.head h2 em { color: var(--peony); }
+.head p { color: var(--ink-soft); max-width: 31em; margin: 0; font-size: 19px; font-weight: 300; }
+@media (max-width: 860px) { .head { grid-template-columns: 1fr; } }
+
+/* the nine templates */
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(56px, 8vh, 96px) clamp(22px, 2.6vw, 44px); }
+.t { display: block; text-decoration: none; }
+.t .live { aspect-ratio: 16 / 10; outline: 1px solid var(--rule); outline-offset: -1px; transition: box-shadow .8s var(--ease); }
+.t:hover .live, .t:focus-visible .live { box-shadow: 0 40px 70px -48px rgba(41, 34, 42, .5); }
+.t .meta { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 4px 16px; margin-top: 22px; }
+.t h3 { font-size: 30px; letter-spacing: -.012em; line-height: 1.1; }
+.t .for { grid-column: 1 / -1; }
+.t p { grid-column: 1 / -1; margin: 8px 0 0; font-size: 16.5px; line-height: 1.5; color: var(--ink-soft); max-width: 30em; }
+.t .try { font-family: var(--sans); font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-soft); opacity: 0; transform: translateX(-6px); transition: opacity .5s var(--ease), transform .5s var(--ease), color .3s; }
+.t:hover .try, .t:focus-visible .try { opacity: 1; transform: none; color: var(--ink); }
+@media (hover: none) { .t .try { opacity: 1; transform: none; } }
+.hint { margin-top: clamp(40px, 6vh, 64px); font-family: var(--sans); font-size: 12px; color: var(--ink-soft); }
+@media (max-width: 1040px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+
+/* the split: what the template decides, what you choose, what is guaranteed */
+.three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--rule); }
+.three > div { padding: 32px 36px 8px 0; }
+.three > div + div { padding-left: 36px; border-left: 1px solid var(--rule); }
+.three h3 { font-size: 28px; line-height: 1.15; margin: 14px 0 18px; }
+.three ul { list-style: none; margin: 0; padding: 0; font-size: 17px; }
+.three li { padding: 10px 0; border-top: 1px solid var(--rule); color: var(--ink); }
+.three li:last-child { border-bottom: 1px solid var(--rule); }
+.three li small { display: block; font-size: 14.5px; color: var(--ink-soft); margin-top: 2px; }
+.three .n { font-family: var(--sans); font-size: 11px; letter-spacing: .16em; color: var(--peony); }
+@media (max-width: 900px) { .three { grid-template-columns: 1fr; } .three > div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); } }
+
+/* steps */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 4vw, 64px); }
+.step { border-top: 1px solid var(--ink); padding-top: 22px; }
+.step h3 { font-size: 30px; line-height: 1.12; margin: 14px 0 14px; }
+.step p { color: var(--ink-soft); font-size: 17px; font-weight: 300; }
+@media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+
+/* plans */
+.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 5vw, 80px); max-width: 1000px; }
+.plan { border-top: 1px solid var(--ink); padding-top: 22px; }
+.plan h3 { font-size: 34px; margin-bottom: 6px; }
+.plan ul { list-style: none; padding: 0; margin: 22px 0 0; font-size: 17px; color: var(--ink-soft); }
+.plan li { padding: 10px 0; border-bottom: 1px solid var(--rule); }
+.fine { margin-top: 32px; font-family: var(--sans); font-size: 12px; color: var(--ink-soft); }
+@media (max-width: 720px) { .plans { grid-template-columns: 1fr; } }
+
+/* the last word */
+.last { padding-block: clamp(90px, 18vh, 220px); border-top: 1px solid var(--rule); text-align: center; }
+.last h2 { font-size: clamp(40px, 6vw, 92px); line-height: 1; letter-spacing: -.025em; }
+.last h2 em { color: var(--peony-text); }
+.last .cta { justify-content: center; }
+
+footer { border-top: 1px solid var(--rule); padding-block: 48px 56px; }
+.foot { display: flex; flex-wrap: wrap; gap: 28px 56px; justify-content: space-between; align-items: baseline; }
+.foot .mark { font-size: 28px; text-decoration: none; }
+.foot ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 28px; font-family: var(--sans); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; }
+.foot ul a { text-decoration: none; color: var(--ink-soft); } .foot ul a:hover { color: var(--ink); }
+.foot .by { flex-basis: 100%; font-family: var(--sans); font-size: 12px; color: var(--ink-soft); margin: 0; }
+
+.rise { opacity: 0; transform: translateY(16px); transition: opacity 1.2s var(--ease), transform 1.2s var(--ease); }
+.rise.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .rise { opacity: 1; transform: none; transition: none; } .live iframe { transition: none; } html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#top" aria-label="Latent Wall, home"><span class="mark">l.</span><span class="word">Wall</span></a>
+    <nav aria-label="Primary"><a href="#templates">Templates</a><a href="#yours">Make it yours</a><a href="#plans">Plans</a><a href="/app/index.html">Your site</a></nav>
+  </header>
+</div>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <span class="label">A website for artists</span>
+      <h1>Your work, on its <em>own wall.</em></h1>
+      <p class="sub">Eighteen templates made for photographs, films, paintings and words. Choose one, add your work, and publish. Then make it yours, with no choice that can go wrong.</p>
+      <div class="cta"><a class="btn" href="/app/index.html">Start your site</a><a class="link" href="#templates">See the templates</a></div>
+    </div>
+    <figure style="margin:0">
+      <div class="live" id="hero" aria-label="Templates, running"></div>
+      <figcaption><b id="hero-name">Folio</b><span class="dots" id="dots"></span></figcaption>
+    </figure>
+  </div>
+
+  <section class="s" id="templates"><div class="wrap">
+    <div class="head rise"><div><span class="label">Templates</span><h2>Eighteen ways for work <em>to be seen.</em></h2></div><p>Each template makes the big decisions for you: how its pages are built, how a story moves, the looks and type that suit it. Point at one to see it move; open it to try it with your own work.</p></div>
+    <div class="grid" id="grid"></div>
+    <p class="hint">Every preview is the real site, running. The work in them is ours, to show how each one holds a body of photographs, a film and a poem.</p>
+  </div></section>
+
+  <section class="s" id="yours"><div class="wrap">
+    <div class="head rise"><div><span class="label">Make it yours</span><h2>The template decides. <em>You choose within it.</em></h2></div><p>So you are never flooded with decisions, and two artists never end up with the same site. Every choice is designed, and every one is tested to change the page.</p></div>
+    <div class="three rise">
+      <div><span class="n">The template</span><h3>Makes the big decisions.</h3><ul><li>How every page is built<small>The header, the opening, how titles and captions speak</small></li><li>How a story moves<small>Held, as a book, a walk, a wall, slides</small></li><li>Its front page<small>Covers, a list, a sheet</small></li><li>The looks and type that suit it</li></ul></div>
+      <div><span class="n">You</span><h3>Choose within it.</h3><ul><li>A look, and an accent<small>Each template has looks made for it</small></li><li>Type, from its pairings</li><li>Its own ways to be set<small>A centred header or a stacked one; captions under, beside or hidden</small></li><li>Scale, spacing, mount, motion</li></ul></div>
+      <div><span class="n">Always</span><h3>Nothing can go wrong.</h3><ul><li>Every combination is tested<small>Desktop and phone, in every browser</small></li><li>No choice that does nothing</li><li>Your work is never touched by a choice<small>Change the look or the template; every photograph and word stays</small></li><li>Undo, always</li></ul></div>
+    </div>
+  </div></section>
+
+  <section class="s" id="how"><div class="wrap">
+    <div class="head rise"><div><span class="label">How it works</span><h2>Three steps, and the work <em>stays yours.</em></h2></div><p>Your work is kept apart from the design around it, so you can change your mind about the design at any time.</p></div>
+    <div class="steps rise">
+      <div class="step"><span class="label">One</span><h3>Choose a template.</h3><p>Each is a finished design for a kind of work. Start from the one that fits yours; you can change it later.</p></div>
+      <div class="step"><span class="label">Two</span><h3>Add your work.</h3><p>Drop in your photographs. They live in one library, and one can sit in several stories. Type your words where they will be read.</p></div>
+      <div class="step"><span class="label">Three</span><h3>Publish.</h3><p>Your site goes live at its own address, and at your own domain when you want one.</p></div>
+    </div>
+  </div></section>
+
+  <section class="s" id="plans"><div class="wrap">
+    <div class="head rise"><div><span class="label">Plans</span><h2>Free to <em>start.</em></h2></div><p>Begin with a choice of templates and twenty photographs. Move to the full plan when you need more work, every template, film, or your own domain.</p></div>
+    <div class="plans rise">
+      <div class="plan"><h3>Free</h3><span class="label">To begin</span><ul><li>Twenty photographs</li><li>A choice of templates</li><li>Two looks</li><li>Your site at a Latent address</li></ul></div>
+      <div class="plan"><h3>Full</h3><span class="label">For a body of work</span><ul><li>Many more photographs</li><li>Every template and every look</li><li>Films</li><li>Your own domain</li></ul></div>
+    </div>
+    <p class="fine">Plans, limits and prices are still being decided.</p>
+  </div></section>
+
+  <section class="last"><div class="wrap rise">
+    <span class="label">Latent Wall</span>
+    <h2 style="margin-top:20px">Show the work <em>as you see it.</em></h2>
+    <div class="cta"><a class="btn" href="/app/index.html">Start your site</a><a class="link" href="#templates">See the templates</a></div>
+  </div></section>
+</main>
+
+<footer><div class="wrap foot">
+  <a class="mark" href="#top" aria-label="Latent Wall, to the top">l.</a>
+  <ul><li><a href="/">Latent Studios</a></li><li><a href="/moment">The Moment</a></li><li><a href="#">The Ritual</a></li><li><a href="#">The Lab</a></li><li><a href="/privacy">Privacy</a></li></ul>
+  <p class="by">Latent Wall is made by Latent Studios.</p>
+</div></footer>
+
+<script>
+(function () {
+  var T = [
+    ["folio","Folio","Photographers","One work at a time, held large and still, with a caption like a print mount."],
+    ["gallery","Gallery","Photographers and artists","A white wall and great space. The name alone at the top; the work first, its words when pointed at."],
+    ["monograph","Monograph","Photographers who make books","Your name as the cover, each series as spreads turned like a photobook, captions in the margin."],
+    ["passage","Passage","Photographers who work in long series","A dark room and one long walk past the work: the front page and every story, sideways, on one line."],
+    ["reel","Reel","Filmmakers","Films lead: the site opens on a still from your first film, each film at its own ratio, in the dark."],
+    ["salon","Salon","Painters and visual artists","Works hung together at their true size, a centred header and a quiet introduction, plates under each wall."],
+    ["index","Index","Writers and poets","Words lead: writing first in the contents, a side column for your name and the pages, quiet titles."],
+    ["atelier","Atelier","Studios and designers","Projects lead, as case studies: process beside outcome, a grid, your name set large at the foot."],
+    ["lantern","Lantern","Photographers who tell stories in sequence","One slide at a time in the middle of the screen, like a lantern show; titles in capitals on an early print's cream."],
+    ["journal","Journal","Photographers who shoot every day","A diary kept in photographs: dated entries, newest first, each a day's pictures held one at a time."],
+    ["column","Column","Essayists and critics","A quiet magazine: essays dated and listed newest first, each set wide and read slowly."],
+    ["catalogue","Catalogue","Painters, and the estates of artists","A catalogue raisonné: every work numbered, with its medium, dimensions and year; the pictures plain, the facts exact."],
+    ["chapbook","Chapbook","Poets and short-form writers","The site opens into the reading: the poems one after another on a single page, large and unhurried."],
+    ["cinema","Cinema","Filmmakers with more than one film","A poster wall: every film as its poster at its own ratio, the house lights down; each film a programme page."],
+    ["ledger","Ledger","Design studios and architects","The work as a ledger: a table of projects, clients, disciplines and years, nothing decorative; each row opens the case."],
+    ["pinboard","Pinboard","Illustrators and printmakers","Many small works pinned close on one wall, at their own proportions, a few larger; the eye wanders."],
+    ["studio","Studio","Painters who show the making","The studio wall and the finished plate: works pinned as they are made, hung at true size when done, process beside outcome."],
+    ["archive","Archive","Artists whose work takes many forms","One chronology of everything: photographs, films, writing and projects in the order they were made, with a filter by kind."]
+  ];
+  var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var preview = function (id) { return "/app/index.html?site=habib&house=" + id + "&preview&space=home-" + id; };
+  var tryIt = function (id) { return "/app/index.html?site=habib&house=" + id + "&space=try-" + id + "&edit"; };
+
+  document.getElementById("grid").innerHTML = T.map(function (t) {
+    return '<a class="t rise" href="' + tryIt(t[0]) + '" data-id="' + t[0] + '"><div class="live"><iframe data-src="' + preview(t[0]) + '" title="' + t[1] + ', running" tabindex="-1" aria-hidden="true"></iframe></div>' +
+      '<div class="meta"><h3>' + t[1] + '</h3><span class="try">Try ' + t[1] + ' &rarr;</span><span class="label for">' + t[2] + "</span><p>" + t[3] + "</p></div></a>";
+  }).join("");
+
+  /* scale every running template to its frame */
+  function fit() { document.querySelectorAll(".live").forEach(function (l) { l.style.setProperty("--s", (l.clientWidth / 1440).toFixed(5)); }); }
+  addEventListener("resize", fit);
+  function load(f) { if (f.dataset.src) { f.src = f.dataset.src; f.removeAttribute("data-src"); f.addEventListener("load", function () { f.classList.add("on"); }, { once: true }); } }
+
+  /* pointing at a template walks slowly down its real front page; leaving brings it back to the top */
+  function tour(frame) {
+    var win = null, raf = 0, dir = 0, last = 0;
+    function step(now) {
+      try { win = frame.contentWindow; } catch (e) { return; }
+      if (!win || !win.document || !win.document.documentElement) { raf = 0; return; }
+      var max = win.document.documentElement.scrollHeight - win.innerHeight, dt = Math.min(64, now - (last || now)); last = now;
+      var y = win.scrollY + (dir > 0 ? 0.34 : -2.6) * dt;
+      win.scrollTo(0, Math.max(0, Math.min(max, y)));
+      if ((dir > 0 && y < max) || (dir < 0 && y > 0)) raf = requestAnimationFrame(step); else raf = 0;
+    }
+    return {
+      start: function () { if (still) return; dir = 1; last = 0; if (!raf) raf = requestAnimationFrame(step); },
+      stop: function () { dir = -1; last = 0; if (!raf) raf = requestAnimationFrame(step); }
+    };
+  }
+  document.querySelectorAll(".t").forEach(function (t) {
+    var f = t.querySelector("iframe"), tr = tour(f);
+    t.addEventListener("mouseenter", tr.start); t.addEventListener("focus", tr.start);
+    t.addEventListener("mouseleave", tr.stop); t.addEventListener("blur", tr.stop);
+  });
+
+  /* the hero shows four templates in turn, each walking slowly down its page while it is shown */
+  var hero = document.getElementById("hero"), HERO = ["folio", "monograph", "gallery", "reel"], frames = [], at = 0;
+  hero.innerHTML = HERO.map(function (id) { return '<iframe data-src="' + preview(id) + '" title="' + id + '" tabindex="-1" aria-hidden="true"></iframe>'; }).join("");
+  frames = [].slice.call(hero.querySelectorAll("iframe"));
+  document.getElementById("dots").innerHTML = HERO.map(function (_, i) { return '<i class="' + (i ? "" : "on") + '"></i>'; }).join("");
+  var tours = frames.map(tour), names = { folio: "Folio", monograph: "Monograph", gallery: "Gallery", reel: "Reel" };
+  function show(i) {
+    frames.forEach(function (f, k) { f.classList.toggle("shown", k === i); f.style.opacity = k === i ? "" : "0"; });
+    if (frames[i].dataset.src) load(frames[i]); else frames[i].classList.add("on");
+    document.getElementById("hero-name").textContent = names[HERO[i]];
+    document.querySelectorAll("#dots i").forEach(function (d, k) { d.classList.toggle("on", k === i); });
+    tours.forEach(function (t, k) { if (k !== i) t.stop(); });
+    setTimeout(function () { tours[i].start(); }, 1600);
+  }
+  fit(); load(frames[0]); show(0);
+  if (!still) setInterval(function () { var n = (at + 1) % frames.length; load(frames[n]); setTimeout(function () { at = n; show(n); }, 1800); }, 9000);
+
+  /* load the templates as they come near; sections rise into place */
+  var io = "IntersectionObserver" in window ? new IntersectionObserver(function (es) { es.forEach(function (e) { if (!e.isIntersecting) return; e.target.classList.add("in"); var f = e.target.querySelector && e.target.querySelector("iframe[data-src]"); if (f) load(f); io.unobserve(e.target); }); }, { rootMargin: "200px 0px" }) : null;
+  document.querySelectorAll(".rise").forEach(function (r) { if (io) io.observe(r); else { r.classList.add("in"); var f = r.querySelector("iframe[data-src]"); if (f) load(f); } });
+  fit();
+})();
+</script>
+</body>
+</html>
