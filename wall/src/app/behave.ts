@@ -22,6 +22,16 @@ const phone = () => matchMedia("(max-width: 700px)").matches;
 
 export function wire(root: HTMLElement, c: Ctx, p: SitePage | null, view: View, keep: boolean) {
   cleanup.forEach((f) => f()); cleanup = [];
+  // the editor asks for a work to be brought into view after changing how it sits
+  on(root, "wall:show", (e: Event) => {
+    const k = (e as CustomEvent<{ k: number }>).detail.k, has = (html: string) => html.includes(`data-k="${k}"`);
+    if (view === "book") { const i = bookState?.leaves.findIndex(has) ?? -1; if (i >= 0) bookState?.go(i); return; }
+    if (view === "slides") { const i = slideState?.list.findIndex(has) ?? -1; if (i >= 0) slideState?.go(i); return; }
+    const el = root.querySelector<HTMLElement>(`.tb-slot[data-k="${k}"]`)?.closest<HTMLElement>("figure, .hang, .art, .pin");
+    if (!el) return;
+    if (view === "passage") { const walk = root.querySelector<HTMLElement>(".walk"); if (walk) walk.scrollTo({ left: el.offsetLeft - walk.clientWidth / 2 + el.offsetWidth / 2, behavior: "smooth" }); return; }
+    el.scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  });
   // the door: giving the word
   const door = root.querySelector<HTMLFormElement>("[data-door]");
   if (door) on(door, "submit", async (e: Event) => {
@@ -77,6 +87,7 @@ function heldViewer(root: HTMLElement, c: Ctx, p: StoryPage) {
   });
 }
 
+let bookState: { leaves: string[]; go: (i: number) => void } | null = null, slideState: { list: string[]; go: (i: number) => void } | null = null;
 function book(root: HTMLElement, c: Ctx, p: StoryPage, key: string) {
   const el = root.querySelector<HTMLElement>("#spread")!, count = root.querySelector<HTMLElement>(".count")!;
   const prev = root.querySelector<HTMLButtonElement>(".turn .prev")!, nextB = root.querySelector<HTMLButtonElement>(".turn .next")!;
@@ -87,7 +98,7 @@ function book(root: HTMLElement, c: Ctx, p: StoryPage, key: string) {
     root.dispatchEvent(new CustomEvent("wall:drawn", { bubbles: true }));
   };
   const go = (d: number) => { const to = at + d; if (to < 0 || to >= leaves.length) return; at = to; el.classList.add("turning"); setTimeout(put, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 280); };
-  put();
+  put(); bookState = { get leaves() { return leaves; }, go: (i) => go(i - at) }; cleanup.push(() => { bookState = null; });
   on(root, "click", (e: MouseEvent) => { const t = e.target as HTMLElement; if (t.closest(".zone.next, .turn .next")) go(1); else if (t.closest(".zone.prev, .turn .prev")) go(-1); });
   on(document, "keydown", (e: KeyboardEvent) => { if (typing(e)) return; if (e.key === "ArrowRight" || e.key === "PageDown") { go(1); e.preventDefault(); } if (e.key === "ArrowLeft" || e.key === "PageUp") { go(-1); e.preventDefault(); } });
   let x0: number | null = null;
@@ -183,7 +194,7 @@ function slides(root: HTMLElement, c: Ctx, p: StoryPage, key: string) {
     place[key] = at; root.dispatchEvent(new CustomEvent("wall:drawn", { bubbles: true }));
   };
   const go = (i: number) => { i = Math.max(0, Math.min(list.length - 1, i)); if (i !== at) { at = i; put(); } };
-  put();
+  put(); slideState = { list, go }; cleanup.push(() => { slideState = null; });
   on(root, "click", (e: MouseEvent) => { const t = e.target as HTMLElement; if (t.closest(".arrow.prev")) go(at - 1); else if (t.closest(".arrow.next")) go(at + 1); else { const g = t.closest<HTMLElement>("[data-go]"); if (g) go(+g.dataset.go!); } });
   on(document, "keydown", (e: KeyboardEvent) => { if (typing(e) || e.metaKey || e.ctrlKey || e.altKey) return; if (e.key === "ArrowRight") { e.preventDefault(); go(at + 1); } else if (e.key === "ArrowLeft") { e.preventDefault(); go(at - 1); } });
   let x0: number | null = null;

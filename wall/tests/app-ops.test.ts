@@ -267,3 +267,12 @@ describe("a film file", () => {
     expect(() => O.setFilm(s, "about", { video: "asset:f1" })).toThrow();
   });
 });
+
+describe("a look arrives whole", () => {
+  it("the look's own type pairing is allowed in every template, even one whose list names no 'own'", () => {
+    const m = O.applyHouse(site(), "monograph").site;
+    expect(() => O.setTheme(m, { look: "etching", typeface: null })).not.toThrow();
+    expect(O.setTheme(m, { look: "etching", typeface: null }).theme.typeface).toBeNull();
+    expect(() => O.setTheme(m, { typeface: "courier" })).toThrow(/does not offer/); // a pairing the template does not list is still refused
+  });
+});

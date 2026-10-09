@@ -11,7 +11,7 @@ import * as P from "./pubpanel";
 import { bringIn as bring, dropped, hasFiles, folderOf } from "./bring";
 import { ratioNumber } from "./util";
 import { accentsFrom, accentsAcross, pixelsOf } from "./colour";
-import { esc, appearsOf } from "./render";
+import { esc, appearsOf, viewOf } from "./render";
 import { address } from "./publish";
 import type { SitePage, StoryPage } from "../studio/site";
 import { photographCount } from "../studio/site";
@@ -239,25 +239,47 @@ function customise() {
   h2 += sub("Look", `The looks made for ${h.name}.`);
   h2 += `<div class="looks">${h.looks.filter((k) => L.LOOKS[k]).map((k) => { const v = L.LOOKS[k].vars ?? {}; return `<button type="button" data-look="${k}" aria-pressed="${t.look === k}" style="background:${v["--silk"] ?? "#EEE9E7"};color:${v["--ink"] ?? "#29222A"}"><span class="aa" style="font-family:${(v["--serif"] ?? L.TYPES.silk.display).replace(/"/g, "&quot;")};font-weight:${v["--title-weight"] ?? 300}">Aa<i style="background:${v["--peony"] ?? "#B87B8A"}"></i></span><span class="tn">${esc(L.LOOKS[k].name)}</span></button>`; }).join("")}</div><p class="hint">${esc(L.LOOKS[t.look]?.note ?? "")}</p>`;
   const swatch = (a: string | null, cls = "") => { const shown = L.accentFor(t.look, a, dark, t.palette).peony; const on = a === null ? !t.accent : t.accent?.toLowerCase() === a!.toLowerCase(); return `<button type="button" class="sw${a === null ? " own" : ""}${cls}" data-accent="${a ?? ""}" aria-pressed="${on}" aria-label="${a === null ? "The look's own accent" : `Accent ${a}`}"><i style="background:${shown}"></i></button>`; };
-  h2 += `<h3>Accent</h3><div class="swatches">${[null, ...L.ACCENTS].map((a) => swatch(a)).join("")}</div>`;
-  const fromWork = workColours();
-  if (fromWork === null) h2 += `<p class="hint">Reading the colours in your work…</p>`;
-  else if (fromWork.length) h2 += `<p class="hint top" style="margin-top:14px">From your work</p><div class="swatches">${fromWork.map((a) => swatch(a, " work")).join("")}</div><p class="hint">The colours that recur in your photographs, each made to read on this ground.</p>`;
+  // the accent colours the italic word of titles, and whatever a look paints with it (its rules, a frame's shadow); offered only where it can be seen
+  const lookVars = L.LOOKS[t.look]?.vars ?? {}, lookPaints = Object.entries(lookVars).some(([k, v]) => k !== "--em-color" && /--peony\b/.test(String(v)));
+  if (t.title === "accent" || lookPaints) {
+    h2 += `<h3>Accent</h3><div class="swatches">${[null, ...L.ACCENTS].map((a) => swatch(a)).join("")}</div>`;
+    const fromWork = workColours();
+    if (fromWork === null) h2 += `<p class="hint">Reading the colours in your work…</p>`;
+    else if (fromWork.length) h2 += `<p class="hint top" style="margin-top:14px">From your work</p><div class="swatches">${fromWork.map((a) => swatch(a, " work")).join("")}</div><p class="hint">The colours that recur in your photographs, each made to read on this ground.</p>`;
+    if (!lookPaints) h2 += `<p class="hint">On the italic word of titles.</p>`;
+  } else h2 += `<h3>Accent</h3><p class="hint">The accent colours the italic word of titles. Choose <b>An accented word</b> under Titles to use it${h.dials.title.includes("accent") ? "" : "; this template keeps its titles in one voice"}.</p>`;
   h2 += `<h3>Light</h3>${seg("mode", [["light", "Day"], ["dark", "Night"], ["system", "Follow the device"]], t.mode)}<p class="hint">${quiet ? "The site by day, by night, or as the visitor's device is set." : "Every look has a day and a night: the same art direction with the lights changed."}</p>`;
   if (quiet) {
     h2 += `<h3>Palette</h3><div class="swatches">${Object.entries(L.PALETTES).map(([k, p]) => `<button type="button" class="sw pal" data-palette="${k}" aria-pressed="${t.palette === k}" aria-label="${esc(p.name)}"><i style="background:linear-gradient(135deg, ${p.light.silk} 50%, ${p.light.ink} 50%)"></i></button>`).join("")}</div>`;
   }
-  if (h.typefaces.length > 1) h2 += `<h3>Type</h3><div class="types">${h.typefaces.map((k) => { const f = k ? TYPEFACES[k] : null; return `<button type="button" data-typeface="${k ?? ""}" aria-pressed="${(t.typeface ?? null) === k}"${f ? ` title="${esc(f.note)}"` : ""}><span class="aa"${f ? ` style="font-family:${f.display.replace(/"/g, "&quot;")};font-weight:${f.weight}"` : ""}>Aa</span><span class="tn">${f ? esc(f.name) : "The look's own"}</span></button>`; }).join("")}</div>`;
+  if (h.typefaces.length > 1) h2 += `<h3>Type</h3><div class="types">${[null, ...h.typefaces.filter((k) => k)].map((k) => { const f = k ? TYPEFACES[k] : null; return `<button type="button" data-typeface="${k ?? ""}" aria-pressed="${(t.typeface ?? null) === k}"${f ? ` title="${esc(f.note)}"` : ""}><span class="aa"${f ? ` style="font-family:${f.display.replace(/"/g, "&quot;")};font-weight:${f.weight}"` : ""}>Aa</span><span class="tn">${f ? esc(f.name) : "The look's own"}</span></button>`; }).join("")}</div>`;
+  // where each choice shows; when that is not this page, the choice says so instead of changing nothing here
+  const p = current(), view = viewOf(p, state.site), firstStory = state.site.pages.find((x) => x.kind === "story");
+  const here = (key: string): true | { where: string; href: string } => {
+    const story = p?.kind === "story", front = !p, withFoot = !(view === "book" || view === "passage"), flowing = !(view === "book" || view === "passage" || view === "slides");
+    const toFront = { where: "the front page", href: "#/" }, toStory = { where: "a story", href: `#/${encodeURIComponent(firstStory?.id ?? "")}` }, toAbout = { where: "a page with a foot", href: `#/${encodeURIComponent(state.site.pages.find((x) => x.kind === "about" || x.kind === "contact")?.id ?? "")}` };
+    if (key === "opening") return front ? true : toFront;
+    if (key === "captions") return story && view !== "book" ? true : toStory;
+    if (key === "scale") return story || (front && (state.site.front.form === "covers" || state.site.front.form === "sheet" || state.site.front.form === "walk")) ? true : toStory;
+    if (key === "footer") return withFoot ? true : toAbout;
+    if (key === "space") return flowing ? true : toStory;
+    if (key === "mount") return story || front ? true : toStory;
+    return true;
+  };
+  const dial = (key: string, name: string, opts: [string, string][], cur: string, hint: string) => {
+    const at = here(key);
+    return `<h3>${name}</h3>${at === true ? seg(key, opts, cur) + `<p class="hint">${hint}</p>` : `<p class="hint">Now <b>${esc(opts.find((o) => o[0] === cur)?.[1] ?? cur)}</b>. Shows on ${at.where}: <a class="go-there" href="${at.href}">go there</a> to set it.</p>`}`;
+  };
   const open = DIALS.filter((d) => h.dials[d].length > 1);
   if (open.length) {
     h2 += sub(`Within ${h.name}`, "The ways this template can be set. Each keeps it itself.");
-    for (const d of open) h2 += `<h3>${{ header: "Header", opening: "Opening", title: "Titles", captions: "Captions", footer: "Footer", scale: "Scale" }[d]}</h3>${seg(d, (h.dials[d] as string[]).map((v) => [v, label(d, v)] as [string, string]), t[d] as string)}<p class="hint">${STRUCTURE_HINTS[d]}</p>`;
+    for (const d of open) h2 += dial(d, { header: "Header", opening: "Opening", title: "Titles", captions: "Captions", footer: "Footer", scale: "Scale" }[d]!, (h.dials[d] as string[]).map((v) => [v, label(d, v)] as [string, string]), t[d] as string, STRUCTURE_HINTS[d]);
   }
   h2 += sub("Details");
-  h2 += `<h3>Mount</h3>${seg("mount", [["bare", "Bare"], ["line", "A hairline"], ["matte", "A mat"]], t.mount)}`;
-  h2 += `<h3>Spacing</h3>${seg("space", [["airy", "Airy"], ["standard", "Standard"], ["close", "Close"]], t.space)}`;
-  h2 += `<h3>Reading size</h3>${seg("read", [["small", "Small"], ["standard", "Standard"], ["large", "Large"]], t.read)}`;
-  h2 += `<h3>Motion</h3>${seg("motion", [["slow", "Slow arrivals"], ["still", "Still"]], t.motion)}`;
+  h2 += dial("mount", "Mount", [["bare", "Bare"], ["line", "A hairline"], ["matte", "A mat"]], t.mount, "Around every picture: nothing, a hairline, or a mat.");
+  h2 += dial("space", "Spacing", [["airy", "Airy"], ["standard", "Standard"], ["close", "Close"]], t.space, "How much air between the works and the words.");
+  h2 += `<h3>Reading size</h3>${seg("read", [["small", "Small"], ["standard", "Standard"], ["large", "Large"]], t.read)}<p class="hint">The size of your words: writing, statements, notes and captions.</p>`;
+  h2 += `<h3>Motion</h3>${seg("motion", [["slow", "Slow arrivals"], ["still", "Still"]], t.motion)}<p class="hint">Whether pages and works arrive slowly, or are simply there.</p>`;
   return h2;
 }
 let showHouses = false;
@@ -407,7 +429,7 @@ function act(a: string, d: DOMStringMap) {
       case "piece-remove": openMenu = null; trayOpen = null; commit(O.removePiece(s, id, k)); return toast("Removed from this story. Undo brings it back; the work stays in your library.");
       case "pause-after": return commit(O.addPause(s, id, k));
       case "menu-arrange": case "menu-move": { const kind = a === "menu-arrange" ? "arrange" : "move"; openMenu = openMenu?.k === k && openMenu.kind === kind ? null : { k, kind }; return toolbars(); }
-      case "arrange": openMenu = null; return commit(O.arrange(s, id, k, d.key as O.ArrangeKey));
+      case "arrange": { openMenu = null; commit(O.arrange(s, id, k, d.key as O.ArrangeKey)); return showPiece(k); }
       case "move-to": { openMenu = null; trayOpen = null; const r = O.moveTo(s, id, k, d.to!); commit(r.site); return toast(`Moved to “${title(r.site.pages.find((x) => x.id === r.to)!)}”.`); }
       case "tray": trayOpen = trayOpen === k ? null : k; return renderPanel();
       case "list-add": return openLib({ kind: "list", page: id, list: d.list as "stills" });
@@ -436,6 +458,8 @@ function act(a: string, d: DOMStringMap) {
   });
 }
 
+/** After a change to how a work sits, bring that work into view: turn the book or the slides to it, scroll the page to it. */
+function showPiece(k: number) { document.getElementById("app")?.dispatchEvent(new CustomEvent("wall:show", { detail: { k }, bubbles: true })); }
 let doorWant = false;
 function onSet(key: string, v: string) {
   const s = state.site, p = current();
@@ -458,7 +482,7 @@ function onClick(e: MouseEvent) {
   const addr = t.closest<HTMLElement>('[data-act="add-works"]'); if (addr) { act("add-works", addr.dataset); return; }
   const tb = t.closest<HTMLElement>("#panel [data-tab]"); if (tb) { tab = tb.dataset.tab as "site"; trayOpen = null; return renderPanel(); }
   const sg = t.closest<HTMLElement>(".seg[data-set] button"); if (sg) return onSet(sg.parentElement!.dataset.set!, sg.dataset.v!);
-  const lk = t.closest<HTMLElement>("#panel [data-look]"); if (lk) return commit(O.setTheme(state.site, { look: lk.dataset.look as never }));
+  const lk = t.closest<HTMLElement>("#panel [data-look]"); if (lk) return commit(O.setTheme(state.site, { look: lk.dataset.look as never, typeface: null })); // a look arrives whole, with its own type; the artist may change it after
   const ac = t.closest<HTMLElement>("#panel [data-accent]"); if (ac) return commit(O.setTheme(state.site, { accent: ac.dataset.accent || null }));
   const pl = t.closest<HTMLElement>("#panel [data-palette]"); if (pl) return commit(O.setTheme(state.site, { palette: pl.dataset.palette as never }));
   const tf = t.closest<HTMLElement>("#panel [data-typeface]"); if (tf) return commit(O.setTheme(state.site, { typeface: (tf.dataset.typeface || null) as never }));

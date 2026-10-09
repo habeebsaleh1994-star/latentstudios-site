@@ -21,7 +21,7 @@ export const SITE_VERSION = 15 as const;
 /* ------------------------------------------------------------------ the theme: the look and the artist's choices under it */
 const hex = z.string().regex(/^#[0-9a-fA-F]{6}$/);
 
-export const lookIds = ["quiet", "swiss", "darkroom", "zine", "gallery", "soft", "toned", "cyanotype", "graphite", "etching", "monotype", "albumen", "proof", "paperback", "plaster", "cinema", "blueprint"] as const;
+export const lookIds = ["quiet", "swiss", "darkroom", "zine", "gallery", "soft", "toned", "cyanotype", "graphite", "etching", "monotype", "albumen", "proof", "paperback", "plaster", "cinema", "blueprint", "marquee", "silver", "riso", "typewriter", "gesso"] as const;
 export const themeSchema = z
   .object({
     look: z.enum(lookIds).default("quiet"),

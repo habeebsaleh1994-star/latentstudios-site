@@ -88,3 +88,20 @@
 [data-look="blueprint"][data-scheme="light"] body { background-image: linear-gradient(rgba(30, 111, 176, .14) 1px, transparent 1px), linear-gradient(90deg, rgba(30, 111, 176, .14) 1px, transparent 1px); }
 [data-look="albumen"][data-scheme="dark"] .v-slides .frame, [data-look="albumen"][data-scheme="dark"] .v-held .frame { background: #3A2E1E; }
 [data-look="plaster"][data-scheme="dark"] .v-wall .art .frame { border-color: #0a0a0a; }
+
+/* ================================================================== marquee, silver, riso, typewriter, gesso */
+[data-look="marquee"] .bar .name { font-family: var(--serif); letter-spacing: .06em; text-transform: uppercase; font-size: 15px; }
+[data-look="marquee"] .v-film .screen { outline: 1px solid var(--peony); outline-offset: 12px; }
+[data-look="marquee"] h1 { text-shadow: 0 1px 0 rgba(0,0,0,.35); }
+[data-look="silver"] .frame img, [data-look="silver"] .v-film .screen img { filter: saturate(.15) contrast(1.05); }
+[data-look="silver"] .bar { border-bottom: var(--rule-w) solid var(--ink); }
+[data-look="riso"] .frame { box-shadow: 4px 4px 0 var(--peony); }
+[data-look="riso"] .frame img { mix-blend-mode: multiply; filter: contrast(1.08) saturate(.9); }
+[data-look="riso"][data-scheme="dark"] .frame img { mix-blend-mode: normal; }
+[data-look="riso"] .bar .name { font-weight: 700; text-transform: uppercase; letter-spacing: .02em; }
+[data-look="typewriter"] .v-words .body p, [data-look="typewriter"] .v-writing p, [data-look="typewriter"] .f-reading p { max-width: 62ch; }
+[data-look="typewriter"] h1, [data-look="typewriter"] h2 { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 8px; text-decoration-color: var(--rule); }
+[data-look="typewriter"] .frame { border: 1px solid var(--rule); padding: 6px; background: var(--silk-deep); }
+[data-look="gesso"] .frame { background: #fff; }
+[data-look="gesso"][data-scheme="dark"] .frame { background: #2A2622; --frame: 6px solid #2A2622; }
+[data-look="gesso"] .bar .name { font-style: italic; }

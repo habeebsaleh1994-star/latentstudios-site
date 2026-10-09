@@ -1,0 +1,128 @@
+[
+ {
+  "house": "folio",
+  "n": 8,
+  "min": 0.026,
+  "median": 0.309,
+  "nearest": "quiet light / cyanotype light"
+ },
+ {
+  "house": "gallery",
+  "n": 6,
+  "min": 0.019,
+  "median": 0.553,
+  "nearest": "monotype dark / quiet dark"
+ },
+ {
+  "house": "monograph",
+  "n": 7,
+  "min": 0.014,
+  "median": 0.689,
+  "nearest": "cyanotype light / quiet light"
+ },
+ {
+  "house": "passage",
+  "n": 6,
+  "min": 0.014,
+  "median": 0.543,
+  "nearest": "monotype dark / gallery dark"
+ },
+ {
+  "house": "reel",
+  "n": 8,
+  "min": 0.024,
+  "median": 0.329,
+  "nearest": "silver dark / monotype dark"
+ },
+ {
+  "house": "salon",
+  "n": 8,
+  "min": 0.02,
+  "median": 0.56,
+  "nearest": "gesso dark / etching dark"
+ },
+ {
+  "house": "index",
+  "n": 8,
+  "min": 0.015,
+  "median": 0.416,
+  "nearest": "quiet dark / typewriter dark"
+ },
+ {
+  "house": "atelier",
+  "n": 8,
+  "min": 0.026,
+  "median": 0.622,
+  "nearest": "soft dark / zine dark"
+ },
+ {
+  "house": "lantern",
+  "n": 7,
+  "min": 0.015,
+  "median": 0.579,
+  "nearest": "cyanotype light / quiet light"
+ },
+ {
+  "house": "journal",
+  "n": 6,
+  "min": 0.025,
+  "median": 0.394,
+  "nearest": "graphite light / cyanotype light"
+ },
+ {
+  "house": "column",
+  "n": 7,
+  "min": 0.015,
+  "median": 0.462,
+  "nearest": "quiet dark / typewriter dark"
+ },
+ {
+  "house": "catalogue",
+  "n": 7,
+  "min": 0.023,
+  "median": 0.544,
+  "nearest": "gesso dark / quiet dark"
+ },
+ {
+  "house": "chapbook",
+  "n": 7,
+  "min": 0.012,
+  "median": 0.408,
+  "nearest": "typewriter dark / quiet dark"
+ },
+ {
+  "house": "cinema",
+  "n": 8,
+  "min": 0.018,
+  "median": 0.305,
+  "nearest": "graphite dark / toned dark"
+ },
+ {
+  "house": "ledger",
+  "n": 6,
+  "min": 0.034,
+  "median": 0.69,
+  "nearest": "graphite dark / soft dark"
+ },
+ {
+  "house": "pinboard",
+  "n": 8,
+  "min": 0.042,
+  "median": 0.44,
+  "nearest": "soft light / quiet light"
+ },
+ {
+  "house": "studio",
+  "n": 8,
+  "min": 0.028,
+  "median": 0.355,
+  "nearest": "monotype dark / quiet dark"
+ },
+ {
+  "house": "archive",
+  "n": 6,
+  "min": 0.023,
+  "median": 0.346,
+  "nearest": "graphite light / quiet light"
+ }
+]

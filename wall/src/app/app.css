@@ -574,3 +574,22 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
 .f-posters .poster .lines { display: grid; place-items: center; padding: 10%; font-size: clamp(22px, 2.4vw, 34px); text-align: center; }
 .f-posters .bill { display: grid; gap: 4px; padding-top: 14px; } .f-posters .bill b { font-weight: var(--title-weight, 300); font-size: clamp(20px, 2vw, 28px); letter-spacing: -.012em; }
 @media (max-width: 860px) { .f-journal li a { grid-template-columns: 1fr; } .f-archive li a { grid-template-columns: 1fr 1fr; } .f-catalogue li a { grid-template-columns: 3em 70px 1fr; } .f-catalogue .m, .f-catalogue .dim, .f-catalogue .y { display: none; } .f-posters .wall { grid-template-columns: repeat(2, minmax(0, 1fr)); } .f-ledger td:nth-child(3), .f-ledger th:nth-child(3), .f-ledger td:nth-child(4), .f-ledger th:nth-child(4) { display: none; } }
+
+/* ================================================================== reading size reaches every kind of prose */
+.v-words .body p { font-size: calc(19px * var(--read)); }
+.v-record .rsec li { font-size: calc(clamp(17px, 1.4vw, 20px) * var(--read)); }
+.card .note, .v-front .card .note { font-size: calc(1em * var(--read)); }
+.v-held .interlude p { font-size: calc(clamp(26px, 3.5vw, 46px) * var(--read)); }
+.v-slides .slide.words p { font-size: calc(clamp(24px, 3.2vw, 42px) * var(--read)); }
+.v-film .syn, .v-project .summary, .f-journal .what p { font-size: calc(17px * var(--read)); }
+.f-reading .piece p { font-size: calc(clamp(19px, 1.5vw, 22px) * var(--read)); }
+.verso-in p { font-size: calc(clamp(14px, 1.3vw, 18px) * var(--read)); }
+.cap, figcaption .cap { font-size: calc(1em * var(--read)); }
+
+/* ================================================================== scale reaches slides, boards and books */
+[data-scale="intimate"] .v-slides .slide .frame img { max-height: calc(100svh - 440px); } [data-scale="monumental"] .v-slides .slide .frame img { max-height: calc(100svh - 250px); }
+[data-scale="intimate"] .v-board .pins { grid-template-columns: repeat(5, minmax(0, 1fr)); } [data-scale="monumental"] .v-board .pins { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+[data-scale="intimate"] .v-book .pg figure img { --h: min(62cqh, 34cqw / var(--r)); } [data-scale="monumental"] .v-book .pg figure img { --h: min(88cqh, 46cqw / var(--r)); }
+[data-scale="intimate"] .f-posters .wall { grid-template-columns: repeat(4, minmax(0, 1fr)); } [data-scale="monumental"] .f-posters .wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 1100px) { [data-scale="intimate"] .v-board .pins { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 700px) { [data-scale="intimate"] .v-board .pins, [data-scale="monumental"] .v-board .pins { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
