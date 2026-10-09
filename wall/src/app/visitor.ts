@@ -4,10 +4,10 @@ import { viewOf, bookLeaves, type Ctx } from "./render";
 import { open, type Sealed } from "./lock";
 import { applyTheme } from "./theme";
 import type { SiteDocument, SitePage } from "../studio/site";
-type Static = { page: string | null; base: string; site: SiteDocument; sealed?: Sealed; names?: Record<string, string> };
+type Static = { page: string | null; base: string; site: SiteDocument; sealed?: Sealed; names?: Record<string, string>; made?: Record<string, number[]> };
 const S = (window as unknown as { STATIC: Static }).STATIC;
 const fileOf = (asset: string, kind: string) => asset.startsWith("asset:") ? `${asset.slice(6)}.${kind === "video" ? "mp4" : "jpg"}` : asset.split("/").pop()!.replace(/[^A-Za-z0-9._-]/g, "-");
-const ctx: Ctx = { site: S.site, editing: false, href: (id) => (id ? `${S.base}${encodeURIComponent(id)}/` : S.base || "./"), src: (a) => `${S.base}assets/img/${S.names?.[a] ?? fileOf(a, S.site.library[a]?.kind ?? "image")}` };
+const ctx: Ctx = { site: S.site, editing: false, href: (id) => (id ? `${S.base}${encodeURIComponent(id)}/` : S.base || "./"), src: (a) => `${S.base}assets/img/${S.names?.[a] ?? fileOf(a, S.site.library[a]?.kind ?? "image")}`, srcset: (a) => { const made = S.made?.[a]; if (!made?.length || !S.site.library[a]) return null; const file = S.names?.[a] ?? fileOf(a, "image"), stem = file.replace(/\.(jpg|jpeg|png|webp)$/i, ""), ext = file.slice(stem.length) || ".jpg"; return [...made.map((s) => `${S.base}assets/img/${stem}-${s}${ext} ${s}w`), `${S.base}assets/img/${file} ${S.site.library[a].w}w`].join(", "); } };
 const p: SitePage | null = S.site.pages.find((x) => x.id === S.page) ?? null;
 void bookLeaves;
 

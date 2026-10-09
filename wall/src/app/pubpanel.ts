@@ -61,7 +61,14 @@ async function shareImage(asset: string, focal: { x: number; y: number }): Promi
 }
 
 async function build(v: Version) {
+  const sizesOf = async (asset: string, widths: number[]) => {
+    const bytes = await state.store.bytes(asset), bmp = await createImageBitmap(new Blob([bytes as BlobPart]));
+    const out: { w: number; data: Uint8Array }[] = [];
+    for (const w of widths) { const h = Math.round((bmp.height * w) / bmp.width), cv = document.createElement("canvas"); cv.width = w; cv.height = h; cv.getContext("2d")!.drawImage(bmp, 0, 0, w, h); const blob = await new Promise<Blob | null>((ok) => cv.toBlob(ok, "image/jpeg", 0.84)); if (blob) out.push({ w, data: new Uint8Array(await blob.arrayBuffer()) }); }
+    bmp.close(); return out;
+  };
   const files = await buildFiles(v.site, {
+    sizes: sizesOf,
     text: async (u) => { const r = await fetch(u + (u.endsWith(".css") || u.endsWith(".ts") ? "?raw" : "")); const t = await r.text(); const m = /^export default ("(?:[^"\\]|\\.)*")/.exec(t); return m ? JSON.parse(m[1]) : t; },
     bytes: (a) => state.store.bytes(a),
     share: shareImage,

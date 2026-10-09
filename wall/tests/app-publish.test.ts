@@ -99,3 +99,19 @@ describe("the site's faces travel with it", () => {
     expect(page).toMatch(/assets\/fonts\.css/); expect(page).not.toMatch(/fonts\.googleapis|fonts\.gstatic/);
   });
 });
+
+describe("sizes per width", () => {
+  it("with a maker of sizes, the files carry each picture at 640 and 1200 beside the full one and the pages ask for them by width; without, only the full pictures", async () => {
+    const s = site();
+    const sizes = async (a: string, widths: number[]) => widths.map((w) => ({ w, data: new Uint8Array([w & 255]) }));
+    const files = await buildFiles(s, { text: async (u) => `/* ${u} */`, bytes: async (a) => new Uint8Array([a.length]), sizes });
+    const names = files.map((f) => f.name);
+    expect(names).toContain("assets/img/12-640.jpg"); expect(names).toContain("assets/img/12-1200.jpg"); expect(names).toContain("assets/img/12.jpg");
+    const page = new TextDecoder().decode(files.find((f) => f.name === "the-road-in/index.html")!.data);
+    expect(page).toMatch(/srcset="\.\.\/assets\/img\/12-640\.jpg 640w, \.\.\/assets\/img\/12-1200\.jpg 1200w, \.\.\/assets\/img\/12\.jpg \d+w" sizes="/);
+    expect(page).toMatch(/"made":\{[^}]*"\/design\/folio\/img\/12\.jpg":\[640,1200\]/);
+    const plain = await buildFiles(s, { text: async (u) => `/* ${u} */`, bytes: async (a) => new Uint8Array([a.length]) });
+    expect(plain.map((f) => f.name).some((n) => /-640\.jpg$/.test(n))).toBe(false);
+    expect(new TextDecoder().decode(plain.find((f) => f.name === "the-road-in/index.html")!.data)).not.toMatch(/srcset=/);
+  });
+});

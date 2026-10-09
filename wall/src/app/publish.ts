@@ -88,7 +88,17 @@ export type Sources = {
   bytes: (asset: string) => Promise<Uint8Array>;
   /** a share image (1200 × 630) cut from a photograph around its focal point; absent where there is no canvas */
   share?: (asset: string, focal: { x: number; y: number }) => Promise<Uint8Array | null>;
+  /** the same photograph at smaller widths (JPEG), for screens that need no more; absent where there is no canvas */
+  sizes?: (asset: string, widths: number[]) => Promise<{ w: number; data: Uint8Array }[]>;
 };
+/** The widths a picture is also made at. The full picture (up to 2400 px) is always there. */
+export const SIZES = [640, 1200];
+/** The srcset for a picture in the files: its smaller sizes and the full one, named beside it. */
+export function srcsetFor(file: string, w: number, base: string, made: number[]): string | null {
+  if (!made.length) return null;
+  const stem = file.replace(/\.(jpg|jpeg|png|webp)$/i, ""), ext = file.slice(stem.length) || ".jpg";
+  return [...made.map((s) => `${base}assets/img/${stem}-${s}${ext} ${s}w`), `${base}assets/img/${file} ${w}w`].join(", ");
+}
 /** A file name for an asset in the published site: its own name for a sample, its id for an upload. */
 export const fileOf = (asset: string, kind: "image" | "video") => asset.startsWith("asset:") ? `${asset.slice(6)}.${kind === "video" ? "mp4" : "jpg"}` : asset.split("/").pop()!.replace(/[^A-Za-z0-9._-]/g, "-");
 
@@ -140,6 +150,8 @@ export function publicSite(site: SiteDocument, keep: string | "all" | null): Sit
 type FileOpts = {
   /** file names for the works of pages behind the door (unguessable, so the files are found only through the opened page) */
   names?: Map<string, string>;
+  /** which smaller widths were made for each picture */
+  made?: Map<string, number[]>;
   /** the door this file shows instead of the page */
   lock?: "soon" | "word";
   /** the page itself, sealed with its word, carried inside the door */
@@ -149,7 +161,8 @@ type FileOpts = {
 };
 /** One page as a complete html file. `base` is the path back to the site's root from this page ("" or "../"). */
 export function pageFile(site: SiteDocument, p: SitePage | null, base: string, o: FileOpts = {}): string {
-  const ctx: Ctx = { site, editing: false, href: (id) => (id ? `${base}${encodeURIComponent(id)}/` : base || "./"), src: (a) => `${base}assets/img/${o.names?.get(a) ?? fileOf(a, site.library[a]?.kind ?? "image")}`, locked: o.lock ? () => o.lock! : undefined };
+  const fileName = (a: string) => o.names?.get(a) ?? fileOf(a, site.library[a]?.kind ?? "image");
+  const ctx: Ctx = { site, editing: false, href: (id) => (id ? `${base}${encodeURIComponent(id)}/` : base || "./"), src: (a) => `${base}assets/img/${fileName(a)}`, locked: o.lock ? () => o.lock! : undefined, srcset: (a) => (o.made?.get(a)?.length && site.library[a] ? srcsetFor(fileName(a), site.library[a].w, base, o.made.get(a)!) : null) };
   const carried = publicSite(site, o.lock ? null : (o.keep ?? null));
   const t = site.theme, look = t.look, L = (globalThis as unknown as { FolioTheme?: ThemeLib }).FolioTheme;
   const face = t.typeface ? TYPEFACES[t.typeface] : null;
@@ -183,7 +196,7 @@ export function pageFile(site: SiteDocument, p: SitePage | null, base: string, o
 ${nightBlock}${t.mode === "system" ? `<script>document.documentElement.dataset.scheme=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"</script>` : ""}
 </head>
 <body><div id="app">${renderPage(ctx, p)}</div>
-<script>window.STATIC=${JSON.stringify({ page: p ? p.id : null, base, site: carried, sealed: o.sealed, names: o.lock ? undefined : Object.fromEntries([...(o.names ?? [])].filter(([a]) => a in carried.library)) }).replace(/</g, "\\u003c")}</script>
+<script>window.STATIC=${JSON.stringify({ page: p ? p.id : null, base, site: carried, sealed: o.sealed, names: o.lock ? undefined : Object.fromEntries([...(o.names ?? [])].filter(([a]) => a in carried.library)), made: o.lock ? undefined : Object.fromEntries([...(o.made ?? [])].filter(([a]) => a in carried.library)) }).replace(/</g, "\\u003c")}</script>
 <script src="${base}assets/theme.js"></script>
 <script src="${base}assets/viewer.js"></script>
 <script src="${base}assets/visitor.js"></script>
@@ -200,10 +213,13 @@ export async function buildFiles(site: SiteDocument, src: Sources): Promise<OutF
   const open = publicSite(site, null), openUsed = new Set([...open.pages.flatMap(worksOn), ...siteAssets(site)]), names = new Map<string, string>();
   const canOpen = !site.door.soon || !!site.door.word;
   for (const p of site.pages) if (hidden(site, p) && canOpen) for (const a of worksOn(p)) if (!openUsed.has(a) && !names.has(a)) names.set(a, `${[...crypto.getRandomValues(new Uint8Array(12))].map((b) => b.toString(16).padStart(2, "0")).join("")}.${site.library[a]?.kind === "video" ? "mp4" : "jpg"}`);
+  // the pictures at smaller widths too, when the runtime can make them
+  const made = new Map<string, number[]>(), shipped = [...openUsed, ...names.keys()].filter((a) => site.library[a]?.kind === "image");
+  if (src.sizes) await Promise.all(shipped.map(async (a) => { const w = site.library[a]; const widths = SIZES.filter((s) => s < w.w); if (!widths.length) return; try { const out = await src.sizes!(a, widths); const file = names.get(a) ?? fileOf(a, "image"), stem = file.replace(/\.(jpg|jpeg|png|webp)$/i, ""), ext = file.slice(stem.length) || ".jpg"; for (const v of out) files.push({ name: `assets/img/${stem}-${v.w}${ext}`, data: v.data }); made.set(a, out.map((v) => v.w)); } catch { /* the full picture alone */ } }));
   const fileFor = async (p: SitePage | null, base: string) => {
-    if (!hidden(site, p)) return pageFile(site, p, base, { names });
+    if (!hidden(site, p)) return pageFile(site, p, base, { names, made });
     const word = site.door.soon ? site.door.word : wordFor(site, p);
-    const sealed = word ? await seal(pageFile(site, p, base, { names, keep: site.door.word ? "all" : p!.id }), word) : undefined;
+    const sealed = word ? await seal(pageFile(site, p, base, { names, made, keep: site.door.word ? "all" : p!.id }), word) : undefined;
     return pageFile(site, p, base, { names, lock: site.door.soon ? "soon" : "word", sealed });
   };
   files.push({ name: "index.html", data: enc.encode(await fileFor(null, "")) });

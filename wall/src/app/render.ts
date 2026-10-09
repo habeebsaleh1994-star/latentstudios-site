@@ -21,6 +21,8 @@ export type Ctx = {
   locked?: (p: SitePage | null) => "soon" | "word" | null;
   /** Try a word at the door; true opens the page. */
   open?: (word: string, p: SitePage | null) => Promise<boolean>;
+  /** The same picture at several widths, when the runtime has them (the published files): the browser picks by its screen. */
+  srcset?: (asset: string) => string | null;
 };
 /** The word a page is behind: the site's, or its own. */
 export const wordFor = (site: SiteDocument, p: SitePage | null) => site.door.word || p?.word || "";
@@ -50,8 +52,9 @@ export function work(c: Ctx, asset: string, k = 0, n = 0): W {
   const w = c.site.library[asset];
   return { ...w, asset, src: c.src(asset), r: w.w / w.h, n: n2(n), k };
 }
-function img(_c: Ctx, w: W, lazy = true, extra = "") {
-  return `<img src="${esc(w.src)}" width="${w.w}" height="${w.h}" alt="${esc(w.alt || w.title)}"${lazy ? ' loading="lazy"' : ""}${extra} style="--r:${w.r.toFixed(4)}">`;
+function img(c: Ctx, w: W, lazy = true, extra = "") {
+  const set = c.srcset?.(w.asset);
+  return `<img src="${esc(w.src)}"${set ? ` srcset="${esc(set)}" sizes="(max-width: 700px) 100vw, (max-width: 1100px) 92vw, 1440px"` : ""} width="${w.w}" height="${w.h}" alt="${esc(w.alt || w.title)}"${lazy ? ' loading="lazy"' : ""}${extra} style="--r:${w.r.toFixed(4)}">`;
 }
 /** The back of the print. Turned over, a work shows where it was made, a line in the artist's hand, its edition and how it was made. Offered when there is something written there, and always while editing. */
 export const hasVerso = (w: W) => !!(w.verso.place || w.verso.line || w.verso.edition || w.verso.made);
