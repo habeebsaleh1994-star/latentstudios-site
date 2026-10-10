@@ -6,12 +6,17 @@ workers_dev = false
 
 # every label under latentstudios.art comes here through one wildcard route; it needs one DNS record in the zone,
 # made once by hand: type A, name *, content 192.0.2.1, proxied. The two custom domains below predate it and may stay.
-# wall.latentstudios.art is the Wall Worker's own custom domain, which is more specific and so wins over the wildcard.
+# The wildcard catches wall.latentstudios.art too (a route beats a custom domain), so this Worker hands "wall" to Wall itself.
 routes = [
   { pattern = "*.latentstudios.art/*", zone_name = "latentstudios.art" },
   { pattern = "habib.latentstudios.art", custom_domain = true },
   { pattern = "maddalena.latentstudios.art", custom_domain = true },
 ]
+
+# Wall itself, for the "wall" label
+[[services]]
+binding = "WALL"
+service = "latent-wall"
 
 [[r2_buckets]]
 binding = "SITES"

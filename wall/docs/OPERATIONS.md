@@ -22,7 +22,7 @@ Everything runs on the one Cloudflare account (the studio's). There are exactly 
 | Put a friend's published site up | `npm run host -- <name> <folder-or-zip>` | uploads their files to the bucket under `<name>/` |
 | Take a friend's site down, because they asked to stop | `npm run host -- down <name>` | removes every file of the site from the bucket; then take its line out of `host/wrangler.toml` and `npm run sites` to free the address |
 | Publish a site whose document is kept in a repo (Habib's own) | `npx tsx scripts/publish-files.mts <site.json> <root of its pictures> <out>` then `npm run host -- <name> <out>` | what Publish in the app does, for a document on disk |
-| Give every published site its address | once: in the zone's DNS, an A record, name `*`, content `192.0.2.1`, proxied; then `npm run sites` | the wildcard route in `host/wrangler.toml` sends every `<label>.latentstudios.art` to the sites Worker |
+| Give every published site its address | once: in the zone's DNS, an A record, name `*`, content `192.0.2.1`, proxied | the wildcard route in `host/wrangler.toml` already sends every `<label>.latentstudios.art` to the sites Worker, which hands `wall` to Wall itself (a route beats a custom domain, so the two Workers are bound) |
 
 ## Where things are in the code
 

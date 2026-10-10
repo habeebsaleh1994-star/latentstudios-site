@@ -6,8 +6,10 @@
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (request.method !== "GET" && request.method !== "HEAD") return new Response("Method not allowed", { status: 405 });
     const labels = url.hostname.split(".");
+    // the wildcard brings Wall's own address here too: Wall answers it, whole
+    if (labels[0] === "wall" && env.WALL) return env.WALL.fetch(request);
+    if (request.method !== "GET" && request.method !== "HEAD") return new Response("Method not allowed", { status: 405 });
     const bare = env.BARE_HOSTS ? env.BARE_HOSTS.split(",").includes(url.hostname) : labels.length <= 2;
     let name, path;
     if (bare) { const [, first, ...rest] = url.pathname.split("/"); name = first; path = rest.join("/"); if (!name) return new Response("Latent Wall", { status: 200 }); }
