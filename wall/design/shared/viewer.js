@@ -8,7 +8,7 @@
   function build() {
     if (box) return box;
     box = document.createElement("div"); box.className = "lb"; box.hidden = true; box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true"); box.setAttribute("aria-label", "Picture viewer");
-    box.innerHTML = '<div class="stage"><img alt=""></div><div class="meta"><b></b><span></span><button class="life" type="button" hidden>Life size</button></div><div class="cal" hidden><p>Hold a bank card against the screen and slide until the outline is its size.</p><div class="card"></div><input type="range" min="20" max="90" step="0.2" aria-label="Scale"><button type="button" class="done">Done</button></div><button class="x" type="button">Close</button><button class="pv" type="button" aria-label="Previous">&larr;</button><button class="nx" type="button" aria-label="Next">&rarr;</button>';
+    box.innerHTML = '<div class="stage"><img alt=""></div><div class="meta"><span class="cap"><b></b><span></span></span><span class="n"></span><button class="life" type="button" hidden>Life size</button></div><div class="cal" hidden><p>Hold a bank card against the screen and slide until the outline is its size.</p><div class="card"></div><input type="range" min="20" max="90" step="0.2" aria-label="Scale"><button type="button" class="done">Done</button></div><button class="x" type="button" aria-label="Close">&times;</button><button class="pv" type="button" aria-label="Previous"><span>&larr;</span></button><button class="nx" type="button" aria-label="Next"><span>&rarr;</span></button>';
     document.body.appendChild(box);
     box.addEventListener("click", function (e) {
       var t = e.target;
@@ -20,13 +20,15 @@
     });
     box.querySelector("input").addEventListener("input", function (e) { try { localStorage.setItem("latent-ppcm", e.target.value); } catch (err) { /* a private window may refuse */ } card(); fit(); });
     document.addEventListener("keydown", function (e) { if (box.hidden) return; if (e.key === "Escape") close(); else if (e.key === "ArrowLeft") step(-1); else if (e.key === "ArrowRight") step(1); });
+    var x0 = null; box.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    box.addEventListener("touchend", function (e) { if (x0 == null) return; var dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 48 && items.length > 1) step(dx < 0 ? 1 : -1); });
     return box;
   }
   function card() { box.querySelector(".card").style.width = (CARD * ppcm()).toFixed(1) + "px"; box.querySelector(".card").style.height = (5.398 * ppcm()).toFixed(1) + "px"; }
   function cmText(v) { return (Math.round(v * 10) / 10).toString(); }
   /* at life size the picture takes its centimetres in pixels and the stage scrolls; otherwise it fits the screen */
   function fit() {
-    var it = items[at], img = box.querySelector("img"), b = box.querySelector(".life"), m = box.querySelector(".meta span");
+    var it = items[at], img = box.querySelector("img"), b = box.querySelector(".life"), m = box.querySelector(".meta .cap span");
     if (!it.cm) life = false;
     box.classList.toggle("life", life);
     if (life) { var k = ppcm(); img.style.width = (it.cm.w * k).toFixed(1) + "px"; img.style.height = (it.cm.h * k).toFixed(1) + "px"; m.innerHTML = "Life size · " + cmText(it.cm.w) + " × " + cmText(it.cm.h) + " cm · <button type=\"button\" class=\"match\">Not quite? Match a card</button>"; }
@@ -36,10 +38,11 @@
   function show() {
     var it = items[at], v = build(), img = v.querySelector("img");
     img.src = it.src; img.alt = it.alt || it.title || "";
-    v.querySelector("b").textContent = it.title || "";
+    v.querySelector(".meta b").textContent = it.title || "";
+    v.querySelector(".n").textContent = items.length > 1 ? (at + 1) + " / " + items.length : "";
     v.querySelector(".pv").hidden = v.querySelector(".nx").hidden = items.length < 2;
     fit();
-    v.hidden = false; document.documentElement.classList.add("lb-open"); v.querySelector(".x").focus();
+    v.hidden = false; document.documentElement.classList.add("lb-open"); v.setAttribute("tabindex", "-1"); v.focus({ preventScroll: true });
   }
   function step(d) { at = (at + d + items.length) % items.length; show(); }
   function close() { if (!box) return; box.hidden = true; life = false; document.documentElement.classList.remove("lb-open"); if (opener && opener.focus) opener.focus(); }

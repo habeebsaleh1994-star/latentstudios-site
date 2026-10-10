@@ -6,7 +6,7 @@
  * and keys never act while the artist is typing.
  */
 import type { SitePage, StoryPage } from "../studio/site";
-import { bookLeaves, slideList, groups, work, listShow, workPages, type Ctx, type View, manuscriptLeaves, leafHref, endLeaf } from "./render";
+import { bookLeaves, slideList, groups, work, listShow, workPages, type Ctx, type View, manuscriptLeaves, leafHref, endLeaf, type W } from "./render";
 
 type Viewer = { open: (items: { src: string; alt: string; title: string; meta: string; cm?: { w: number; h: number } | null }[], at: number) => void; isOpen: () => boolean };
 const viewer = () => (window as unknown as { LatentViewer?: Viewer }).LatentViewer;
@@ -49,15 +49,14 @@ export function wire(root: HTMLElement, c: Ctx, p: SitePage | null, view: View, 
   if (!keep) delete place[key];
   if (view === "front") front(root, c);
   if (!p && view === "passage") return passage(root, key);
+  if (p) encounter(root, c, p);
   if (!p || p.kind !== "story") { if (p?.kind === "film") filmBits(root, c, p); if (p?.kind === "project") compare(root); if (p && root.querySelector("[data-leaf-page]")) leafPage(root, c, p); return; }
   if (view === "book") book(root, c, p, key);
   else if (view === "passage") passage(root, key);
   else if (view === "contact") contactSheet(root, c, p);
   else if (view === "wall") wall(root, c, p);
-  else if (view === "board") boardViewer(root, c, p);
   else if (view === "slides") slides(root, c, p, key);
   else if (view === "leaves") leavesReader(root, c, p, key);
-  else heldViewer(root, c, p);
 }
 
 function front(root: HTMLElement, c: Ctx) {
@@ -72,21 +71,21 @@ function front(root: HTMLElement, c: Ctx) {
   });
 }
 
-function boardViewer(root: HTMLElement, c: Ctx, p: StoryPage) {
-  const ws = groups(c, p).works;
+/** The encounter: on any page, a press on a picture of the work opens it whole on the screen, with the page's other works a key or a swipe away. One viewer, everywhere. */
+function encounter(root: HTMLElement, c: Ctx, p: SitePage) {
+  const list = (): { src: string; alt: string; title: string; meta: string; cm: { w: number; h: number } | null }[] => {
+    const one = (w: W, meta: string) => ({ src: w.src, alt: w.alt, title: w.title, meta, cm: w.size });
+    if (p.kind === "story") return groups(c, p).works.map((w) => one(w, [w.caption, w.date].filter(Boolean).join(" · ")));
+    if (p.kind === "project") return [...p.outcome, ...p.process].filter((a) => c.site.library[a]).map((a) => { const w = work(c, a); return one(w, [w.caption, w.date].filter(Boolean).join(" · ")); });
+    if (p.kind === "film") return [...(p.poster && c.site.library[p.poster] ? [{ asset: p.poster, caption: "Poster" }] : []), ...p.stills].filter((x) => c.site.library[x.asset]).map((x) => { const w = work(c, x.asset); return one(w, x.caption || w.date); });
+    if (p.kind === "writing" && p.image && c.site.library[p.image.asset]) { const w = work(c, p.image.asset); return [one(w, w.date)]; }
+    return [];
+  };
   on(root, "click", (e: MouseEvent) => {
     if (c.editing) return;
-    const f = (e.target as HTMLElement).closest<HTMLElement>(".pin[data-view]"); if (!f) return;
-    viewer()?.open(ws.map((w) => ({ src: w.src, alt: w.alt, title: w.title, meta: [w.caption, w.date].filter(Boolean).join(" · "), cm: w.size })), +f.dataset.view!);
-  });
-}
-function heldViewer(root: HTMLElement, c: Ctx, p: StoryPage) {
-  const ws = groups(c, p).works;
-  on(root, "click", (e: MouseEvent) => {
-    if (c.editing) return;
-    const im = (e.target as HTMLElement).closest(".v-held .frame img") as HTMLImageElement | null; if (!im) return;
-    const i = ws.findIndex((w) => w.src === im.getAttribute("src")); if (i < 0) return;
-    viewer()?.open(ws.map((w) => ({ src: w.src, alt: w.alt, title: w.title, meta: w.date, cm: w.size })), i);
+    const im = (e.target as HTMLElement).closest("main img") as HTMLImageElement | null; if (!im || im.closest("a, button, .logo, .cover")) return;
+    const items = list(), src = im.getAttribute("src"), i = items.findIndex((x) => x.src === src); if (i < 0) return;
+    e.preventDefault(); viewer()?.open(items, i);
   });
 }
 
