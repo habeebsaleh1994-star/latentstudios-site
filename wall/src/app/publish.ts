@@ -263,4 +263,6 @@ export function favicon(site: SiteDocument): string {
   const initial = (site.name.trim().match(/\p{L}/u)?.[0] ?? "l").toUpperCase();
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="${ground}"/><text x="32" y="45" text-anchor="middle" font-family="${esc(face)}" font-size="40" font-weight="300" fill="${ink}">${esc(initial)}</text></svg>`;
 }
-export const address = (name: string) => `${name.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "site"}.latent.site`;
+/** The domain under which a published site lives; one place to change when the real one is decided. */
+export const SITE_DOMAIN = "latent.site";
+export const address = (name: string) => `${name.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "site"}.${SITE_DOMAIN}`;
