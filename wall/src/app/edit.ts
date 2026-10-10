@@ -183,7 +183,7 @@ function pageTab() {
     h += input(f("place"), p.place, "Place") + input(f("year"), p.year, "Year");
     h += `<h3>Form</h3>${seg("form", [["Poem", "Poem"], ["Essay", "Essay"], ["Fragment", "Fragment"]], /poem/i.test(p.form) ? "Poem" : /essay/i.test(p.form) ? "Essay" : "Fragment")}`;
     h += `<h3>Text</h3>${p.paras.map((t, i) => `<div class="para">${area(`${f("para")}.${i}`, t, /poem/i.test(p.form) ? "The poem, with its line breaks" : "A paragraph", /poem/i.test(p.form) ? 8 : 4)}${p.paras.length > 1 ? `<button type="button" class="rm" data-a="para-remove" data-i="${i}" aria-label="Remove this paragraph">&times;</button>` : ""}</div>`).join("")}${/poem/i.test(p.form) ? "" : '<div class="adds"><button type="button" data-a="para-add">+ A paragraph</button></div>'}${input(f("margin"), p.margin, "A note under the piece")}`;
-    h += `<h3>Image</h3>${p.image ? `<ol class="tray"><li>${thumb(p.image.asset)}<span class="t">${esc(s.library[p.image.asset]?.title || "Image")}<small>${p.image.at === "cover" ? "above the text" : "inside the text"}</small></span><span class="acts"><button type="button" data-a="w-img-remove" aria-label="Remove the image">&times;</button></span></li></ol>${!/poem/i.test(p.form) && p.paras.length > 1 ? seg("img-at", [["cover", "Above the text"], ["in", "Inside the text"]], p.image.at === "cover" ? "cover" : "in") : ""}` : `<div class="adds"><button type="button" data-a="w-img">+ An image</button></div>`}`;
+    h += `<h3>Image</h3>${p.image ? `<ol class="tray"><li>${thumb(p.image.asset)}<span class="t">${esc(s.library[p.image.asset]?.title || "Image")}<small>${p.image.at === "cover" ? "above the text" : "inside the text"}</small></span><span class="acts"><button type="button" data-a="w-img-remove" aria-label="Remove the image">&times;</button></span></li></ol>${!/poem/i.test(p.form) && p.paras.length > 1 ? seg("img-at", [["cover", "Above the text"], ["in", "Inside the text"]], p.image.at === "cover" ? "cover" : "in") + (p.image.at !== "cover" ? `<label class="para">After paragraph <select data-para="${esc(p.id)}" aria-label="After which paragraph">${p.paras.map((_, i) => `<option value="${i + 1}"${p.image!.at === i + 1 ? " selected" : ""}>${i + 1}</option>`).join("")}</select></label>` : "") : ""}` : `<div class="adds"><button type="button" data-a="w-img">+ An image</button></div>`}`;
   }
   if (p.kind === "film") {
     h += input(f("form"), p.form, "Form: short film, documentary") + input(f("year"), p.year, "Year") + input(f("runtime"), p.runtime, "Length: 28 sec, 12 min") + area(f("synopsis"), p.synopsis, "A line or two about the film") + area(f("credits"), p.credits.join("\n"), "Credits, one per line", 3);
@@ -482,7 +482,7 @@ function onSet(key: string, v: string) {
     if (key === "form" && p) return commit(O.setField(s, `page:${p.id}.form`, v));
     if (key === "ratio" && p) return commit(O.setFilm(s, p.id, { ratio: v }));
     if (key === "compare" && p) return commit(O.setCompare(s, p.id, v === "on"));
-    if (key === "img-at" && p?.kind === "writing" && p.image) return commit(O.setWritingImage(s, p.id, { asset: p.image.asset, at: v === "cover" ? "cover" : 1 }));
+    if (key === "img-at" && p?.kind === "writing" && p.image) return commit(O.setWritingImage(s, p.id, { asset: p.image.asset, at: v === "cover" ? "cover" : typeof p.image.at === "number" ? p.image.at : 1 }));
     if (["mode", "mount", "space", "read", "motion", "header", "opening", "title", "captions", "footer", "scale"].includes(key)) {
       commit(O.setTheme(s, { [key]: v }));
       // in a book or a slide show the title comes first: turn to the first work so the change is seen
@@ -548,6 +548,7 @@ function onWord(e: FocusEvent) {
 function onPanelInput(e: Event) {
   const t = e.target as HTMLInputElement;
   if (t.dataset.size) { const n = t.value.trim() === "" ? null : Number(t.value); try { commit(O.setSize(state.site, t.dataset.asset!, t.dataset.size === "w" ? n : null, t.dataset.size === "h" ? n : null)); } catch (err) { toast((err as Error).message); } return; }
+  if (t.dataset.para) { const pg = state.site.pages.find((x) => x.id === t.dataset.para); if (pg?.kind === "writing" && pg.image) commit(O.setWritingImage(state.site, pg.id, { asset: pg.image.asset, at: Math.max(1, Math.min(pg.paras.length, Number(t.value) || 1)) })); return; }
   const f = t.dataset.f; if (!f) return;
   try {
     const m = f.match(/^film:(.+)\.link$/);

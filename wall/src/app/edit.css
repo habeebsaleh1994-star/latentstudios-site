@@ -226,3 +226,6 @@
 
 /* on a phone the demo note sits above the dock, not over the site's header */
 @media (max-width: 760px) { .demo-note { position: fixed; top: auto; bottom: calc(72px + env(safe-area-inset-bottom, 0px)); left: 12px; right: 12px; width: auto; font-size: 12px; padding: 9px 14px; gap: 4px 14px; } }
+
+/* a writing page's picture: after which paragraph */
+#panel .para { display: block; margin: 8px 0 0; font-size: 13px; color: var(--ed-soft); } #panel .para select { margin-left: 6px; font: inherit; color: var(--ed-ink); background: transparent; border: 0; border-bottom: 1px solid var(--ed-rule, #ccc); padding: 2px 4px; }
