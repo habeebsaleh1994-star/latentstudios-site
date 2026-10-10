@@ -196,12 +196,31 @@ async function sendLink(env, email, link) {
     method: "POST", headers: { authorization: `Bearer ${env.RESEND_KEY}`, "content-type": "application/json" },
     body: JSON.stringify({
       from: env.MAIL_FROM || "Latent Wall <wall@latentstudios.art>", reply_to: env.MAIL_REPLY || "hello@latentstudios.art", to: [email], subject: "Your way into Latent Wall",
-      text: `Here is your link to sign in to Latent Wall. It works once, for ${LINK_MINUTES} minutes.\n\n${link}\n\nIf you did not ask for this, ignore it; nothing happens without the link.\n\nLatent Wall is made by Latent Studios, latentstudios.art. You are getting this because someone entered ${email} at wall.latentstudios.art. Reply to reach us.`,
-      html: `<p style="font:16px/1.6 Georgia,serif;color:#29222A">Here is your link to sign in to Latent Wall. It works once, for ${LINK_MINUTES} minutes.</p><p><a href="${link}" style="font:16px Georgia,serif;color:#29222A">Sign in to Latent Wall &rarr;</a></p><p style="font:13px/1.5 Georgia,serif;color:#6B5F66">If you did not ask for this, ignore it; nothing happens without the link.</p><p style="font:12px/1.5 Georgia,serif;color:#8A7F86;margin-top:28px">Latent Wall is made by Latent Studios, <a href="https://latentstudios.art" style="color:inherit">latentstudios.art</a>. You are getting this because someone entered ${email} at wall.latentstudios.art. Reply to reach us.</p>`,
+      text: `Come in.\n\nHere is your link to Latent Wall. It works once, for the next ${LINK_MINUTES} minutes.\n\n${link}\n\nIf you did not ask for it, let it be: nothing happens without the link.\n\nLatent Wall, by Latent Studios · latentstudios.art\nSent because ${email} was entered at wall.latentstudios.art. Reply to write to us.`,
+      html: mailHtml(link, email),
     }),
   });
   if (!r.ok) console.error("mail refused", r.status, await r.text().catch(() => ""));
   return r.ok;
 }
+/** The sign-in mail, in the door's own clothes: silk, ink, one rose word. Tables and inline styles, as mail needs. */
+const mailHtml = (link, email) => {
+  const silk = "#EEE9E7", ink = "#29222A", soft = "#6B5F66", rose = "#A0697A", rule = "#D9D0CC";
+  const serif = "Georgia,'Times New Roman',serif", sans = "-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif";
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><meta name="supported-color-schemes" content="light"><title>Your way into Latent Wall</title></head>
+<body style="margin:0;padding:0;background:${silk};-webkit-text-size-adjust:100%">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0">Your link to Latent Wall. It works once, for ${LINK_MINUTES} minutes.</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${silk}" style="background:${silk}"><tr><td align="center" style="padding:56px 24px 64px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px">
+<tr><td style="font:500 11px/1 ${sans};letter-spacing:.2em;text-transform:uppercase;color:${ink};padding-bottom:64px">Latent Wall<span style="color:${rose}">.</span></td></tr>
+<tr><td style="font:400 11px/1 ${sans};letter-spacing:.16em;text-transform:uppercase;color:${soft};padding-bottom:18px">Beta &middot; by invite</td></tr>
+<tr><td style="font:400 40px/1.1 ${serif};letter-spacing:-.01em;color:${ink};padding-bottom:22px">Come <i style="color:${rose}">in.</i></td></tr>
+<tr><td style="font:400 17px/1.6 ${serif};color:${ink};padding-bottom:34px">Here is your link to Latent Wall. It works once, for the next ${LINK_MINUTES} minutes, and brings you straight to your site.</td></tr>
+<tr><td style="padding-bottom:40px"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="${ink}" style="background:${ink};border-radius:4px"><a href="${link}" style="display:inline-block;padding:16px 28px;font:500 12px/1 ${sans};letter-spacing:.18em;text-transform:uppercase;color:${silk};text-decoration:none">Open Latent Wall</a></td></tr></table></td></tr>
+<tr><td style="font:italic 400 15px/1.6 ${serif};color:${soft};padding-bottom:12px">If you did not ask for it, let it be: nothing happens without the link.</td></tr>
+<tr><td style="font:400 12px/1.6 ${sans};color:${soft};padding-bottom:48px;word-break:break-all">If the button does not open, copy this into your browser:<br><a href="${link}" style="color:${soft}">${link}</a></td></tr>
+<tr><td style="border-top:1px solid ${rule};padding-top:20px;font:400 12px/1.7 ${sans};color:${soft}">Latent Wall, by <a href="https://latentstudios.art" style="color:${ink};text-decoration:none">Latent Studios</a><br>Sent because ${email} was entered at wall.latentstudios.art. Reply to write to us.</td></tr>
+</table></td></tr></table></body></html>`;
+};
 const html = (body, status) => new Response(body, { status, headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" } });
 const page = (text, origin) => `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Latent Wall</title><body style="margin:0;background:#EEE9E7;color:#29222A;font:300 19px/1.6 Georgia,serif"><main style="max-width:560px;margin:0 auto;padding:18vh 24px"><p style="font:11px/1 system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase">Latent Wall<span style="color:#A0697A">.</span></p><p>${text}</p><p><a href="${origin}/app/" style="color:inherit">Back to Wall</a></p></main>`;
