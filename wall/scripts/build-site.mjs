@@ -21,8 +21,7 @@ writeFileSync(`${out}/app/index.html`, readFileSync(`${root}/app/index.html`, "u
 
 // the shared assets, the samples (the stills and the clips included), the arrival page as the root
 cpSync(`${root}/design`, `${out}/design`, { recursive: true, filter: (s) => !skip(s) });
-// at the root, the arrival page's stills keep their folder
-writeFileSync(`${out}/index.html`, readFileSync(`${root}/design/home/index.html`, "utf8").replaceAll('src="stills/', 'src="/design/home/stills/').replaceAll("stills/${", "/design/home/stills/${"));
+writeFileSync(`${out}/index.html`, readFileSync(`${root}/design/home/index.html`, "utf8"));
 // a host needs these: the home page frames the app, and nothing here is for search engines yet
 writeFileSync(`${out}/_headers`, `/*\n  X-Content-Type-Options: nosniff\n  X-Frame-Options: SAMEORIGIN\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Robots-Tag: noindex, nofollow\n/design/shared/fonts/*\n  Cache-Control: public, max-age=31536000, immutable\n/design/samples/*\n  Cache-Control: public, max-age=2592000\n/app/*\n  Cache-Control: no-cache\n`);
 
