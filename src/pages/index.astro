@@ -6,7 +6,7 @@
 // columns that never exceed 27vw, so the plant in the middle stays clear.
 //
 // Truth lives in the labels below — keep them honest:
-//   Nera: not yet open · The Moment: on the App Store · The Ritual: coming soon · The Lab: coming soon
+//   Nera: not yet open · The Moment: on the App Store · The Ritual: coming soon · The Lab: coming soon · The Wall: beta, by invite
 import Base from '../layouts/Base.astro';
 import '../styles/home.css';
 
@@ -15,7 +15,7 @@ const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 
 <Base
   title="Latent Studios"
-  description="Born before the act. Latent Studios is an art house making instruments that help artists understand and realize themselves — Nera, The Moment, The Ritual, The Lab, and Versos."
+  description="Born before the act. Latent Studios is an art house making instruments that help artists understand and realize themselves — Nera, The Moment, The Ritual, The Lab, and The Wall."
   room="paper"
   themeColor="#dccbba"
   quiet={false}
@@ -104,12 +104,12 @@ const SUBSCRIBE_ENDPOINT = '/api/subscribe';
         </div>
 
         <div class="row row-left">
-          <a id="versos" class="col room" href="/versos" data-reveal>
-            <div class="label">An occasion &middot; the courtyard &middot; once a month &middot; the first call is coming</div>
-            <h2 class="room-name">Versos</h2>
-            <p class="line">One line of poetry is the call. One work in answer, and a line on its back. A named maker chooses. Nothing is counted.</p>
-            <p class="fact">Open to anyone. A named judge chooses; the chosen work hangs on a public wall for a month.</p>
-            <span class="door">See the call &rarr;</span>
+          <a id="wall" class="col room" href="https://wall.latentstudios.art" data-reveal>
+            <div class="label">A place &middot; a site for an artist&rsquo;s work &middot; beta, by invite</div>
+            <h2 class="room-name">The Wall</h2>
+            <p class="line">A whole site for the work, made in an afternoon, unlike anyone else&rsquo;s.</p>
+            <p class="fact">Choose a template, bring a folder of work, and publish at your own address. Open to a few artists while it is made.</p>
+            <span class="door">Enter the Wall &rarr;</span>
           </a>
         </div>
 
