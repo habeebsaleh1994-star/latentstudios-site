@@ -30,6 +30,10 @@ Decisions that are Habib's: the address for Wall; whether testers' sites live un
 - [ ] A way for testers to reach Habib (an address in the testers' page)
 - [ ] Deploy Wall; deploy the first tester site by hand; open both in Safari on a phone
 
+## Stopping, now and later
+
+In the beta a friend who wants to stop tells us; their draft is in their own browser (they clear it, or ignore it), and `npm run host -- down <name>` removes their published site the same day. With sign-in, the account page carries "Delete my account": one press removes the account, every draft and every published site, and says so. It is part of Stage 2 from the first day, not an afterthought.
+
 ## Known, told to testers rather than fixed first
 
 - Everything is English only.
