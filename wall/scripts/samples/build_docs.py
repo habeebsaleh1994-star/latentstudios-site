@@ -222,6 +222,7 @@ if read("habs"):
         if sheet:
             sm=re.search(r"sheet (\d+) of (\d+)", name+m["desc"], re.I); cap=f"Sheet {sm.group(1)} of {sm.group(2)}" if sm else "Measured drawing"
         if re.match(r"Mies van der Rohe photo", name): cap="View of the house"
+        if "Highsmith" in (m.get("artist","")+m.get("desc","")): cap="Photograph by Carol M. Highsmith"
         if not sheet and " - " in name: cap=name.split(" - ")[0].strip().capitalize()
         if not sheet and len(cap)>40 and "," in cap: cap=cap.split(",")[0].strip()
         if sheet and not re.match(r"Sheet \d", cap):

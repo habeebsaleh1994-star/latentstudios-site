@@ -13,7 +13,7 @@ Every template on the home page and the start page runs with a body of work of i
 | `blender` | the open movies Big Buck Bunny, Sintel, Tears of Steel and Spring | Blender Foundation (download.blender.org, Wikimedia Commons) | CC BY 3.0 / CC BY 4.0, three Spring stills CC BY-SA 4.0; credited on each film page | Reel, Cinema |
 | `dickinson` | poems by Emily Dickinson, from the three series of 1890 – 1896 | Project Gutenberg | public domain | Index, Chapbook |
 | `woolf` | the eight pieces of Monday or Tuesday (1921) by Virginia Woolf | Project Gutenberg | public domain | Column |
-| `habs` | photographs and measured drawings of four houses, Historic American Buildings Survey | Library of Congress, via Wikimedia Commons | public domain (US government work) | Atelier, Ledger |
+| `habs` | photographs and measured drawings of four houses, Historic American Buildings Survey; two photographs of the Robie House by Carol M. Highsmith (her gift to the Library of Congress) | Library of Congress, via Wikimedia Commons | public domain | Atelier, Ledger |
 
 Each sample folder keeps a `manifest.json` with the source record of every file (accession number, credit line, page on the source site). The documents are written by a builder script and can be rebuilt; the museum's own descriptions appear as pauses and are marked "From the museum".
 

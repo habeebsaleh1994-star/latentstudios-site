@@ -523,6 +523,46 @@
     "edition": "HABS CAL,30-NEWBE,1-",
     "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
    }
+  },
+  "/design/samples/habs/img/robie-p1.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1852,
+   "title": "Frederick C. Robie House: Photograph by Carol M. Highsmith",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Frederick C. Robie House: photograph by carol m. highsmith",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Title: The Robie House, considered one of Frank Lloyd Wright's most important works, Chicago, Illinois Physical description: 1 transparency : color ; 4 x 5 in. or smaller Notes: Built for local businessman Frederick C. Robie, the house is located on the University of Chicago campus in the Hyde Park section of Chicago.; Forms part of the Selects Series in the Carol M. Highsmith Archive.; Gift and purchase; Carol M. Highsmith; 2011; (DLC/PP-2011:124).; Digital image produced by Carol M. Highsmith to represent her original film transparency; some details may differ between the film and the digital images.; Title, date, subject note, and keywords provided by the photographer.; Credit line: Photographs in the Carol M. Highsmith Archive, Library of Congress, Prints and Photographs Division.",
+    "edition": "HABS ILL,16-CHIG,33-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
+  },
+  "/design/samples/habs/img/robie-p2.jpg": {
+   "kind": "image",
+   "w": 2400,
+   "h": 1891,
+   "title": "Frederick C. Robie House: Photograph by Carol M. Highsmith",
+   "date": "",
+   "caption": "Photograph",
+   "alt": "Photograph of the Frederick C. Robie House: photograph by carol m. highsmith",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "Library of Congress, Prints and Photographs Division",
+    "line": "Title: Robie House, created by architect Frank Lloyd Wright in the Hyde Park neighborhood, Chicago, Illinois Physical description: 1 transparency : color ; 4 x 5 in. or smaller. Notes: Title, date, and keywords provided by the photographer.; Digital image produced by Carol M. Highsmith to represent her original film transparency; some details may differ between the film and the digital images.; Forms part of the Selects Series in the Carol M. Highsmith Archive.; Gift and purchase; Carol M. Highsmith; 2011; (DLC/PP-2011:124).; Credit line: Photographs in the Carol M. Highsmith Archive, Library of Congress, Prints and Photographs Division.",
+    "edition": "HABS ILL,16-CHIG,33-",
+    "made": "Public domain: a work of the United States government. Historic American Buildings Survey, Library of Congress, via Wikimedia Commons."
+   }
   }
  },
  "pages": [
@@ -566,13 +606,16 @@
    "client": "National Park Service",
    "year": "1910",
    "summary": "Long brick planes and cantilevered roofs on a corner lot in Hyde Park: the fullest of the Prairie houses. The survey's drawings record it floor by floor.",
-   "outcome": [],
+   "outcome": [
+    "/design/samples/habs/img/robie-p1.jpg",
+    "/design/samples/habs/img/robie-p2.jpg"
+   ],
    "process": [
     "/design/samples/habs/img/robie-s1.jpg",
     "/design/samples/habs/img/robie-s2.jpg",
     "/design/samples/habs/img/robie-s3.jpg"
    ],
-   "compare": false,
+   "compare": true,
    "facts": [
     "Architect: Frank Lloyd Wright",
     "Built: 1910",
