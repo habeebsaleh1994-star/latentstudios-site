@@ -35,3 +35,7 @@ Decisions that are Habib's: the address for Wall; whether testers' sites live un
 - Everything is English only.
 - A site lives in the browser it was made in until it is published; clearing the browser's data loses the draft (published versions are kept on the device too, but not elsewhere).
 - Films up to 400 MB are kept on the device; the files carry them whole.
+
+## Beta, by invite
+
+Wall is labelled Beta · by invite and stands behind a door: a key per person, made with `node scripts/invite.mjs make <name>` (said once; give it to them), revoked with `revoke <name>`. The app carries only the keys' hashes in `app/keys.json`, so making or revoking a key means a rebuild and a deploy. Published sites and the arrival page's previews are open to everyone; only making a site needs a key. When sign-in arrives, the key becomes the invitation that lets an email in, and the door goes.
