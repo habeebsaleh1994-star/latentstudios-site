@@ -41,10 +41,10 @@ export const STRUCTURE_HINTS: Record<keyof typeof STRUCTURE, string> = {
   scale: "How large works are held, and how much air is around them.",
 };
 
-export function applyTheme(t: Theme) {
+export function applyTheme(t: Theme, house?: string) {
   L().apply({ ...t });
   const r = document.documentElement, d = r.dataset;
-  d.header = t.header; d.opening = t.opening; d.title = t.title; d.captions = t.captions; d.footer = t.footer; d.scale = t.scale;
+  d.header = t.header; d.opening = t.opening; d.title = t.title; d.captions = t.captions; d.footer = t.footer; d.scale = t.scale; if (house) d.house = house;
   if (t.typeface) {
     const f = TYPEFACES[t.typeface];
     r.style.setProperty("--serif", f.display); r.style.setProperty("--body", f.body); r.style.setProperty("--sans", f.label); r.style.setProperty("--title-weight", String(f.weight));

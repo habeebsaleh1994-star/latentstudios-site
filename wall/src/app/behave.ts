@@ -210,12 +210,15 @@ function wall(root: HTMLElement, c: Ctx, p: StoryPage) {
 
 function slides(root: HTMLElement, c: Ctx, p: StoryPage, key: string) {
   const stage = root.querySelector<HTMLElement>(".stage")!, th = root.querySelector<HTMLElement>(".thumbs")!;
-  const { list, thumbs } = slideList(c, p);
+  const { list, thumbs } = slideList(c, p, false);
   let at = Math.min(place[key] ?? 0, list.length - 1);
   const put = () => {
     stage.innerHTML = list[at].replace('class="slide', 'class="slide fade') + `<button type="button" class="arrow prev" aria-label="Previous slide"${at === 0 ? " disabled" : ""}>&lsaquo;</button><button type="button" class="arrow next" aria-label="Next slide"${at === list.length - 1 ? " disabled" : ""}>&rsaquo;</button>`;
     th.innerHTML = thumbs.map((t, i) => `<button type="button" data-go="${i}" aria-current="${i === at}" aria-label="Slide ${i + 1}">${t}</button>`).join("");
     const cur = th.querySelector<HTMLElement>('[aria-current="true"]'); if (cur && th.scrollWidth > th.clientWidth) th.scrollLeft = cur.offsetLeft - th.clientWidth / 2 + cur.offsetWidth / 2;
+    // the slide is whole in the stage: the picture takes what the mount and the caption leave
+    const fitSlide = () => { const img = stage.querySelector<HTMLImageElement>(".frame img"), fig = img?.closest<HTMLElement>("figure"); if (!img || !fig) return; img.style.maxHeight = ""; const extra = fig.offsetHeight - img.offsetHeight; img.style.maxHeight = `${Math.max(120, stage.clientHeight - extra - 28)}px`; };
+    fitSlide(); const im = stage.querySelector<HTMLImageElement>(".frame img"); if (im && !im.complete) im.addEventListener("load", fitSlide, { once: true });
     place[key] = at; root.dispatchEvent(new CustomEvent("wall:drawn", { bubbles: true }));
   };
   const go = (i: number) => { i = Math.max(0, Math.min(list.length - 1, i)); if (i !== at) { at = i; put(); } };

@@ -1,6 +1,8 @@
 /* LATENT WALL — every page kind and arrangement, scoped by its view (.v-*), all reading the look's settings (base.css, theme.js). */
 html[data-lock], html[data-lock] body { height: 100%; overflow: hidden; }
 body { min-height: 100vh; }
+/* a short page: the foot at the bottom of the screen, not under the last line */
+#app { min-height: 100svh; display: flex; flex-direction: column; } #app > main { flex: 1 0 auto; display: block; } #app > .site-foot { margin-top: auto; }
 main { display: block; }
 h1, h2 { font-family: var(--serif); font-weight: var(--title-weight); margin: 0; text-wrap: balance; }
 h1 em, h2 em, .big em { font-style: var(--em-style); color: var(--em-color); background: var(--em-bg); padding-inline: .04em; }
@@ -209,16 +211,18 @@ h1 em, h2 em, .big em { font-style: var(--em-style); color: var(--em-color); bac
 [data-look="plaster"] .v-wall .art .no { position: static; display: inline-block; margin-top: 12px; background: linear-gradient(#C9A864, #A98A47); color: #2A2008; padding: 2px 9px; }
 
 /* ---------- Slides: one at a time, like a lantern show */
-.v-slides .show { padding-inline: var(--gutter); max-width: 1500px; margin-inline: auto; }
-.v-slides .stage { position: relative; display: grid; place-items: center; min-height: calc(100svh - 250px); padding-block: 8px; }
+/* a lantern show: the title above, the stage the rest of the screen, the strip of slides beneath; whole, with nothing to scroll */
+.v-slides .show { padding-inline: var(--gutter); max-width: 1500px; margin-inline: auto; height: calc(100svh - var(--bar-h, 88px)); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
+.v-slides .s-head .card { padding-top: 18px; padding-bottom: 10px; align-items: baseline; } .v-slides .s-head .card h1 { font-size: min(var(--h1-size), clamp(26px, 2.6vw, 40px)); margin-top: 6px; } .v-slides .s-head .card .note { font-size: 15px; }
+.v-slides .stage { position: relative; display: grid; place-items: center; min-height: 0; padding-block: 8px; overflow: hidden; }
 .v-slides .slide { width: 100%; display: grid; justify-items: center; }
 .v-slides .slide figure { margin: 0; display: grid; justify-items: center; max-width: 100%; }
 .v-slides .slide .frame { display: inline-block; max-width: 100%; }
-.v-slides .slide .frame img { display: block; width: auto; max-width: 100%; max-height: calc(100svh - 330px); min-height: 160px; object-fit: contain; background: var(--silk-deep); }
+.v-slides .slide .frame img { display: block; width: auto; max-width: 100%; max-height: calc(100svh - var(--bar-h, 88px) - 300px); min-height: 120px; object-fit: contain; background: var(--silk-deep); }
 .v-slides .slide figcaption { padding-top: 14px; } .v-slides .slide figcaption .cap { justify-content: center; }
 .v-slides .slide.words { max-width: 760px; text-align: center; }
 .v-slides .slide.words p { font-family: var(--serif); font-weight: var(--title-weight); font-size: clamp(24px, 3.2vw, 42px); line-height: 1.24; letter-spacing: -.01em; margin: 18px 0 0; text-wrap: balance; }
-.v-slides .slide.title { max-width: 1100px; justify-items: stretch; } .v-slides .slide.title .card { padding-inline: 0; }
+.v-slides .slide.title { max-width: 1100px; justify-items: stretch; } .v-slides .slide.title .card { width: 100%; padding-inline: 0; } .v-slides .slide.title .card > div { justify-self: stretch; }
 .v-slides .arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border: 0; border-radius: 50%; background: transparent; color: var(--ink-soft); font: 300 30px/1 var(--serif); cursor: pointer; display: grid; place-items: center; }
 .v-slides .arrow:hover:not(:disabled) { color: var(--ink); background: var(--silk-deep); } .v-slides .arrow:disabled { opacity: .25; cursor: default; }
 .v-slides .arrow.prev { left: -8px; } .v-slides .arrow.next { right: -8px; }
@@ -689,3 +693,16 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
   .card { padding-top: 28px; padding-bottom: 20px; gap: 14px 0; } .card h1 { font-size: min(var(--h1-size), 40px); margin-top: 8px; } .card .note { font-size: 16px; }
   .v-held .work:first-child { margin-top: 8px; }
 }
+
+/* Folio: one work at a time, held large; its titles stay modest so the work has the screen */
+[data-house="folio"] .card { padding-top: calc(clamp(28px, 5vh, 56px) * var(--sp)); padding-bottom: calc(clamp(18px, 3vh, 32px) * var(--sp)); } [data-house="folio"] .card h1 { font-size: min(var(--h1-size), clamp(32px, 3.6vw, 56px)); }
+[data-house="folio"] .f-covers .cover:first-child, [data-house="folio"] .v-held .work:first-child { margin-top: 0; }
+
+/* the back of a print is seen only when turned: WebKit draws a hidden back face mirrored through the front unless it is kept out of sight until the turn */
+.frame:not(.turned) > .verso { visibility: hidden; transition: visibility 0s .45s; } .frame.turned > .verso { visibility: visible; transition: visibility 0s .4s; }
+/* a title page without a cover is centred, as a book's is; on the phone the running head keeps to the contents, the title and the count */
+.v-threshold .threshold:not(.has-cover) { justify-items: center; text-align: center; } .v-threshold .threshold:not(.has-cover) .tp .sub { margin-inline: auto; } .v-threshold .threshold:not(.has-cover) .tp .begin { justify-content: center; }
+@media (max-width: 700px) { .v-leaves .runhead .name, [data-leaf-page] .runhead .name { display: none; } .v-leaves .runhead, [data-leaf-page] .runhead { gap: 12px; } }
+/* Chapbook: the poems set large, as the template promises */
+[data-house="chapbook"] .f-reading .poem, [data-house="chapbook"] .v-writing .poem { font-size: calc(clamp(18px, 1.5vw, 23px) * var(--read)); line-height: 1.55; }
+[data-house="chapbook"] .v-writing .prose, [data-house="chapbook"] .v-writing .fragment, [data-house="chapbook"] .f-reading .prose { font-size: calc(clamp(18px, 1.4vw, 22px) * var(--read)); }

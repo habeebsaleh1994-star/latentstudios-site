@@ -65,7 +65,7 @@ export function draw(keep = false) {
   const p = current(), y = scrollY, c = ctx(), v = viewOf(p, state.site);
   // a work turned over stays turned through an edit, without flipping again
   const turned = keep ? [...app.querySelectorAll<HTMLElement>(".frame.turned > .verso")].map((e) => e.dataset.verso) : [];
-  applyTheme(state.site.theme);
+  applyTheme(state.site.theme, state.site.house);
   document.documentElement.toggleAttribute("data-editing", state.editing);
   app.innerHTML = page(c, p);
   document.title = titleText(state.site, p);

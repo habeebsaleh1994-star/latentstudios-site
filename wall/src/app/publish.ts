@@ -183,7 +183,7 @@ export function pageFile(site: SiteDocument, p: SitePage | null, base: string, o
   const data = `data-look="${look}"${scheme} data-header="${t.header}" data-opening="${t.opening}" data-title="${t.title}" data-captions="${t.captions}" data-footer="${t.footer}" data-scale="${t.scale}" data-mount="${t.mount}" data-motion="${t.motion}" data-read="${t.read}"${t.typeface ? ` data-typeface="${t.typeface}"` : ""} data-preview="on"`;
   const ap = appearsOf(ctx, p), shareFile = ap.share ? shareFileFor(site, p) : null;
   return `<!doctype html>
-<html lang="en" ${data}${style ? ` style="${esc(style)}"` : ""}>
+<html lang="en" data-house="${site.house}" ${data}${style ? ` style="${esc(style)}"` : ""}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">

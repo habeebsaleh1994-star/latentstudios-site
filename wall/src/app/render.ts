@@ -380,9 +380,9 @@ function wall(c: Ctx, p: StoryPage) {
 }
 
 /** Slides: one at a time, like a lantern show. A title slide first. */
-export function slideList(c: Ctx, p: StoryPage) {
+export function slideList(c: Ctx, p: StoryPage, withTitle = true) {
   const { groups: G } = groups(c, p), list: string[] = [], thumbs: string[] = [];
-  list.push(`<div class="slide title">${storyCard(c, p)}</div>`); thumbs.push(`<span class="t0">Title</span>`);
+  if (withTitle) { list.push(`<div class="slide title">${storyCard(c, p)}</div>`); thumbs.push(`<span class="t0">Title</span>`); }
   for (const g of G) {
     if (g.type === "pause") { list.push(`<div class="slide words">${pauseLabel(c, p, g)}${pauseText(c, p, g)}</div>`); thumbs.push(`<span class="t0">&ldquo;&rdquo;</span>`); continue; }
     for (const w of g.works) { list.push(`<div class="slide"><figure data-k="${w.k}"><div class="frame">${img(c, w, false)}${verso(c, w)}${mark(c, p, w)}</div><figcaption>${cap(c, w)}</figcaption></figure>${g.type === "note" ? noteText(c, p, g, "p", "label") : ""}</div>`); thumbs.push(`<img src="${esc(w.src)}" alt="" loading="lazy">`); }
@@ -391,7 +391,7 @@ export function slideList(c: Ctx, p: StoryPage) {
 }
 /** Leaves: a story read one leaf at a time, as part of the whole book; the running head says where you are, the turns carry on into the next page. */
 const leaves = (c: Ctx, p: StoryPage) => `<main class="v-leaves" data-page="${p.id}"><header class="runhead"><span class="rh-l"><a class="label name" href="${c.href("")}">${esc(c.site.name)}</a><a class="label" href="${c.href("")}#contents">Contents</a></span><span class="label where">${plainTitle(p.title, p.titleEm)}</span><span class="label at"></span></header><div class="stage" aria-live="polite"></div><nav class="turns" aria-label="Turn"><a class="label back" href="#">&larr; Turn back</a><a class="label fwd" href="#">Turn &rarr;</a></nav>${gap(c, p, p.pieces.length - 1, true)}</main>`;
-const slides = (c: Ctx, p: StoryPage) => `<main class="v-slides" data-page="${p.id}"><div class="show"><div class="stage" aria-roledescription="slideshow" aria-live="polite"></div><div class="thumbs" role="group" aria-label="All slides"></div></div>${gap(c, p, p.pieces.length - 1, true)}${next(c, p).html}</main>`;
+const slides = (c: Ctx, p: StoryPage) => `<main class="v-slides" data-page="${p.id}"><div class="show"><div class="s-head">${storyCard(c, p)}</div><div class="stage" aria-roledescription="slideshow" aria-live="polite"></div><div class="thumbs" role="group" aria-label="All slides"></div></div>${gap(c, p, p.pieces.length - 1, true)}${next(c, p).html}</main>`;
 
 /* ------------------------------------------------------------------ writing, film, project, about, contact */
 
@@ -478,7 +478,7 @@ export function page(c: Ctx, p: SitePage | null): string {
   const v = viewOf(p, c.site);
   // the reading views fill the screen: nothing below a leaf, a spread or a walk
   const immersive = c.site.house === "manuscript" && (v === "leaves" || main.includes('data-leaf-page="'));
-  return (immersive ? "" : bar(c, on)) + main + (v === "book" || v === "passage" || v === "leaves" || immersive ? "" : foot(c, on));
+  return (immersive ? "" : bar(c, on)) + main + (v === "book" || v === "passage" || v === "leaves" || v === "slides" || immersive ? "" : foot(c, on));
 }
 
 export function titleText(s: SiteDocument, p: SitePage | null) {
