@@ -29,7 +29,8 @@ a:hover { text-decoration-color: var(--peony); }
 
 /* the title column may not push the note out: a long word at a large size shrinks to the card instead (the card is a container, so the cap follows the width the title really has, with a rail header or the editor open) */
 .card { padding: calc(clamp(40px, 8vh, 96px) * var(--sp)) var(--gutter) calc(clamp(32px, 5vh, 64px) * var(--sp)); max-width: 1500px; margin-inline: auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: 40px 64px; align-items: end; container-type: inline-size; }
-.card > div { container-type: inline-size; min-width: 0; }
+/* a size container cannot be sized by its content, so it always takes its whole column (the centred header centres the text inside it instead) */
+.card > div { container-type: inline-size; min-width: 0; justify-self: stretch; width: 100%; }
 .card h1 { font-family: var(--serif); margin: 18px 0 0; font-weight: var(--title-weight); font-size: min(var(--h1-size), 12cqw); overflow-wrap: break-word; line-height: var(--h1-lh); letter-spacing: var(--h1-track); text-transform: var(--h1-case); text-wrap: balance; }
 .card h1 em { font-style: var(--em-style); color: var(--em-color); background: var(--em-bg); -webkit-box-decoration-break: clone; box-decoration-break: clone; padding-inline: .04em; }
 .card .note { font-size: 17px; line-height: 1.55; color: var(--ink-soft); margin: 0 0 10px; }
