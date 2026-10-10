@@ -1,3 +1,4 @@
+import { MARK } from "./render";
 /*
  * Starting a site. Nothing is made up for the artist: they choose a template (each shown running, with
  * sample work), give their name, and get an empty site in it, About and Contact ready. Then they add their work.
@@ -15,7 +16,7 @@ export function start(store: Store, preset: string | null) {
   document.title = "Start your site · Latent Wall";
   let chosen = HOUSES.some((h) => h.id === preset) ? preset! : "";
   app.innerHTML = `<main class="start">
-    <header class="s-top"><a class="s-brand" href="/design/home/index.html"><span>l.</span> Wall</a></header>
+    <header class="s-top"><a class="s-brand" href="/design/home/index.html">${MARK} Wall</a></header>
     <section class="s-head"><span class="label">Start your site</span><h1>Choose a <em>template.</em></h1><p>It makes the big decisions, so you are not flooded with them: how your pages are built, how a story moves, the looks and type that suit it. You can change it later; your work is never lost. Each is shown here with sample work.</p></section>
     <ol class="s-grid">${HOUSES.map((h) => `<li><button type="button" class="s-t" data-house="${h.id}" aria-pressed="${chosen === h.id}"><span class="s-live"><iframe data-src="/app/index.html?site=${h.sample}&house=${h.id}&preview&space=start-${h.id}" title="${esc(h.name)}, with sample work" tabindex="-1" aria-hidden="true"></iframe></span><span class="s-meta"><b>${esc(h.name)}</b><span class="label">${esc(h.for)}</span><span class="s-idea">${esc(h.idea)}</span></span><span class="s-tick" aria-hidden="true"></span></button></li>`).join("")}</ol>
     <form class="s-you" id="you"><div><span class="label">Then</span><h2>Your <em>name.</em></h2><p>And, if you like, a title for the front page and a folder of photographs for a first story. Everything else is done on the site itself.</p></div>

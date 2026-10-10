@@ -43,7 +43,8 @@ a:hover { text-decoration-color: var(--peony); }
 .about h2 { font-family: var(--serif); font-weight: var(--title-weight); font-size: 30px; margin: 0; }
 .about p { margin: 0 0 1em; font-size: 18px; color: var(--ink-soft); }
 .foot { display: flex; justify-content: space-between; align-items: baseline; max-width: 1500px; margin: clamp(56px, 10vh, 120px) auto 0; }
-.foot .mark { font-family: "Newsreader", Georgia, serif; font-size: 22px; text-decoration: none; }
+.foot .mark { font-size: 22px; text-decoration: none; display: inline-flex; }
+.lmark { height: 1em; width: auto; display: inline-block; vertical-align: -.08em; color: inherit; }
 @media (max-width: 760px) { .about-in { grid-template-columns: 1fr; } }
 
 .js .arrive { opacity: 0; transform: translateY(14px); transition: opacity 1.3s var(--ease), transform 1.3s var(--ease); }
