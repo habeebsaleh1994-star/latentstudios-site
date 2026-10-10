@@ -195,9 +195,9 @@ async function sendLink(env, email, link) {
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST", headers: { authorization: `Bearer ${env.RESEND_KEY}`, "content-type": "application/json" },
     body: JSON.stringify({
-      from: env.MAIL_FROM || "Latent Wall <wall@latentstudios.art>", to: [email], subject: "Your way into Latent Wall",
-      text: `Here is your link to sign in to Latent Wall. It works once, for ${LINK_MINUTES} minutes.\n\n${link}\n\nIf you did not ask for this, ignore it; nothing happens without the link.`,
-      html: `<p style="font:16px/1.6 Georgia,serif;color:#29222A">Here is your link to sign in to Latent Wall. It works once, for ${LINK_MINUTES} minutes.</p><p><a href="${link}" style="font:16px Georgia,serif;color:#29222A">Sign in to Latent Wall &rarr;</a></p><p style="font:13px/1.5 Georgia,serif;color:#6B5F66">If you did not ask for this, ignore it; nothing happens without the link.</p>`,
+      from: env.MAIL_FROM || "Latent Wall <wall@latentstudios.art>", reply_to: env.MAIL_REPLY || "hello@latentstudios.art", to: [email], subject: "Your way into Latent Wall",
+      text: `Here is your link to sign in to Latent Wall. It works once, for ${LINK_MINUTES} minutes.\n\n${link}\n\nIf you did not ask for this, ignore it; nothing happens without the link.\n\nLatent Wall is made by Latent Studios, latentstudios.art. You are getting this because someone entered ${email} at wall.latentstudios.art. Reply to reach us.`,
+      html: `<p style="font:16px/1.6 Georgia,serif;color:#29222A">Here is your link to sign in to Latent Wall. It works once, for ${LINK_MINUTES} minutes.</p><p><a href="${link}" style="font:16px Georgia,serif;color:#29222A">Sign in to Latent Wall &rarr;</a></p><p style="font:13px/1.5 Georgia,serif;color:#6B5F66">If you did not ask for this, ignore it; nothing happens without the link.</p><p style="font:12px/1.5 Georgia,serif;color:#8A7F86;margin-top:28px">Latent Wall is made by Latent Studios, <a href="https://latentstudios.art" style="color:inherit">latentstudios.art</a>. You are getting this because someone entered ${email} at wall.latentstudios.art. Reply to reach us.</p>`,
     }),
   });
   if (!r.ok) console.error("mail refused", r.status, await r.text().catch(() => ""));
