@@ -8,6 +8,8 @@
 import * as O from "./ops";
 import { state, commit, undo, redo, draw, current, go, pageId, space, isDemo } from "./main";
 import * as P from "./pubpanel";
+import * as A from "./accpanel";
+import * as account from "./account";
 import { bringIn as bring, dropped, hasFiles, folderOf } from "./bring";
 import { ratioNumber } from "./util";
 import { accentsFrom, accentsAcross, pixelsOf } from "./colour";
@@ -31,12 +33,12 @@ const $ = <E extends HTMLElement = HTMLElement>(sel: string, root: ParentNode = 
 const phone = () => matchMedia("(max-width: 760px)").matches;
 const title = (p: { title: string; titleEm?: string }) => [p.title, p.titleEm].filter(Boolean).join(" ");
 
-let panel: HTMLElement, dock: HTMLElement, lib: HTMLElement, mode: "edit" | "customise" | "publish" | null = null, tab: "site" | "page" = "page";
+let panel: HTMLElement, dock: HTMLElement, lib: HTMLElement, mode: "edit" | "customise" | "publish" | "account" | null = null, tab: "site" | "page" = "page";
 let openMenu: { k: number; kind: "arrange" | "move" } | null = null, trayOpen: number | null = null;
 
 export function init() {
   document.body.insertAdjacentHTML("beforeend",
-    `<div class="dock" id="dock"><span class="meter" id="meter"></span><button type="button" id="undo">Undo</button><button type="button" id="redo">Redo</button><button type="button" id="edit" aria-pressed="false">Edit</button><button type="button" id="page-btn" hidden>Page</button><button type="button" id="tweak" aria-expanded="false">Customise</button><button type="button" id="phone-btn" aria-pressed="false" title="See it on a phone">Phone</button><button type="button" id="publish">Publish</button></div>` +
+    `<div class="dock" id="dock"><span class="meter" id="meter"></span><button type="button" id="undo">Undo</button><button type="button" id="redo">Redo</button><button type="button" id="edit" aria-pressed="false">Edit</button><button type="button" id="page-btn" hidden>Page</button><button type="button" id="tweak" aria-expanded="false">Customise</button><button type="button" id="phone-btn" aria-pressed="false" title="See it on a phone">Phone</button><button type="button" id="publish">Publish</button><button type="button" id="acct-btn" aria-expanded="false" hidden>Account</button></div>` +
     `<aside id="panel" aria-label="Edit the site"></aside>` +
     `<div class="lib" id="lib" role="dialog" aria-modal="true" aria-label="Your work" hidden><div class="sheet2"><header><b>Your work</b><button type="button" class="x" data-lib="close">Close</button></header><div class="grid"></div><footer><span class="note"></span><button type="button" class="go" data-lib="add" disabled>Add</button></footer></div></div>` +
     `<input type="file" id="files" accept="image/*,.heic,.heif" multiple hidden><input type="file" id="folder" webkitdirectory multiple hidden><input type="file" id="one-file" accept="image/*,.heic,.heif" hidden><input type="file" id="video-file" accept="video/mp4,video/quicktime,video/webm,.mp4,.m4v,.mov,.webm" hidden><div class="drop" id="drop" hidden><span></span></div><div class="phone-frame" id="phone" hidden><div class="device"><iframe title="Your site, on a phone"></iframe></div><button type="button" class="x" id="phone-close">Close</button></div><div class="toast" role="status" aria-live="polite" hidden></div>`);
@@ -79,19 +81,20 @@ function setEditing(on: boolean) {
   draw(true);
   if (on && !phone()) { tab = "page"; openPanel("edit"); } else if (!on && mode === "edit") closePanel();
 }
-function openPanel(m: "edit" | "customise" | "publish") { mode = m; panel.classList.add("open"); document.documentElement.dataset.panel = m; renderPanel(); if (m === "publish") P.refresh().then(renderPanel); }
+function openPanel(m: "edit" | "customise" | "publish" | "account") { mode = m; panel.classList.add("open"); document.documentElement.dataset.panel = m; renderPanel(); if (m === "publish") P.refresh().then(renderPanel); }
 function closePanel() { mode = null; panel.classList.remove("open"); delete document.documentElement.dataset.panel; }
 
 function afterDraw() {
   if (!dock) return;
   const s = state.site, n = photographCount(s);
   const diff = P.published() ? P.draftChanges().length : 0;
-  $("#meter")!.innerHTML = state.editing ? `<b>${n}</b> ${n === 1 ? "work" : "works"} <span class="more">· <b>${s.pages.length}</b> pages · Saved on this device${P.published() ? (diff ? ` · <span class="draft">Draft: ${diff === 1 ? "one change" : `${diff} changes`} since published</span>` : " · As published") : ""}</span>` : (isDemo || !P.published() ? "" : diff ? `<span class="draft">Draft: ${diff === 1 ? "one change" : `${diff} changes`} not yet published</span>` : "");
+  $("#meter")!.innerHTML = state.editing ? `<b>${n}</b> ${n === 1 ? "work" : "works"} <span class="more">· <b>${s.pages.length}</b> pages · ${state.cloud ? (state.reach ? "Saved here and on the server" : "Saved here · server out of reach") : "Saved on this device"}${P.published() ? (diff ? ` · <span class="draft">Draft: ${diff === 1 ? "one change" : `${diff} changes`} since published</span>` : " · As published") : ""}</span>` : (isDemo || !P.published() ? "" : diff ? `<span class="draft">Draft: ${diff === 1 ? "one change" : `${diff} changes`} not yet published</span>` : "");
   $<HTMLButtonElement>("#undo")!.hidden = $<HTMLButtonElement>("#redo")!.hidden = !state.editing;
   $<HTMLButtonElement>("#undo")!.disabled = !state.past.length; $<HTMLButtonElement>("#redo")!.disabled = !state.future.length;
   const e = $<HTMLButtonElement>("#edit")!; e.textContent = state.editing ? "Done" : "Edit"; e.setAttribute("aria-pressed", String(state.editing));
   $<HTMLButtonElement>("#page-btn")!.hidden = !(state.editing && phone());
   $("#tweak")!.setAttribute("aria-expanded", String(mode === "customise"));
+  const ab = $<HTMLButtonElement>("#acct-btn")!; ab.hidden = !account.signedIn() || isDemo; ab.setAttribute("aria-expanded", String(mode === "account"));
   if (state.editing) toolbars();
   if (mode) renderPanel();
 }
@@ -133,9 +136,9 @@ function kept() {
 function renderPanel() {
   if (!mode) return;
   const keep = $(".scroll", panel)?.scrollTop ?? 0;
-  let h = `<header><b>${mode === "edit" ? "Edit" : mode === "publish" ? "Publish" : "Customise"}</b><button type="button" class="x" data-a="${mode === "edit" ? "done" : "close"}">${mode === "edit" ? "Done" : "Close"}</button></header>`;
+  let h = `<header><b>${mode === "edit" ? "Edit" : mode === "publish" ? "Publish" : mode === "account" ? "Your account" : "Customise"}</b><button type="button" class="x" data-a="${mode === "edit" ? "done" : "close"}">${mode === "edit" ? "Done" : "Close"}</button></header>`;
   if (mode === "edit") h += `<div class="tabs" role="tablist">${([["page", "This page"], ["site", "The site"]] as const).map(([k, t]) => `<button type="button" role="tab" data-tab="${k}" aria-selected="${tab === k}">${t}</button>`).join("")}</div>`;
-  h += `<div class="scroll">${mode === "publish" ? P.render() : mode === "customise" ? customise() : tab === "site" ? siteTab() : pageTab()}</div><footer><span>${kept()}</span></footer>`;
+  h += `<div class="scroll">${mode === "publish" ? P.render() : mode === "account" ? A.render() : mode === "customise" ? customise() : tab === "site" ? siteTab() : pageTab()}</div><footer><span>${kept()}</span></footer>`;
   panel.innerHTML = h;
   $(".scroll", panel)!.scrollTop = keep;
 }
@@ -527,8 +530,10 @@ function onClick(e: MouseEvent) {
   if (t.id === "page-btn") { tab = "page"; return mode ? closePanel() : openPanel("edit"); }
   if (t.id === "tweak") return mode === "customise" ? closePanel() : openPanel("customise");
   if (t.id === "publish") return mode === "publish" ? closePanel() : openPanel("publish");
+  if (t.id === "acct-btn") return mode === "account" ? closePanel() : openPanel("account");
   if (t.id === "phone-btn") return phonePreview(true);
   if (t.id === "phone-close") return phonePreview(false);
+  const acc = t.closest<HTMLElement>("#panel [data-acc]"); if (acc) { void A.act(acc.dataset.acc!, () => { renderPanel(); afterDraw(); }); return; }
   const pb = t.closest<HTMLElement>("#panel [data-pub]"); if (pb && !(pb as HTMLButtonElement).disabled) { void P.act(pb.dataset.pub!, Number(pb.dataset.n), () => { renderPanel(); afterDraw(); }); return; }
   if (t.id === "undo") return undo();
   if (t.id === "redo") return redo();

@@ -11,7 +11,7 @@ import { zip } from "./zip";
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 const when = (iso: string) => new Date(iso).toLocaleString(undefined, { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" });
-let sp = "mine", versions = createVersions("mine"), cache: Version[] = [], busy: string | false = false, lastUrl: string | null = null, built: { n: number; files: number; bytes: number } | null = null, live: string | null = null, confirming = false, failed: string | null = null;
+let sp = "mine", versions = createVersions("mine"), cache: Version[] = [], busy: string | false = false, lastUrl: string | null = null, built: { n: number; files: number; bytes: number } | null = null, live: string | null = null, failed: string | null = null;
 
 export function forSpace(space: string) { sp = space; versions = createVersions(space); cache = []; built = null; }
 const pubUrl = (q: string) => `/app/index.html?published${sp === "mine" ? "" : `&space=${encodeURIComponent(sp)}`}${q}#/`;
@@ -29,12 +29,6 @@ export function render(): string {
   h += `<div class="pub-go">${busy ? `<span class="hint">${esc(busy)}</span>` : `<button type="button" class="go" data-pub="publish"${stop || (!diff.length && cur) ? " disabled" : ""}>${cur ? "Publish again" : "Publish"}</button>`}${failed ? `<p class="hint stop">${esc(failed)}</p>` : ""}${built && built.n === cur?.n ? `<p class="hint">Version ${built.n} published ${when(cur!.at)}: ${built.files} files, ${(built.bytes / 1048576).toFixed(1)} MB.${live ? ` Live at <a href="${esc(live)}" target="_blank" rel="noopener">${esc(live.replace(/^https:\/\/|\/$/g, ""))}</a>.` : ""}</p>` : ""}</div>`;
   if (cur) h += `<div class="adds"><a class="link-ed" href="${online ? esc(addr) : pubUrl("")}" target="_blank" rel="noopener">Open the published site</a>${lastUrl ? `<a class="link-ed" href="${lastUrl}" download="${esc(label(s.name))}-site.zip">Download the files</a>` : `<button type="button" class="link-ed" data-pub="download">Download the files</button>`}<a class="link-ed" href="${pubUrl(`&v=${cur.n}`)}" target="_blank" rel="noopener">Private preview link</a></div>`;
   if (cache.length) h += `<h3>Every version</h3><ol class="versions">${cache.map((v) => `<li><span><b>${v.n}</b> ${esc(when(v.at))}${v.n === cur!.n ? ' <em>· live</em>' : ""}</span><span class="acts"><a href="${pubUrl(`&v=${v.n}`)}" target="_blank" rel="noopener" aria-label="Open version ${v.n}">Open</a>${v.n === cur!.n && !diff.length ? "" : `<button type="button" data-pub="restore" data-n="${v.n}">Put back</button>`}</span></li>`).join("")}</ol><p class="hint">Put back makes that version the draft again; publish to make it live.</p>`;
-  if (me) {
-    h += `<h3>Your account</h3><p class="acct"><span>${esc(me.email)}</span><button type="button" class="link-ed" data-pub="signout">Sign out</button></p>`;
-    h += confirming
-      ? `<div class="acct-del"><p class="hint">This removes your site, your pictures and the published site from the server, at once and for good. The copy in this browser is cleared too. Type <b>DELETE</b> to be sure.</p><p class="acct-row"><input type="text" id="del-word" autocomplete="off" autocapitalize="characters" aria-label="Type DELETE"><button type="button" class="go danger" data-pub="delete-go">Delete my account</button><button type="button" class="link-ed" data-pub="delete-no">Keep it</button></p></div>`
-      : `<p class="hint">If you want to stop: <button type="button" class="link-ed" data-pub="delete">Delete my account</button>. Everything of yours goes with it.</p>`;
-  }
   return h;
 }
 
@@ -55,16 +49,6 @@ export async function act(what: string, n: number, redraw: () => void) {
     busy = false; redraw(); return;
   }
   if (what === "download") { const cur = published(); if (!cur) return; busy = "Making the files…"; redraw(); try { await build(cur); } catch (e) { notify((e as Error).message); } busy = false; redraw(); return; }
-  if (what === "signout") { try { await account.signOut(); location.href = "/app/"; } catch (e) { notify((e as Error).message); } return; }
-  if (what === "delete") { confirming = true; redraw(); document.getElementById("del-word")?.focus(); return; }
-  if (what === "delete-no") { confirming = false; redraw(); return; }
-  if (what === "delete-go") {
-    const word = (document.getElementById("del-word") as HTMLInputElement | null)?.value.trim(); if (word !== "DELETE") { notify("Type DELETE, in capitals, to be sure."); return; }
-    busy = "Removing everything…"; redraw();
-    try { await account.deleteAccount(); await state.store.clear(); try { indexedDB.deleteDatabase("latent-wall"); indexedDB.deleteDatabase("latent-wall-versions"); localStorage.removeItem("wall-email"); } catch { /* best effort */ } location.href = "/design/home/index.html?gone"; }
-    catch (e) { notify(`Could not delete: ${(e as Error).message}`); busy = false; confirming = false; redraw(); }
-    return;
-  }
   if (what === "restore") {
     const v = await versions.get(n); if (!v) return;
     await state.store.prepare(Object.keys(v.site.library));
