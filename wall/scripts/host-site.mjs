@@ -9,7 +9,7 @@ import { readdirSync, statSync, mkdtempSync, rmSync, writeFileSync, readFileSync
 import { join, relative, resolve } from "node:path";
 import { tmpdir } from "node:os";
 const HOST = resolve(new URL(".", import.meta.url).pathname, "../host"), BUCKET = "latent-wall-sites";
-const wr = (args, opts = {}) => execFileSync("npx", ["-y", "wrangler@latest", "r2", "object", ...args], { cwd: HOST, stdio: ["ignore", "pipe", "pipe"], ...opts }).toString();
+const wr = (args, opts = {}) => execFileSync("npx", ["-y", "wrangler@latest", "r2", "object", ...args, "--remote"], { cwd: HOST, stdio: ["ignore", "pipe", "pipe"], ...opts }).toString();
 const manifestOf = (name) => { const t = mkdtempSync(join(tmpdir(), "wall-m-")), f = join(t, "m.json"); try { wr(["get", `${BUCKET}/${name}/.manifest.json`, "--file", f]); const m = JSON.parse(readFileSync(f, "utf8")); rmSync(t, { recursive: true, force: true }); return m.files ?? []; } catch { rmSync(t, { recursive: true, force: true }); return []; } };
 const [a, b] = process.argv.slice(2);
 const ok = (n) => /^[a-z0-9-]+$/.test(n);
