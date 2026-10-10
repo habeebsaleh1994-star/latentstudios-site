@@ -3,6 +3,8 @@
 
 /* SWISS: a grid, a grotesque, one red. Everything hangs from the left edge under a black rule. */
 [data-look="swiss"] .bar { border-bottom: 2px solid var(--ink); padding-bottom: 18px; margin-inline: var(--gutter); padding-inline: 0; }
+/* as a rail the bar is fixed and full height: no side margin (it would sit over the page's gutter), its ink rule on the right instead of below */
+@media (min-width: 1000px) { [data-header="rail"][data-look="swiss"] .bar { margin-inline: 0; padding: 36px 30px; border-bottom: 0; border-right: 2px solid var(--ink); } }
 [data-look="swiss"] .bar .name { font-weight: 700; font-size: 18px; letter-spacing: -.01em; }
 [data-look="swiss"] .card { padding-top: calc(clamp(28px, 6vh, 64px) * var(--sp)); }
 [data-look="swiss"] .card .note { font-weight: 500; font-size: 16px; color: var(--ink); border-top: 2px solid var(--ink); padding-top: 12px; margin: 0; }
