@@ -2,6 +2,14 @@
 name = "latent-wall-sites"
 main = "worker.js"
 compatibility_date = "2026-05-12"
+workers_dev = false
+
+# one custom domain per tester's site; a custom domain makes its own DNS record and certificate.
+# add a line when a tester publishes, then deploy again:  npx wrangler@latest deploy  (from wall/host)
+routes = [
+  { pattern = "habib.latentstudios.art", custom_domain = true },
+  { pattern = "maddalena.latentstudios.art", custom_domain = true },
+]
 
 [[r2_buckets]]
 binding = "SITES"
@@ -11,9 +19,4 @@ bucket_name = "latent-wall-sites"
 # hosts that carry the site name in the path instead of a subdomain (comma-separated); leave empty for subdomains only
 BARE_HOSTS = ""
 
-# one custom domain per tester's site; a custom domain makes its own DNS record and certificate.
-# add a line when a tester publishes, then deploy again:  npx wrangler@latest deploy  (from wall/host)
-routes = [
-  { pattern = "habib.latentstudios.art", custom_domain = true },
-  { pattern = "maddalena.latentstudios.art", custom_domain = true },
-]
+
