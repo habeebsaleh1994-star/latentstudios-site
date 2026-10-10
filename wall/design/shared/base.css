@@ -27,11 +27,15 @@ a:hover { text-decoration-color: var(--peony); }
 .bar nav a:hover { color: var(--ink); }
 @media (max-width: 520px) { .bar nav { gap: 16px; } .bar nav a { letter-spacing: .1em; } }
 
-.card { padding: calc(clamp(40px, 8vh, 96px) * var(--sp)) var(--gutter) calc(clamp(32px, 5vh, 64px) * var(--sp)); max-width: 1500px; margin-inline: auto; display: grid; grid-template-columns: 1fr minmax(0, 300px); gap: 40px 64px; align-items: end; }
-.card h1 { font-family: var(--serif); margin: 18px 0 0; font-weight: var(--title-weight); font-size: var(--h1-size); line-height: var(--h1-lh); letter-spacing: var(--h1-track); text-transform: var(--h1-case); text-wrap: balance; }
+/* the title column may not push the note out: a long word at a large size shrinks to the card instead (the card is a container, so the cap follows the width the title really has, with a rail header or the editor open) */
+.card { padding: calc(clamp(40px, 8vh, 96px) * var(--sp)) var(--gutter) calc(clamp(32px, 5vh, 64px) * var(--sp)); max-width: 1500px; margin-inline: auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: 40px 64px; align-items: end; container-type: inline-size; }
+.card > div { container-type: inline-size; min-width: 0; }
+.card h1 { font-family: var(--serif); margin: 18px 0 0; font-weight: var(--title-weight); font-size: min(var(--h1-size), 12cqw); overflow-wrap: break-word; line-height: var(--h1-lh); letter-spacing: var(--h1-track); text-transform: var(--h1-case); text-wrap: balance; }
 .card h1 em { font-style: var(--em-style); color: var(--em-color); background: var(--em-bg); -webkit-box-decoration-break: clone; box-decoration-break: clone; padding-inline: .04em; }
 .card .note { font-size: 17px; line-height: 1.55; color: var(--ink-soft); margin: 0 0 10px; }
 @media (max-width: 760px) { .card { grid-template-columns: 1fr; } }
+/* narrower than a reading line and a note side by side (a rail header, the editor open): the note goes under the title */
+@container (max-width: 1100px) { .card > * { grid-column: 1 / -1; } }
 
 
 .about { border-top: var(--rule-w) solid var(--rule); margin-top: calc(clamp(80px, 16vh, 200px) * var(--sp)); padding: clamp(48px, 9vh, 100px) var(--gutter) 40px; }

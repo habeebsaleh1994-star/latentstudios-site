@@ -360,7 +360,7 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
 .opening-image img { width: 100%; height: 100%; object-fit: cover; object-position: var(--fx, 50%) var(--fy, 50%); display: block; }
 [data-header="classic"] .opening-image, [data-header="stacked"] .opening-image { margin-top: 0; }
 .opening-name { grid-template-columns: 1fr; }
-.opening-name h1 { font-size: clamp(56px, 12vw, 200px) !important; line-height: .9; }
+.opening-name h1 { font-size: min(clamp(56px, 12vw, 200px), 14cqw) !important; line-height: .9; }
 .opening-name .note { max-width: 32em; }
 [data-opening="work"] .v-front { padding-top: calc(clamp(24px, 5vh, 56px) * var(--sp)); }
 @media (max-width: 760px) { .opening-image { height: 64vh; } }
