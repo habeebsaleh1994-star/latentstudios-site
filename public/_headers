@@ -27,3 +27,10 @@
   Cache-Control: public, max-age=2592000
 /lab/*
   Cache-Control: public, max-age=2592000
+
+# Latent Wall (work in progress): its home page shows the templates running in frames, and it is not for search engines yet.
+/wall/*
+  ! X-Frame-Options
+  X-Frame-Options: SAMEORIGIN
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-cache
