@@ -271,7 +271,10 @@ function customise() {
     if (key === "mount") return story || (front && !["ledger", "reading"].includes(state.site.front.form)) ? true : toStory;
     return true;
   };
+  // a site without pictures (a writer's) has nothing for the picture dials to change: they wait, and one line says so
+  const pictures = Object.values(state.site.library).some((w) => w.kind === "image"), PICTURE_DIALS = new Set(["mount", "captions", "scale"]);
   const dial = (key: string, name: string, opts: [string, string][], cur: string, hint: string) => {
+    if (!pictures && PICTURE_DIALS.has(key)) return "";
     const at = here(key);
     return `<h3>${name}</h3>${at === true ? seg(key, opts, cur) + `<p class="hint">${hint}</p>` : `<p class="hint">Now <b>${esc(opts.find((o) => o[0] === cur)?.[1] ?? cur)}</b>. Shows on ${at.where}: <a class="go-there" href="${at.href}">go there</a> to set it.</p>`}`;
   };
@@ -282,6 +285,7 @@ function customise() {
   }
   h2 += sub("Details");
   h2 += dial("mount", "Mount", [["bare", "Bare"], ["line", "A hairline"], ["matte", "A mat"]], t.mount, "Around every picture: nothing, a hairline, or a mat.");
+  if (!pictures) h2 += `<p class="hint">Mount, captions and scale are for pictures; they appear once the site has some.</p>`;
   h2 += dial("space", "Spacing", [["airy", "Airy"], ["standard", "Standard"], ["close", "Close"]], t.space, "How much air between the works and the words.");
   h2 += dial("read", "Reading size", [["small", "Small"], ["standard", "Standard"], ["large", "Large"]], t.read, "The size of your words: writing, statements, notes and captions.");
   h2 += `<h3>Motion</h3>${seg("motion", [["slow", "Slow arrivals"], ["still", "Still"]], t.motion)}<p class="hint">Whether pages and works arrive slowly, or are simply there.</p>`;
