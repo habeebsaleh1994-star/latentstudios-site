@@ -706,3 +706,5 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
 /* Chapbook: the poems set large, as the template promises */
 [data-house="chapbook"] .f-reading .poem, [data-house="chapbook"] .v-writing .poem { font-size: calc(clamp(18px, 1.5vw, 23px) * var(--read)); line-height: 1.55; }
 [data-house="chapbook"] .v-writing .prose, [data-house="chapbook"] .v-writing .fragment, [data-house="chapbook"] .f-reading .prose { font-size: calc(clamp(18px, 1.4vw, 22px) * var(--read)); }
+/* Passage on the phone: the title takes half the width, so the first work shows at the edge and the walk is understood */
+@media (max-width: 700px) { .v-passage .walk { padding-inline: 6vw 10vw; } .v-passage .wall-text.title { width: 56vw; } .v-passage .wall-text.title h1 { font-size: clamp(30px, 9vw, 44px); margin: 12px 0 16px; } .v-passage .wall-text.title p { font-size: 15px; } .v-passage .wall-text.say { width: 70vw; margin-left: 10vw; } }
