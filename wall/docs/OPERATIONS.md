@@ -18,6 +18,7 @@ Everything runs on the one Cloudflare account (the studio's). There are exactly 
 | See who has a key | `npm run invite -- list` | |
 | Put a friend's published site up | `npm run host -- <name> <folder-or-zip>` | uploads their files to the bucket under `<name>/` |
 | Take a friend's site down, because they asked to stop | `npm run host -- down <name>` | removes every file of the site from the bucket; then take its line out of `host/wrangler.toml` and `npm run sites` to free the address |
+| Publish a site whose document is kept in a repo (Habib's own) | `npx tsx scripts/publish-files.mts <site.json> <root of its pictures> <out>` then `npm run host -- <name> <out>` | what Publish in the app does, for a document on disk |
 | Give a friend's site its address | add `{ pattern = "<name>.latentstudios.art", custom_domain = true }` to `host/wrangler.toml`, then `npm run sites` | the address, its DNS record and certificate are made by that deploy |
 
 ## Where things are in the code
