@@ -26,6 +26,8 @@ export type Ctx = {
   open?: (word: string, p: SitePage | null) => Promise<boolean>;
   /** The same picture at several widths, when the runtime has them (the published files): the browser picks by its screen. */
   srcset?: (asset: string) => string | null;
+  /** Where "Latent Wall" at the foot leads: the arrival page in the app, the product's address in the files. */
+  home?: string;
 };
 /** The word a page is behind: the site's, or its own. */
 export const wordFor = (site: SiteDocument, p: SitePage | null) => site.door.word || p?.word || "";
@@ -95,7 +97,7 @@ function bar(c: Ctx, on: string) {
 }
 /** The foot of every page. It carries the menu too, for sites whose header shows only the name. */
 function foot(c: Ctx, on: string) {
-  return `<footer class="foot site-foot"><span class="foot-name">${esc(c.site.name)}</span><nav class="foot-nav" aria-label="Pages">${navLinks(c, on)}</nav><span class="label foot-line">${ed(c, "site.contact", c.site.contact, "span", "", "A line at the foot of every page")}</span><a class="mark" href="${c.href("")}" aria-label="Made with Latent Wall">${MARK}</a></footer>`;
+  return `<footer class="foot site-foot"><span class="foot-name">${esc(c.site.name)}</span><nav class="foot-nav" aria-label="Pages">${navLinks(c, on)}</nav><span class="label foot-line">${ed(c, "site.contact", c.site.contact, "span", "", "A line at the foot of every page")}</span><a class="mark" href="${c.home ?? "/design/home/index.html"}" aria-label="Made with Latent Wall">${MARK}</a></footer>`;
 }
 function next(c: Ctx, p: SitePage) {
   const list = shown(c), i = list.findIndex((x) => x.id === p.id);

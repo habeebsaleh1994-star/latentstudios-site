@@ -93,6 +93,8 @@ export type Sources = {
   /** the same photograph at smaller widths (JPEG), for screens that need no more; absent where there is no canvas */
   sizes?: (asset: string, widths: number[]) => Promise<{ w: number; data: Uint8Array }[]>;
 };
+/** Where "Latent Wall" at the foot of a published site leads. */
+export const WALL_HOME = "https://latentstudios.com/wall";
 /** The widths a picture is also made at. The full picture (up to 2400 px) is always there. */
 export const SIZES = [640, 1200];
 /** The srcset for a picture in the files: its smaller sizes and the full one, named beside it. */
@@ -166,7 +168,7 @@ type FileOpts = {
 /** One page as a complete html file. `base` is the path back to the site's root from this page ("" or "../"). */
 export function pageFile(site: SiteDocument, p: SitePage | null, base: string, o: FileOpts = {}): string {
   const fileName = (a: string) => o.names?.get(a) ?? fileOf(a, site.library[a]?.kind ?? "image");
-  const ctx: Ctx = { site, editing: false, href: (id) => (id ? `${base}${encodeURIComponent(id)}/` : base || "./"), src: (a) => `${base}assets/img/${fileName(a)}`, locked: o.lock ? () => o.lock! : undefined, srcset: (a) => (o.made?.get(a)?.length && site.library[a] ? srcsetFor(fileName(a), site.library[a].w, base, o.made.get(a)!) : null) };
+  const ctx: Ctx = { site, editing: false, href: (id) => (id ? `${base}${encodeURIComponent(id)}/` : base || "./"), src: (a) => `${base}assets/img/${fileName(a)}`, locked: o.lock ? () => o.lock! : undefined, home: WALL_HOME, srcset: (a) => (o.made?.get(a)?.length && site.library[a] ? srcsetFor(fileName(a), site.library[a].w, base, o.made.get(a)!) : null) };
   const carried = publicSite(site, o.lock ? null : (o.keep ?? null));
   const t = site.theme, look = t.look, L = (globalThis as unknown as { FolioTheme?: ThemeLib }).FolioTheme;
   const face = t.typeface ? TYPEFACES[t.typeface] : null;
