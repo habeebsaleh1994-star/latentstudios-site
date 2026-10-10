@@ -669,3 +669,18 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
 
 /* the first picture of a page is sized to the room under what the page opens with (set by the page; see fitFirst) */
 .fit-first { margin-inline: auto; }
+
+/* the first screen is the point: where the screen is small, a page's opening is compact so its first picture is whole beneath it */
+@media (max-height: 820px), (max-width: 1280px) {
+  .v-project .ph { margin-bottom: clamp(20px, 3vh, 36px); gap: 12px clamp(24px, 4vw, 64px); }
+  .v-project h1 { font-size: clamp(30px, 3.6vw, 48px); margin-top: 8px; }
+  .v-project .sum { font-size: 16px; margin-bottom: 12px; }
+  .v-project .facts { grid-template-columns: repeat(auto-fit, minmax(160px, auto)); gap: 0 28px; font-size: 14px; } .v-project .facts dt, .v-project .facts dd { padding: 6px 0 4px; border-top: 0; } .v-project .facts dt { padding-top: 10px; }
+  .v-project .facts dt + dd { border-top: 0; }
+}
+@media (max-width: 860px) {
+  /* the phone: the title, then the outcome, then the words about it */
+  .v-project .proj { display: grid; } .v-project .ph { display: contents; } .v-project .ph > div:first-child { order: 0; margin-bottom: 18px; } .v-project .ph > div:last-child { order: 2; margin-top: 28px; } .v-project .cols { order: 1; } .v-project .more, .v-project .cmp { order: 3; }
+  .card { padding-top: 28px; padding-bottom: 20px; gap: 14px 0; } .card h1 { font-size: min(var(--h1-size), 40px); margin-top: 8px; } .card .note { font-size: 16px; }
+  .v-held .work:first-child { margin-top: 8px; }
+}

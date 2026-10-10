@@ -23,7 +23,7 @@ for (const h of HOUSES) for (const size of SIZES) {
       return { what: fig.className.split(" ")[0] || fig.tagName.toLowerCase(), top: Math.round(r.top + scrollY), bottom: Math.round(r.bottom + scrollY), vh: innerHeight, scrolled: Math.round(scrollY) };
     });
     if (!m) continue;
-    if (m.bottom > m.vh + 2) rows.push({ house: h.id, site, page: page || "front", size: `${size.w}×${size.h}`, what: m.what, top: m.top, bottom: m.bottom, vh: m.vh });
+    if (m.top < m.vh * 0.72 && m.bottom > m.vh + 2) rows.push({ house: h.id, site, page: page || "front", size: `${size.w}×${size.h}`, what: m.what, top: m.top, bottom: m.bottom, vh: m.vh });
   }
   await ctx.close();
 }

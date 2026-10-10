@@ -29,13 +29,13 @@ export function wire(root: HTMLElement, c: Ctx, p: SitePage | null, view: View, 
   const fitFirst = () => {
     root.querySelectorAll<HTMLElement>(".fit-first").forEach((f) => { f.classList.remove("fit-first"); f.style.maxWidth = ""; });
     const seen = new Set<HTMLElement>();
-    for (const img of root.querySelectorAll<HTMLImageElement>("main figure img, main .screen img, main .cover img")) {
-      const fig = img.closest<HTMLElement>("figure, .screen, .cover"); if (!fig || seen.has(fig)) continue; seen.add(fig);
+    for (const img of root.querySelectorAll<HTMLImageElement>("main figure img, main .screen img, main .cover img, main .fig img")) {
+      const fig = img.closest<HTMLElement>("figure, .screen, .cover, .fig"); if (!fig || seen.has(fig)) continue; seen.add(fig);
       if (fig.closest(".leaf, .slide, .pg, .lb, .walk, .hang, .pin, .cell, .thumbs, .more, .steps li:not(:first-child)")) continue; // the turning views, walls, boards and sheets size themselves
-      const top = fig.getBoundingClientRect().top + scrollY; if (top >= innerHeight - 120) break; // what begins at or below the fold is reached by scrolling
+      const top = fig.getBoundingClientRect().top + scrollY; if (top >= innerHeight * 0.72) break; // what begins in the last quarter of the screen is the next thing, reached by scrolling
       const r = parseFloat(getComputedStyle(fig).getPropertyValue("--r")) || img.naturalWidth / img.naturalHeight || 1.5;
       const cap = fig.querySelector<HTMLElement>("figcaption, .under")?.offsetHeight ?? 0, room = innerHeight - top - cap - 28;
-      const h = Math.max(Math.min(innerHeight * 0.42, 420), room); // never smaller than two fifths of the screen: a tall opening is the page's own fault to fix
+      const h = Math.max(Math.min(innerHeight * 0.36, 380), room); // never smaller than two fifths of the screen: a tall opening is the page's own fault to fix
       fig.classList.add("fit-first"); fig.style.maxWidth = `${Math.round(h * r)}px`;
     }
   };
