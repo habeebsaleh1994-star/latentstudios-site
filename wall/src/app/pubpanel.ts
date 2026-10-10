@@ -3,14 +3,15 @@
  * what changed since the last publish, what to check first, then Publish. Every version is kept,
  * can be opened as a visitor would see it, downloaded as files, or put back as the draft.
  */
-import { state, commit, notify } from "./main";
-import { changes, checks, buildFiles, address } from "./publish";
+import { state, commit, notify, pushNow } from "./main";
+import { changes, checks, buildFiles, address, label } from "./publish";
+import * as account from "./account";
 import { createVersions, type Version } from "./versions";
 import { zip } from "./zip";
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 const when = (iso: string) => new Date(iso).toLocaleString(undefined, { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" });
-let sp = "mine", versions = createVersions("mine"), cache: Version[] = [], busy = false, lastUrl: string | null = null, built: { n: number; files: number; bytes: number } | null = null;
+let sp = "mine", versions = createVersions("mine"), cache: Version[] = [], busy: string | false = false, lastUrl: string | null = null, built: { n: number; files: number; bytes: number } | null = null, live: string | null = null, confirming = false, failed: string | null = null;
 
 export function forSpace(space: string) { sp = space; versions = createVersions(space); cache = []; built = null; }
 const pubUrl = (q: string) => `/app/index.html?published${sp === "mine" ? "" : `&space=${encodeURIComponent(sp)}`}${q}#/`;
@@ -19,28 +20,51 @@ export const published = () => cache[0] ?? null;
 export const draftChanges = () => changes(published()?.site ?? null, state.site);
 
 export function render(): string {
-  const s = state.site, cur = published(), diff = draftChanges(), cs = checks(s), stop = cs.some((c) => c.stop);
-  let h = `<h3>Address</h3><p class="addr">${esc(address(s.name))}</p><p class="hint">Where it will live. For now the site is made as files you keep; a real publish puts the same files at this address, and later at your own domain.</p>`;
+  const s = state.site, cur = published(), diff = draftChanges(), cs = checks(s), stop = cs.some((c) => c.stop), me = account.signedIn(), online = !!(me && state.cloud);
+  const addr = online ? `https://${address(s.name)}/` : address(s.name);
+  let h = `<h3>Address</h3><p class="addr">${esc(addr)}</p><p class="hint">${online ? "Where the site lives once you publish. It follows your name; a domain of your own comes later." : "Where it will live. Working on this device alone, the site is made as files you keep; signed in, Publish puts them at this address."}</p>`;
   h += `<h3>${cur ? "Since you last published" : "What goes out"}</h3>`;
   h += diff.length ? `<ul class="diff">${diff.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>` : `<p class="hint">Nothing has changed since ${when(cur!.at)}.</p>`;
   if (cs.length) h += `<h3>Before you do</h3><ul class="diff warn">${cs.map((c) => `<li${c.stop ? ' class="stop"' : ""}>${esc(c.text)}</li>`).join("")}</ul>`;
-  h += `<div class="pub-go">${busy ? `<span class="hint">Making the files…</span>` : `<button type="button" class="go" data-pub="publish"${stop || (!diff.length && cur) ? " disabled" : ""}>${cur ? "Publish again" : "Publish"}</button>`}${built && built.n === cur?.n ? `<p class="hint">Version ${built.n} published ${when(cur!.at)}: ${built.files} files, ${(built.bytes / 1048576).toFixed(1)} MB.</p>` : ""}</div>`;
-  if (cur) h += `<div class="adds"><a class="link-ed" href="${pubUrl("")}" target="_blank" rel="noopener">Open the published site</a>${lastUrl ? `<a class="link-ed" href="${lastUrl}" download="${esc(address(s.name).split(".")[0])}-site.zip">Download the files</a>` : `<button type="button" class="link-ed" data-pub="download">Download the files</button>`}<a class="link-ed" href="${pubUrl(`&v=${cur.n}`)}" target="_blank" rel="noopener">Private preview link</a></div>`;
+  h += `<div class="pub-go">${busy ? `<span class="hint">${esc(busy)}</span>` : `<button type="button" class="go" data-pub="publish"${stop || (!diff.length && cur) ? " disabled" : ""}>${cur ? "Publish again" : "Publish"}</button>`}${failed ? `<p class="hint stop">${esc(failed)}</p>` : ""}${built && built.n === cur?.n ? `<p class="hint">Version ${built.n} published ${when(cur!.at)}: ${built.files} files, ${(built.bytes / 1048576).toFixed(1)} MB.${live ? ` Live at <a href="${esc(live)}" target="_blank" rel="noopener">${esc(live.replace(/^https:\/\/|\/$/g, ""))}</a>.` : ""}</p>` : ""}</div>`;
+  if (cur) h += `<div class="adds"><a class="link-ed" href="${online ? esc(addr) : pubUrl("")}" target="_blank" rel="noopener">Open the published site</a>${lastUrl ? `<a class="link-ed" href="${lastUrl}" download="${esc(label(s.name))}-site.zip">Download the files</a>` : `<button type="button" class="link-ed" data-pub="download">Download the files</button>`}<a class="link-ed" href="${pubUrl(`&v=${cur.n}`)}" target="_blank" rel="noopener">Private preview link</a></div>`;
   if (cache.length) h += `<h3>Every version</h3><ol class="versions">${cache.map((v) => `<li><span><b>${v.n}</b> ${esc(when(v.at))}${v.n === cur!.n ? ' <em>· live</em>' : ""}</span><span class="acts"><a href="${pubUrl(`&v=${v.n}`)}" target="_blank" rel="noopener" aria-label="Open version ${v.n}">Open</a>${v.n === cur!.n && !diff.length ? "" : `<button type="button" data-pub="restore" data-n="${v.n}">Put back</button>`}</span></li>`).join("")}</ol><p class="hint">Put back makes that version the draft again; publish to make it live.</p>`;
+  if (me) {
+    h += `<h3>Your account</h3><p class="acct"><span>${esc(me.email)}</span><button type="button" class="link-ed" data-pub="signout">Sign out</button></p>`;
+    h += confirming
+      ? `<div class="acct-del"><p class="hint">This removes your site, your pictures and the published site from the server, at once and for good. The copy in this browser is cleared too. Type <b>DELETE</b> to be sure.</p><p class="acct-row"><input type="text" id="del-word" autocomplete="off" autocapitalize="characters" aria-label="Type DELETE"><button type="button" class="go danger" data-pub="delete-go">Delete my account</button><button type="button" class="link-ed" data-pub="delete-no">Keep it</button></p></div>`
+      : `<p class="hint">If you want to stop: <button type="button" class="link-ed" data-pub="delete">Delete my account</button>. Everything of yours goes with it.</p>`;
+  }
   return h;
 }
 
 export async function act(what: string, n: number, redraw: () => void) {
   if (what === "publish") {
-    busy = true; redraw();
+    busy = "Making the files…"; failed = null; redraw();
     try {
       const v = await versions.publish(state.site); cache = await versions.list();
       const out = await build(v); built = { n: v.n, files: out.files, bytes: out.bytes };
-      notify(`Published: version ${v.n}.`);
-    } catch (e) { notify(`Could not publish: ${(e as Error).message}`); }
+      if (state.cloud) {
+        // the draft on the server first, then the files where the world sees them
+        await pushNow();
+        busy = `Sending ${out.files} files…`; redraw();
+        const r = await account.publish(state.cloud.id, label(state.site.name), out.list, (d, of) => { busy = `Sending the files… ${d} of ${of}`; redraw(); });
+        live = r.address; notify(`Live: version ${v.n} is at ${r.address.replace(/^https:\/\/|\/$/g, "")}.`);
+      } else notify(`Published: version ${v.n}.`);
+    } catch (e) { failed = `Not published: ${(e as Error).message}`; notify(failed); }
     busy = false; redraw(); return;
   }
-  if (what === "download") { const cur = published(); if (!cur) return; busy = true; redraw(); try { await build(cur); } catch (e) { notify((e as Error).message); } busy = false; redraw(); return; }
+  if (what === "download") { const cur = published(); if (!cur) return; busy = "Making the files…"; redraw(); try { await build(cur); } catch (e) { notify((e as Error).message); } busy = false; redraw(); return; }
+  if (what === "signout") { try { await account.signOut(); location.href = "/app/"; } catch (e) { notify((e as Error).message); } return; }
+  if (what === "delete") { confirming = true; redraw(); document.getElementById("del-word")?.focus(); return; }
+  if (what === "delete-no") { confirming = false; redraw(); return; }
+  if (what === "delete-go") {
+    const word = (document.getElementById("del-word") as HTMLInputElement | null)?.value.trim(); if (word !== "DELETE") { notify("Type DELETE, in capitals, to be sure."); return; }
+    busy = "Removing everything…"; redraw();
+    try { await account.deleteAccount(); await state.store.clear(); try { indexedDB.deleteDatabase("latent-wall"); indexedDB.deleteDatabase("latent-wall-versions"); localStorage.removeItem("wall-email"); } catch { /* best effort */ } location.href = "/design/home/index.html?gone"; }
+    catch (e) { notify(`Could not delete: ${(e as Error).message}`); busy = false; confirming = false; redraw(); }
+    return;
+  }
   if (what === "restore") {
     const v = await versions.get(n); if (!v) return;
     await state.store.prepare(Object.keys(v.site.library));
@@ -85,5 +109,5 @@ async function build(v: Version) {
   });
   const blob = zip(files);
   if (lastUrl) URL.revokeObjectURL(lastUrl); lastUrl = URL.createObjectURL(blob);
-  return { files: files.length, bytes: blob.size };
+  return { files: files.length, bytes: blob.size, list: files };
 }

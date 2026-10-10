@@ -40,9 +40,11 @@ In the beta a friend who wants to stop tells us; their draft is in their own bro
 - A site lives in the browser it was made in until it is published; clearing the browser's data loses the draft (published versions are kept on the device too, but not elsewhere).
 - Films up to 400 MB are kept on the device; the files carry them whole.
 
-## Beta, by invite
+## Beta, by invite; accounts (10 October 2026, late)
 
-Wall is labelled Beta · by invite and stands behind a door: a key per person, made with `node scripts/invite.mjs make <name>` (said once; give it to them), revoked with `revoke <name>`. The app carries only the keys' hashes in `app/keys.json`, so making or revoking a key means a rebuild and a deploy. Published sites and the arrival page's previews are open to everyone; only making a site needs a key. When sign-in arrives, the key becomes the invitation that lets an email in, and the door goes.
+Wall is labelled Beta · by invite and stands behind a door: an email, and the first time a key. A key per person is made with `npm run invite -- make <name>` (said once; give it to them) and lives, as a hash, in the `invites` table of the D1 database `latent-wall`; the first email that gives it makes an account. A sign-in link is mailed (Resend, once the `RESEND_KEY` secret is set; until then the door hands the link back on the page) and signs that browser in for sixty days. Published sites and the arrival page's previews are open to everyone; only making a site needs an account.
+
+Signed in, the site is saved on this device and, a moment later, on the server with a revision (`api/worker.js`, `src/app/account.ts`): another device signing in gets it; a stale save from either side is refused and the newer site shown, as between two windows. Pictures go up in the background (`pending` in the store) and come down on demand. Publish puts the files under the site's label in the bucket, where `host/worker.js` serves every `<label>.latentstudios.art` through one wildcard route. Delete my account (Publish → Your account) removes the site, the pictures, the published files and the rows, and clears the browser.
 
 ## The eight, and the drawer (10 October 2026, night)
 

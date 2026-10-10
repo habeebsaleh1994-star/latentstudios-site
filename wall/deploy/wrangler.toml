@@ -1,10 +1,30 @@
-# Latent Wall itself, served as static files by a Worker with assets, at its own address.
+# Latent Wall: the static files and, beside them, the service (sign-in, the site kept on the server, pictures, publish).
 # From wall/, after `node scripts/build-site.mjs`:  npx wrangler@latest deploy -c deploy/wrangler.toml
 name = "latent-wall"
+main = "../api/worker.js"
 compatibility_date = "2026-05-12"
 routes = [{ pattern = "wall.latentstudios.art", custom_domain = true }]
 
 [assets]
 directory = "../dist"
+binding = "ASSETS"
 html_handling = "auto-trailing-slash"
 not_found_handling = "404-page"
+run_worker_first = ["/api/*"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "latent-wall"
+database_id = "310d72eb-4af9-4b9a-8c4e-800e73e85d9d"
+
+[[r2_buckets]]
+binding = "SITES"
+bucket_name = "latent-wall-sites"
+
+[vars]
+SITE_DOMAIN = "latentstudios.art"
+PUBLIC_ORIGIN = "https://wall.latentstudios.art"
+# the sender of sign-in mail; the domain must be verified at Resend
+MAIL_FROM = "Latent Wall <wall@latentstudios.art>"
+# secrets, set once with `npx wrangler@latest secret put RESEND_KEY -c deploy/wrangler.toml`: RESEND_KEY (the mail service's key).
+# Until it is set, the door hands the sign-in link back on the page instead of mailing it.

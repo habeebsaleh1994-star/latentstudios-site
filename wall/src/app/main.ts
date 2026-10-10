@@ -9,7 +9,7 @@ import { wire } from "./behave";
 import { createStore, StaleError, type Store } from "./store";
 import { applyTheme } from "./theme";
 import { favicon } from "./publish";
-import { invited, gate } from "./invite";
+import * as account from "./account";
 
 
 /** The sample sites: one body of work per kind of artist, each from an open collection (see design/samples/CREDITS.md). The artist's own site starts from "habib" until they bring their own. */
@@ -33,6 +33,8 @@ export const state = {
   site: null as unknown as SiteDocument, revision: 0, editing: false, store: null as unknown as Store,
   past: [] as SiteDocument[], future: [] as SiteDocument[],
   listeners: [] as (() => void)[],
+  /** the server's copy of this site, when signed in: its id there and the revisions last seen and sent; `reach` is false after a push that could not get through */
+  cloud: null as { id: string; revision: number; sent: number } | null, reach: true,
 };
 const app = document.getElementById("app")!;
 /* tests and the sweeps read the live site here */
@@ -100,15 +102,68 @@ function persist() {
       state.site = r.site; state.revision = r.revision; state.past = []; state.future = [];
       draw(true); notify("This site was changed in another window; that version is shown now.");
     }
+    pushSoon();
   });
 }
 export const saved = () => saving;
+
+/* ---- the server's copy: pushed a moment after each change, with the server revision it grew from */
+let pushTimer: ReturnType<typeof setTimeout> | undefined, pushing: Promise<void> = Promise.resolve();
+function pushSoon() { if (!state.cloud) return; clearTimeout(pushTimer); pushTimer = setTimeout(() => void pushNow(), 1200); }
+export function pushNow(): Promise<void> {
+  pushing = pushing.then(async () => {
+    const c = state.cloud; if (!c || c.sent === state.revision) return;
+    const site = state.site, rev = state.revision;
+    try {
+      const r = await account.push(c.id, site, c.revision);
+      state.cloud = { id: c.id, revision: r.revision, sent: rev }; await state.store.setCloud(state.cloud);
+      if (!state.reach) { state.reach = true; state.listeners.forEach((f) => f()); }
+    } catch (e) {
+      if (e instanceof account.StaleOnServer) {
+        // another device moved the site on; its version is the site now, as with another window
+        const parsed = siteSchema.safeParse(e.site); if (!parsed.success) return;
+        state.site = parsed.data; state.past = []; state.future = [];
+        state.revision = await state.store.save(state.site, state.revision).catch(() => state.revision);
+        state.cloud = { id: c.id, revision: e.revision, sent: state.revision }; await state.store.setCloud(state.cloud);
+        await state.store.prepare(Object.keys(state.site.library));
+        draw(true); notify("This site was changed on another device; that version is shown now.");
+      } else if (state.reach) { state.reach = false; state.listeners.forEach((f) => f()); }
+    }
+  });
+  return pushing;
+}
+/** Signed in with a site on this device: it is put on the server, its pictures too; or the server's copy is taken when it is the newer one. */
+async function syncMine(stored: { site: SiteDocument; revision: number } | null, m: Extract<account.Me, { signedIn: true }>): Promise<{ site: SiteDocument; revision: number } | null> {
+  const remote = m.sites[0] ?? null, cloud = await state.store.cloud();
+  if (remote) {
+    if (cloud && cloud.id === remote.id && cloud.revision === remote.revision && stored) {
+      // nothing new on the server; what changed here while away goes up
+      state.cloud = cloud; if (cloud.sent !== stored.revision) pushSoon(); return stored;
+    }
+    // the server is ahead (another device, or this one signed in afresh): its site is the site
+    const r = await account.pull(remote.id), parsed = siteSchema.safeParse(r.site); if (!parsed.success) return stored;
+    const left = stored && cloud && cloud.sent !== stored.revision;
+    const revision = await state.store.save(parsed.data, stored?.revision ?? 0).catch(async () => (await state.store.load())!.revision);
+    state.cloud = { id: remote.id, revision: r.revision, sent: revision }; await state.store.setCloud(state.cloud);
+    if (left) setTimeout(() => notify("Your site from the server is shown; changes made here while it could not be reached were set aside."), 800);
+    return { site: parsed.data, revision };
+  }
+  if (!stored) { state.cloud = null; await state.store.setCloud(null); return null; }
+  // the first time: the site made on this device becomes the account's
+  const id = cloud?.id ?? crypto.randomUUID();
+  state.cloud = { id, revision: 0, sent: -1 }; await state.store.setCloud(state.cloud);
+  void state.store.queueAll(Object.keys(stored.site.library));
+  return stored;
+}
 export function notify(text: string) { app.dispatchEvent(new CustomEvent("wall:notify", { bubbles: true, detail: text })); }
 
 async function start() {
-  // the beta is by invite: the door stands before the app, never before a published site or an arrival-page preview
-  if (!params.has("published") && !params.has("preview") && !(await invited(params))) { gate(app); return; }
-  state.store = createStore(space);
+  // the beta is by invite: the door stands before the app, never before a published site or an arrival-page preview.
+  // Working locally without the service, the app goes on with this device alone (the sweeps run as before) unless the address asks for the door (?gate).
+  const local = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+  const m = params.has("published") || params.has("preview") ? null : await account.me();
+  if (m && !m.signedIn && (!local || params.has("gate") || m.reachable)) { account.door(app); return; }
+  state.store = createStore(space, m?.signedIn && !isDemo ? account.asset : null);
   // the published site, as a visitor sees it: the latest version, or the one a private preview link names
   if (params.has("published")) {
     const { createVersions } = await import("./versions"), vs = createVersions(space), v = params.get("v") ? await vs.get(Number(params.get("v"))) : await vs.latest();
@@ -121,7 +176,8 @@ async function start() {
 
   // a template shown by link (a preview, a "Try" copy) always starts from the template itself, never from an older saved copy
   const fresh = params.has("reset") || (params.has("house") && isDemo);
-  const stored = fresh ? null : await state.store.load();
+  let stored = fresh ? null : await state.store.load();
+  if (m?.signedIn && !isDemo) stored = await syncMine(stored, m);
   if (stored) { state.site = stored.site; state.revision = stored.revision; }
   else if (!isDemo) {
     // nobody's site is made up for them: with nothing saved yet, the artist starts by choosing a template
@@ -156,6 +212,7 @@ async function start() {
   // photographs nothing refers to any more (replaced, or deleted from the library) are let go once the site is up
   setTimeout(async () => { try { const { everyVersionAsset } = await import("./versions"); const keep = await state.store.everyLibrary(); for (const a of await everyVersionAsset()) keep.add(a); for (const a of Object.keys(state.site.library)) keep.add(a); await state.store.sweep(keep); } catch { /* storage may be unavailable */ } }, 2500);
   draw(false);
+  if (state.cloud) { if (state.cloud.sent !== state.revision) void pushNow(); void state.store.drain(); }
   if (!params.has("preview")) {
     (await import("./edit")).init();
     if (isDemo && params.has("house")) demoNote(params.get("house")!);

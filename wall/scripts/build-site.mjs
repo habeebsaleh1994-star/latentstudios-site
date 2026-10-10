@@ -16,7 +16,7 @@ const skip = (p) => p.endsWith(".DS_Store") || /\/_explore(\/|$)/.test(p) || /\/
 buildSync({ entryPoints: [`${root}/src/app/main.ts`], bundle: true, format: "esm", platform: "browser", target: "es2020", minify: true, sourcemap: false, outfile: `${out}/app/main.js`, logLevel: "warning" });
 mkdirSync(`${out}/src/app`, { recursive: true });
 for (const f of ["app.css", "looks.css", "edit.css"]) cpSync(`${root}/src/app/${f}`, `${out}/src/app/${f}`);
-cpSync(`${root}/app/visitor.js`, `${out}/app/visitor.js`); cpSync(`${root}/app/keys.json`, `${out}/app/keys.json`);
+cpSync(`${root}/app/visitor.js`, `${out}/app/visitor.js`);
 writeFileSync(`${out}/app/index.html`, readFileSync(`${root}/app/index.html`, "utf8").replace('<script type="module" src="/src/app/main.ts"></script>', '<script type="module" src="/app/main.js"></script>'));
 
 // the shared assets, the samples (the stills and the clips included), the arrival page as the root

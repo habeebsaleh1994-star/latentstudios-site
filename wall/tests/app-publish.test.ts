@@ -69,7 +69,7 @@ describe("the files", () => {
   });
   it("names files for uploads by id and keeps samples' names; an address from the name", () => {
     expect(fileOf("asset:abc", "image")).toBe("abc.jpg"); expect(fileOf("/design/folio/img/7.jpg", "image")).toBe("7.jpg");
-    expect(address("Nadia Haddad")).toBe("nadia-haddad.latent.site"); expect(address("Éloïse  Marchand!")).toBe("eloise-marchand.latent.site");
+    expect(address("Nadia Haddad")).toBe("nadia-haddad.latentstudios.art"); expect(address("Éloïse  Marchand!")).toBe("eloise-marchand.latentstudios.art");
   });
 });
 

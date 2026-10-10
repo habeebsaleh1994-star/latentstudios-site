@@ -4,9 +4,11 @@ main = "worker.js"
 compatibility_date = "2026-05-12"
 workers_dev = false
 
-# one custom domain per tester's site; a custom domain makes its own DNS record and certificate.
-# add a line when a tester publishes, then deploy again:  npx wrangler@latest deploy  (from wall/host)
+# every label under latentstudios.art comes here through one wildcard route; it needs one DNS record in the zone,
+# made once by hand: type A, name *, content 192.0.2.1, proxied. The two custom domains below predate it and may stay.
+# wall.latentstudios.art is the Wall Worker's own custom domain, which is more specific and so wins over the wildcard.
 routes = [
+  { pattern = "*.latentstudios.art/*", zone_name = "latentstudios.art" },
   { pattern = "habib.latentstudios.art", custom_domain = true },
   { pattern = "maddalena.latentstudios.art", custom_domain = true },
 ]

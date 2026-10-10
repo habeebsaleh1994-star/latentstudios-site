@@ -229,3 +229,12 @@
 
 /* a writing page's picture: after which paragraph */
 #panel .para { display: block; margin: 8px 0 0; font-size: 13px; color: var(--ed-soft); } #panel .para select { margin-left: 6px; font: inherit; color: var(--ed-ink); background: transparent; border: 0; border-bottom: 1px solid var(--ed-rule, #ccc); padding: 2px 4px; }
+
+/* the account, at the foot of Publish */
+#panel .pub-go .hint.stop { color: var(--peony-text, var(--peony)); }
+#panel .acct { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 0 0 8px; } #panel .acct span { overflow: hidden; text-overflow: ellipsis; }
+#panel .acct-del { border: 1px solid var(--peony-text, var(--peony)); border-radius: 8px; padding: 12px 14px; margin-top: 8px; } #panel .acct-row { display: flex; gap: 8px; align-items: center; margin: 10px 0 0; flex-wrap: wrap; }
+#panel .acct-row input { flex: 1; min-width: 120px; font: inherit; padding: 8px 10px; border: 1px solid var(--ink); border-radius: 6px; background: transparent; color: inherit; letter-spacing: .08em; }
+#panel .go.danger { background: var(--peony-text, var(--peony)); border-color: var(--peony-text, var(--peony)); }
+.gate .g-dev a { font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; } .gate input + input { margin-top: 0; }
+@media (max-width: 600px) { .gate form { flex-direction: column; } }

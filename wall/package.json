@@ -9,6 +9,7 @@
     "test": "vitest run",
     "visitor": "node scripts/build-visitor.mjs",
     "build": "node scripts/build-site.mjs",
+    "api": "npx wrangler@latest dev -c deploy/wrangler.toml --port 8787 --local",
     "release": "node scripts/build-site.mjs && npx wrangler@latest deploy -c deploy/wrangler.toml",
     "invite": "node scripts/invite.mjs",
     "host": "node scripts/host-site.mjs",

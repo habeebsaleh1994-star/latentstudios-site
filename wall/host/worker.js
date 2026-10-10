@@ -13,13 +13,19 @@ export default {
     if (bare) { const [, first, ...rest] = url.pathname.split("/"); name = first; path = rest.join("/"); if (!name) return new Response("Latent Wall", { status: 200 }); }
     else { name = labels[0]; path = url.pathname.replace(/^\//, ""); }
     name = name.toLowerCase().replace(/[^a-z0-9-]/g, "");
+    // the wildcard brings every label here: www goes to the studio, a label with no site gets a quiet page
+    if (name === "www") return Response.redirect(`https://latentstudios.art${url.pathname}${url.search}`, 301);
     if (!name) return new Response("Not found", { status: 404 });
     if (path === "" || path.endsWith("/")) path += "index.html";
     let obj = await env.SITES.get(`${name}/${path}`);
     if (!obj && !path.includes(".")) { // a page named without its slash
       return Response.redirect(`${url.origin}${url.pathname}/${url.search}`, 301);
     }
-    if (!obj) { obj = await env.SITES.get(`${name}/404.html`); if (!obj) return new Response("Not found", { status: 404 }); return body(obj, path, 404); }
+    if (!obj) {
+      obj = await env.SITES.get(`${name}/404.html`); if (obj) return body(obj, path, 404);
+      const any = await env.SITES.head(`${name}/index.html`);
+      return new Response(any ? "Not found" : nobody(name), { status: 404, headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-cache" } });
+    }
     return body(obj, path, 200);
   },
 };
@@ -31,3 +37,6 @@ function body(obj, path, status) {
   if (ext === "html") h.set("x-frame-options", "SAMEORIGIN");
   return new Response(obj.body, { status, headers: h });
 }
+
+/** No site lives at this label (yet). */
+const nobody = (name) => `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Latent Wall</title><body style="margin:0;background:#EEE9E7;color:#29222A;font:300 19px/1.6 Georgia,serif"><main style="max-width:560px;margin:0 auto;padding:18vh 24px"><p style="font:11px/1 system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase">Latent Wall<span style="color:#A0697A">.</span></p><p>There is no site at <b>${name}</b> yet.</p><p><a href="https://wall.latentstudios.art/" style="color:inherit">Latent Wall</a></p></main>`;

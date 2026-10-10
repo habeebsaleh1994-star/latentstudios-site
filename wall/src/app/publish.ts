@@ -94,7 +94,7 @@ export type Sources = {
   sizes?: (asset: string, widths: number[]) => Promise<{ w: number; data: Uint8Array }[]>;
 };
 /** Where "Latent Wall" at the foot of a published site leads. */
-export const WALL_HOME = "https://latentstudios.com/wall";
+export const WALL_HOME = "https://wall.latentstudios.art/";
 /** The widths a picture is also made at. The full picture (up to 2400 px) is always there. */
 export const SIZES = [640, 1200];
 /** The srcset for a picture in the files: its smaller sizes and the full one, named beside it. */
@@ -270,5 +270,7 @@ export function favicon(site: SiteDocument): string {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="${ground}"/><text x="32" y="45" text-anchor="middle" font-family="${esc(face)}" font-size="40" font-weight="300" fill="${ink}">${esc(initial)}</text></svg>`;
 }
 /** The domain under which a published site lives; one place to change when the real one is decided. */
-export const SITE_DOMAIN = "latent.site";
-export const address = (name: string) => `${name.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "site"}.${SITE_DOMAIN}`;
+export const SITE_DOMAIN = "latentstudios.art";
+/** The first word of a site's address, from the artist's name. */
+export const label = (name: string) => name.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40).replace(/-$/, "") || "site";
+export const address = (name: string) => `${label(name)}.${SITE_DOMAIN}`;
