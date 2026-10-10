@@ -8,6 +8,7 @@ import { page, viewOf, titleText, workPages, type Ctx, lockOf } from "./render";
 import { wire } from "./behave";
 import { createStore, StaleError, type Store } from "./store";
 import { applyTheme } from "./theme";
+import { favicon } from "./publish";
 
 
 /** The sample sites: one body of work per kind of artist, each from an open collection (see design/samples/CREDITS.md). The artist's own site starts from "habib" until they bring their own. */
@@ -67,6 +68,10 @@ export function draw(keep = false) {
   document.documentElement.toggleAttribute("data-editing", state.editing);
   app.innerHTML = page(c, p);
   document.title = titleText(state.site, p);
+  // the tab's icon: the artist's own picture when chosen, else their initial, as the published files will carry it
+  const link = document.querySelector<HTMLLinkElement>("link[rel='icon']") ?? document.head.appendChild(Object.assign(document.createElement("link"), { rel: "icon" }));
+  const icon = state.site.mark.icon && state.site.library[state.site.mark.icon] ? state.store.src(state.site.mark.icon) : `data:image/svg+xml;utf8,${encodeURIComponent(favicon(state.site))}`;
+  if (link.href !== icon) { link.href = icon; link.type = icon.startsWith("data:") ? "image/svg+xml" : ""; }
   wire(app, c, p, v, keep);
   // after wire(): a book, a contact sheet and slides build their frames there
   for (const a of turned) { const f = app.querySelector<HTMLElement>(`.verso[data-verso="${CSS.escape(a!)}"]`)?.parentElement; if (f) { f.classList.add("turned", "still"); requestAnimationFrame(() => f.classList.remove("still")); } }

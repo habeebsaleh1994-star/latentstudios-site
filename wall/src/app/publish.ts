@@ -88,6 +88,8 @@ export type Sources = {
   bytes: (asset: string) => Promise<Uint8Array>;
   /** a share image (1200 × 630) cut from a photograph around its focal point; absent where there is no canvas */
   share?: (asset: string, focal: { x: number; y: number }) => Promise<Uint8Array | null>;
+  /** the site's icon (180 × 180 PNG) cut square from the artist's chosen picture around its focal point; absent where there is no canvas */
+  icon?: (asset: string, focal: { x: number; y: number }) => Promise<Uint8Array | null>;
   /** the same photograph at smaller widths (JPEG), for screens that need no more; absent where there is no canvas */
   sizes?: (asset: string, widths: number[]) => Promise<{ w: number; data: Uint8Array }[]>;
 };
@@ -152,6 +154,8 @@ type FileOpts = {
   names?: Map<string, string>;
   /** which smaller widths were made for each picture */
   made?: Map<string, number[]>;
+  /** the artist's own icon is among the files */
+  icon?: boolean;
   /** the door this file shows instead of the page */
   lock?: "soon" | "word";
   /** the page itself, sealed with its word, carried inside the door */
@@ -186,7 +190,8 @@ export function pageFile(site: SiteDocument, p: SitePage | null, base: string, o
 <meta property="og:type" content="website">${shareFile ? `
 <meta property="og:image" content="${base}${shareFile}">
 <meta name="twitter:card" content="summary_large_image">` : ""}
-<link rel="icon" href="${base}assets/favicon.svg" type="image/svg+xml">
+${o.icon ? `<link rel="icon" href="${base}assets/icon.png" type="image/png">
+<link rel="apple-touch-icon" href="${base}assets/icon.png">` : `<link rel="icon" href="${base}assets/favicon.svg" type="image/svg+xml">`}
 <link rel="stylesheet" href="${base}assets/fonts.css">
 <link rel="stylesheet" href="${base}assets/base.css">
 <link rel="stylesheet" href="${base}assets/looks.css">
@@ -216,11 +221,14 @@ export async function buildFiles(site: SiteDocument, src: Sources): Promise<OutF
   // the pictures at smaller widths too, when the runtime can make them
   const made = new Map<string, number[]>(), shipped = [...openUsed, ...names.keys()].filter((a) => site.library[a]?.kind === "image");
   if (src.sizes) await Promise.all(shipped.map(async (a) => { const w = site.library[a]; const widths = SIZES.filter((s) => s < w.w); if (!widths.length) return; try { const out = await src.sizes!(a, widths); const file = names.get(a) ?? fileOf(a, "image"), stem = file.replace(/\.(jpg|jpeg|png|webp)$/i, ""), ext = file.slice(stem.length) || ".jpg"; for (const v of out) files.push({ name: `assets/img/${stem}-${v.w}${ext}`, data: v.data }); made.set(a, out.map((v) => v.w)); } catch { /* the full picture alone */ } }));
+  // the artist's own icon, when they chose one and the runtime can cut it
+  let icon = false;
+  if (site.mark.icon && site.library[site.mark.icon] && src.icon) { try { const d = await src.icon(site.mark.icon, site.library[site.mark.icon].focal); if (d) { files.push({ name: "assets/icon.png", data: d }); icon = true; } } catch { /* the initial, then */ } }
   const fileFor = async (p: SitePage | null, base: string) => {
-    if (!hidden(site, p)) return pageFile(site, p, base, { names, made });
+    if (!hidden(site, p)) return pageFile(site, p, base, { names, made, icon });
     const word = site.door.soon ? site.door.word : wordFor(site, p);
-    const sealed = word ? await seal(pageFile(site, p, base, { names, made, keep: site.door.word ? "all" : p!.id }), word) : undefined;
-    return pageFile(site, p, base, { names, lock: site.door.soon ? "soon" : "word", sealed });
+    const sealed = word ? await seal(pageFile(site, p, base, { names, made, icon, keep: site.door.word ? "all" : p!.id }), word) : undefined;
+    return pageFile(site, p, base, { names, icon, lock: site.door.soon ? "soon" : "word", sealed });
   };
   files.push({ name: "index.html", data: enc.encode(await fileFor(null, "")) });
   for (const p of site.pages) files.push({ name: `${p.id}/index.html`, data: enc.encode(await fileFor(p, "../")) });

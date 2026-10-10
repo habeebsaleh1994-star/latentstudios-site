@@ -139,6 +139,7 @@ function siteTab() {
   const s = state.site, has = (k: string) => s.pages.some((p) => p.kind === k), cur = pageId();
   let h = `<h3>Words</h3>${input("site.name", s.name, "Your name")}${input("site.contact", s.contact, "A line at the foot of every page")}`;
   h += appearsBlock(null) + `<h3>Your mark</h3>${s.mark.logo ? `<ol class="tray"><li>${thumb(s.mark.logo)}<span class="t">${esc(s.library[s.mark.logo]?.title || "Logo")}<small>in place of your name</small></span><span class="acts"><button type="button" data-a="logo-clear" aria-label="Show the name instead">&times;</button></span></li></ol>` : ""}<div class="adds"><button type="button" data-a="logo-pick">${s.mark.logo ? "Another logo" : "+ A logo or wordmark"}</button></div><p class="hint">Shown in place of your name at the top of every page. A PNG with a transparent ground works best.</p>`;
+  h += `<h3>Your icon</h3>${s.mark.icon ? `<ol class="tray"><li>${thumb(s.mark.icon)}<span class="t">${esc(s.library[s.mark.icon]?.title || "Icon")}<small>in the browser tab</small></span><span class="acts"><button type="button" data-a="icon-clear" aria-label="Use the initial instead">&times;</button></span></li></ol>` : ""}<div class="adds"><button type="button" data-a="icon-pick">${s.mark.icon ? "Another icon" : "+ An icon"}</button></div><p class="hint">The small picture in the browser tab and on a phone's home screen, cut square around the picture's focal point. Without one, your initial on the site's ground.</p>`;
   const mode = s.door.soon ? "soon" : s.door.word || doorWant ? "word" : "open";
   h += `<h3>Who can see it</h3>${seg("door", [["open", "Everyone"], ["word", "Those with a word"], ["soon", "No one yet"]], mode)}`;
   if (mode !== "open") h += `<input type="text" data-f="site.door.word" value="${esc(s.door.word)}" placeholder="The word" aria-label="The word" autocapitalize="none" spellcheck="false">`;
@@ -305,9 +306,9 @@ function workColours(): string[] | null {
 
 /* ------------------------------------------------------------------ the library */
 
-type Target = { kind: "story"; page: string; after: number } | { kind: "list"; page: string; list: "stills" | "outcome" | "process" } | { kind: "poster"; page: string } | { kind: "writing"; page: string } | { kind: "share"; page: string | null } | { kind: "logo" };
+type Target = { kind: "story"; page: string; after: number } | { kind: "list"; page: string; list: "stills" | "outcome" | "process" } | { kind: "poster"; page: string } | { kind: "writing"; page: string } | { kind: "share"; page: string | null } | { kind: "logo" } | { kind: "icon" };
 let target: Target | null = null, chosen: string[] = [];
-const single = () => target?.kind === "poster" || target?.kind === "writing" || target?.kind === "share" || target?.kind === "logo";
+const single = () => target?.kind === "poster" || target?.kind === "writing" || target?.kind === "share" || target?.kind === "logo" || target?.kind === "icon";
 function openLib(t: Target) { target = t; chosen = []; renderLib(); lib.hidden = false; (lib.querySelector(".grid button") as HTMLElement | null)?.focus(); }
 function closeLib() { lib.hidden = true; target = null; }
 function renderLib(note?: string) {
@@ -397,6 +398,7 @@ function place() {
   else if (t.kind === "poster") commit(O.setFilm(s, t.page, { poster: chosen[0] }));
   else if (t.kind === "share") commit(O.setShare(s, t.page, chosen[0]));
   else if (t.kind === "logo") commit(O.setLogo(s, chosen[0]));
+  else if (t.kind === "icon") commit(O.setIcon(s, chosen[0]));
   else commit(O.setWritingImage(s, t.page, { asset: chosen[0], at: "cover" }));
   toast(chosen.length === 1 ? "Added." : `${chosen.length} added.`);
 }
@@ -425,6 +427,8 @@ function act(a: string, d: DOMStringMap) {
       case "share-clear": return commit(O.setShare(s, d.page || null, null));
       case "logo-pick": return openLib({ kind: "logo" });
       case "logo-clear": return commit(O.setLogo(s, null));
+      case "icon-pick": return openLib({ kind: "icon" });
+      case "icon-clear": return commit(O.setIcon(s, null));
       case "focal": return openFocal(d.asset!);
       case "replace": { if (!p || p.kind !== "story") return; replacing = { page: p.id, k }; openMenu = null; trayOpen = null; return $<HTMLInputElement>("#one-file")!.click(); }
       case "add-works": return openLib({ kind: "story", page: d.page!, after: Number(d.after) });

@@ -219,6 +219,11 @@ export function setLogo(site: S, asset: string | null): S {
   if (asset && !site.library[asset]) throw new Error(`No work ${asset}.`);
   const s = clone(site); s.mark.logo = asset; return done(s);
 }
+/** The icon in the browser tab and on a phone's home screen: a picture of the artist's own, cut square around its focal point. */
+export function setIcon(site: S, asset: string | null): S {
+  if (asset && !site.library[asset]) throw new Error(`No work ${asset}.`);
+  const s = clone(site); s.mark.icon = asset; return done(s);
+}
 /** Where the picture's heart is, as a point in percent; crops that must cut keep it in view. */
 export function setFocal(site: S, asset: string, x: number, y: number): S {
   const w = site.library[asset]; if (!w) throw new Error(`No work ${asset}.`);

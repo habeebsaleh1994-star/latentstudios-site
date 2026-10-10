@@ -60,6 +60,16 @@ async function shareImage(asset: string, focal: { x: number; y: number }): Promi
   } catch { return null; }
 }
 
+/** The icon: the picture cut square around its focal point, 180 px, as a PNG. */
+async function iconImage(asset: string, focal: { x: number; y: number }): Promise<Uint8Array | null> {
+  try {
+    const img = new Image(); img.src = state.store.src(asset); await img.decode();
+    const S = 180, side = Math.min(img.naturalWidth, img.naturalHeight), sx = Math.max(0, Math.min(img.naturalWidth - side, (focal.x / 100) * img.naturalWidth - side / 2)), sy = Math.max(0, Math.min(img.naturalHeight - side, (focal.y / 100) * img.naturalHeight - side / 2));
+    const cv = document.createElement("canvas"); cv.width = S; cv.height = S; cv.getContext("2d")!.drawImage(img, sx, sy, side, side, 0, 0, S, S);
+    const blob = await new Promise<Blob | null>((ok) => cv.toBlob(ok, "image/png")); return blob ? new Uint8Array(await blob.arrayBuffer()) : null;
+  } catch { return null; }
+}
+
 async function build(v: Version) {
   const sizesOf = async (asset: string, widths: number[]) => {
     const bytes = await state.store.bytes(asset), bmp = await createImageBitmap(new Blob([bytes as BlobPart]));
@@ -71,7 +81,7 @@ async function build(v: Version) {
     sizes: sizesOf,
     text: async (u) => { const r = await fetch(u + (u.endsWith(".css") || u.endsWith(".ts") ? "?raw" : "")); const t = await r.text(); const m = /^export default ("(?:[^"\\]|\\.)*")/.exec(t); return m ? JSON.parse(m[1]) : t; },
     bytes: (a) => state.store.bytes(a),
-    share: shareImage,
+    share: shareImage, icon: iconImage,
   });
   const blob = zip(files);
   if (lastUrl) URL.revokeObjectURL(lastUrl); lastUrl = URL.createObjectURL(blob);

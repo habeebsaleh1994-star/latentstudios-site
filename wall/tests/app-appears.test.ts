@@ -35,6 +35,8 @@ describe("how a page appears elsewhere", () => {
     expect(s.library["/design/folio/img/12.jpg"].focal).toEqual({ x: 100, y: 0 });
     expect(() => O.setLogo(site(), "ghost")).toThrow(); expect(() => O.setShare(site(), null, "ghost")).toThrow();
     expect(O.setLogo(site(), "/design/folio/img/9.jpg").mark.logo).toBe("/design/folio/img/9.jpg");
+    expect(O.setIcon(site(), "/design/folio/img/9.jpg").mark.icon).toBe("/design/folio/img/9.jpg");
+    expect(() => O.setIcon(site(), "nope")).toThrow();
     expect(O.unused(O.setLogo(O.addToLibrary(site(), "asset:x", { w: 10, h: 10, title: "m" }), "asset:x"))).toEqual([]);
   });
   it("replacing a work carries the logo and share images with it", () => {

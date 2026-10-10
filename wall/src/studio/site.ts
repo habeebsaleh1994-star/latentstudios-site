@@ -175,8 +175,8 @@ export const siteSchema = z
     appears: z.object({ description: short.default(""), share: id.nullable().default(null) }).strict().default({ description: "", share: null }),
     /** The door: a word the whole site is behind, and "soon", which publishes only a holding page (with the door, when there is a word). */
     door: z.object({ word: short.default(""), soon: z.boolean().default(false), note: short.default("") }).strict().default({ word: "", soon: false, note: "" }),
-    /** The artist's mark: a logo or wordmark shown in place of the name, when they have one. */
-    mark: z.object({ logo: id.nullable().default(null) }).strict().default({ logo: null }),
+    /** The artist's mark: a logo or wordmark shown in place of the name, when they have one; an icon for the browser tab and a phone's home screen (without one, their initial). */
+    mark: z.object({ logo: id.nullable().default(null), icon: id.nullable().default(null) }).strict().default({ logo: null, icon: null }),
     theme: themeSchema,
     library: z.record(id, workSchema),
     pages: z.array(sitePageSchema).max(200),
@@ -207,7 +207,7 @@ export function assetsOf(p: SitePage): string[] {
   return p.appears.share ? [...own, p.appears.share] : own;
 }
 /** What the site itself refers to: its logo and its own share image. */
-export const siteAssets = (s: { mark: { logo: string | null }; appears: { share: string | null } }) => [s.mark.logo, s.appears.share].filter((a): a is string => !!a);
+export const siteAssets = (s: { mark: { logo: string | null; icon: string | null }; appears: { share: string | null } }) => [s.mark.logo, s.mark.icon, s.appears.share].filter((a): a is string => !!a);
 
 /** Every work a removed page still refers to: kept in the library so the page can come back whole. */
 export const assetsInTrash = (s: SiteDocument) => s.trash.flatMap((t) => assetsOf(t.page));
