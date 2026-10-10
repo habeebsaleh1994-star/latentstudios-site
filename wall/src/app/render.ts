@@ -390,7 +390,7 @@ export function slideList(c: Ctx, p: StoryPage) {
   return { list, thumbs };
 }
 /** Leaves: a story read one leaf at a time, as part of the whole book; the running head says where you are, the turns carry on into the next page. */
-const leaves = (c: Ctx, p: StoryPage) => `<main class="v-leaves" data-page="${p.id}"><header class="runhead"><a class="label" href="${c.href("")}#contents">Contents</a><span class="label where">${plainTitle(p.title, p.titleEm)}</span><span class="label at"></span></header><div class="stage" aria-live="polite"></div><nav class="turns" aria-label="Turn"><a class="label back" href="#">&larr; Turn back</a><a class="label fwd" href="#">Turn &rarr;</a></nav>${gap(c, p, p.pieces.length - 1, true)}</main>`;
+const leaves = (c: Ctx, p: StoryPage) => `<main class="v-leaves" data-page="${p.id}"><header class="runhead"><span class="rh-l"><a class="label name" href="${c.href("")}">${esc(c.site.name)}</a><a class="label" href="${c.href("")}#contents">Contents</a></span><span class="label where">${plainTitle(p.title, p.titleEm)}</span><span class="label at"></span></header><div class="stage" aria-live="polite"></div><nav class="turns" aria-label="Turn"><a class="label back" href="#">&larr; Turn back</a><a class="label fwd" href="#">Turn &rarr;</a></nav>${gap(c, p, p.pieces.length - 1, true)}</main>`;
 const slides = (c: Ctx, p: StoryPage) => `<main class="v-slides" data-page="${p.id}"><div class="show"><div class="stage" aria-roledescription="slideshow" aria-live="polite"></div><div class="thumbs" role="group" aria-label="All slides"></div></div>${gap(c, p, p.pieces.length - 1, true)}${next(c, p).html}</main>`;
 
 /* ------------------------------------------------------------------ writing, film, project, about, contact */
@@ -474,10 +474,11 @@ export function page(c: Ctx, p: SitePage | null): string {
   else if (p.kind === "record") main = record(c, p);
   else main = words(c, p);
   // in a Manuscript a writing or a film is a leaf of the book: the running head above it, the turns below, in place of "Next"
-  if (c.site.house === "manuscript" && p && (p.kind === "writing" || p.kind === "film")) main = main.replace(/<a class="onward"[\s\S]*?<\/a>/, "").replace(/^(<main[^>]*)>/, `$1 data-leaf-page="${esc(p.id)}"><header class="runhead"><a class="label" href="${c.href("")}#contents">Contents</a><span class="label where">${plainTitle(p.title, p.titleEm)}</span><span class="label at"></span></header>`).replace(/<\/main>$/, `<nav class="turns" aria-label="Turn"><a class="label back" href="#">&larr; Turn back</a><a class="label fwd" href="#">Turn &rarr;</a></nav></main>`);
+  if (c.site.house === "manuscript" && p && (p.kind === "writing" || p.kind === "film")) main = main.replace(/<a class="onward"[\s\S]*?<\/a>/, "").replace(/^(<main[^>]*)>/, `$1 data-leaf-page="${esc(p.id)}"><header class="runhead"><span class="rh-l"><a class="label name" href="${c.href("")}">${esc(c.site.name)}</a><a class="label" href="${c.href("")}#contents">Contents</a></span><span class="label where">${plainTitle(p.title, p.titleEm)}</span><span class="label at"></span></header>`).replace(/<\/main>$/, `<nav class="turns" aria-label="Turn"><a class="label back" href="#">&larr; Turn back</a><a class="label fwd" href="#">Turn &rarr;</a></nav></main>`);
   const v = viewOf(p, c.site);
   // the reading views fill the screen: nothing below a leaf, a spread or a walk
-  return bar(c, on) + main + (v === "book" || v === "passage" || v === "leaves" ? "" : foot(c, on));
+  const immersive = c.site.house === "manuscript" && (v === "leaves" || main.includes('data-leaf-page="'));
+  return (immersive ? "" : bar(c, on)) + main + (v === "book" || v === "passage" || v === "leaves" || immersive ? "" : foot(c, on));
 }
 
 export function titleText(s: SiteDocument, p: SitePage | null) {
