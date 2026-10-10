@@ -148,7 +148,7 @@
 #panel .looks button, #panel .types button { overflow: hidden; }
 .demo-note { position: sticky; top: 0; z-index: 21; display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; width: 100%; padding: 10px var(--gutter); background: var(--ed-ink); color: var(--ed-bg); font-family: var(--ed-font); font-size: 12.5px; box-shadow: 0 18px 40px -24px rgba(0,0,0,.5); }
 .demo-note > * { max-width: min(100%, 720px); }
-.demo-note .back { text-decoration: none; letter-spacing: .08em; text-transform: uppercase; font-size: 11px; margin-right: 6px; } .demo-note b { font-weight: 500; } .demo-note a { color: var(--ed-bg); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255,255,255,.4); white-space: nowrap; }
+.demo-note .beta { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; padding: 3px 8px; line-height: 1; margin-right: 4px; } .demo-note .back { text-decoration: none; letter-spacing: .08em; text-transform: uppercase; font-size: 11px; margin-right: 6px; } .demo-note b { font-weight: 500; } .demo-note a { color: var(--ed-bg); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255,255,255,.4); white-space: nowrap; }
 [data-panel] .demo-note { left: calc(50% - 180px); }
 
 /* publishing */

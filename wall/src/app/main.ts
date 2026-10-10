@@ -9,6 +9,7 @@ import { wire } from "./behave";
 import { createStore, StaleError, type Store } from "./store";
 import { applyTheme } from "./theme";
 import { favicon } from "./publish";
+import { invited, gate } from "./invite";
 
 
 /** The sample sites: one body of work per kind of artist, each from an open collection (see design/samples/CREDITS.md). The artist's own site starts from "habib" until they bring their own. */
@@ -105,6 +106,8 @@ export const saved = () => saving;
 export function notify(text: string) { app.dispatchEvent(new CustomEvent("wall:notify", { bubbles: true, detail: text })); }
 
 async function start() {
+  // the beta is by invite: the door stands before the app, never before a published site or an arrival-page preview
+  if (!params.has("published") && !params.has("preview") && !(await invited(params))) { gate(app); return; }
   state.store = createStore(space);
   // the published site, as a visitor sees it: the latest version, or the one a private preview link names
   if (params.has("published")) {
@@ -161,7 +164,7 @@ async function start() {
 /** A demo says so, and offers to start the artist's own site in the same template. */
 async function demoNote(h: string) {
   const { house } = await import("./houses"), name = house(h).name;
-  document.body.insertAdjacentHTML("afterbegin", `<div class="demo-note" role="note"><a class="back" href="/design/home/index.html">&larr; Wall</a><span>A demo of <b>${name}</b>, with sample work. Edit and Customise freely; nothing here is kept.</span><a href="/app/index.html?start=${h}">Start your own site in ${name} &rarr;</a></div>`);
+  document.body.insertAdjacentHTML("afterbegin", `<div class="demo-note" role="note"><a class="back" href="/design/home/index.html">&larr; Wall</a><span class="beta">Beta</span><span>A demo of <b>${name}</b>, with sample work. Edit and Customise freely; nothing here is kept.</span><a href="/app/index.html?start=${h}">Start your own site in ${name} &rarr;</a></div>`);
 }
 
 start().catch((e) => { app.innerHTML = `<main class="v-words"><section class="words"><div><h1>This site could not be opened.</h1></div><div class="body"><p>${String((e as Error).message ?? e)}</p></div></section></main>`; });

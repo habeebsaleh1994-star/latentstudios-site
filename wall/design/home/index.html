@@ -35,7 +35,7 @@ body.onfield .top { color: var(--night-ink); padding-bottom: 60px; background: l
 body.onfield .top nav a { opacity: .9; }
 /* while one site fills the screen it is the only header there is */
 body.inside .top { opacity: 0; transform: translateY(-8px); pointer-events: none; }
-.brand { display: flex; align-items: baseline; gap: 12px; text-decoration: none; } .brand .word i, .foot .mark i { font-style: normal; color: var(--peony-text); } body.onfield .brand .word i { color: var(--peony); } .brand .word { font-family: var(--sans); font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase; }
+.brand { display: flex; align-items: baseline; gap: 12px; text-decoration: none; } .brand .beta { font-family: var(--sans); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: inherit; opacity: .75; border: 1px solid currentColor; border-radius: 999px; padding: 4px 9px; line-height: 1; } .brand .word i, .foot .mark i { font-style: normal; color: var(--peony-text); } body.onfield .brand .word i { color: var(--peony); } .brand .word { font-family: var(--sans); font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase; }
 .top nav { display: flex; gap: 34px; } .top nav a { font-family: var(--sans); font-size: 11.5px; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; opacity: .75; transition: opacity .3s; } .top nav a:hover { opacity: 1; }
 @media (max-width: 720px) { .top nav a:not(:last-child) { display: none; } }
 
@@ -131,7 +131,7 @@ footer { border-top: 1px solid var(--rule); padding: 36px 0 60px; } .foot { disp
 </head>
 <body>
 <header class="top">
-  <a class="brand" href="#top" aria-label="Latent Wall, home"><span class="word">Latent Wall<i>.</i></span></a>
+  <a class="brand" href="#top" aria-label="Latent Wall, home"><span class="word">Latent Wall<i>.</i></span><span class="beta">Beta · by invite</span></a>
   <nav aria-label="Primary"><a href="#moments">What you need</a><a href="#eighteen">The eighteen</a><a href="/app/index.html">Your site</a></nav>
 </header>
 
