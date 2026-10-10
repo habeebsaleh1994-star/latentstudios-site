@@ -10,8 +10,8 @@ import type { SiteDocument, SitePage, StoryPage, Work, Piece } from "../studio/s
 import { ratioNumber } from "./util";
 import { house } from "./houses";
 
-/** The Latent mark: the L developing (a gradient in the current colour) and its full stop, solid. From docs/plans/2026-05-20-logo-design.md; drawn inline so it takes the page's ink by day and by night. */
-export const MARK = `<svg class="lmark" viewBox="323 108 378 808" aria-hidden="true" focusable="false"><defs><linearGradient id="lmark-g" gradientUnits="userSpaceOnUse" x1="0" y1="108" x2="0" y2="770"><stop offset="0" stop-color="currentColor" stop-opacity=".1"/><stop offset=".55" stop-color="currentColor" stop-opacity=".55"/><stop offset="1" stop-color="currentColor"/></linearGradient></defs><path d="M323,108 L423,108 L423,670 L701,670 L701,770 L323,770 Z" fill="url(#lmark-g)"/><circle cx="663" cy="878" r="38" fill="currentColor"/></svg>`;
+/** The mark of the family, as the studio writes its own: spaced capitals and a rose full stop. Typographic, so it takes every look's ink and sans. */
+export const MARK = `<span class="lw">Latent Wall<i>.</i></span>`;
 
 export type Ctx = {
   site: SiteDocument;
