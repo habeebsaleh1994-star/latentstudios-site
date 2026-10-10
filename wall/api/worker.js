@@ -127,6 +127,7 @@ async function route(req, env, url, p) {
     if (!row || row.email !== me) return bad("Not your site. Save it first, then publish.", 403);
     if (rest === "begin" && req.method === "POST") {
       const b = await req.json().catch(() => ({})), label = String(b.label || "").toLowerCase();
+      if (RESERVED.has(label)) return json({ error: `${label}.${env.SITE_DOMAIN} belongs to the studio. Change your name in Edit → The site, and the address changes with it.`, taken: true }, 409);
       if (!okLabel(label)) return bad(`“${label}” cannot be an address. Letters, numbers and hyphens, from your name.`);
       const taken = await env.DB.prepare("SELECT id FROM sites WHERE label = ? AND id != ?").bind(label, id).first();
       if (taken) return json({ error: `${label}.${env.SITE_DOMAIN} is someone else's address. Change your name in Edit → The site, and it changes with it.`, taken: true }, 409);
@@ -170,8 +171,9 @@ async function wipe(env, prefix) {
 const CF = "https://api.cloudflare.com/client/v4";
 async function cf(env, path, init = {}) {
   const r = await fetch(`${CF}${path}`, { ...init, headers: { authorization: `Bearer ${env.CF_TOKEN}`, "content-type": "application/json" } });
-  const d = await r.json().catch(() => ({}));
-  if (!d.success) throw new Error(`the address could not be made (${(d.errors || []).map((e) => e.message).join("; ") || r.status})`);
+  const text = await r.text(), d = text ? (() => { try { return JSON.parse(text); } catch { return {}; } })() : {};
+  if (r.ok && !text) return null; // a removal answers with nothing
+  if (!d.success) { console.error("cloudflare refused", init.method || "GET", path.replace(/\?.*/, ""), r.status, JSON.stringify(d.errors)); throw new Error(`Cloudflare refused the address change (${(d.errors || []).map((e) => `${e.code} ${e.message}`).join("; ") || r.status})`); }
   return d.result;
 }
 const holders = async (env, host) => (await cf(env, `/accounts/${env.CF_ACCOUNT}/workers/domains?hostname=${encodeURIComponent(host)}`)).filter((d) => d.hostname === host);
