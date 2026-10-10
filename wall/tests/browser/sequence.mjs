@@ -42,8 +42,13 @@ ok(!(await pg.evaluate((a) => a in window.__wall.site.library, firstUpload)), "R
 keys = await stored(); ok(keys.includes(firstUpload.slice(6)), "its bytes stay this session, so Undo could bring it back");
 await pg.click("#undo"); await w(400); ok(await pg.locator(".v-held img").first().evaluate((i) => i.naturalWidth > 0), "and Undo shows it again");
 await pg.click("#redo"); await w(400);
+// a fresh picture nothing names yet (a folder being brought in, another window mid-edit) is never let go: written now, it is spared
 await pg.goto("about:blank"); await pg.goto(`${B}/app/index.html?site=habib&space=${space}#/the-road-in`, { waitUntil: "networkidle" }); await w(3500);
-keys = await stored(); ok(!keys.includes(firstUpload.slice(6)) && keys.includes(second.slice(6)), `on the next load the bytes nothing refers to are let go, the current picture's kept (${keys.length} stored)`);
+keys = await stored(); ok(keys.includes(firstUpload.slice(6)), "a picture written minutes ago is spared by the next load's tidying, though nothing names it");
+// an hour later (its written time set back), the next load lets it go and keeps the current one
+await pg.evaluate((k) => new Promise((res) => { const r = indexedDB.open("latent-wall"); r.onsuccess = () => { const d = r.result, t = d.transaction("assets", "readwrite"), st = t.objectStore("assets"), g = st.get(k); g.onsuccess = () => { st.put({ ...g.result, at: Date.now() - 3600e3 }, k); }; t.oncomplete = () => { d.close(); res(); }; }; }), firstUpload.slice(6));
+await pg.goto("about:blank"); await pg.goto(`${B}/app/index.html?site=habib&space=${space}#/the-road-in`, { waitUntil: "networkidle" }); await w(3500);
+keys = await stored(); ok(!keys.includes(firstUpload.slice(6)) && keys.includes(second.slice(6)), `on a later load the bytes nothing refers to are let go, the current picture's kept (${keys.length} stored)`);
 ok(await pg.locator(".v-held img").first().evaluate((i) => i.naturalWidth > 0), "the current picture still shows");
 if (errs.length) fails.push(errs.join(" | "));
 console.log(which, fails.length ? "FAILS:\n  " + fails.join("\n  ") : "rows drag into order; forgotten bytes are let go"); await br.close();

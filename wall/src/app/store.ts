@@ -18,7 +18,8 @@ interface Rec { value: unknown; revision: number }
 export type Cloud = { id: string; revision: number; sent: number };
 interface WallDB extends DBSchema {
   sites: { key: string; value: Rec };
-  assets: { key: string; value: { type: string; data: ArrayBuffer } };
+  /** at: when the bytes were written here; the sweep spares anything written in the last ten minutes */
+  assets: { key: string; value: { type: string; data: ArrayBuffer; at?: number } };
   /** pictures not yet on the server, by asset id */
   pending: { key: string; value: { at: number } };
   cloud: { key: string; value: Cloud };
@@ -27,7 +28,7 @@ interface WallDB extends DBSchema {
 export type Remote = { get: (id: string) => Promise<{ type: string; data: ArrayBuffer } | null>; put: (id: string, type: string, data: ArrayBuffer) => Promise<unknown> };
 export class StaleError extends Error { constructor() { super("This site was changed in another window."); this.name = "StaleError"; } }
 
-const MAX_BYTES = 15 * 1024 * 1024, LONG_EDGE = 2400, MAX_FILM = 400 * 1024 * 1024;
+const MAX_BYTES = 15 * 1024 * 1024, LONG_EDGE = 2400, MAX_FILM = 400 * 1024 * 1024, FRESH_MS = 10 * 60 * 1000;
 let dbp: Promise<IDBPDatabase<WallDB>> | null = null;
 const db = () => (dbp ??= openDB<WallDB>("latent-wall", 2, { upgrade(d) { for (const n of ["sites", "assets", "pending", "cloud"] as const) if (!d.objectStoreNames.contains(n)) d.createObjectStore(n); } }));
 
@@ -70,7 +71,7 @@ export function createStore(space = "artist", remote: Remote | null = null) {
     const cv = document.createElement("canvas"); cv.width = w; cv.height = h; cv.getContext("2d")!.drawImage(bmp, 0, 0, w, h); bmp.close();
     const blob = await new Promise<Blob>((ok, no) => cv.toBlob((b) => (b ? ok(b) : no(new Error("The image could not be prepared."))), "image/jpeg", 0.9));
     const id = crypto.randomUUID();
-    try { await (await db()).put("assets", { type: blob.type, data: await blob.arrayBuffer() }, id); }
+    try { await (await db()).put("assets", { type: blob.type, data: await blob.arrayBuffer(), at: Date.now() }, id); }
     catch { throw new Error("This browser could not keep the photograph. In a private window, open the site in a normal one."); }
     void queue(`asset:${id}`);
     const base = file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ").trim();
@@ -87,7 +88,7 @@ export function createStore(space = "artist", remote: Remote | null = null) {
     URL.revokeObjectURL(url);
     if (!m.w || !m.h) throw new Error(`${file.name} has no picture this browser can read.`);
     const id = crypto.randomUUID();
-    try { await (await db()).put("assets", { type: file.type || "video/mp4", data: await file.arrayBuffer() }, id); }
+    try { await (await db()).put("assets", { type: file.type || "video/mp4", data: await file.arrayBuffer(), at: Date.now() }, id); }
     catch { throw new Error("This browser could not keep the film. In a private window, open the site in a normal one."); }
     void queue(`asset:${id}`);
     const base = file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ").trim();
@@ -98,7 +99,7 @@ export function createStore(space = "artist", remote: Remote | null = null) {
     const d = await db(), v = await d.get("assets", a.slice(6)); if (v) return v;
     if (!remote) return null;
     const r = await remote.get(a).catch(() => null); if (!r) return null;
-    try { await d.put("assets", r, a.slice(6)); } catch { /* shown this session anyway */ }
+    try { await d.put("assets", { ...r, at: Date.now() }, a.slice(6)); } catch { /* shown this session anyway */ }
     return r;
   }
   async function prepare(ids: string[]) {
@@ -142,11 +143,17 @@ export function createStore(space = "artist", remote: Remote | null = null) {
     for (const rec of await (await db()).getAll("sites")) { const lib = (rec.value as { library?: Record<string, unknown> } | null)?.library; if (lib) for (const a of Object.keys(lib)) out.add(a); }
     return out;
   }
-  /** Let go of stored photographs nothing refers to any more (a replaced picture, a deleted upload). Only on load, so Undo within a session stays whole. */
+  /** Let go of stored photographs nothing refers to any more (a replaced picture, a deleted upload). Only on load, so Undo within a session stays whole.
+   *  The store is shared by every window, and a picture is written before the site that names it is saved (a folder being brought in,
+   *  another window mid-edit): so nothing written in the last ten minutes, and nothing still waiting for the server, is let go. */
   async function sweep(referenced: Set<string>): Promise<number> {
-    const d = await db(), keys = await d.getAllKeys("assets"), gone = keys.filter((k) => !referenced.has(`asset:${k}`));
-    for (const k of gone) await d.delete("assets", k);
-    return gone.length;
+    const d = await db(), keys = await d.getAllKeys("assets"), waitingUp = new Set(await d.getAllKeys("pending")), now = Date.now(); let n = 0;
+    for (const k of keys) {
+      if (referenced.has(`asset:${k}`) || waitingUp.has(`asset:${k}`)) continue;
+      const v = await d.get("assets", k); if (!v || (v.at && now - v.at < FRESH_MS)) continue;
+      await d.delete("assets", k); n++;
+    }
+    return n;
   }
   return { load, save, onOther, putImage, putVideo, prepare, src, bytes, clear, space, everyLibrary, sweep, queueAll, drain, waiting, onSyncing, cloud, setCloud, remote: !!remote };
 }

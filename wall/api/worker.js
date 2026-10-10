@@ -179,6 +179,7 @@ async function cf(env, path, init = {}) {
 const holders = async (env, host) => (await cf(env, `/accounts/${env.CF_ACCOUNT}/workers/domains?hostname=${encodeURIComponent(host)}`)).filter((d) => d.hostname === host);
 /** "ok" (already ours), "new" (attached just now) or "taken" (someone else's). */
 async function attach(env, label) {
+  if (env.ADDRESSES === "local") return "ok"; // wrangler dev on this machine: the local sites Worker answers every label
   if (!env.CF_TOKEN) throw new Error("addresses cannot be made yet: the service is missing its Cloudflare key");
   const host = `${label}.${env.SITE_DOMAIN}`, held = await holders(env, host);
   if (held.length) return held.every((d) => d.service === env.SITES_SERVICE) ? "ok" : "taken";
@@ -187,7 +188,7 @@ async function attach(env, label) {
   return "new";
 }
 async function detach(env, label) {
-  if (!env.CF_TOKEN) return;
+  if (env.ADDRESSES === "local" || !env.CF_TOKEN) return;
   for (const d of await holders(env, `${label}.${env.SITE_DOMAIN}`)) if (d.service === env.SITES_SERVICE) await cf(env, `/accounts/${env.CF_ACCOUNT}/workers/domains/${d.id}`, { method: "DELETE" });
 }
 async function sendLink(env, email, link) {

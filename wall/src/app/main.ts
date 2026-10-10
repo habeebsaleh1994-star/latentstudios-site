@@ -16,7 +16,7 @@ import * as account from "./account";
 export const SAMPLES: Record<string, string> = {
   habib: "/design/samples/habib-saleh.site.json",
   redon: "/design/samples/redon.site.json", palmer: "/design/samples/palmer.site.json", hiroshige: "/design/samples/hiroshige.site.json",
-  atget: "/design/samples/atget.site.json", lange: "/design/samples/lange.site.json", blender: "/design/samples/blender.site.json",
+  atget: "/design/samples/atget.site.json", lange: "/design/samples/lange.site.json", blender: "/design/samples/blender.site.json", steiner: "/design/samples/steiner.site.json",
   dickinson: "/design/samples/dickinson.site.json", woolf: "/design/samples/woolf.site.json", habs: "/design/samples/habs.site.json",
   folio: "/design/folio/doc/before-it-disappears.site.json", index: "/design/index/doc/noor-rahal.site.json", salon: "/design/salon/doc/sora-vale.site.json",
   reel: "/design/reel/doc/ivo-sen.site.json", atelier: "/design/atelier/doc/common-form.site.json", lantern: "/design/lantern/doc/lantern.site.json",
@@ -209,8 +209,9 @@ async function start() {
   });
   if (params.has("preview")) document.documentElement.dataset.preview = "on";
   addEventListener("hashchange", () => draw(false));
-  // photographs nothing refers to any more (replaced, or deleted from the library) are let go once the site is up
-  setTimeout(async () => { try { const { everyVersionAsset } = await import("./versions"); const keep = await state.store.everyLibrary(); for (const a of await everyVersionAsset()) keep.add(a); for (const a of Object.keys(state.site.library)) keep.add(a); await state.store.sweep(keep); } catch { /* storage may be unavailable */ } }, 2500);
+  // photographs nothing refers to any more (replaced, or deleted from the library) are let go once the site is up; only by the
+  // a template preview (the start page runs several, the home page more) only shows, so it never tidies the store the artist's pictures share
+  if (!params.has("preview")) setTimeout(async () => { try { const { everyVersionAsset } = await import("./versions"); const keep = await state.store.everyLibrary(); for (const a of await everyVersionAsset()) keep.add(a); for (const a of Object.keys(state.site.library)) keep.add(a); await state.store.sweep(keep); } catch { /* storage may be unavailable */ } }, 2500);
   draw(false);
   if (state.cloud) { if (state.cloud.sent !== state.revision) void pushNow(); void state.store.drain(); }
   if (!params.has("preview")) {

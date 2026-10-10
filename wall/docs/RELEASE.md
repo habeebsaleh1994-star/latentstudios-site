@@ -22,9 +22,10 @@ Decisions that are Habib's: the address for Wall; whether testers' sites live un
 ## Checklist before the link goes out
 
 - [x] Full sweeps in both engines green, 10 October 2026: 17 sweeps × 2 engines, every one clean
+- [x] Release sweep with accounts, 11 October 2026: 15 sweeps × 2 engines clean, and the account walk (join, build from a folder, publish live, sign out, sign in from a fresh browser and find the same site, delete) clean in both. It found and fixed: a template preview tidying the shared picture store while a new site's pictures were being brought in (pictures lost; now previews never tidy and nothing written in the last ten minutes or still unsent is let go); the viewer's Next zone covering Close and Life size; the app taking a broken connection for a signed-out service
 - [x] Audits, 10 October 2026: visible 1,457 presses, 4 called silent (one a work in the middle of a long page the audit does not photograph, three the reading size on a board, now sent to a page with words); distinct medians 0.12 – 0.66; speed median LCP 76 ms, layout shift ≤ 0.001
 - [x] Build checked from a plain static server, 10 October 2026 (rebuild at deploy time: `node scripts/build-site.mjs`)
-- [ ] The Publish panel's address line says what is true for the test
+- [x] The Publish panel's address line says what is true for the test (name.latentstudios.art, attached at first publish)
 - [x] The testers' page (`design/home/testing.html`); confirm the address on it (hello@latentstudios.art) is a mailbox that is read
 - [x] The 15 MB cap is enforced in the store and said in the picker; films 400 MB
 - [ ] A way for testers to reach Habib (an address in the testers' page)

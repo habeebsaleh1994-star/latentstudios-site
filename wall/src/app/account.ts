@@ -21,7 +21,8 @@ const withBytes = (data: Uint8Array | Blob, type: string) => ({ method: "PUT", h
 /** Who is signed in, asked once a session. Unreachable means there is no service here, not that the artist is out. */
 export async function me(force = false): Promise<Me> {
   if (cached && !force) return cached;
-  try { cached = await call<Me>("me"); } catch (e) { cached = { signedIn: false, reachable: (e as { status?: number }).status !== undefined }; }
+  // the service is here only when it answers in its own words; a network failure or a proxy's error page means it is not
+  try { const r = await call<Me>("me"); cached = r.signedIn ? r : { signedIn: false, reachable: (r as { reachable?: boolean }).reachable ?? true }; } catch (e) { cached = { signedIn: false, reachable: typeof (e as { body?: { error?: unknown } }).body?.error === "string" }; }
   return cached;
 }
 export const signedIn = () => (cached?.signedIn ? cached : null);

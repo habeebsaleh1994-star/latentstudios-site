@@ -5,7 +5,8 @@ html.lb-open, html.lb-open body { overflow: hidden; }
 .lb .stage { position: relative; flex: 1 1 0; min-height: 0; }
 .lb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; cursor: zoom-out; }
 /* the caption, a whisper: the title, then the line; where you are, at the right */
-.lb .meta { flex: none; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px 24px; align-items: baseline; padding-inline: 2px; min-height: 22px; }
+/* the caption row and Close sit above the wide Previous and Next zones, so their own buttons are the ones pressed */
+.lb .meta { position: relative; z-index: 3; flex: none; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px 24px; align-items: baseline; padding-inline: 2px; min-height: 22px; }
 .lb .meta .cap { display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap; min-width: 0; }
 .lb .meta b { font-family: var(--serif); font-weight: 400; font-style: italic; font-size: 16px; color: var(--ink); }
 .lb .meta .cap > span, .lb .meta .n { font-family: var(--sans); font-size: 11px; letter-spacing: .13em; text-transform: uppercase; color: var(--ink-soft); }
@@ -13,7 +14,7 @@ html.lb-open, html.lb-open body { overflow: hidden; }
 /* the way out and the way on: a thin cross; the stage's edges, which show an arrow only when the pointer is there */
 .lb button { position: absolute; z-index: 2; border: 0; background: none; color: var(--ink-soft); font-family: var(--sans); cursor: pointer; }
 .lb button:hover { color: var(--ink); }
-.lb .x { top: 6px; right: 8px; width: 44px; height: 44px; font: 300 26px/1 var(--serif); }
+.lb .x { top: 6px; right: 8px; width: 44px; height: 44px; font: 300 26px/1 var(--serif); z-index: 3; }
 .lb .pv, .lb .nx { top: 0; bottom: 0; width: 18%; font: 300 28px/1 var(--serif); } .lb .pv { left: 0; cursor: w-resize; } .lb .nx { right: 0; cursor: e-resize; }
 .lb .pv span, .lb .nx span { display: block; opacity: 0; transition: opacity .25s; padding: 0 18px; text-align: left; } .lb .nx span { text-align: right; }
 @media (hover: hover) { .lb .pv:hover span, .lb .nx:hover span { opacity: 1; } }

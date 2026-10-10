@@ -5,7 +5,9 @@
  */
 import { chromium, webkit } from "../../node_modules/playwright-core/index.mjs";
 const which = process.argv[2] || "chromium", B = "http://127.0.0.1:5181";
-const H = ["folio", "gallery", "monograph", "passage", "reel", "salon", "index", "atelier", "lantern"];
+import { readFileSync } from "node:fs";
+// the templates artists are shown: those marked released in houses.ts (the rest wait in the drawer, off the home page)
+const H = [...readFileSync(new URL("../../src/app/houses.ts", import.meta.url), "utf8").matchAll(/\{ id: "([a-z-]+)", released: true/g)].map((m) => m[1]);
 const br = await (which === "webkit" ? webkit : chromium).launch(), fails = [], results = {};
 const seen = (pg) => pg.evaluate(() => { const d = document.documentElement.dataset, w = window.__wall.site;
   return JSON.stringify({ house: w.house, view: d.view, look: d.look, header: d.header, opening: d.opening, title: d.title, captions: d.captions, footer: d.footer, scale: d.scale, front: w.front.form, scheme: document.documentElement.style.colorScheme, ground: getComputedStyle(document.body).backgroundColor, arr: w.pages.filter((p) => p.kind === "story").map((p) => p.arrangement).join(","), first: (document.querySelector("#app main")?.className ?? "") }); });

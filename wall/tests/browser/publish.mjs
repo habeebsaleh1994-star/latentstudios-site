@@ -18,7 +18,7 @@ await pg.goto(`${B}/app/index.html?site=habib&space=${space}&edit#/`, { waitUnti
 await pg.evaluate(() => { location.hash = "#/he-looked-back"; }); await w(500); await pg.click('#panel .seg[data-set="arrangement"] [data-v="book"]'); await w(500);
 await pg.evaluate(() => { location.hash = "#/"; }); await w(400);
 await pg.click("#publish"); await w(400);
-ok(await pg.locator("#panel .addr").innerText() === "habib-saleh.latent.site", "the address comes from the name");
+ok(await pg.locator("#panel .addr").innerText() === "habib-saleh.latentstudios.art", "the address comes from the name");
 ok(/first time/.test(await pg.locator("#panel .diff:not(.warn)").innerText()), "the first publish says it is the first");
 await pg.click('#panel [data-pub="publish"]'); await pg.waitForSelector("#panel .versions", { timeout: 20000 }); await w(400);
 ok(/Version 1 published/.test(await pg.locator("#panel .pub-go").innerText()), "version 1 is published");
