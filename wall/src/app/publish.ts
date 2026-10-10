@@ -158,6 +158,8 @@ type FileOpts = {
   made?: Map<string, number[]>;
   /** the artist's own icon is among the files */
   icon?: boolean;
+  /** the version of the shared assets (a hash of their text), named in every link to them so a browser never keeps an old one */
+  ver?: string;
   /** the door this file shows instead of the page */
   lock?: "soon" | "word";
   /** the page itself, sealed with its word, carried inside the door */
@@ -192,21 +194,21 @@ export function pageFile(site: SiteDocument, p: SitePage | null, base: string, o
 <meta property="og:type" content="website">${shareFile ? `
 <meta property="og:image" content="${base}${shareFile}">
 <meta name="twitter:card" content="summary_large_image">` : ""}
-${o.icon ? `<link rel="icon" href="${base}assets/icon.png" type="image/png">
-<link rel="apple-touch-icon" href="${base}assets/icon.png">` : `<link rel="icon" href="${base}assets/favicon.svg" type="image/svg+xml">`}
-<link rel="stylesheet" href="${base}assets/fonts.css">
-<link rel="stylesheet" href="${base}assets/base.css">
-<link rel="stylesheet" href="${base}assets/looks.css">
-<link rel="stylesheet" href="${base}assets/viewer.css">
-<link rel="stylesheet" href="${base}assets/app.css">
-<link rel="stylesheet" href="${base}assets/app-looks.css">
+${o.icon ? `<link rel="icon" href="${base}assets/icon.png${o.ver ? `?v=${o.ver}` : ""}" type="image/png">
+<link rel="apple-touch-icon" href="${base}assets/icon.png${o.ver ? `?v=${o.ver}` : ""}">` : `<link rel="icon" href="${base}assets/favicon.svg${o.ver ? `?v=${o.ver}` : ""}" type="image/svg+xml">`}
+<link rel="stylesheet" href="${base}assets/fonts.css${o.ver ? `?v=${o.ver}` : ""}">
+<link rel="stylesheet" href="${base}assets/base.css${o.ver ? `?v=${o.ver}` : ""}">
+<link rel="stylesheet" href="${base}assets/looks.css${o.ver ? `?v=${o.ver}` : ""}">
+<link rel="stylesheet" href="${base}assets/viewer.css${o.ver ? `?v=${o.ver}` : ""}">
+<link rel="stylesheet" href="${base}assets/app.css${o.ver ? `?v=${o.ver}` : ""}">
+<link rel="stylesheet" href="${base}assets/app-looks.css${o.ver ? `?v=${o.ver}` : ""}">
 ${nightBlock}${t.mode === "system" ? `<script>document.documentElement.dataset.scheme=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"</script>` : ""}
 </head>
 <body><div id="app">${renderPage(ctx, p)}</div>
 <script>window.STATIC=${JSON.stringify({ page: p ? p.id : null, base, site: carried, sealed: o.sealed, names: o.lock ? undefined : Object.fromEntries([...(o.names ?? [])].filter(([a]) => a in carried.library)), made: o.lock ? undefined : Object.fromEntries([...(o.made ?? [])].filter(([a]) => a in carried.library)) }).replace(/</g, "\\u003c")}</script>
-<script src="${base}assets/theme.js"></script>
-<script src="${base}assets/viewer.js"></script>
-<script src="${base}assets/visitor.js"></script>
+<script src="${base}assets/theme.js${o.ver ? `?v=${o.ver}` : ""}"></script>
+<script src="${base}assets/viewer.js${o.ver ? `?v=${o.ver}` : ""}"></script>
+<script src="${base}assets/visitor.js${o.ver ? `?v=${o.ver}` : ""}"></script>
 <!-- Made with Latent Wall -->
 </body>
 </html>
@@ -226,15 +228,19 @@ export async function buildFiles(site: SiteDocument, src: Sources): Promise<OutF
   // the artist's own icon, when they chose one and the runtime can cut it
   let icon = false;
   if (site.mark.icon && site.library[site.mark.icon] && src.icon) { try { const d = await src.icon(site.mark.icon, site.library[site.mark.icon].focal); if (d) { files.push({ name: "assets/icon.png", data: d }); icon = true; } } catch { /* the initial, then */ } }
+  await Promise.all(ASSETS.map(async ([name, url]) => files.push({ name, data: enc.encode(await src.text(url)) })));
+  // the assets' version: a short hash of everything a page links to, so a change to a stylesheet or a script reaches every browser
+  let h = 2166136261; for (const f of files.filter((x) => x.name.startsWith("assets/") && !x.name.startsWith("assets/img/") && !x.name.startsWith("assets/fonts/"))) for (const b of f.data) { h ^= b; h = Math.imul(h, 16777619) >>> 0; }
+  const ver = h.toString(16).padStart(8, "0");
   const fileFor = async (p: SitePage | null, base: string) => {
-    if (!hidden(site, p)) return pageFile(site, p, base, { names, made, icon });
+    if (!hidden(site, p)) return pageFile(site, p, base, { names, made, icon, ver });
     const word = site.door.soon ? site.door.word : wordFor(site, p);
-    const sealed = word ? await seal(pageFile(site, p, base, { names, made, icon, keep: site.door.word ? "all" : p!.id }), word) : undefined;
-    return pageFile(site, p, base, { names, icon, lock: site.door.soon ? "soon" : "word", sealed });
+    const sealed = word ? await seal(pageFile(site, p, base, { names, made, icon, ver, keep: site.door.word ? "all" : p!.id }), word) : undefined;
+    return pageFile(site, p, base, { names, icon, ver, lock: site.door.soon ? "soon" : "word", sealed });
   };
   files.push({ name: "index.html", data: enc.encode(await fileFor(null, "")) });
   for (const p of site.pages) files.push({ name: `${p.id}/index.html`, data: enc.encode(await fileFor(p, "../")) });
-  await Promise.all(ASSETS.map(async ([name, url]) => files.push({ name, data: enc.encode(await src.text(url)) })));
+
   // the faces themselves, so the site depends on no one at load
   const faces = [...(await src.text("/design/shared/fonts.css")).matchAll(/url\(fonts\/([^)]+)\)/g)].map((m) => m[1]);
   await Promise.all(faces.map(async (f) => { try { files.push({ name: `assets/fonts/${f}`, data: await src.bytes(`/design/shared/fonts/${f}`) }); } catch { /* a face that is not there is left out */ } }));

@@ -27,7 +27,7 @@ const TYPES = { html: "text/html; charset=utf-8", css: "text/css; charset=utf-8"
 function body(obj, path, status) {
   const ext = path.split(".").pop().toLowerCase(), type = TYPES[ext] || obj.httpMetadata?.contentType || "application/octet-stream";
   const h = new Headers({ "content-type": type, etag: obj.httpEtag, "x-content-type-options": "nosniff", "referrer-policy": "strict-origin-when-cross-origin" });
-  h.set("cache-control", path.startsWith("assets/") ? "public, max-age=31536000, immutable" : ext === "html" ? "no-cache" : "public, max-age=86400");
+  h.set("cache-control", path.startsWith("assets/img/") || path.startsWith("assets/fonts/") ? "public, max-age=31536000, immutable" : ext === "html" ? "no-cache" : "public, max-age=0, must-revalidate");
   if (ext === "html") h.set("x-frame-options", "SAMEORIGIN");
   return new Response(obj.body, { status, headers: h });
 }

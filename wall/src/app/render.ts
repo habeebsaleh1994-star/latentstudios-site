@@ -114,7 +114,7 @@ function coverOf(c: Ctx, p: SitePage): W | null {
   return a && c.site.library[a] ? work(c, a) : null;
 }
 function metaOf(p: SitePage) {
-  if (p.kind === "story") { const n = p.pieces.filter((x) => x.type === "work").length; return [p.kicker, n === 1 ? "One work" : `${n} works`].filter(Boolean).join(" · "); }
+  if (p.kind === "story") { const n = p.pieces.filter((x) => x.type === "work").length, w = p.pieces.length - n; return [p.kicker, n === 1 ? "One work" : n ? `${n} works` : w === 1 ? "One leaf" : w ? `${w} leaves` : "Empty"].filter(Boolean).join(" · "); }
   if (p.kind === "writing") return [p.form, p.place, p.year].filter(Boolean).join(" · ");
   if (p.kind === "film") return [p.form, p.year, p.runtime].filter(Boolean).join(" · ");
   if (p.kind === "project") return [p.discipline, p.client, p.year].filter(Boolean).join(" · ");
@@ -197,7 +197,7 @@ function front(c: Ctx) {
   else if (c.site.front.form === "archive") body = frontArchive(c, list);
   else if (c.site.front.form === "list" || c.site.front.form === "threshold") {
     const book = c.site.house === "monograph" || c.site.house === "manuscript";
-    body = `<div class="f-list"${c.site.front.form === "threshold" ? ' id="contents"' : ""}><ol${book ? ' aria-label="Contents"' : ""}>${book ? '<li class="contents-h"><span class="label">Contents</span></li>' : ""}${list.map((p, i) => `<li class="${p.kind}${p.inNav ? "" : " off"}"><a href="${c.href(p.id)}" data-i="${i}"><span class="n">${n2(i + 1)}</span><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="m">${esc(metaOf(p))}</span></a>${c.site.house === "manuscript" && p.kind === "story" ? labelledLeaves(c, p).map((x) => `<a class="within" href="${leafHref(c, p.id, x.l)}"><span class="n"></span><span class="t">${esc(x.label)}</span></a>`).join("") : ""}</li>`).join("")}</ol><div class="f-show" aria-hidden="true">${listShow(c, list[0])}</div></div>`;
+    body = `<div class="f-list"${c.site.front.form === "threshold" ? ' id="contents"' : ""}><ol${book ? ' aria-label="Contents"' : ""}>${book ? '<li class="contents-h"><span class="label">Contents</span></li>' : ""}${list.map((p, i) => `<li class="${p.kind}${p.inNav ? "" : " off"}"><a href="${c.href(p.id)}" data-i="${i}"><span class="n">${n2(i + 1)}</span><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="m">${esc(metaOf(p))}</span></a>${c.site.house === "manuscript" && p.kind === "story" ? labelledLeaves(c, p).map((x) => `<a class="within" href="${leafHref(c, p.id, x.l)}"><span class="n"></span><span class="t">${esc(x.label)}</span></a>`).join("") : ""}</li>`).join("")}</ol>${c.site.front.form === "threshold" ? "" : `<div class="f-show" aria-hidden="true">${listShow(c, list[0])}</div>`}</div>`;
   } else if (c.site.front.form === "sheet") {
     body = `<div class="f-sheet">${list.map((p) => { const w = coverOf(c, p); return `<a class="${p.kind}${p.inNav ? "" : " off"}" href="${c.href(p.id)}"><span class="fr">${w ? img(c, w) : `<span class="lines">${esc(firstLines(c, p))}</span>`}</span><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="label">${esc(metaOf(p))}</span></a>`; }).join("")}</div>`;
   } else {
@@ -209,7 +209,7 @@ function front(c: Ctx) {
 /** The threshold: a book's title page. The cover when there is one, the title, the subtitle, and "Begin"; the contents follow below. */
 function threshold(c: Ctx, list: SitePage[]) {
   const f = c.site.front, cover = c.site.appears.share && c.site.library[c.site.appears.share] ? work(c, c.site.appears.share) : null, first = list[0];
-  return `<section class="threshold">${cover ? `<figure class="cover" style="--r:${cover.r.toFixed(4)}"><div class="frame">${img(c, cover, false)}</div></figure>` : ""}<div class="tp"><span class="label">${ed(c, "front.kicker", f.kicker, "span", "", "Above the title: an edition, a year")}</span><h1>${titleOf(c, "front", f.title, f.titleEm)}</h1>${ed(c, "front.note", f.note, "p", "sub", "A line under the title")}<p class="begin">${first ? `<a class="go" href="${c.href(first.id)}">Begin the work &rarr;</a>` : ""}<a class="label" href="${c.href("")}#contents">Contents</a></p></div></section>`;
+  return `<section class="threshold${cover ? " has-cover" : ""}">${cover ? `<figure class="cover" style="--r:${cover.r.toFixed(4)}"><div class="frame">${img(c, cover, false)}</div></figure>` : ""}<div class="tp"><span class="label">${ed(c, "front.kicker", f.kicker, "span", "", "Above the title: an edition, a year")}</span><h1>${titleOf(c, "front", f.title, f.titleEm)}</h1>${ed(c, "front.note", f.note, "p", "sub", "A line under the title")}<p class="begin">${first ? `<a class="go" href="${c.href(first.id)}">Begin the work &rarr;</a>` : ""}<a class="label" href="${c.href("")}#contents">Contents</a></p></div></section>`;
 }
 /** The book's leaves, in order: every story's title, words and works, every writing and film as one leaf; projects are another wing. */
 export function manuscriptLeaves(c: Ctx): { page: SitePage; n: number }[] {
