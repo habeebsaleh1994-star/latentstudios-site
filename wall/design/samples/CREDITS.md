@@ -10,7 +10,8 @@ Every template on the home page and the start page runs with a body of work of i
 | `hiroshige` | woodblock prints by Utagawa Hiroshige | The Cleveland Museum of Art, open access | CC0 | Pinboard |
 | `atget` | photographs by Eugène Atget | The Cleveland Museum of Art, open access | CC0 | Lantern |
 | `lange` | photographs by Dorothea Lange for the Farm Security Administration, 1936 – 1939 | Library of Congress, via Wikimedia Commons | public domain (US government work) | Journal, Passage |
-| `blender` | the open movies Big Buck Bunny, Sintel, Tears of Steel and Spring | Blender Foundation (download.blender.org, Wikimedia Commons) | CC BY 3.0 / CC BY 4.0, three Spring stills CC BY-SA 4.0; credited on each film page | Reel, Cinema |
+| `steiner` | stills and two short clips from Ralph Steiner's films H2O (1929) and Mechanical Principles (1930) | Wikimedia Commons | public domain; credited on each film page | Reel |
+| `blender` | the open movies Big Buck Bunny, Sintel, Tears of Steel and Spring | Blender Foundation (download.blender.org, Wikimedia Commons) | CC BY 3.0 / CC BY 4.0, three Spring stills CC BY-SA 4.0; credited on each film page | Cinema |
 | `dickinson` | poems by Emily Dickinson, from the three series of 1890 – 1896 | Project Gutenberg | public domain | Index, Chapbook |
 | `woolf` | the eight pieces of Monday or Tuesday (1921) by Virginia Woolf | Project Gutenberg | public domain | Column |
 | `habs` | photographs and measured drawings of four houses, Historic American Buildings Survey; two photographs of the Robie House by Carol M. Highsmith (her gift to the Library of Congress) | Library of Congress, via Wikimedia Commons | public domain | Atelier, Ledger |

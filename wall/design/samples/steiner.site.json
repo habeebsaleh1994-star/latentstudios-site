@@ -1,0 +1,557 @@
+{
+ "version": 15,
+ "house": "reel",
+ "name": "Ralph Steiner",
+ "contact": "Films in the public domain",
+ "email": "",
+ "front": {
+  "form": "covers",
+  "kicker": "Films · New York · 1929 – 1930",
+  "title": "Water and",
+  "titleEm": "machines",
+  "note": "Two short films by a photographer: light on moving water, and machines turning, each filmed as pure form."
+ },
+ "theme": {
+  "look": "cinema",
+  "options": {},
+  "palette": "silk",
+  "mode": "system",
+  "accent": null,
+  "type": "silk",
+  "mount": "bare",
+  "space": "standard",
+  "motion": "slow",
+  "read": "standard"
+ },
+ "pages": [
+  {
+   "id": "h2o",
+   "kind": "film",
+   "title": "H2O",
+   "titleEm": "",
+   "inNav": true,
+   "form": "Short film",
+   "year": "1929",
+   "runtime": "10 min",
+   "ratio": "1.33:1",
+   "synopsis": "A study of light on water. It begins with streams over stones and, as the camera grows absorbed in texture and design, ends close to an abstract film: reflections that are only light, shadow and line.",
+   "poster": "/design/samples/steiner/img/h2o-16.jpg",
+   "video": "/design/samples/steiner/media/h2o-clip.mp4",
+   "link": "https://commons.wikimedia.org/wiki/File:H2O_(Ralph_Steiner,_1929).webm",
+   "stills": [
+    {
+     "asset": "/design/samples/steiner/img/h2o-6.jpg",
+     "caption": "Foam over the stones"
+    },
+    {
+     "asset": "/design/samples/steiner/img/h2o-10.jpg",
+     "caption": "Reflections, standing"
+    },
+    {
+     "asset": "/design/samples/steiner/img/h2o-12.jpg",
+     "caption": "Ripples"
+    },
+    {
+     "asset": "/design/samples/steiner/img/h2o-15.jpg",
+     "caption": "Light, gathering"
+    },
+    {
+     "asset": "/design/samples/steiner/img/h2o-16.jpg",
+     "caption": "A dark line"
+    },
+    {
+     "asset": "/design/samples/steiner/img/h2o-19.jpg",
+     "caption": "White lines"
+    },
+    {
+     "asset": "/design/samples/steiner/img/h2o-21.jpg",
+     "caption": "Black and white"
+    },
+    {
+     "asset": "/design/samples/steiner/img/h2o-23.jpg",
+     "caption": "The end of the stream"
+    }
+   ],
+   "credits": [
+    "A film by Ralph Steiner",
+    "Photographed and edited by Ralph Steiner",
+    "Silent, black and white",
+    "Public domain · Wikimedia Commons"
+   ]
+  },
+  {
+   "id": "mechanical-principles",
+   "kind": "film",
+   "title": "Mechanical",
+   "titleEm": "Principles",
+   "inNav": true,
+   "form": "Short film",
+   "year": "1930",
+   "runtime": "10 min",
+   "ratio": "1.33:1",
+   "synopsis": "Gears, cams, screws and linkages, filmed close and turning, without a word. Machines looked at as forms in motion, each shot composed like a still life.",
+   "poster": "/design/samples/steiner/img/mech-21.jpg",
+   "video": "/design/samples/steiner/media/mech-clip.mp4",
+   "link": "https://commons.wikimedia.org/wiki/File:Mechanical_Principles_(1930).webm",
+   "stills": [
+    {
+     "asset": "/design/samples/steiner/img/mech-6.jpg",
+     "caption": "Two wheels"
+    },
+    {
+     "asset": "/design/samples/steiner/img/mech-7.jpg",
+     "caption": "Gear and cam"
+    },
+    {
+     "asset": "/design/samples/steiner/img/mech-9.jpg",
+     "caption": "The screw"
+    },
+    {
+     "asset": "/design/samples/steiner/img/mech-10.jpg",
+     "caption": "Linkage"
+    },
+    {
+     "asset": "/design/samples/steiner/img/mech-13.jpg",
+     "caption": "Saw teeth"
+    },
+    {
+     "asset": "/design/samples/steiner/img/mech-15.jpg",
+     "caption": "Meshing"
+    },
+    {
+     "asset": "/design/samples/steiner/img/mech-20.jpg",
+     "caption": "Lobes"
+    },
+    {
+     "asset": "/design/samples/steiner/img/mech-21.jpg",
+     "caption": "Pair of gears"
+    }
+   ],
+   "credits": [
+    "A film by Ralph Steiner",
+    "Photographed and edited by Ralph Steiner",
+    "Silent, black and white",
+    "Public domain · Wikimedia Commons"
+   ]
+  },
+  {
+   "id": "about",
+   "kind": "about",
+   "title": "About",
+   "inNav": true,
+   "paras": [
+    "Ralph Steiner (1899 – 1986) was an American photographer who began making films at the end of the 1920s. His first, H2O, looked at water until it became pattern; it was much admired by the avant-garde audiences of its day.",
+    "This is a sample site built from two of his films, H2O and Mechanical Principles, both in the public domain. The words here are the sample's own."
+   ],
+   "principles": []
+  },
+  {
+   "id": "record",
+   "kind": "record",
+   "title": "Record",
+   "inNav": true,
+   "paras": [
+    "Films, in order."
+   ],
+   "sections": [
+    {
+     "title": "Films",
+     "entries": [
+      {
+       "year": "1929",
+       "text": "H2O"
+      },
+      {
+       "year": "1930",
+       "text": "Mechanical Principles"
+      },
+      {
+       "year": "1931",
+       "text": "Surf and Seaweed"
+      },
+      {
+       "year": "1936",
+       "text": "The Plow That Broke the Plains, camera, with Paul Strand and Leo Hurwitz"
+      },
+      {
+       "year": "1939",
+       "text": "The City, with Willard Van Dyke"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "contact",
+   "kind": "contact",
+   "title": "Contact",
+   "inNav": true,
+   "paras": [
+    "A sample site. The films are by Ralph Steiner and are in the public domain; the copies used here are on Wikimedia Commons.",
+    "Latent Wall shows them to show what a filmmaker's site can be."
+   ]
+  }
+ ],
+ "library": {
+  "/design/samples/steiner/img/h2o-6.jpg": {
+   "kind": "image",
+   "w": 1438,
+   "h": 1080,
+   "title": "Foam over the stones",
+   "date": "1929",
+   "caption": "From H2O (1929)",
+   "alt": "Water breaking white over dark rock",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/img/h2o-10.jpg": {
+   "kind": "image",
+   "w": 1438,
+   "h": 1080,
+   "title": "Reflections, standing",
+   "date": "1929",
+   "caption": "From H2O (1929)",
+   "alt": "Reflections of upright stems broken into bands by the water",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/img/h2o-12.jpg": {
+   "kind": "image",
+   "w": 1438,
+   "h": 1080,
+   "title": "Ripples",
+   "date": "1929",
+   "caption": "From H2O (1929)",
+   "alt": "Small ripples catching light across the surface",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/img/h2o-15.jpg": {
+   "kind": "image",
+   "w": 1438,
+   "h": 1080,
+   "title": "Light, gathering",
+   "date": "1929",
+   "caption": "From H2O (1929)",
+   "alt": "Shapes of light and shadow spreading on moving water",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/img/h2o-16.jpg": {
+   "kind": "image",
+   "w": 1438,
+   "h": 1080,
+   "title": "A dark line",
+   "date": "1929",
+   "caption": "From H2O (1929)",
+   "alt": "A single dark reflection running through pale water",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/img/h2o-19.jpg": {
+   "kind": "image",
+   "w": 1438,
+   "h": 1080,
+   "title": "White lines",
+   "date": "1929",
+   "caption": "From H2O (1929)",
+   "alt": "Bright lines of reflected light curving on dark water",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/img/h2o-21.jpg": {
+   "kind": "image",
+   "w": 1438,
+   "h": 1080,
+   "title": "Black and white",
+   "date": "1929",
+   "caption": "From H2O (1929)",
+   "alt": "Black and white shapes on the water, almost without a subject",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/img/h2o-23.jpg": {
+   "kind": "image",
+   "w": 1438,
+   "h": 1080,
+   "title": "The end of the stream",
+   "date": "1929",
+   "caption": "From H2O (1929)",
+   "alt": "Pale water with dark marks drifting across it",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/img/mech-6.jpg": {
+   "kind": "image",
+   "w": 1372,
+   "h": 1014,
+   "title": "Two wheels",
+   "date": "1930",
+   "caption": "From Mechanical Principles (1930)",
+   "alt": "Two toothed wheels turning side by side",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/img/mech-7.jpg": {
+   "kind": "image",
+   "w": 1372,
+   "h": 1014,
+   "title": "Gear and cam",
+   "date": "1930",
+   "caption": "From Mechanical Principles (1930)",
+   "alt": "A gear meshing beside a cam",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/img/mech-9.jpg": {
+   "kind": "image",
+   "w": 1372,
+   "h": 1014,
+   "title": "The screw",
+   "date": "1930",
+   "caption": "From Mechanical Principles (1930)",
+   "alt": "A threaded screw and its nut, in close view",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/img/mech-10.jpg": {
+   "kind": "image",
+   "w": 1372,
+   "h": 1014,
+   "title": "Linkage",
+   "date": "1930",
+   "caption": "From Mechanical Principles (1930)",
+   "alt": "Four arms jointed in a diamond, opening and closing",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/img/mech-13.jpg": {
+   "kind": "image",
+   "w": 1372,
+   "h": 1014,
+   "title": "Saw teeth",
+   "date": "1930",
+   "caption": "From Mechanical Principles (1930)",
+   "alt": "The edge of a large wheel with saw-shaped teeth",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/img/mech-15.jpg": {
+   "kind": "image",
+   "w": 1372,
+   "h": 1014,
+   "title": "Meshing",
+   "date": "1930",
+   "caption": "From Mechanical Principles (1930)",
+   "alt": "Two toothed wheels meeting at their edges",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/img/mech-20.jpg": {
+   "kind": "image",
+   "w": 1372,
+   "h": 1014,
+   "title": "Lobes",
+   "date": "1930",
+   "caption": "From Mechanical Principles (1930)",
+   "alt": "Rounded lobed wheels turning against each other",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/img/mech-21.jpg": {
+   "kind": "image",
+   "w": 1372,
+   "h": 1014,
+   "title": "Pair of gears",
+   "date": "1930",
+   "caption": "From Mechanical Principles (1930)",
+   "alt": "Two gears, one above the other, turning together",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "New York",
+    "line": "Ralph Steiner · public domain",
+    "edition": "",
+    "made": "35 mm, black and white, silent"
+   }
+  },
+  "/design/samples/steiner/media/h2o-clip.mp4": {
+   "kind": "video",
+   "w": 960,
+   "h": 722,
+   "title": "H2O, excerpt",
+   "date": "",
+   "caption": "A sixteen second excerpt",
+   "alt": "H2O, excerpt",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "",
+    "line": "",
+    "edition": "",
+    "made": ""
+   }
+  },
+  "/design/samples/steiner/media/mech-clip.mp4": {
+   "kind": "video",
+   "w": 960,
+   "h": 710,
+   "title": "Mechanical Principles, excerpt",
+   "date": "",
+   "caption": "A sixteen second excerpt",
+   "alt": "Mechanical Principles, excerpt",
+   "focal": {
+    "x": 50,
+    "y": 50
+   },
+   "size": null,
+   "verso": {
+    "place": "",
+    "line": "",
+    "edition": "",
+    "made": ""
+   }
+  }
+ }
+}

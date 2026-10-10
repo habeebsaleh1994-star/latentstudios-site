@@ -51,7 +51,7 @@ export const HOUSES: House[] = [
     arrangements: ["passage", "slides"], fronts: ["walk", "covers"],
     dials: { header: ["name", "classic"], opening: ["work", "image"], title: ["quiet", "caps"], captions: ["hover", "under"], footer: ["minimal"], scale: ["monumental", "standard"] },
     looks: ["darkroom", "graphite", "monotype", "toned"], typefaces: ["plex", "courier", "grotesk", "jost", "newsreader"], details: { mode: "dark" } },
-  { id: "reel", released: true, sample: "blender", name: "Reel", for: "Filmmakers", leads: ["film"], menu: "Films", idea: "Films lead: the site opens on a still from your first film, each film at its own ratio, in the dark.",
+  { id: "reel", released: true, sample: "steiner", name: "Reel", for: "Filmmakers", leads: ["film"], menu: "Films", idea: "Films lead: the site opens on a still from your first film, each film at its own ratio, in the dark.",
     owns: "Film first: films lead the site, it opens on a still from the first, every film at its own ratio.",
     arrangements: ["slides", "passage", "held"], fronts: ["covers", "sheet"],
     dials: { header: ["classic", "name"], opening: ["image", "words"], title: ["caps", "plain"], captions: ["under", "hidden"], footer: ["minimal", "line"], scale: ["monumental"] },
