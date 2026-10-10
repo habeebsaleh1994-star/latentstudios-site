@@ -4,7 +4,7 @@
           node scripts/host-site.mjs down <name>                take every file of the site away
    <name> is the site's folder in the bucket and its subdomain. The bucket keeps a manifest per site
    (`<name>/.manifest.json`), so the next publish removes what it no longer has, and `down` removes all. */
-import { execFileSync } from "node:child_process";
+import { execFileSync, execFile } from "node:child_process";
 import { readdirSync, statSync, mkdtempSync, rmSync, writeFileSync, readFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { tmpdir } from "node:os";
@@ -26,8 +26,10 @@ const walk = (d) => readdirSync(d).flatMap((n) => { const p = join(d, n); return
 const files = walk(dir), rel = (f) => relative(dir, f).split("\\").join("/");
 if (!files.some((f) => rel(f) === "index.html")) { console.error(`no index.html in ${dir}`); process.exit(1); }
 const had = manifestOf(name), now = new Set(files.map(rel));
-let n = 0;
-for (const f of files) { wr(["put", `${BUCKET}/${name}/${rel(f)}`, "--file", f]); n++; if (n % 10 === 0) console.log(`  ${n} of ${files.length}`); }
+// four at a time, each tried three times: the API answers with a passing error now and then
+const put = (f) => new Promise((ok, no) => { const go = (left) => execFile("npx", ["-y", "wrangler@latest", "r2", "object", "put", `${BUCKET}/${name}/${rel(f)}`, "--file", f, "--remote"], { cwd: HOST }, (err, _out, se) => { if (!err) return ok(); if (left > 1) return setTimeout(() => go(left - 1), 3000); no(new Error(`${rel(f)}: ${String(se).split("\n").find((l) => l.includes("ERROR")) ?? err.message}`)); }); go(3); });
+let n = 0; const queue = [...files];
+await Promise.all(Array.from({ length: 4 }, async () => { while (queue.length) { const f = queue.shift(); await put(f); n++; if (n % 20 === 0) console.log(`  ${n} of ${files.length}`); } }));
 for (const k of had) if (!now.has(k)) { try { wr(["delete", `${BUCKET}/${name}/${k}`]); } catch { /* gone */ } }
 const mf = join(tmp ?? tmpdir(), `wall-manifest-${name}.json`); writeFileSync(mf, JSON.stringify({ files: [...now], at: new Date().toISOString() })); wr(["put", `${BUCKET}/${name}/.manifest.json`, "--file", mf]);
 if (tmp) rmSync(tmp, { recursive: true, force: true }); else rmSync(mf, { force: true });
