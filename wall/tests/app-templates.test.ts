@@ -16,7 +16,7 @@ const front = (s: SiteDocument) => page(ctx(s), null);
 const at = (s: SiteDocument, id: string) => page(ctx(s), s.pages.find((p) => p.id === id)!);
 const arrangements = (s: SiteDocument) => new Set(s.pages.flatMap((p) => (p.kind === "story" ? [p.arrangement] : [])));
 const menu = (html: string) => (html.match(/<nav aria-label="Primary"><a[^>]*>([^<]+)/) ?? ["", ""])[1];
-const withProject = () => { const r = O.addPage(base(), "project", "Almond & Salt"); return O.addToList(r.site, r.id, "outcome", ["/design/folio/img/1.jpg"]); };
+const withProject = () => { const r = O.addPage(base(), "project", "Almond & Salt"); return O.addToList(O.addToList(r.site, r.id, "outcome", ["/design/folio/img/1.jpg"]), r.id, "process", ["/design/folio/img/2.jpg"]); };
 
 describe("every template does what it says", () => {
   it("Folio, for photographers: every work held, a caption like a print mount (number, title, date)", () => {
@@ -81,6 +81,9 @@ describe("every template does what it says", () => {
     expect(workPages(s)[0].kind).toBe("project");
     expect(menu(front(s))).toBe("Projects");
     expect(at(s, workPages(s)[0].id)).toMatch(/class="v-project"[\s\S]*Process[\s\S]*Outcome/);
+    // a project with no process steps shows its outcome alone to a visitor: no empty column
+    const r = O.addPage(base(), "project", "Plain"), bare = O.addToList(r.site, r.id, "outcome", ["/design/folio/img/1.jpg"]);
+    expect(at(as("atelier", bare), r.id)).toMatch(/no-process/); expect(at(as("atelier", bare), r.id)).not.toMatch(/>Process</);
   });
 
   it("Lantern: every story one slide at a time", () => {
