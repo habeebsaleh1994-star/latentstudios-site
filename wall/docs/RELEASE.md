@@ -43,3 +43,7 @@ In the beta a friend who wants to stop tells us; their draft is in their own bro
 ## Beta, by invite
 
 Wall is labelled Beta · by invite and stands behind a door: a key per person, made with `node scripts/invite.mjs make <name>` (said once; give it to them), revoked with `revoke <name>`. The app carries only the keys' hashes in `app/keys.json`, so making or revoking a key means a rebuild and a deploy. Published sites and the arrival page's previews are open to everyone; only making a site needs a key. When sign-in arrives, the key becomes the invitation that lets an email in, and the door goes.
+
+## The eight, and the drawer (10 October 2026, night)
+
+Shown to artists: Manuscript, Folio, Passage, Lantern, Salon, Reel, Atelier, Chapbook (`released: true` in houses.ts; the arrival page and the start page show only these). Kept in the code, the tests and the audits, not shown: Gallery, Monograph, Index, Journal, Column, Catalogue, Cinema, Ledger, Pinboard, Studio, Archive, until each is rebuilt to the same standard. The fit audit (`scripts/fit.ts`) stands at 11 of 342 first pictures below the first screen, all eleven in Cinema, Pinboard and Studio.

@@ -14,6 +14,8 @@ export type House = {
   id: HouseId; name: string; for: string; idea: string;
   /** The sample body of work this template is shown with (a key of SAMPLES in main.ts): a kind of artist it is for. */
   sample: string;
+  /** Shown to artists: on the arrival page and the start page. The others are kept, tested, and worked on until they deserve a turn. */
+  released?: boolean;
   /** What leads on the front page and in the menu: the kind of work this template is for. */
   leads: ("story" | "writing" | "film" | "project")[]; menu: string;
   /** Its signature: what this template is, in one line, and what it decides. */
@@ -26,8 +28,10 @@ export type House = {
   details?: Partial<Pick<Theme, "mount" | "space" | "palette" | "mode">>;
 };
 
+/** The templates shown to artists. */
+export const RELEASED = () => HOUSES.filter((h) => h.released);
 export const HOUSES: House[] = [
-  { id: "folio", sample: "habib", name: "Folio", for: "Photographers", leads: ["story"], menu: "Work", idea: "One work at a time, held large and still, with a caption like a print mount.",
+  { id: "folio", released: true, sample: "habib", name: "Folio", for: "Photographers", leads: ["story"], menu: "Work", idea: "One work at a time, held large and still, with a caption like a print mount.",
     owns: "Every work held on its own or in pairs, down the page; captions as a print mount.",
     arrangements: ["held", "contact", "book"], fronts: ["covers", "list"],
     dials: { header: ["classic", "centred"], opening: ["words", "image"], title: ["accent", "plain", "quiet"], captions: ["under", "beside", "hidden"], footer: ["line", "large"], scale: ["standard", "intimate", "monumental"] },
@@ -42,17 +46,17 @@ export const HOUSES: House[] = [
     arrangements: ["book"], fronts: ["list"],
     dials: { header: ["stacked", "centred"], opening: ["name", "words"], title: ["plain", "accent"], captions: ["beside"], footer: ["large", "line"], scale: ["intimate", "standard"] },
     looks: ["toned", "etching", "cyanotype", "quiet", "monotype", "graphite", "darkroom"], typefaces: ["caslon", "newsreader", "bodoni", "fraunces", "young", "instrument"], details: { mount: "line" } },
-  { id: "passage", sample: "lange", name: "Passage", for: "Photographers who work in long series", leads: ["story"], menu: "Work", idea: "A dark room and one long walk past the work: the front page and every story, sideways, on one line.",
+  { id: "passage", released: true, sample: "lange", name: "Passage", for: "Photographers who work in long series", leads: ["story"], menu: "Work", idea: "A dark room and one long walk past the work: the front page and every story, sideways, on one line.",
     owns: "One walk: the front page and every story hung along a wall, crossed sideways, in a dark room.",
     arrangements: ["passage", "slides"], fronts: ["walk", "covers"],
     dials: { header: ["name", "classic"], opening: ["work", "image"], title: ["quiet", "caps"], captions: ["hover", "under"], footer: ["minimal"], scale: ["monumental", "standard"] },
     looks: ["darkroom", "monotype", "graphite", "gallery", "cyanotype", "toned"], typefaces: ["plex", "courier", "grotesk", "jost", "newsreader"], details: { mode: "dark" } },
-  { id: "reel", sample: "blender", name: "Reel", for: "Filmmakers", leads: ["film"], menu: "Films", idea: "Films lead: the site opens on a still from your first film, each film at its own ratio, in the dark.",
+  { id: "reel", released: true, sample: "blender", name: "Reel", for: "Filmmakers", leads: ["film"], menu: "Films", idea: "Films lead: the site opens on a still from your first film, each film at its own ratio, in the dark.",
     owns: "Film first: films lead the site, it opens on a still from the first, every film at its own ratio.",
     arrangements: ["slides", "passage", "held"], fronts: ["covers", "sheet"],
     dials: { header: ["classic", "name"], opening: ["image", "words"], title: ["caps", "plain"], captions: ["under", "hidden"], footer: ["minimal", "line"], scale: ["monumental"] },
     looks: ["cinema", "marquee", "silver", "darkroom", "monotype", "gallery", "swiss", "graphite"], typefaces: [null, "bodoni", "grotesk", "archivo", "plex", "newsreader"], details: { mode: "dark" } },
-  { id: "salon", sample: "redon", name: "Salon", for: "Painters and visual artists", leads: ["story"], menu: "Works", idea: "Works hung together at their true size, a centred header and a quiet introduction, plates under each wall.",
+  { id: "salon", released: true, sample: "redon", name: "Salon", for: "Painters and visual artists", leads: ["story"], menu: "Works", idea: "Works hung together at their true size, a centred header and a quiet introduction, plates under each wall.",
     owns: "True relative scale: works hung on walls at their real sizes, and every work given its dimensions.",
     arrangements: ["wall", "held"], fronts: ["covers", "sheet"],
     dials: { header: ["centred", "classic"], opening: ["words", "image"], title: ["accent", "plain"], captions: ["under"], footer: ["large", "line"], scale: ["standard", "intimate"] },
@@ -62,12 +66,12 @@ export const HOUSES: House[] = [
     arrangements: ["held", "book"], fronts: ["list"],
     dials: { header: ["rail", "stacked"], opening: ["words", "name"], title: ["quiet", "plain", "accent"], captions: ["under", "hidden"], footer: ["minimal", "line"], scale: ["intimate"] },
     looks: ["quiet", "paperback", "typewriter", "toned", "cyanotype", "graphite", "etching", "monotype"], typefaces: ["archive", "newsreader", "caslon", "young", "courier", "fraunces"], details: { palette: "bone" } },
-  { id: "atelier", sample: "habs", name: "Atelier", for: "Studios and designers", leads: ["project"], menu: "Projects", idea: "Projects lead, as case studies: process beside outcome, a grid, your name set large at the foot.",
+  { id: "atelier", released: true, sample: "habs", name: "Atelier", for: "Studios and designers", leads: ["project"], menu: "Projects", idea: "Projects lead, as case studies: process beside outcome, a grid, your name set large at the foot.",
     owns: "Projects lead: case studies with process beside outcome, a grid, the studio's name at the foot.",
     arrangements: ["contact", "held"], fronts: ["sheet", "list"],
     dials: { header: ["classic", "stacked"], opening: ["words", "work"], title: ["plain", "caps"], captions: ["beside", "under"], footer: ["large"], scale: ["standard"] },
     looks: ["swiss", "blueprint", "riso", "gallery", "soft", "zine", "graphite", "darkroom"], typefaces: ["archivo", "grotesk", "jost", "plex", "instrument"], details: { space: "close" } },
-  { id: "lantern", sample: "atget", name: "Lantern", for: "Photographers who tell stories in sequence", leads: ["story"], menu: "Work", idea: "One slide at a time in the middle of the screen, like a lantern show; titles in capitals on an early print's cream.",
+  { id: "lantern", released: true, sample: "atget", name: "Lantern", for: "Photographers who tell stories in sequence", leads: ["story"], menu: "Work", idea: "One slide at a time in the middle of the screen, like a lantern show; titles in capitals on an early print's cream.",
     owns: "A slide show: every story shown one slide at a time, the arrow keys moving through it.",
     arrangements: ["slides"], fronts: ["covers"],
     dials: { header: ["name", "centred"], opening: ["words", "name"], title: ["caps", "plain"], captions: ["under", "hidden"], footer: ["line"], scale: ["standard"] },
@@ -87,7 +91,7 @@ export const HOUSES: House[] = [
     arrangements: ["held", "wall"], fronts: ["catalogue", "list"],
     dials: { header: ["centred", "classic"], opening: ["name", "words"], title: ["plain", "caps"], captions: ["beside", "under"], footer: ["line", "large"], scale: ["intimate", "standard"] },
     looks: ["etching", "gesso", "quiet", "gallery", "graphite", "toned", "monotype"], typefaces: ["caslon", "bodoni", "newsreader", "instrument", "archive"] },
-  { id: "chapbook", sample: "dickinson", name: "Chapbook", for: "Poets and short-form writers", leads: ["writing"], menu: "Poems", idea: "The site opens into the reading: the poems one after another on a single page, large and unhurried; everything else waits at the end.",
+  { id: "chapbook", released: true, sample: "dickinson", name: "Chapbook", for: "Poets and short-form writers", leads: ["writing"], menu: "Poems", idea: "The site opens into the reading: the poems one after another on a single page, large and unhurried; everything else waits at the end.",
     owns: "Reading first: the front page is the writing itself, set large, one piece after another.",
     arrangements: ["held"], fronts: ["reading", "list"],
     dials: { header: ["name", "rail"], opening: ["work", "words"], title: ["quiet", "plain"], captions: ["hidden"], footer: ["minimal"], scale: ["intimate"] },
@@ -112,7 +116,7 @@ export const HOUSES: House[] = [
     arrangements: ["board", "wall", "held"], fronts: ["covers", "walk"],
     dials: { header: ["stacked", "name"], opening: ["image", "words"], title: ["accent", "plain"], captions: ["under", "hover"], footer: ["line", "minimal"], scale: ["monumental", "standard"] },
     looks: ["etching", "gesso", "toned", "monotype", "riso", "quiet", "graphite", "soft"], typefaces: ["instrument", "caslon", "bodoni", "fraunces", "grotesk"] },
-  { id: "manuscript", sample: "habib", name: "Manuscript", for: "Photographers and writers who make books", leads: ["story", "writing"], menu: "Contents", idea: "One continuous book: a cover, a title page, a contents map, and every work and every word a leaf turned one at a time, to the end.",
+  { id: "manuscript", released: true, sample: "habib", name: "Manuscript", for: "Photographers and writers who make books", leads: ["story", "writing"], menu: "Contents", idea: "One continuous book: a cover, a title page, a contents map, and every work and every word a leaf turned one at a time, to the end.",
     owns: "A book, read not scrolled: the threshold is the title page, the contents is its map, and each story's works and words are leaves turned with a key or a finger; a leaf has its own address.",
     arrangements: ["leaves"], fronts: ["threshold", "list"],
     dials: { header: ["classic", "centred"], opening: ["words"], title: ["plain", "quiet"], captions: ["under", "hidden"], footer: ["minimal", "line"], scale: ["standard", "intimate"] },

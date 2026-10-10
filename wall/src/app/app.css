@@ -678,8 +678,13 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
   .v-project .facts { grid-template-columns: repeat(auto-fit, minmax(160px, auto)); gap: 0 28px; font-size: 14px; } .v-project .facts dt, .v-project .facts dd { padding: 6px 0 4px; border-top: 0; } .v-project .facts dt { padding-top: 10px; }
   .v-project .facts dt + dd { border-top: 0; }
 }
-@media (max-width: 860px) {
-  /* the phone: the title, then the outcome, then the words about it */
+@media (max-height: 820px) {
+  /* a short screen: the story's opening card is compact, so its first work is whole beneath it */
+  .card { padding-top: 24px; padding-bottom: 18px; gap: 10px 48px; } .card h1 { font-size: min(var(--h1-size), 48px); margin-top: 6px; } .card .note { font-size: 16px; }
+  .v-held .work:first-child { margin-top: 6px; }
+}
+@media (max-width: 860px), (max-height: 820px) {
+  /* the phone and the short screen: the title, then the outcome, then the words about it */
   .v-project .proj { display: grid; } .v-project .ph { display: contents; } .v-project .ph > div:first-child { order: 0; margin-bottom: 18px; } .v-project .ph > div:last-child { order: 2; margin-top: 28px; } .v-project .cols { order: 1; } .v-project .more, .v-project .cmp { order: 3; }
   .card { padding-top: 28px; padding-bottom: 20px; gap: 14px 0; } .card h1 { font-size: min(var(--h1-size), 40px); margin-top: 8px; } .card .note { font-size: 16px; }
   .v-held .work:first-child { margin-top: 8px; }

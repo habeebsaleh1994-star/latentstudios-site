@@ -132,7 +132,7 @@ footer { border-top: 1px solid var(--rule); padding: 36px 0 60px; } .foot { disp
 <body>
 <header class="top">
   <a class="brand" href="#top" aria-label="Latent Wall, home"><span class="word">Latent Wall<i>.</i></span><span class="beta">Beta · by invite</span></a>
-  <nav aria-label="Primary"><a href="https://latentstudios.art">Latent Studios</a><a href="#moments">What you need</a><a href="#eighteen">The nineteen</a><a href="/app/index.html">Your site</a></nav>
+  <nav aria-label="Primary"><a href="https://latentstudios.art">Latent Studios</a><a href="#moments">What you need</a><a href="#eighteen">The eight</a><a href="/app/index.html">Your site</a></nav>
 </header>
 
 <main id="top">
@@ -169,7 +169,7 @@ footer { border-top: 1px solid var(--rule); padding: 36px 0 60px; } .foot { disp
 
   <!-- 4. the eighteen -->
   <section class="eighteen" id="eighteen"><div class="wrap">
-    <div class="head rise"><div><span class="label">The nineteen</span><h2>One of them is <em>for you.</em></h2></div><p>Each of the nineteen makes the big decisions for a kind of artist, so you are not flooded with them. Point at a name to see it running; open one to try it with your own work.</p></div>
+    <div class="head rise"><div><span class="label">The eight</span><h2>One of them is <em>for you.</em></h2></div><p>Each makes the big decisions for a kind of artist, so you are not flooded with them. Point at a name to see it running; open one to try it with your own work.</p></div>
     <div class="list rise">
       <ol id="tlist"></ol>
       <div class="live-side"><div class="live" id="tlive" aria-label="A template, running"></div><p class="label" id="tname"></p></div>
@@ -234,11 +234,12 @@ footer { border-top: 1px solid var(--rule); padding: 36px 0 60px; } .foot { disp
   document.getElementById("ask").addEventListener("submit", (e) => { e.preventDefault(); location.href = `/app/index.html?start=${houses[at][0]}`; });
   // the eighteen, by kind of artist; a name pointed at shows the template running beside it
   const T = [
-    ["Photographers", [["folio","habib","Folio","One work at a time, held large and still, with a caption like a print mount."],["gallery","habib","Gallery","A white wall and great space; the work first, the name alone at the top."],["monograph","habib","Monograph","Your name as the cover, each series as spreads turned like a photobook."],["manuscript","habib","Manuscript","One continuous book: a cover, a title page, a contents map, every work and every word a leaf turned to the end."],["passage","lange","Passage","A dark room and one long walk past the work, sideways, on one line."],["lantern","atget","Lantern","One slide at a time in the middle of the screen, like a lantern show."],["journal","lange","Journal","A diary kept in photographs: dated entries, newest first."]]],
-    ["Painters, illustrators, printmakers", [["salon","redon","Salon","Works hung together at their true size, plates under each wall."],["studio","palmer","Studio","The studio wall and the finished plate: boards for the making, walls for the made."],["catalogue","redon","Catalogue","A catalogue raisonné: every work numbered, with medium, dimensions and year."],["pinboard","hiroshige","Pinboard","Many small works pinned close on one wall, at their own proportions."]]],
-    ["Filmmakers", [["reel","blender","Reel","Films lead: the site opens on a still from your first film, in the dark."],["cinema","blender","Cinema","A poster wall, every film at its own ratio, the house lights down."]]],
-    ["Writers and poets", [["index","dickinson","Index","Words lead: writing first in the contents, a side column, quiet titles."],["chapbook","dickinson","Chapbook","The site opens into the reading: the poems one after another, set large."],["column","woolf","Column","A quiet magazine: essays dated and listed newest first."]]],
-    ["Studios, and work of many kinds", [["atelier","habs","Atelier","Projects lead, as case studies: process beside outcome, a grid."],["ledger","habs","Ledger","The work as a table of projects, clients and years; each row opens the case."],["archive","habib","Archive","One chronology of everything, sifted by kind."]]],
+    ["Photographers", [["folio","habib","Folio","One work at a time, held large and still, with a caption like a print mount."],["passage","lange","Passage","A dark room and one long walk past the work, sideways, on one line."],["lantern","atget","Lantern","One slide at a time in the middle of the screen, like a lantern show."]]],
+    ["Photographers and writers who make books", [["manuscript","habib","Manuscript","One continuous book: a cover, a title page, a contents map, every work and every word a leaf turned to the end."]]],
+    ["Painters and printmakers", [["salon","redon","Salon","Works hung together at their true size, plates under each wall."]]],
+    ["Filmmakers", [["reel","blender","Reel","Films lead: the site opens on a still from your first film, in the dark."]]],
+    ["Writers and poets", [["chapbook","dickinson","Chapbook","The site opens into the reading: the poems one after another, set large."]]],
+    ["Studios", [["atelier","habs","Atelier","Projects lead, as case studies: process beside outcome, a grid."]]],
   ];
   const tlist = document.getElementById("tlist"), tlive = document.getElementById("tlive"), tname = document.getElementById("tname");
   // each template runs with a body of work of its own kind: a painter's, a printmaker's, a filmmaker's, a poet's (see design/samples/CREDITS.md)
