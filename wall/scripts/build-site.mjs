@@ -10,7 +10,7 @@ import { resolve, dirname, join } from "node:path";
 const root = resolve(dirname(new URL(import.meta.url).pathname), "..");
 const out = resolve(process.argv[2] || join(root, "dist"));
 rmSync(out, { recursive: true, force: true }); mkdirSync(out, { recursive: true });
-const skip = (p) => p.endsWith(".DS_Store") || /\/_explore(\/|$)/.test(p) || /\/_source(\/|$)/.test(p) || /manifest\.json$/.test(p) || /design\/(folio|lantern|index|salon|reel|atelier)(\/|$)/.test(p);
+const skip = (p) => p.endsWith(".DS_Store") || /\/_explore(\/|$)/.test(p) || /\/_source(\/|$)/.test(p) || /manifest\.json$/.test(p) ;
 
 // the app: its shell, with the module built once; the stylesheets it links and the files Publish reads stay at their paths
 buildSync({ entryPoints: [`${root}/src/app/main.ts`], bundle: true, format: "esm", platform: "browser", target: "es2020", minify: true, sourcemap: false, outfile: `${out}/app/main.js`, logLevel: "warning" });
