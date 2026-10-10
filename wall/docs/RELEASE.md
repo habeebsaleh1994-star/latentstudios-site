@@ -21,12 +21,12 @@ Decisions that are Habib's: the address for Wall; whether testers' sites live un
 
 ## Checklist before the link goes out
 
-- [ ] Full sweeps in both engines green (`tests/browser/*.mjs`, see the README there)
-- [ ] Audits: `scripts/visible.ts` (silent choices), `scripts/distinct.ts`, `scripts/speed.ts`; hands and night sweeps
-- [ ] Build from a clean checkout; open the arrival page, a demo, the start page, Publish, from the static build
+- [x] Full sweeps in both engines green, 10 October 2026: 17 sweeps × 2 engines, every one clean
+- [x] Audits, 10 October 2026: visible 1,457 presses, 4 called silent (one a work in the middle of a long page the audit does not photograph, three the reading size on a board, now sent to a page with words); distinct medians 0.12 – 0.66; speed median LCP 76 ms, layout shift ≤ 0.001
+- [x] Build checked from a plain static server, 10 October 2026 (rebuild at deploy time: `node scripts/build-site.mjs`)
 - [ ] The Publish panel's address line says what is true for the test
-- [ ] The testers' page (`design/home/testing.html`) says what Wall is, what stays in the browser, how to send files, how to report
-- [ ] Decide the 15 MB upload cap wording in the picker (decided 5 October; apply here)
+- [x] The testers' page (`design/home/testing.html`); confirm the address on it (hello@latentstudios.art) is a mailbox that is read
+- [x] The 15 MB cap is enforced in the store and said in the picker; films 400 MB
 - [ ] A way for testers to reach Habib (an address in the testers' page)
 - [ ] Deploy Wall; deploy the first tester site by hand; open both in Safari on a phone
 

@@ -264,7 +264,8 @@ function customise() {
     if (key === "opening") return front && state.site.front.form !== "walk" ? true : toFront;
     if (key === "title") return italicHere || p?.kind === "story" || front ? true : toFront;
     if (key === "captions") return story && view !== "book" && view !== "contact" ? true : toStory;
-    if (key === "read") return view !== "contact" && !(front && state.site.front.form === "sheet") ? true : toAbout;
+    // a board shows its captions only when pointed at and a contact sheet none: the reading size has nothing to change there
+    if (key === "read") return view !== "contact" && view !== "board" && !(front && state.site.front.form === "sheet") ? true : { where: "a page with words", href: toAbout.href };
     if (key === "scale") return story || (front && (state.site.front.form === "covers" || state.site.front.form === "sheet" || state.site.front.form === "walk")) ? true : toStory;
     if (key === "footer") return withFoot ? true : toAbout;
     if (key === "space") return flowing ? true : toStory;
