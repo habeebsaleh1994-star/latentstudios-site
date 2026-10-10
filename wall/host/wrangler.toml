@@ -4,19 +4,13 @@ main = "worker.js"
 compatibility_date = "2026-05-12"
 workers_dev = false
 
-# every label under latentstudios.art comes here through one wildcard route; it needs one DNS record in the zone,
-# made once by hand: type A, name *, content 192.0.2.1, proxied. The two custom domains below predate it and may stay.
-# The wildcard catches wall.latentstudios.art too (a route beats a custom domain), so this Worker hands "wall" to Wall itself.
+# No catch-all route, ever: the studio's other services live under latentstudios.art too, each on its own address,
+# and a wildcard here would stand in front of them. Each published site's address is attached to this Worker by Wall
+# when the site is first published, and let go when it is taken down. The two below were made by hand before that.
 routes = [
-  { pattern = "*.latentstudios.art/*", zone_name = "latentstudios.art" },
   { pattern = "habib.latentstudios.art", custom_domain = true },
   { pattern = "maddalena.latentstudios.art", custom_domain = true },
 ]
-
-# Wall itself, for the "wall" label
-[[services]]
-binding = "WALL"
-service = "latent-wall"
 
 [[r2_buckets]]
 binding = "SITES"

@@ -44,15 +44,15 @@ export const asset = {
 
 const TYPES: Record<string, string> = { html: "text/html; charset=utf-8", css: "text/css; charset=utf-8", js: "text/javascript; charset=utf-8", json: "application/json", jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp", svg: "image/svg+xml", mp4: "video/mp4", woff2: "font/woff2", txt: "text/plain; charset=utf-8", xml: "application/xml" };
 /** Publish: claim the address, send every file (four at a time, each tried thrice), then say which files the site has now. */
-export async function publish(id: string, label: string, files: { name: string; data: Uint8Array }[], progress?: (done: number, of: number) => void): Promise<{ address: string }> {
-  await call(`publish/${id}/begin`, post({ label }));
+export async function publish(id: string, label: string, files: { name: string; data: Uint8Array }[], progress?: (done: number, of: number) => void): Promise<{ address: string; fresh: boolean }> {
+  const { fresh } = await call<{ fresh: boolean }>(`publish/${id}/begin`, post({ label }));
   let i = 0, done = 0;
   const one = async (f: { name: string; data: Uint8Array }) => {
     for (let t = 1; ; t++) { try { await call(`publish/${id}/${f.name.split("/").map(encodeURIComponent).join("/")}`, withBytes(f.data, TYPES[f.name.split(".").pop()!.toLowerCase()] ?? "application/octet-stream")); break; } catch (e) { if (t === 3) throw e; await new Promise((ok) => setTimeout(ok, 600 * t)); } }
     progress?.(++done, files.length);
   };
   await Promise.all(Array.from({ length: 4 }, async () => { while (i < files.length) await one(files[i++]); }));
-  return call<{ address: string }>(`publish/${id}/done`, post({ files: files.map((f) => f.name) }));
+  return { ...(await call<{ address: string }>(`publish/${id}/done`, post({ files: files.map((f) => f.name) }))), fresh };
 }
 
 /* ---------------------------------------------------------------- the door */

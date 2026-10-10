@@ -49,7 +49,7 @@ export async function act(what: string, n: number, redraw: () => void) {
         await pushNow();
         busy = `Sending ${out.files} files…`; redraw();
         const r = await account.publish(state.cloud.id, label(state.site.name), out.list, (d, of) => { busy = `Sending the files… ${d} of ${of}`; redraw(); });
-        live = r.address; notify(`Live: version ${v.n} is at ${r.address.replace(/^https:\/\/|\/$/g, "")}.`);
+        live = r.address; notify(`Live: version ${v.n} is at ${r.address.replace(/^https:\/\/|\/$/g, "")}.${r.fresh ? " The address is new: give it a few minutes to open everywhere." : ""}`);
       } else notify(`Published: version ${v.n}.`);
     } catch (e) { failed = `Not published: ${(e as Error).message}`; notify(failed); }
     busy = false; redraw(); return;

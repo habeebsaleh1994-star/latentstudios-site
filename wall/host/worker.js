@@ -1,4 +1,6 @@
-/* Latent Wall hosting, in miniature: one Worker serves every published site from one R2 bucket.
+/* Latent Wall hosting, in miniature: one Worker serves every published site from one R2 bucket. It has no catch-all:
+   each site's address is attached to it on its own when the site is first published (see attach() in api/worker.js),
+   so it never stands in front of another service of the studio.
    A site's files live under a folder named after it (`<name>/index.html`, `<name>/the-road-in/index.html`, `<name>/assets/…`);
    the folder is read from the first label of the host (`name.latentstudios.art`) or, on the bare host, from the first
    path segment (`/name/…`). Folders are clean URLs: `/the-road-in/` serves `the-road-in/index.html`. Missing files get the
@@ -7,16 +9,13 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const labels = url.hostname.split(".");
-    // the wildcard brings Wall's own address here too: Wall answers it, whole
-    if (labels[0] === "wall" && env.WALL) return env.WALL.fetch(request);
     if (request.method !== "GET" && request.method !== "HEAD") return new Response("Method not allowed", { status: 405 });
     const bare = env.BARE_HOSTS ? env.BARE_HOSTS.split(",").includes(url.hostname) : labels.length <= 2;
     let name, path;
     if (bare) { const [, first, ...rest] = url.pathname.split("/"); name = first; path = rest.join("/"); if (!name) return new Response("Latent Wall", { status: 200 }); }
     else { name = labels[0]; path = url.pathname.replace(/^\//, ""); }
     name = name.toLowerCase().replace(/[^a-z0-9-]/g, "");
-    // the wildcard brings every label here: www goes to the studio, a label with no site gets a quiet page
-    if (name === "www") return Response.redirect(`https://latentstudios.art${url.pathname}${url.search}`, 301);
+    // only the addresses Wall attached come here, one per published site; a site taken down leaves a quiet page
     if (!name) return new Response("Not found", { status: 404 });
     if (path === "" || path.endsWith("/")) path += "index.html";
     let obj = await env.SITES.get(`${name}/${path}`);

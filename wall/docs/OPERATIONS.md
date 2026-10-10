@@ -5,7 +5,7 @@ Everything runs on the one Cloudflare account (the studio's). There are exactly 
 | What | Where it lives | Made of |
 | --- | --- | --- |
 | **Wall itself** (arrival page, the app, the samples) and **its service** (sign-in, the sites on the server, publish) | `https://wall.latentstudios.art`, `/api/*` | the Worker `latent-wall` (`api/worker.js`), serving the static build in `wall/dist`, with the D1 database `latent-wall` (accounts, sessions, invites, sites) and the bucket `latent-wall-sites` (pictures under `_accounts/`) |
-| **Published sites** | `https://<label>.latentstudios.art` | the Worker `latent-wall-sites` reading the bucket `latent-wall-sites`, a folder per site, through one wildcard route |
+| **Published sites** | `https://<label>.latentstudios.art` | the Worker `latent-wall-sites` reading the bucket `latent-wall-sites`, a folder per site; each site's address attached to that Worker alone when it is first published |
 | **The studio site** | `https://latentstudios.art` | the Pages project `latentritual-site`, untouched by any of this |
 
 ## The jobs
@@ -22,7 +22,7 @@ Everything runs on the one Cloudflare account (the studio's). There are exactly 
 | Put a friend's published site up | `npm run host -- <name> <folder-or-zip>` | uploads their files to the bucket under `<name>/` |
 | Take a friend's site down, because they asked to stop | `npm run host -- down <name>` | removes every file of the site from the bucket; then take its line out of `host/wrangler.toml` and `npm run sites` to free the address |
 | Publish a site whose document is kept in a repo (Habib's own) | `npx tsx scripts/publish-files.mts <site.json> <root of its pictures> <out>` then `npm run host -- <name> <out>` | what Publish in the app does, for a document on disk |
-| Give every published site its address | once: in the zone's DNS, an A record, name `*`, content `192.0.2.1`, proxied | the wildcard route in `host/wrangler.toml` already sends every `<label>.latentstudios.art` to the sites Worker, which hands `wall` to Wall itself (a route beats a custom domain, so the two Workers are bound) |
+| Let Publish make addresses | once: a Cloudflare API token with **Account · Workers Scripts · Edit** and **Zone · DNS · Read** (zone latentstudios.art), then `npx wrangler@latest secret put CF_TOKEN -c deploy/wrangler.toml` | never a wildcard route: the studio's other services (license, accounts, field, join, versos) live under the same domain, each on its own address. Before attaching `<label>.latentstudios.art`, Wall asks Cloudflare who holds it and refuses if any other Worker or DNS record does; it lets go only of addresses pointing at `latent-wall-sites` |
 
 ## Where things are in the code
 

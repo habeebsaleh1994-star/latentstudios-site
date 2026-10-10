@@ -26,5 +26,11 @@ SITE_DOMAIN = "latentstudios.art"
 PUBLIC_ORIGIN = "https://wall.latentstudios.art"
 # the sender of sign-in mail; the domain must be verified at Resend
 MAIL_FROM = "Latent Wall <wall@latentstudios.art>"
-# secrets, set once with `npx wrangler@latest secret put RESEND_KEY -c deploy/wrangler.toml`: RESEND_KEY (the mail service's key).
-# Until it is set, the door hands the sign-in link back on the page instead of mailing it.
+# where published sites get their addresses: this account and zone, attached to the sites Worker only (see attach())
+CF_ACCOUNT = "243c58f79eeb50c80c1b236d65bd28e6"
+CF_ZONE = "1e6064da98698753cd7698acc1dd5162"
+SITES_SERVICE = "latent-wall-sites"
+# secrets, each set once with `npx wrangler@latest secret put <NAME> -c deploy/wrangler.toml`:
+#   RESEND_KEY  the mail service's key (Resend, sending only, latentstudios.art). Without it the door shows the link on the page.
+#   CF_TOKEN    a Cloudflare token that may attach Workers to addresses and read the zone's DNS records. Without it Publish
+#               says addresses cannot be made yet.

@@ -4,7 +4,10 @@
    account's pictures under `_accounts/`, a prefix no label can have).
    Nothing here is clever: every route checks the session, every write checks the owner, every delete is real. */
 const DAY = 86400, SESSION_DAYS = 60, LINK_MINUTES = 20, MAX_DOC = 4e6, MAX_UPLOAD = 420 * 1024 * 1024;
-const RESERVED = new Set(["www", "api", "wall", "app", "latent", "admin", "mail", "ftp", "test", "sites", "static", "assets", "help", "support", "beta", "hello", "studio", "studios", "accounts", "the-wall"]);
+// names no artist may take: the studio's own words and the addresses of its other services. The real guard is attach(),
+// which asks Cloudflare who holds an address before touching it; this list only saves an artist the wait.
+const RESERVED = new Set(["www", "api", "wall", "app", "latent", "admin", "mail", "ftp", "test", "sites", "static", "assets", "help", "support", "beta", "hello", "studio", "studios", "accounts", "the-wall",
+  "license", "license-qa", "field", "join", "community", "versos", "nera", "moment", "ritual", "lab", "shop", "checkout", "send", "rsend"]);
 
 const json = (d, status = 200, headers = {}) => new Response(JSON.stringify(d), { status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...headers } });
 const bad = (m, status = 400) => json({ error: m }, status);
@@ -78,7 +81,7 @@ async function route(req, env, url, p) {
     if (!me) return bad("Not signed in.", 401);
     const b = await req.json().catch(() => ({})); if (b.confirm !== "DELETE") return bad("Type DELETE to confirm.");
     const sites = (await env.DB.prepare("SELECT id, label FROM sites WHERE email = ?").bind(me).all()).results;
-    for (const s of sites) if (s.label) await wipe(env, `${s.label}/`);
+    for (const s of sites) if (s.label) { await wipe(env, `${s.label}/`); await detach(env, s.label); }
     await wipe(env, `_accounts/${await sha(me)}/`);
     await env.DB.batch([
       env.DB.prepare("DELETE FROM sites WHERE email = ?").bind(me), env.DB.prepare("DELETE FROM sessions WHERE email = ?").bind(me),
@@ -104,7 +107,7 @@ async function route(req, env, url, p) {
       await env.DB.prepare("INSERT INTO sites (id, email, document, revision, updated) VALUES (?, ?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET document = excluded.document, revision = excluded.revision, updated = excluded.updated").bind(id, me, doc, rev, iso()).run();
       return json({ revision: rev });
     }
-    if (req.method === "DELETE") { if (!row) return bad("No such site of yours.", 404); if (row.label) await wipe(env, `${row.label}/`); await env.DB.prepare("DELETE FROM sites WHERE id = ?").bind(id).run(); return json({ ok: true }); }
+    if (req.method === "DELETE") { if (!row) return bad("No such site of yours.", 404); if (row.label) { await wipe(env, `${row.label}/`); await detach(env, row.label); } await env.DB.prepare("DELETE FROM sites WHERE id = ?").bind(id).run(); return json({ ok: true }); }
   }
   // ---- the pictures and films: bytes under the account, by the app's own asset id
   if ((m = p.match(/^asset\/(asset:[A-Za-z0-9_-]{4,80})$/))) {
@@ -127,9 +130,11 @@ async function route(req, env, url, p) {
       if (!okLabel(label)) return bad(`“${label}” cannot be an address. Letters, numbers and hyphens, from your name.`);
       const taken = await env.DB.prepare("SELECT id FROM sites WHERE label = ? AND id != ?").bind(label, id).first();
       if (taken) return json({ error: `${label}.${env.SITE_DOMAIN} is someone else's address. Change your name in Edit → The site, and it changes with it.`, taken: true }, 409);
-      if (row.label && row.label !== label) await wipe(env, `${row.label}/`);
+      const held = await attach(env, label);
+      if (held === "taken") return json({ error: `${label}.${env.SITE_DOMAIN} belongs to another Latent service. Change your name in Edit → The site, and the address changes with it.`, taken: true }, 409);
+      if (row.label && row.label !== label) { await wipe(env, `${row.label}/`); await detach(env, row.label); }
       await env.DB.prepare("UPDATE sites SET label = ? WHERE id = ?").bind(label, id).run();
-      return json({ ok: true, label });
+      return json({ ok: true, label, fresh: held === "new" });
     }
     if (!row.label) return bad("Begin the publish first.");
     if (rest === "done" && req.method === "POST") {
@@ -156,6 +161,32 @@ async function session(req, env) {
 }
 async function wipe(env, prefix) {
   let cursor; do { const l = await env.SITES.list({ prefix, cursor }); if (l.objects.length) await env.SITES.delete(l.objects.map((o) => o.key)); cursor = l.truncated ? l.cursor : undefined; } while (cursor);
+}
+/* ---- addresses. Every service of the studio keeps its own address and nothing reaches into another's: there is no
+   catch-all. A published site gets exactly one address, name.latentstudios.art, attached to the sites Worker alone.
+   Before attaching, Wall asks Cloudflare who holds that name, and refuses if anyone else does (a Worker or any DNS
+   record). It lets go only of addresses that point at the sites Worker. CF_TOKEN may attach Workers to addresses and
+   read the zone's records; it is set once as a secret. */
+const CF = "https://api.cloudflare.com/client/v4";
+async function cf(env, path, init = {}) {
+  const r = await fetch(`${CF}${path}`, { ...init, headers: { authorization: `Bearer ${env.CF_TOKEN}`, "content-type": "application/json" } });
+  const d = await r.json().catch(() => ({}));
+  if (!d.success) throw new Error(`the address could not be made (${(d.errors || []).map((e) => e.message).join("; ") || r.status})`);
+  return d.result;
+}
+const holders = async (env, host) => (await cf(env, `/accounts/${env.CF_ACCOUNT}/workers/domains?hostname=${encodeURIComponent(host)}`)).filter((d) => d.hostname === host);
+/** "ok" (already ours), "new" (attached just now) or "taken" (someone else's). */
+async function attach(env, label) {
+  if (!env.CF_TOKEN) throw new Error("addresses cannot be made yet: the service is missing its Cloudflare key");
+  const host = `${label}.${env.SITE_DOMAIN}`, held = await holders(env, host);
+  if (held.length) return held.every((d) => d.service === env.SITES_SERVICE) ? "ok" : "taken";
+  if ((await cf(env, `/zones/${env.CF_ZONE}/dns_records?name=${encodeURIComponent(host)}`)).length) return "taken";
+  await cf(env, `/accounts/${env.CF_ACCOUNT}/workers/domains`, { method: "PUT", body: JSON.stringify({ hostname: host, service: env.SITES_SERVICE, zone_id: env.CF_ZONE }) });
+  return "new";
+}
+async function detach(env, label) {
+  if (!env.CF_TOKEN) return;
+  for (const d of await holders(env, `${label}.${env.SITE_DOMAIN}`)) if (d.service === env.SITES_SERVICE) await cf(env, `/accounts/${env.CF_ACCOUNT}/workers/domains/${d.id}`, { method: "DELETE" });
 }
 async function sendLink(env, email, link) {
   if (!env.RESEND_KEY) return false;
