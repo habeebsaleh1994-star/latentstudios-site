@@ -51,6 +51,7 @@ body.inside .top { opacity: 0; transform: translateY(-8px); pointer-events: none
 .field::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(22,18,20,.92) 0%, rgba(22,18,20,.55) 32%, rgba(22,18,20,0) 62%), linear-gradient(to right, rgba(22,18,20,.35), rgba(22,18,20,0) 50%); pointer-events: none; }
 .claim { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 0 var(--gutter) clamp(36px, 7vh, 90px); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 24px 60px; align-items: end; }
 .claim .n { font-weight: 300; font-size: clamp(72px, 11vw, 190px); line-height: .86; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
+.claim .n .eight-line { display: block; font-size: clamp(44px, 6vw, 96px); line-height: .98; letter-spacing: -.025em; }
 .claim .n small { display: block; font-size: clamp(18px, 1.7vw, 26px); letter-spacing: -.005em; line-height: 1.4; color: var(--night-soft); margin-top: 22px; max-width: 30ch; }
 .claim .n small em { color: var(--night-ink); font-style: normal; }
 .claim .side { display: grid; gap: 22px; justify-items: start; }
@@ -140,7 +141,7 @@ footer { border-top: 1px solid var(--rule); padding: 36px 0 60px; } .foot { disp
   <section class="field" aria-label="Sites made with Wall, drifting">
     <div class="rows" id="rows" aria-hidden="true"></div>
     <div class="claim">
-      <div class="n"><span id="count">91,536</span><small>designed ways a site can be set, before its accent, palette, spacing or mount. Eighteen templates, each with looks and type made for it, every look by day and by night. <em>No two artists alike.</em></small></div>
+      <div class="n"><span class="eight-line">Eight templates</span><small>one for each kind of artist, each an object with its own idea, every look made for it, by day and by night. The work owns the screen; the site is yours.</small></div>
       <div class="side"><span class="label">A website for artists</span><h1>Your work, on its <em>own wall.</em></h1><div class="cta"><a class="btn light" href="/app/index.html">Start your site</a><a class="link" href="#grow" style="color:var(--night-ink)">Keep going</a></div></div>
     </div>
     <span class="down" aria-hidden="true"></span>
@@ -200,20 +201,17 @@ footer { border-top: 1px solid var(--rule); padding: 36px 0 60px; } .foot { disp
     row.innerHTML = [...list, ...list].map((n) => `<div class="tile"><img src="/design/home/stills/${n}.jpg" alt="" loading="eager" decoding="async"></div>`).join("");
     rows.appendChild(row);
   }
-  // the number, counted up once it is seen
-  const count = document.getElementById("count"), final = 91536; let shown = false;
-  new IntersectionObserver((es) => { if (!es[0].isIntersecting || shown) return; shown = true; const t0 = performance.now(); const tick = (t) => { const k = Math.min(1, (t - t0) / 1800), e = 1 - Math.pow(1 - k, 3); count.textContent = Math.round(final * e).toLocaleString("en"); if (k < 1) requestAnimationFrame(tick); }; requestAnimationFrame(tick); }).observe(count);
   // the one that grows: scroll progress drives its size; the site inside is the real app, in the visitor's name
   const grow = document.getElementById("grow"), stage = document.getElementById("stage"), you = document.getElementById("you");
   // each with a body of work of its kind: photographs, paintings, poems (see design/samples/CREDITS.md)
-  const houses = [["folio", "Folio", "habib"], ["monograph", "Monograph", "habib"], ["passage", "Passage", "lange"], ["lantern", "Lantern", "atget"], ["salon", "Salon", "redon"], ["index", "Index", "dickinson"]];
+  const houses = [["folio", "Folio", "habib"], ["manuscript", "Manuscript", "habib"], ["passage", "Passage", "lange"], ["lantern", "Lantern", "atget"], ["salon", "Salon", "redon"], ["chapbook", "Chapbook", "dickinson"]];
   const dots = document.getElementById("dots"); dots.innerHTML = houses.map(() => "<i></i>").join("");
   let at = 0, name = "", frames = [], timer = null;
   const fit = () => { const s = stage.clientWidth / 1440; stage.style.setProperty("--s", s.toFixed(5)); };
   const src = (h) => `/app/index.html?site=${houses.find((x) => x[0] === h)[2]}&house=${h}&preview&space=home-${h}${name ? `&name=${encodeURIComponent(name)}` : ""}#/`;
   const show = (i) => {
     at = (i + houses.length) % houses.length;
-    document.getElementById("which").textContent = houses[at][0] === "index" ? "Index" : houses[at][1];
+    document.getElementById("which").textContent = houses[at][1];
     dots.querySelectorAll("i").forEach((d, k) => d.classList.toggle("on", k === at));
     const f = document.createElement("iframe"); f.title = `${houses[at][1]}, running`; f.tabIndex = -1; f.setAttribute("aria-hidden", "true"); f.src = src(houses[at][0]);
     f.addEventListener("load", () => { f.classList.add("on"); frames.filter((x) => x !== f).forEach((x) => { x.classList.add("off"); setTimeout(() => x.remove(), 1300); }); frames = [f]; }, { once: true });
