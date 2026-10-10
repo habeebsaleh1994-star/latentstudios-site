@@ -666,3 +666,6 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
 .v-leaves .leaf.end { text-align: center; justify-items: center; } .v-leaves .leaf.end p { font-style: italic; } .v-leaves .leaf.end .back-to { margin-top: 28px; } .v-leaves .leaf.end .back-to a { text-decoration: none; }
 /* a Manuscript's contents: the stories within a movement, nested under it */
 .f-list li .within { display: grid; grid-template-columns: 3em minmax(0, 1fr); align-items: baseline; gap: 0 12px; text-decoration: none; padding: 2px 0 6px; } .f-list li .within .t { font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--ink-soft); } .f-list li .within:hover .t { color: var(--ink); }
+
+/* the first picture of a page is sized to the room under what the page opens with (set by the page; see fitFirst) */
+.fit-first { margin-inline: auto; }

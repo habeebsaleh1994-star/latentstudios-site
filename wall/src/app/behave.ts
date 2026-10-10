@@ -24,6 +24,22 @@ export function wire(root: HTMLElement, c: Ctx, p: SitePage | null, view: View, 
   cleanup.forEach((f) => f()); cleanup = [];
   // the header's height, for the views that fill the rest of the screen
   const bar = document.querySelector<HTMLElement>(".bar"), setBar = () => document.documentElement.style.setProperty("--bar-h", `${bar?.offsetHeight ?? 0}px`); setBar(); on(window, "resize", setBar);
+  // the first picture is whole on the first screen: it is sized to the room left under what the page opens with
+  // whatever begins on the first screen is whole on it: every picture that starts above the fold is sized to end above it
+  const fitFirst = () => {
+    root.querySelectorAll<HTMLElement>(".fit-first").forEach((f) => { f.classList.remove("fit-first"); f.style.maxWidth = ""; });
+    const seen = new Set<HTMLElement>();
+    for (const img of root.querySelectorAll<HTMLImageElement>("main figure img, main .screen img, main .cover img")) {
+      const fig = img.closest<HTMLElement>("figure, .screen, .cover"); if (!fig || seen.has(fig)) continue; seen.add(fig);
+      if (fig.closest(".leaf, .slide, .pg, .lb, .walk, .hang, .pin, .cell, .thumbs, .more, .steps li:not(:first-child)")) continue; // the turning views, walls, boards and sheets size themselves
+      const top = fig.getBoundingClientRect().top + scrollY; if (top >= innerHeight - 120) break; // what begins at or below the fold is reached by scrolling
+      const r = parseFloat(getComputedStyle(fig).getPropertyValue("--r")) || img.naturalWidth / img.naturalHeight || 1.5;
+      const cap = fig.querySelector<HTMLElement>("figcaption, .under")?.offsetHeight ?? 0, room = innerHeight - top - cap - 28;
+      const h = Math.max(Math.min(innerHeight * 0.42, 420), room); // never smaller than two fifths of the screen: a tall opening is the page's own fault to fix
+      fig.classList.add("fit-first"); fig.style.maxWidth = `${Math.round(h * r)}px`;
+    }
+  };
+  requestAnimationFrame(fitFirst); on(window, "resize", fitFirst); on(root, "wall:drawn", fitFirst);
   // the editor asks for a work to be brought into view after changing how it sits
   on(root, "wall:show", (e: Event) => {
     const k = (e as CustomEvent<{ k: number }>).detail.k, has = (html: string) => html.includes(`data-k="${k}"`);
@@ -174,7 +190,9 @@ function wall(root: HTMLElement, c: Ctx, p: StoryPage) {
     const widest = +s.style.getPropertyValue("--widest") || 1, tallest = +s.style.getPropertyValue("--tallest") || 1;
     const cs = getComputedStyle(s), inner = s.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
     const cap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--wall-cap")) || 0.7;
-    const byWidth = (inner - 96) / widest, byHeight = (innerHeight * cap - 112) / tallest;
+    // the first wall is whole on the first screen: its height is the room under what the page opens with
+    const top = s.getBoundingClientRect().top + scrollY, room = Math.max(innerHeight * 0.42, innerHeight - top - 40);
+    const byWidth = (inner - 96) / widest, byHeight = (Math.min(innerHeight * cap, room) - 150) / tallest;
     s.style.setProperty("--k", Math.min(byWidth, byHeight).toFixed(4));
   };
   fit(); on(window, "resize", fit);
