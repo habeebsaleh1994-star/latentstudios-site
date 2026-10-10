@@ -86,6 +86,15 @@ describe("every template does what it says", () => {
     expect(at(as("atelier", bare), r.id)).toMatch(/no-process/); expect(at(as("atelier", bare), r.id)).not.toMatch(/>Process</);
   });
 
+  it("Manuscript, for books: a threshold with the contents below it, every story read one leaf at a time with a running head and turns", () => {
+    const s = as("manuscript");
+    expect(s.front.form).toBe("threshold");
+    expect(front(s)).toMatch(/class="v-front v-threshold"[\s\S]*Begin the work[\s\S]*id="contents"/);
+    expect(workPages(s).every((p) => p.kind !== "story" || p.arrangement === "leaves")).toBe(true);
+    expect(at(s, workPages(s)[0].id)).toMatch(/class="v-leaves"[\s\S]*class="runhead"[\s\S]*class="turns"/);
+    expect(O.arrangeOptions(s, workPages(s)[0].id, 0)).toEqual([]);
+  });
+
   it("Lantern: every story one slide at a time", () => {
     const s = as("lantern");
     expect(arrangements(s)).toEqual(new Set(["slides"]));

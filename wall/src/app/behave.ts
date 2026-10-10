@@ -6,7 +6,7 @@
  * and keys never act while the artist is typing.
  */
 import type { SitePage, StoryPage } from "../studio/site";
-import { bookLeaves, slideList, groups, work, listShow, workPages, type Ctx, type View } from "./render";
+import { bookLeaves, slideList, groups, work, listShow, workPages, type Ctx, type View, manuscriptLeaves, leafHref } from "./render";
 
 type Viewer = { open: (items: { src: string; alt: string; title: string; meta: string; cm?: { w: number; h: number } | null }[], at: number) => void; isOpen: () => boolean };
 const viewer = () => (window as unknown as { LatentViewer?: Viewer }).LatentViewer;
@@ -26,7 +26,7 @@ export function wire(root: HTMLElement, c: Ctx, p: SitePage | null, view: View, 
   on(root, "wall:show", (e: Event) => {
     const k = (e as CustomEvent<{ k: number }>).detail.k, has = (html: string) => html.includes(`data-k="${k}"`);
     if (view === "book") { const i = bookState?.leaves.findIndex(has) ?? -1; if (i >= 0) bookState?.go(i); return; }
-    if (view === "slides") { const i = slideState?.list.findIndex(has) ?? -1; if (i >= 0) slideState?.go(i); return; }
+    if (view === "slides" || view === "leaves") { const i = slideState?.list.findIndex(has) ?? -1; if (i >= 0) slideState?.go(i); return; }
     const el = (k < 0 ? root.querySelector<HTMLElement>(".walk .hang") : root.querySelector<HTMLElement>(`[data-k="${k}"]`)?.closest<HTMLElement>("figure, .hang, .art, .pin")) ?? null;
     if (!el) return;
     if (view === "passage") { const walk = root.querySelector<HTMLElement>(".walk"); if (walk) walk.scrollTo({ left: el.offsetLeft - walk.clientWidth / 2 + el.offsetWidth / 2, behavior: "smooth" }); return; }
@@ -47,13 +47,14 @@ export function wire(root: HTMLElement, c: Ctx, p: SitePage | null, view: View, 
   if (!keep) delete place[key];
   if (view === "front") front(root, c);
   if (!p && view === "passage") return passage(root, key);
-  if (!p || p.kind !== "story") { if (p?.kind === "film") filmBits(root, c, p); if (p?.kind === "project") compare(root); return; }
+  if (!p || p.kind !== "story") { if (p?.kind === "film") filmBits(root, c, p); if (p?.kind === "project") compare(root); if (p && root.querySelector("[data-leaf-page]")) leafPage(root, c, p); return; }
   if (view === "book") book(root, c, p, key);
   else if (view === "passage") passage(root, key);
   else if (view === "contact") contactSheet(root, c, p);
   else if (view === "wall") wall(root, c, p);
   else if (view === "board") boardViewer(root, c, p);
   else if (view === "slides") slides(root, c, p, key);
+  else if (view === "leaves") leavesReader(root, c, p, key);
   else heldViewer(root, c, p);
 }
 
@@ -197,6 +198,44 @@ function slides(root: HTMLElement, c: Ctx, p: StoryPage, key: string) {
   const go = (i: number) => { i = Math.max(0, Math.min(list.length - 1, i)); if (i !== at) { at = i; put(); } };
   put(); slideState = { list, go }; cleanup.push(() => { slideState = null; });
   on(root, "click", (e: MouseEvent) => { const t = e.target as HTMLElement; if (t.closest(".arrow.prev")) go(at - 1); else if (t.closest(".arrow.next")) go(at + 1); else { const g = t.closest<HTMLElement>("[data-go]"); if (g) go(+g.dataset.go!); } });
+  on(document, "keydown", (e: KeyboardEvent) => { if (typing(e) || e.metaKey || e.ctrlKey || e.altKey) return; if (e.key === "ArrowRight") { e.preventDefault(); go(at + 1); } else if (e.key === "ArrowLeft") { e.preventDefault(); go(at - 1); } });
+  let x0: number | null = null;
+  on(stage, "touchstart", (e: TouchEvent) => { x0 = c.editing ? null : e.touches[0].clientX; }, { passive: true });
+  on(stage, "touchend", (e: TouchEvent) => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 48) go(at + (dx < 0 ? 1 : -1)); });
+}
+
+/** A writing or a film as one leaf of a Manuscript: counted in the running head, turned into the pages before and after. */
+function leafPage(root: HTMLElement, c: Ctx, p: SitePage) {
+  const at$ = root.querySelector<HTMLElement>(".runhead .at")!, back = root.querySelector<HTMLAnchorElement>(".turns .back")!, fwd = root.querySelector<HTMLAnchorElement>(".turns .fwd")!;
+  const book = manuscriptLeaves(c), me = book.findIndex((b) => b.page.id === p.id), before = book.slice(0, Math.max(0, me)).reduce((n, b) => n + b.n, 0), total = book.reduce((n, b) => n + b.n, 0);
+  const prevPage = me > 0 ? book[me - 1].page : null, nextPage = me >= 0 && me < book.length - 1 ? book[me + 1].page : null;
+  at$.textContent = total ? `${before + 1} / ${total}` : "";
+  back.hidden = !prevPage; fwd.hidden = !nextPage;
+  back.href = prevPage ? leafHref(c, prevPage.id, 0).replace(/l=0$/, "l=end") : "#"; fwd.href = nextPage ? leafHref(c, nextPage.id, 0) : "#";
+  on(document, "keydown", (e: KeyboardEvent) => { if (typing(e) || e.metaKey || e.ctrlKey || e.altKey) return; if (e.key === "ArrowRight" && nextPage) { e.preventDefault(); location.href = fwd.href; } else if (e.key === "ArrowLeft" && prevPage) { e.preventDefault(); location.href = back.href; } });
+}
+
+/** The reader of a Manuscript: one leaf at a time, the keys and a swipe to turn, the running head counting through the whole book, the turns at either end carrying into the pages before and after. */
+function leavesReader(root: HTMLElement, c: Ctx, p: StoryPage, key: string) {
+  const stage = root.querySelector<HTMLElement>(".stage")!, at$ = root.querySelector<HTMLElement>(".runhead .at")!, back = root.querySelector<HTMLAnchorElement>(".turns .back")!, fwd = root.querySelector<HTMLAnchorElement>(".turns .fwd")!;
+  const { list } = slideList(c, p), book = manuscriptLeaves(c), me = book.findIndex((b) => b.page.id === p.id), before = book.slice(0, Math.max(0, me)).reduce((n, b) => n + b.n, 0), total = book.reduce((n, b) => n + b.n, 0);
+  const where = location.hash + location.search, asked = /[?#]l=(\d+)/.exec(where), fromEnd = /[?#]l=end/.test(where);
+  let at = Math.max(0, Math.min(list.length - 1, fromEnd ? list.length - 1 : asked ? +asked[1] : place[key] ?? 0));
+  const prevPage = me > 0 ? book[me - 1].page : null, nextPage = me >= 0 && me < book.length - 1 ? book[me + 1].page : null;
+  const put = () => {
+    stage.innerHTML = list[at].replace('class="slide', 'class="leaf fade');
+    at$.textContent = total ? `${before + at + 1} / ${total}` : "";
+    back.hidden = at === 0 && !prevPage; fwd.hidden = at === list.length - 1 && !nextPage;
+    back.href = at > 0 ? leafHref(c, p.id, at - 1) : prevPage ? leafHref(c, prevPage.id, 0).replace(/l=0$/, "l=end") : "#";
+    fwd.href = at < list.length - 1 ? leafHref(c, p.id, at + 1) : nextPage ? leafHref(c, nextPage.id, 0) : "#";
+    place[key] = at;
+    // the address names the leaf, quietly, so a link to it lands here
+    try { const h = leafHref(c, p.id, at), i = h.indexOf("#"); if (i >= 0) history.replaceState(null, "", location.href.replace(/#.*$/, "") + h.slice(i)); } catch { /* a file opened by hand */ }
+    root.dispatchEvent(new CustomEvent("wall:drawn", { bubbles: true }));
+  };
+  const go = (i: number) => { if (i < 0) { if (prevPage) location.href = back.href; return; } if (i > list.length - 1) { if (nextPage) location.href = fwd.href; return; } if (i !== at) { at = i; put(); } };
+  put(); slideState = { list, go }; cleanup.push(() => { slideState = null; });
+  on(root, "click", (e: MouseEvent) => { const t = e.target as HTMLElement; if (t.closest(".turns .back") && at > 0) { e.preventDefault(); go(at - 1); } else if (t.closest(".turns .fwd") && at < list.length - 1) { e.preventDefault(); go(at + 1); } });
   on(document, "keydown", (e: KeyboardEvent) => { if (typing(e) || e.metaKey || e.ctrlKey || e.altKey) return; if (e.key === "ArrowRight") { e.preventDefault(); go(at + 1); } else if (e.key === "ArrowLeft") { e.preventDefault(); go(at - 1); } });
   let x0: number | null = null;
   on(stage, "touchstart", (e: TouchEvent) => { x0 = c.editing ? null : e.touches[0].clientX; }, { passive: true });

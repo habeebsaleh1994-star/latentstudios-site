@@ -52,7 +52,7 @@ export type Theme = z.infer<typeof themeSchema>;
 const short = z.string().max(500);
 const id = z.string().min(1).max(80);
 
-export const houseIds = ["folio", "gallery", "monograph", "passage", "reel", "salon", "index", "atelier", "lantern", "journal", "column", "catalogue", "chapbook", "cinema", "ledger", "pinboard", "studio", "archive"] as const;
+export const houseIds = ["folio", "gallery", "monograph", "passage", "reel", "salon", "index", "atelier", "lantern", "journal", "column", "catalogue", "chapbook", "cinema", "ledger", "pinboard", "studio", "archive", "manuscript"] as const;
 export type HouseId = (typeof houseIds)[number];
 
 /* ------------------------------------------------------------------ the library */
@@ -93,7 +93,7 @@ export const pieceSchema = z.discriminatedUnion("type", [
 ]);
 export type Piece = z.infer<typeof pieceSchema>;
 
-export const arrangementIds = ["held", "book", "passage", "contact", "wall", "slides", "board"] as const;
+export const arrangementIds = ["held", "book", "passage", "contact", "wall", "slides", "board", "leaves"] as const;
 export type ArrangementId = (typeof arrangementIds)[number];
 
 /** How a page appears elsewhere: in a search result, as a link sent to someone. Empty means "from the page itself". */
@@ -158,7 +158,7 @@ export type SitePage = z.infer<typeof sitePageSchema>;
 export type StoryPage = z.infer<typeof storyPageSchema>;
 
 export const frontSchema = z.object({
-  form: z.enum(["covers", "list", "sheet", "walk", "journal", "catalogue", "reading", "posters", "ledger", "archive"]).default("covers"),
+  form: z.enum(["covers", "list", "sheet", "walk", "journal", "catalogue", "reading", "posters", "ledger", "archive", "threshold"]).default("covers"),
   kicker: short.default(""), title: short.default(""), titleEm: short.default(""), note: z.string().max(5000).default(""),
 }).strict();
 

@@ -635,3 +635,27 @@ p[contenteditable]:empty, div[contenteditable]:empty { display: block; padding: 
 @media (prefers-reduced-motion: reduce) {
   #app *, #app *::before, #app *::after, .lb, .lb * { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; scroll-behavior: auto !important; }
 }
+
+/* ------------------------------------------------------------------ Manuscript: the threshold and the leaves */
+.v-threshold .threshold { min-height: calc(100svh - 140px); display: grid; grid-template-columns: minmax(0, 1fr); align-content: center; justify-items: start; gap: 40px; max-width: 1500px; margin-inline: auto; padding: calc(clamp(40px, 8vh, 96px) * var(--sp)) var(--gutter) calc(clamp(60px, 12vh, 140px) * var(--sp)); }
+.v-threshold .threshold .cover { margin: 0; width: min(100%, 320px); } .v-threshold .threshold .cover img { display: block; width: 100%; height: auto; }
+.v-threshold .tp { max-width: 720px; } .v-threshold .tp h1 { font-family: var(--serif); font-weight: var(--title-weight); font-size: min(clamp(40px, 5.6vw, 84px), 12cqw); line-height: 1.04; letter-spacing: var(--h1-track); margin: 14px 0 20px; text-wrap: balance; } .v-threshold .tp h1 em { font-style: var(--em-style); color: var(--em-color); }
+.v-threshold .tp .sub { font-style: italic; color: var(--ink-soft); font-size: calc(1.05em * var(--read)); max-width: 34em; margin: 0 0 32px; }
+.v-threshold .tp .begin { display: flex; gap: 28px; align-items: baseline; margin: 0; } .v-threshold .tp .begin .go { font-family: var(--serif); font-size: 1.1em; text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 2px; } .v-threshold .tp .begin .label { text-decoration: none; }
+@media (min-width: 900px) { .v-threshold .threshold:has(.cover) { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); align-items: center; } .v-threshold .threshold:has(.cover) .cover { order: 2; justify-self: end; width: min(100%, 360px); } }
+.v-threshold #contents { padding-top: calc(clamp(40px, 8vh, 96px) * var(--sp)); border-top: var(--rule-w) solid var(--rule); }
+.v-leaves { padding-inline: var(--gutter); max-width: 1500px; margin-inline: auto; min-height: calc(100svh - 120px); display: grid; grid-template-rows: auto 1fr auto; }
+.v-leaves .runhead { display: grid; grid-template-columns: 1fr auto 1fr; align-items: baseline; gap: 20px; padding: 10px 0 0; } .v-leaves .runhead .where { text-align: center; } .v-leaves .runhead .at { text-align: right; font-variant-numeric: tabular-nums; } .v-leaves .runhead a { text-decoration: none; }
+.v-leaves .stage { display: grid; place-items: center; padding: calc(24px * var(--sp)) 0; min-height: calc(100svh - 230px); }
+.v-leaves .leaf { width: 100%; display: grid; justify-items: center; } .v-leaves .leaf figure { margin: 0; display: grid; justify-items: center; max-width: 100%; } .v-leaves .leaf .frame { display: inline-block; max-width: 100%; }
+.v-leaves .leaf .frame img { display: block; width: auto; max-width: 100%; max-height: calc(100svh - 300px); min-height: 160px; object-fit: contain; background: var(--silk-deep); }
+.v-leaves .leaf figcaption { padding-top: 14px; } .v-leaves .leaf figcaption .cap { justify-content: center; }
+.v-leaves .leaf.words { max-width: 640px; text-align: left; justify-items: start; } .v-leaves .leaf.words p { font-family: var(--serif); font-size: calc(clamp(18px, 1.5vw, 22px) * var(--read)); line-height: 1.6; font-weight: 300; margin: 12px 0 0; white-space: pre-line; } .v-leaves .leaf.words .label { display: block; margin-bottom: 6px; }
+/* the title leaf: the card keeps its full width (it is a size container: shrunk to its content it would be nothing); the text centres inside it */
+.v-leaves .leaf.title { max-width: 900px; justify-items: stretch; text-align: center; } .v-leaves .leaf.title .card { width: 100%; padding-inline: 0; grid-template-columns: 1fr; justify-items: center; text-align: center; } .v-leaves .leaf.title .card > div { justify-self: stretch; } .v-leaves .leaf.title .card .note { max-width: 34em; margin-inline: auto; }
+.v-leaves .turns { display: flex; justify-content: space-between; padding: 14px 0 24px; } .v-leaves .turns a { text-decoration: none; } .v-leaves .turns a[hidden] { visibility: hidden; display: inline; }
+.v-leaves .leaf.fade { animation: leaf-in .5s ease both; } @keyframes leaf-in { from { opacity: 0; } to { opacity: 1; } } [data-motion="still"] .v-leaves .leaf.fade { animation: none; }
+
+/* a writing or a film as a leaf: the running head and the turns around the page as it is */
+[data-leaf-page] .runhead { display: grid; grid-template-columns: 1fr auto 1fr; align-items: baseline; gap: 20px; padding: 10px var(--gutter) 0; max-width: 1500px; margin-inline: auto; } [data-leaf-page] .runhead .where { text-align: center; } [data-leaf-page] .runhead .at { text-align: right; font-variant-numeric: tabular-nums; } [data-leaf-page] .runhead a { text-decoration: none; }
+[data-leaf-page] .turns { display: flex; justify-content: space-between; padding: 14px var(--gutter) 24px; max-width: 1500px; margin-inline: auto; } [data-leaf-page] .turns a { text-decoration: none; } [data-leaf-page] .turns a[hidden] { visibility: hidden; display: inline; }

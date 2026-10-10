@@ -195,15 +195,28 @@ function front(c: Ctx) {
   else if (c.site.front.form === "posters") body = frontPosters(c, list);
   else if (c.site.front.form === "ledger") body = frontLedger(c, list);
   else if (c.site.front.form === "archive") body = frontArchive(c, list);
-  else if (c.site.front.form === "list") {
-    body = `<div class="f-list"><ol${c.site.house === "monograph" ? ' aria-label="Contents"' : ""}>${c.site.house === "monograph" ? '<li class="contents-h"><span class="label">Contents</span></li>' : ""}${list.map((p, i) => `<li class="${p.kind}${p.inNav ? "" : " off"}"><a href="${c.href(p.id)}" data-i="${i}"><span class="n">${n2(i + 1)}</span><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="m">${esc(metaOf(p))}</span></a></li>`).join("")}</ol><div class="f-show" aria-hidden="true">${listShow(c, list[0])}</div></div>`;
+  else if (c.site.front.form === "list" || c.site.front.form === "threshold") {
+    const book = c.site.house === "monograph" || c.site.house === "manuscript";
+    body = `<div class="f-list"${c.site.front.form === "threshold" ? ' id="contents"' : ""}><ol${book ? ' aria-label="Contents"' : ""}>${book ? '<li class="contents-h"><span class="label">Contents</span></li>' : ""}${list.map((p, i) => `<li class="${p.kind}${p.inNav ? "" : " off"}"><a href="${c.href(p.id)}" data-i="${i}"><span class="n">${n2(i + 1)}</span><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="m">${esc(metaOf(p))}</span></a></li>`).join("")}</ol><div class="f-show" aria-hidden="true">${listShow(c, list[0])}</div></div>`;
   } else if (c.site.front.form === "sheet") {
     body = `<div class="f-sheet">${list.map((p) => { const w = coverOf(c, p); return `<a class="${p.kind}${p.inNav ? "" : " off"}" href="${c.href(p.id)}"><span class="fr">${w ? img(c, w) : `<span class="lines">${esc(firstLines(c, p))}</span>`}</span><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="label">${esc(metaOf(p))}</span></a>`; }).join("")}</div>`;
   } else {
     body = `<div class="f-covers">${list.map((p, i) => { const w = coverOf(c, p); return `<a class="cover ${p.kind}${p.inNav ? "" : " off"}" href="${c.href(p.id)}" style="--r:${w ? w.r.toFixed(4) : 1.5}">${w ? img(c, w, i > 0) : `<span class="lines">${esc(firstLines(c, p))}</span>`}<span class="under"><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="label">${esc(metaOf(p))}</span></span></a>`; }).join("")}</div>`;
   }
+  if (c.site.front.form === "threshold") return `<main class="v-front v-threshold">${threshold(c, list)}${body}</main>`;
   return `<main class="v-front">${frontCard(c)}${body}</main>`;
 }
+/** The threshold: a book's title page. The cover when there is one, the title, the subtitle, and "Begin"; the contents follow below. */
+function threshold(c: Ctx, list: SitePage[]) {
+  const f = c.site.front, cover = c.site.appears.share && c.site.library[c.site.appears.share] ? work(c, c.site.appears.share) : null, first = list[0];
+  return `<section class="threshold">${cover ? `<figure class="cover" style="--r:${cover.r.toFixed(4)}"><div class="frame">${img(c, cover, false)}</div></figure>` : ""}<div class="tp"><span class="label">${ed(c, "front.kicker", f.kicker, "span", "", "Above the title: an edition, a year")}</span><h1>${titleOf(c, "front", f.title, f.titleEm)}</h1>${ed(c, "front.note", f.note, "p", "sub", "A line under the title")}<p class="begin">${first ? `<a class="go" href="${c.href(first.id)}">Begin the work &rarr;</a>` : ""}<a class="label" href="${c.href("")}#contents">Contents</a></p></div></section>`;
+}
+/** The book's leaves, in order: every story's title, words and works, every writing and film as one leaf; projects are another wing. */
+export function manuscriptLeaves(c: Ctx): { page: SitePage; n: number }[] {
+  return shown(c).filter((p) => p.kind === "story" || p.kind === "writing" || p.kind === "film").map((p) => ({ page: p, n: p.kind === "story" ? slideList(c, p as StoryPage).list.length : 1 }));
+}
+/** A leaf's address: the page, and which leaf of it. */
+export function leafHref(c: Ctx, id: string, l: number): string { const h = c.href(id); return h.includes("#") ? `${h}?l=${l}` : `${h}#l=${l}`; }
 /** Passage's front page: the work itself hung along one wall, each story's cover a door into it. */
 function frontWalk(c: Ctx, list: SitePage[]) {
   const f = c.site.front;
@@ -368,6 +381,8 @@ export function slideList(c: Ctx, p: StoryPage) {
   }
   return { list, thumbs };
 }
+/** Leaves: a story read one leaf at a time, as part of the whole book; the running head says where you are, the turns carry on into the next page. */
+const leaves = (c: Ctx, p: StoryPage) => `<main class="v-leaves" data-page="${p.id}"><header class="runhead"><a class="label" href="${c.href("")}#contents">Contents</a><span class="label where">${plainTitle(p.title, p.titleEm)}</span><span class="label at"></span></header><div class="stage" aria-live="polite"></div><nav class="turns" aria-label="Turn"><a class="label back" href="#">&larr; Turn back</a><a class="label fwd" href="#">Turn &rarr;</a></nav>${gap(c, p, p.pieces.length - 1, true)}</main>`;
 const slides = (c: Ctx, p: StoryPage) => `<main class="v-slides" data-page="${p.id}"><div class="show"><div class="stage" aria-roledescription="slideshow" aria-live="polite"></div><div class="thumbs" role="group" aria-label="All slides"></div></div>${gap(c, p, p.pieces.length - 1, true)}${next(c, p).html}</main>`;
 
 /* ------------------------------------------------------------------ writing, film, project, about, contact */
@@ -415,7 +430,7 @@ function words(c: Ctx, p: Extract<SitePage, { kind: "about" | "contact" }>) {
 
 /* ------------------------------------------------------------------ one page */
 
-export type View = "front" | "held" | "book" | "passage" | "contact" | "wall" | "slides" | "board" | "writing" | "film" | "project" | "words";
+export type View = "front" | "held" | "book" | "passage" | "contact" | "wall" | "slides" | "board" | "leaves" | "writing" | "film" | "project" | "words";
 
 export function viewOf(p: SitePage | null, s?: SiteDocument): View {
   if (!p) return s?.front.form === "walk" ? "passage" : "front";
@@ -444,12 +459,14 @@ export function page(c: Ctx, p: SitePage | null): string {
   if (why === "soon") return door(c, p, why);
   if (why === "word") return bar(c, on) + door(c, p, why) + foot(c, on);
   if (!p) main = front(c);
-  else if (p.kind === "story") main = { held, book, passage, contact, wall, slides, board }[p.arrangement](c, p);
+  else if (p.kind === "story") main = { held, book, passage, contact, wall, slides, board, leaves }[p.arrangement](c, p);
   else if (p.kind === "writing") main = writing(c, p);
   else if (p.kind === "film") main = film(c, p);
   else if (p.kind === "project") main = project(c, p);
   else if (p.kind === "record") main = record(c, p);
   else main = words(c, p);
+  // in a Manuscript a writing or a film is a leaf of the book: the running head above it, the turns below, in place of "Next"
+  if (c.site.house === "manuscript" && p && (p.kind === "writing" || p.kind === "film")) main = main.replace(/<a class="onward"[\s\S]*?<\/a>/, "").replace(/^(<main[^>]*)>/, `$1 data-leaf-page="${esc(p.id)}"><header class="runhead"><a class="label" href="${c.href("")}#contents">Contents</a><span class="label where">${plainTitle(p.title, p.titleEm)}</span><span class="label at"></span></header>`).replace(/<\/main>$/, `<nav class="turns" aria-label="Turn"><a class="label back" href="#">&larr; Turn back</a><a class="label fwd" href="#">Turn &rarr;</a></nav></main>`);
   const v = viewOf(p, c.site);
   return bar(c, on) + main + (v === "book" || v === "passage" ? "" : foot(c, on));
 }

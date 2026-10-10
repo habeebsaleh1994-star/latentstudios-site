@@ -295,7 +295,7 @@ export function arrangeOptions(site: S, id: string, k: number): Opt[] {
   const lib = site.library, isWork = (a?: Piece): a is Extract<Piece, { type: "work" }> => !!a && a.type === "work";
   const landscape = (a?: Piece) => isWork(a) && lib[a.asset].w >= lib[a.asset].h;
   const prev = p.pieces[k - 1], nx = p.pieces[k + 1], portrait = lib[x.asset].w < lib[x.asset].h, a = p.arrangement;
-  if (a === "contact") return [];
+  if (a === "contact" || a === "leaves") return [];
   if (a === "board") return [
     { key: "full", title: "Larger", note: "Across two columns of the board", current: x.full },
     { key: "alone", title: "One pin", note: "In one column", current: !x.full },

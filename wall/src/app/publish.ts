@@ -31,7 +31,7 @@ export function changes(prev: SiteDocument | null, next: SiteDocument): string[]
     if (t.length) out.push(`Customise: ${t.join(", ")}.`);
   }
   if (prev.name !== next.name || prev.contact !== next.contact) out.push("Your name or the line at the foot.");
-  if (!sameJSON(prev.front, next.front)) out.push(prev.front.form !== next.front.form ? `The front page, now ${{ covers: "covers", list: "a list", sheet: "a sheet", walk: "a walk", journal: "a journal", catalogue: "a catalogue", reading: "the reading", posters: "posters", ledger: "a ledger", archive: "an archive" }[next.front.form]}.` : "The front page's words.");
+  if (!sameJSON(prev.front, next.front)) out.push(prev.front.form !== next.front.form ? `The front page, now ${{ covers: "covers", list: "a list", sheet: "a sheet", walk: "a walk", journal: "a journal", catalogue: "a catalogue", reading: "the reading", posters: "posters", ledger: "a ledger", archive: "an archive", threshold: "the threshold" }[next.front.form]}.` : "The front page's words.");
   const was = new Map(prev.pages.map((p) => [p.id, p]));
   const now = new Map(next.pages.map((p) => [p.id, p]));
   for (const p of next.pages) {
