@@ -1,0 +1,10 @@
+# Latent Wall itself, served as static files by a Worker with assets, at its own address.
+# From wall/, after `node scripts/build-site.mjs`:  npx wrangler@latest deploy -c deploy/wrangler.toml
+name = "latent-wall"
+compatibility_date = "2026-05-12"
+routes = [{ pattern = "wall.latentstudios.art", custom_domain = true }]
+
+[assets]
+directory = "../dist"
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"

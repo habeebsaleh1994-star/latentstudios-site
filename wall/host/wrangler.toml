@@ -11,5 +11,9 @@ bucket_name = "latent-wall-sites"
 # hosts that carry the site name in the path instead of a subdomain (comma-separated); leave empty for subdomains only
 BARE_HOSTS = ""
 
-# routes are added once the domain is decided, e.g.
-# routes = [{ pattern = "*.latentstudios.art/*", zone_name = "latentstudios.art" }]
+# one custom domain per tester's site; a custom domain makes its own DNS record and certificate.
+# add a line when a tester publishes, then deploy again:  npx wrangler@latest deploy  (from wall/host)
+routes = [
+  { pattern = "habib.latentstudios.art", custom_domain = true },
+  { pattern = "maddalena.latentstudios.art", custom_domain = true },
+]
