@@ -160,6 +160,8 @@ export type StoryPage = z.infer<typeof storyPageSchema>;
 export const frontSchema = z.object({
   form: z.enum(["covers", "list", "sheet", "walk", "journal", "catalogue", "reading", "posters", "ledger", "archive", "threshold"]).default("covers"),
   kicker: short.default(""), title: short.default(""), titleEm: short.default(""), note: z.string().max(5000).default(""),
+  /** A book's last leaf: a line to close on (Manuscript). */
+  end: z.string().max(5000).default(""),
 }).strict();
 
 export const siteSchema = z

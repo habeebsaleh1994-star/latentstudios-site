@@ -197,7 +197,7 @@ function front(c: Ctx) {
   else if (c.site.front.form === "archive") body = frontArchive(c, list);
   else if (c.site.front.form === "list" || c.site.front.form === "threshold") {
     const book = c.site.house === "monograph" || c.site.house === "manuscript";
-    body = `<div class="f-list"${c.site.front.form === "threshold" ? ' id="contents"' : ""}><ol${book ? ' aria-label="Contents"' : ""}>${book ? '<li class="contents-h"><span class="label">Contents</span></li>' : ""}${list.map((p, i) => `<li class="${p.kind}${p.inNav ? "" : " off"}"><a href="${c.href(p.id)}" data-i="${i}"><span class="n">${n2(i + 1)}</span><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="m">${esc(metaOf(p))}</span></a></li>`).join("")}</ol><div class="f-show" aria-hidden="true">${listShow(c, list[0])}</div></div>`;
+    body = `<div class="f-list"${c.site.front.form === "threshold" ? ' id="contents"' : ""}><ol${book ? ' aria-label="Contents"' : ""}>${book ? '<li class="contents-h"><span class="label">Contents</span></li>' : ""}${list.map((p, i) => `<li class="${p.kind}${p.inNav ? "" : " off"}"><a href="${c.href(p.id)}" data-i="${i}"><span class="n">${n2(i + 1)}</span><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="m">${esc(metaOf(p))}</span></a>${c.site.house === "manuscript" && p.kind === "story" ? labelledLeaves(c, p).map((x) => `<a class="within" href="${leafHref(c, p.id, x.l)}"><span class="n"></span><span class="t">${esc(x.label)}</span></a>`).join("") : ""}</li>`).join("")}</ol><div class="f-show" aria-hidden="true">${listShow(c, list[0])}</div></div>`;
   } else if (c.site.front.form === "sheet") {
     body = `<div class="f-sheet">${list.map((p) => { const w = coverOf(c, p); return `<a class="${p.kind}${p.inNav ? "" : " off"}" href="${c.href(p.id)}"><span class="fr">${w ? img(c, w) : `<span class="lines">${esc(firstLines(c, p))}</span>`}</span><h2>${plainTitle(p.title, p.titleEm)}</h2><span class="label">${esc(metaOf(p))}</span></a>`; }).join("")}</div>`;
   } else {
@@ -215,6 +215,14 @@ function threshold(c: Ctx, list: SitePage[]) {
 export function manuscriptLeaves(c: Ctx): { page: SitePage; n: number }[] {
   return shown(c).filter((p) => p.kind === "story" || p.kind === "writing" || p.kind === "film").map((p) => ({ page: p, n: p.kind === "story" ? slideList(c, p as StoryPage).list.length : 1 }));
 }
+/** The labelled pauses of a story, with the leaf each one is: a book's stories within a movement. */
+export function labelledLeaves(c: Ctx, p: StoryPage): { label: string; l: number }[] {
+  const { groups: G } = groups(c, p), out: { label: string; l: number }[] = []; let l = 1; // the title leaf is 0
+  for (const g of G) { if (g.type === "pause") { if (g.label) out.push({ label: g.label, l }); l += 1; } else l += g.works.length; }
+  return out;
+}
+/** The book's last leaf. */
+export const endLeaf = (c: Ctx) => `<div class="slide words end"><span class="label">${esc(c.site.house === "manuscript" ? "The end" : "")}</span>${ed(c, "front.end", c.site.front.end, "p", "", "A line to close the book on")}<p class="back-to"><a class="label" href="${c.href("")}#contents">Contents</a></p></div>`;
 /** A leaf's address: the page, and which leaf of it. */
 export function leafHref(c: Ctx, id: string, l: number): string { const h = c.href(id); return h.includes("#") ? `${h}?l=${l}` : `${h}#l=${l}`; }
 /** Passage's front page: the work itself hung along one wall, each story's cover a door into it. */
@@ -468,7 +476,8 @@ export function page(c: Ctx, p: SitePage | null): string {
   // in a Manuscript a writing or a film is a leaf of the book: the running head above it, the turns below, in place of "Next"
   if (c.site.house === "manuscript" && p && (p.kind === "writing" || p.kind === "film")) main = main.replace(/<a class="onward"[\s\S]*?<\/a>/, "").replace(/^(<main[^>]*)>/, `$1 data-leaf-page="${esc(p.id)}"><header class="runhead"><a class="label" href="${c.href("")}#contents">Contents</a><span class="label where">${plainTitle(p.title, p.titleEm)}</span><span class="label at"></span></header>`).replace(/<\/main>$/, `<nav class="turns" aria-label="Turn"><a class="label back" href="#">&larr; Turn back</a><a class="label fwd" href="#">Turn &rarr;</a></nav></main>`);
   const v = viewOf(p, c.site);
-  return bar(c, on) + main + (v === "book" || v === "passage" ? "" : foot(c, on));
+  // the reading views fill the screen: nothing below a leaf, a spread or a walk
+  return bar(c, on) + main + (v === "book" || v === "passage" || v === "leaves" ? "" : foot(c, on));
 }
 
 export function titleText(s: SiteDocument, p: SitePage | null) {

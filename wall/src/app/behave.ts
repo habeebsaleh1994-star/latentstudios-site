@@ -6,7 +6,7 @@
  * and keys never act while the artist is typing.
  */
 import type { SitePage, StoryPage } from "../studio/site";
-import { bookLeaves, slideList, groups, work, listShow, workPages, type Ctx, type View, manuscriptLeaves, leafHref } from "./render";
+import { bookLeaves, slideList, groups, work, listShow, workPages, type Ctx, type View, manuscriptLeaves, leafHref, endLeaf } from "./render";
 
 type Viewer = { open: (items: { src: string; alt: string; title: string; meta: string; cm?: { w: number; h: number } | null }[], at: number) => void; isOpen: () => boolean };
 const viewer = () => (window as unknown as { LatentViewer?: Viewer }).LatentViewer;
@@ -22,6 +22,8 @@ const phone = () => matchMedia("(max-width: 700px)").matches;
 
 export function wire(root: HTMLElement, c: Ctx, p: SitePage | null, view: View, keep: boolean) {
   cleanup.forEach((f) => f()); cleanup = [];
+  // the header's height, for the views that fill the rest of the screen
+  const bar = document.querySelector<HTMLElement>(".bar"), setBar = () => document.documentElement.style.setProperty("--bar-h", `${bar?.offsetHeight ?? 0}px`); setBar(); on(window, "resize", setBar);
   // the editor asks for a work to be brought into view after changing how it sits
   on(root, "wall:show", (e: Event) => {
     const k = (e as CustomEvent<{ k: number }>).detail.k, has = (html: string) => html.includes(`data-k="${k}"`);
@@ -218,7 +220,10 @@ function leafPage(root: HTMLElement, c: Ctx, p: SitePage) {
 /** The reader of a Manuscript: one leaf at a time, the keys and a swipe to turn, the running head counting through the whole book, the turns at either end carrying into the pages before and after. */
 function leavesReader(root: HTMLElement, c: Ctx, p: StoryPage, key: string) {
   const stage = root.querySelector<HTMLElement>(".stage")!, at$ = root.querySelector<HTMLElement>(".runhead .at")!, back = root.querySelector<HTMLAnchorElement>(".turns .back")!, fwd = root.querySelector<HTMLAnchorElement>(".turns .fwd")!;
-  const { list } = slideList(c, p), book = manuscriptLeaves(c), me = book.findIndex((b) => b.page.id === p.id), before = book.slice(0, Math.max(0, me)).reduce((n, b) => n + b.n, 0), total = book.reduce((n, b) => n + b.n, 0);
+  const { list } = slideList(c, p), book = manuscriptLeaves(c), me = book.findIndex((b) => b.page.id === p.id), before = book.slice(0, Math.max(0, me)).reduce((n, b) => n + b.n, 0);
+  // the book's last leaf, after the last page
+  const last = me === book.length - 1; if (last && (c.site.front.end || c.editing)) list.push(endLeaf(c));
+  const total = book.reduce((n, b) => n + b.n, 0) + (last && (c.site.front.end || c.editing) ? 1 : 0);
   const where = location.hash + location.search, asked = /[?#]l=(\d+)/.exec(where), fromEnd = /[?#]l=end/.test(where);
   let at = Math.max(0, Math.min(list.length - 1, fromEnd ? list.length - 1 : asked ? +asked[1] : place[key] ?? 0));
   const prevPage = me > 0 ? book[me - 1].page : null, nextPage = me >= 0 && me < book.length - 1 ? book[me + 1].page : null;
@@ -235,6 +240,8 @@ function leavesReader(root: HTMLElement, c: Ctx, p: StoryPage, key: string) {
   };
   const go = (i: number) => { if (i < 0) { if (prevPage) location.href = back.href; return; } if (i > list.length - 1) { if (nextPage) location.href = fwd.href; return; } if (i !== at) { at = i; put(); } };
   put(); slideState = { list, go }; cleanup.push(() => { slideState = null; });
+  // a link to another leaf of this page (the contents, a shared address) turns to it without leaving
+  on(window, "hashchange", () => { const m = /[?#]l=(\d+|end)/.exec(location.hash + location.search); if (m) go(m[1] === "end" ? list.length - 1 : +m[1]); });
   on(root, "click", (e: MouseEvent) => { const t = e.target as HTMLElement; if (t.closest(".turns .back") && at > 0) { e.preventDefault(); go(at - 1); } else if (t.closest(".turns .fwd") && at < list.length - 1) { e.preventDefault(); go(at + 1); } });
   on(document, "keydown", (e: KeyboardEvent) => { if (typing(e) || e.metaKey || e.ctrlKey || e.altKey) return; if (e.key === "ArrowRight") { e.preventDefault(); go(at + 1); } else if (e.key === "ArrowLeft") { e.preventDefault(); go(at - 1); } });
   let x0: number | null = null;
