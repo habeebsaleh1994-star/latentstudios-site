@@ -1,7 +1,7 @@
 export const PRINT_ENGINE_RELEASE = Object.freeze({
-  key: 'manager/latent-print-engine/production/1.1.1/Latent-Print-Engine-1.1.1.pkg',
-  filename: 'Latent-Print-Engine-1.1.1.pkg',
-  sha256: '38bffde973f4cd68e677c9030e578bf4b9d8841eb9a3601eba651ee1d51cf027',
+  key: 'manager/latent-print-engine/production/1.1.2/Latent-Print-Engine-1.1.2.pkg',
+  filename: 'Latent-Print-Engine-1.1.2.pkg',
+  sha256: '516e570ba7e63c630a0078632547b54d993d9b009451a4c5e94cbebc8d36014c',
 });
 
 function parseRange(value, size) {
