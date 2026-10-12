@@ -30,10 +30,10 @@ export const ritualCommerce = Object.freeze({
   ]),
   manager: Object.freeze({
     version: '1.1.6',
-    build: 240,
+    build: 241,
     downloadHref: '/download/manager',
     filename: 'Latent-Manager-1.1.6.zip',
     key: 'manager/latent-manager/production/1.1.6/Latent-Manager-1.1.6.zip',
-    sha256: 'ef60ac10cdc41a46d851b55544be616a0d670fe07fe81c5fb76ab0d0a38715ff',
+    sha256: 'e6634c1867ca8a040442e536c2ead1b2043c762684c048b95cabee2bb8b3367c',
   }),
 });
