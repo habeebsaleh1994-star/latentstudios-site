@@ -40,6 +40,9 @@
 .lab-look-dot { flex: 0 0 auto; width: 5px; height: 5px; border-radius: 50%; background: transparent; transform: translateY(-4px); }
 .lab-look.is-active .lab-look-dot { background: var(--amber-accent); }
 .lab-note { font-style: italic; font-size: 16px; line-height: 1.45; margin: 0; color: var(--soft); }
+.lab-recipe { margin: 0; font-family: var(--sans); font-weight: 500; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--soft); }
+.lab-recipe span { color: var(--amber-label); }
+.lab-recipe[hidden] { display: none; }
 
 /* words one side, a plate the other */
 .lab-pair { display: flex; flex-wrap: wrap; align-items: center; gap: 40px clamp(30px, 4vw, 70px); }
