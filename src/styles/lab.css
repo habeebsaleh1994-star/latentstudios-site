@@ -147,6 +147,16 @@
 .lab-compare-range {
   position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize;
 }
+/* the loupe: the frame at 4K, pixel for pixel, where the hand rests */
+.lab-loupe {
+  position: absolute; left: 0; top: 0; width: 240px; height: 240px; border-radius: 50%;
+  background-repeat: no-repeat; background-color: #121010; pointer-events: none; z-index: 2;
+  box-shadow: 0 0 0 1px rgba(244, 236, 226, 0.45), 0 18px 48px rgba(0, 0, 0, 0.55);
+  opacity: 0; transition: opacity 0.15s ease;
+}
+.lab-loupe.is-on { opacity: 1; }
+.lab-loupe-note[hidden] { display: none; }
+@media (hover: none) { .lab-loupe, .lab-loupe-note { display: none; } }
 
 /* a maker's curve, drawn from the engine's data */
 .lab-curve { display: block; width: 100%; height: auto; border-bottom: 1px solid var(--hair); }
