@@ -1,59 +1,47 @@
 ---
-// The Lab — the moving-image print engine, in DaVinci Resolve.
+// The Lab — Latent Print Engine, the moving-image print engine, in DaVinci Resolve.
 //
 // Same darkroom ground and repo tokens as /ritual, in the house's shell: the homepage's
 // header and letters desk, Cormorant + Instrument Sans, left/right asymmetry, doors as
-// words. Gone: the safelight pulse, StatusChip, .btn-amber, Nav's CTA, FooterMini, the
-// centred column, the plan cards.
+// words.
 //
-// The iPhone app is deliberately absent — it is not a real product yet. Do not add it back
-// until it ships; the sentence held for it is in the README.
-//
-// Engine facts (The Timer, transport, Recipe Card, Set Print, Lab Report, camera log) come
-// from LatentOFX/docs/PARAMETERS.md, CAMERA_INPUT_CONTRACT.md and CHANGELOG.md (1.0.1).
+// Every fact here is the shipped plug-in's own (LatentOFX on print-engine/main, 2026-10-12):
+// the catalog counts come from its film and paper lists, the curve from its spectral data,
+// the frames from footage graded with it. The plug-in follows The Ritual's Film, Paper and
+// Finish; a feature leaves this page the day it leaves the plug-in.
 import Base from '../layouts/Base.astro';
 import '../styles/home.css';
 import '../styles/ritual.css';
 import '../styles/lab.css';
 import { truth } from '../config/truth';
 import { labCommerce } from '../config/lab';
+import sensitivity from '../data/vision3-250d-sensitivity.json';
 
 const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 
-// One controlled fixture: three frames, each developed three ways, with the decoded source
-// kept alongside. looks[0] leads. The chosen SLOT holds when you step between frames — the
-// three looks are named differently per frame, but slot 4 is the source everywhere, so the
-// source stays put and you can walk the three in a row.
+// Three moments from one graded film, each as it came off the camera and as the engine printed it.
 const frames = [
-  { name: 'Portrait 1', looks: [
-    { name: 'Vision3 200T + 2393 Print', img: '/lab/portrait-1-vision3-200t-2393.webp' },
-    { name: 'ColorPlus 200 + Endura Metallic Print', img: '/lab/portrait-1-colorplus-200-endura-metallic.webp' },
-    { name: 'Tri-X 400 + Forte Polywarmtone Print', img: '/lab/portrait-1-trix-400-forte-polywarmtone.webp' },
-    { name: 'RAW', img: '/lab/portrait-1-raw.webp' } ] },
-  { name: 'Garden 1', looks: [
-    { name: 'Vision3 250D + Fuji Eterna-CP Print', img: '/lab/garden-1-vision3-250d-fuji-eterna.webp' },
-    { name: 'Ektar 100 + Portra Endura Print', img: '/lab/garden-1-ektar-100-portra-endura.webp' },
-    { name: 'Superia Reala + Crystal Archive Print', img: '/lab/garden-1-reala-crystal-archive.webp' },
-    { name: 'RAW', img: '/lab/garden-1-raw.webp' } ] },
-  { name: 'Portrait 2', looks: [
-    { name: 'Vision3 50D + Kodak 2383 Print', img: '/lab/portrait-2-vision3-50d-2383.webp' },
-    { name: 'Provia 400F + Lightbox Scan', img: '/lab/portrait-2-provia-400f-lightbox.webp' },
-    { name: 'Portra 400 + Supra Endura Print', img: '/lab/portrait-2-portra-400-supra-endura.webp' },
-    { name: 'RAW', img: '/lab/portrait-2-raw.webp' } ] },
+  { name: 'The gate', before: '/lab/compare/gate-before.webp', after: '/lab/compare/gate-after.webp' },
+  { name: 'The close-up', before: '/lab/compare/closeup-before.webp', after: '/lab/compare/closeup-after.webp' },
+  { name: 'The stairs', before: '/lab/compare/stairs-before.webp', after: '/lab/compare/stairs-after.webp' },
 ];
 
-// The published ColorChecker reference values — not invented swatches.
-const chart = ['#735244','#c29682','#627a9d','#576c43','#8580b1','#67bdaa','#d67e2c','#505ba6','#c15a63','#5e3c6c','#9dbc40','#e0a32e','#383d96','#469449','#af363c','#e7c71f','#bb5695','#0885a1','#f3f3f2','#c8c8c8','#a0a0a0','#7a7a79','#555555','#343434'];
-// The reference strip runs warm; the timed print sits closer to neutral.
-const wedgeReference = ['#1d1714','#2e2620','#443830','#5d4d42','#7b6857','#9c8771','#c0a88e'];
-const wedgePrint = ['#1b1816','#2b2724','#3f3934','#574f48','#746a60','#948a7e','#b8ad9f'];
+// The catalog, as the plug-in's film and paper lists hold it.
+const families = [
+  { name: 'Colour negative', count: 41 },
+  { name: 'Cinema', count: 7 },
+  { name: 'Slide', count: 19 },
+  { name: 'Kodachrome', count: 3 },
+  { name: 'Black & white', count: 13 },
+];
+const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
 ---
 
 <Base
-  title="The Lab — the moving-image print engine"
-  description="Develop a moving-image negative, print it, scan it, and carry it back — in one node inside your grade in DaVinci Resolve. The Lab."
+  title="The Lab — Latent Print Engine for DaVinci Resolve"
+  description="Real film, simulated from light to print, in one node inside your grade. 83 film stocks from their makers' own data, printed on 18 papers and print films. Latent Print Engine for DaVinci Resolve Studio."
   ogImage="/og-lab.png?v=1"
-  ogImageAlt="The Lab — the moving-image print engine, in DaVinci Resolve"
+  ogImageAlt="The Lab — Latent Print Engine, in DaVinci Resolve"
   quiet={false}
   evening={false}
 >
@@ -79,23 +67,21 @@ const wedgePrint = ['#1b1816','#2b2724','#3f3934','#574f48','#746a60','#948a7e',
       <section class="ritual-hero">
         <div class="ritual-hero-row">
           <div class="ritual-hero-lead" data-reveal>
-            <div class="label">An instrument &middot; a print engine for moving images &middot; DaVinci Resolve</div>
+            <div class="label">Latent Print Engine &middot; an OpenFX node for DaVinci Resolve</div>
             <h1 class="ritual-title">The moving-image print engine.</h1>
-            <p class="ritual-lede">Develop a negative, print it, scan it, and carry it back.</p>
+            <p class="ritual-lede">Real film, simulated from light to print &mdash; in one node inside your grade.</p>
           </div>
           <div class="ritual-hero-aside" data-reveal>
-            <p class="fact">One node inside your grade. The same negative-to-print engine as The Ritual and The Moment, carried frame after frame.</p>
+            <p class="fact">This isn&rsquo;t a LUT. Each frame is exposed onto a film stock, developed, printed and viewed, the way the stock&rsquo;s own maker describes it &mdash; through the same engine as The Ritual.</p>
             <div class="label">{truth.labStatus}</div>
           </div>
         </div>
-        {/* Web-weight derivatives of the 4K master; the hero used to pull ~13 MB before a
-            visitor had read a line. */}
         <figure class="ritual-plate wide" data-reveal>
           <video data-autoplay muted loop playsinline preload="metadata"
-                 poster="/lab-reel-poster.webp" width="1920" height="1080"
-                 aria-label="A reel of moving images developed through the Latent print engine">
-            <source src="/lab-reel-1920.webm" type="video/webm" />
-            <source src="/lab-reel-1920.mp4" type="video/mp4" />
+                 poster="/lab-launch-poster.webp" width="1920" height="1080"
+                 aria-label="Latent Print Engine: footage developed and printed through the engine, before and after">
+            <source src="/lab-launch-1920.webm" type="video/webm" />
+            <source src="/lab-launch-1920.mp4" type="video/mp4" />
           </video>
         </figure>
       </section>
@@ -103,136 +89,111 @@ const wedgePrint = ['#1b1816','#2b2724','#3f3934','#574f48','#746a60','#948a7e',
       <section class="ritual-block tight">
         <div class="ritual-words" data-reveal>
           <div class="label">One node</div>
-          <h2>Source to delivery, without leaving the grade.</h2>
-          <p class="fact">Managed-timeline and camera-log input paths in, explicit delivery transforms out.</p>
+          <h2>The whole photochemical chain, frame after frame.</h2>
+          <p class="fact">Your footage is the light that reached the camera. The engine carries it the way film did, and lets you work at every step.</p>
         </div>
         <div class="lab-chain" data-reveal>
+          <span>Light</span><span class="lab-arrow" aria-hidden="true">&rarr;</span>
           <span>Negative</span><span class="lab-arrow" aria-hidden="true">&rarr;</span>
+          <span>Development</span><span class="lab-arrow" aria-hidden="true">&rarr;</span>
           <span>Print</span><span class="lab-arrow" aria-hidden="true">&rarr;</span>
-          <span>Scan</span><span class="lab-arrow" aria-hidden="true">&rarr;</span>
-          <span>Texture</span><span class="lab-arrow" aria-hidden="true">&rarr;</span>
-          <span>Transport</span>
+          <span>The frame</span>
+        </div>
+      </section>
+
+      <section class="lab-pair">
+        <div class="ritual-words" data-reveal>
+          <div class="label">01 &middot; The negative</div>
+          <h2>Every stock, from its maker&rsquo;s own data.</h2>
+          <p class="fact">Eighty-three film stocks, each built from what its maker published: how each layer sees the spectrum, the dyes it forms, its characteristic curves, its grain. Nothing is matched to a look by eye and called a stock.</p>
+          <p class="fact">The film sees the light your footage was shot in. Tell it the camera&rsquo;s white balance and a daylight stock under tungsten goes warm, a tungsten stock in daylight goes blue &mdash; as on set.</p>
+          <div class="label">{families.map((f) => `${f.name} ${f.count}`).join(' · ')}</div>
+        </div>
+        <figure class="lab-card" data-reveal>
+          <div class="lab-card-head"><span>Kodak Vision3 250D</span><span class="muted">Spectral sensitivity</span></div>
+          <svg class="lab-curve" viewBox={`0 0 ${sensitivity.width} ${sensitivity.height}`} role="img"
+               aria-label="Kodak Vision3 250D: the red, green and blue layers' spectral sensitivity, 380 to 780 nanometres">
+            {sensitivity.paths.map((d, i) => <path d={d} fill="none" stroke={layerColours[i]} stroke-width="2" stroke-linejoin="round" />)}
+          </svg>
+          <div class="lab-axis">{[400, 500, 600, 700].map((nm) => <span style={`left: ${((nm - 380) / 400) * 100}%`}>{nm === 700 ? '700 nm' : nm}</span>)}</div>
+          <figcaption>The three layers of Vision3 250D as Kodak publishes them, drawn from the data the engine develops it with.</figcaption>
+        </figure>
+      </section>
+
+      <section class="lab-pair reverse">
+        <figure class="lab-card wide" data-reveal>
+          <div class="lab-card-head"><span>The print</span><span class="muted">18 papers &amp; print films</span></div>
+          <div class="lab-row"><span class="label small">Colour paper</span><span>Endura &middot; Crystal Archive &middot; Edge</span></div>
+          <div class="lab-row"><span class="label small">Print film</span><span>2383 &middot; 2393 &middot; CP30 &middot; ETERNA-CP</span></div>
+          <div class="lab-row"><span class="label small">Silver</span><span>Multigrade RC &middot; FB &middot; Warmtone</span></div>
+          <div class="lab-row"><span class="label small">Slides</span><span>Light box &middot; Projector &middot; Radiance</span></div>
+          <div class="lab-row"><span class="label small">Lab scan</span><span>Frontier SP-3000 &middot; Noritsu HS-1800</span></div>
+          <figcaption>Each negative is offered only what prints it: a colour negative its papers and scanners, a cinema negative its print films, a slide its viewers.</figcaption>
+        </figure>
+        <div class="ritual-words right" data-reveal>
+          <div class="label">02 &middot; The print</div>
+          <h2>Printed, the way a lab prints it.</h2>
+          <p class="fact">Under the enlarger, with its colour head, flash and timing; through a cinema printer in printer lights, from the camera negative or a dupe of a dupe; scanned on a Frontier or a Noritsu; or a slide seen on a light box or thrown by a projector.</p>
+          <p class="fact">Silver prints have their grades, split grade, and toning in selenium, sepia, iron blue, copper and gold.</p>
         </div>
       </section>
 
       <section class="ritual-block">
         <div class="ritual-words" data-reveal>
-          <div class="label">The material</div>
-          <h2>Film as behaviour, frame after frame.</h2>
-          <p class="fact">Spectral negative response, the print and view path, scanner character, fall-off, halation and animated photographic grain &mdash; the same continuous field The Ritual develops a still through, built for the timeline.</p>
-          <p class="fact">The print room is a print room: paper grades nought to five, printer lights in points (twelve to the stop), preflash, ENR silver retention, a second exposure with its Mackie lines, and copy generations. An exposure meter reads the light reaching the emulsion in stops from midgray, so you can judge the negative before you judge the print.</p>
+          <div class="label">03 &middot; The frame</div>
+          <h2>Halation, grain and marks, new on every frame.</h2>
+          <p class="fact">Halation glows from the light your camera actually clipped, found in the footage itself. The grain is particles on the film, sized on the frame you choose from Super&nbsp;16 to 8&times;10, and it renews every frame. Dust, hairs and scratches on the film change with it.</p>
         </div>
         <div class="lab-fixture" data-reveal>
-          <figure class="ritual-plate lab-fixture-plate">
-            {/* A literal src, set imperatively afterwards: a hole here would be fetched
-                literally while the template streams and 404 before any value exists. */}
-            <img data-fixture-plate src={frames[0].looks[0].img} alt={`${frames[0].name} — ${frames[0].looks[0].name}`} width="1600" height="900" />
-            <figcaption data-fixture-cap>{frames[0].looks[0].name}</figcaption>
+          <figure class="ritual-plate lab-fixture-plate lab-compare" data-compare>
+            <img data-compare-after src={frames[0].after} alt={`${frames[0].name}, developed and printed through Latent Print Engine`} width="1600" height="900" />
+            <img data-compare-before class="lab-compare-before" src={frames[0].before} alt={`${frames[0].name}, as the camera recorded it`} width="1600" height="900" />
+            <span class="lab-compare-line" aria-hidden="true"></span>
+            <span class="lab-compare-tag left">The footage</span>
+            <span class="lab-compare-tag right">Printed</span>
+            <input class="lab-compare-range" type="range" min="0" max="100" value="50" aria-label="Compare the footage with the print" data-compare-range />
           </figure>
           <div class="lab-fixture-controls">
             <div class="lab-picker">
               <div class="label small">The frame</div>
               <div class="lab-frames">
                 {frames.map((fr, fi) => (
-                  <button type="button" class:list={['lab-frame', fi === 0 && 'is-active']} data-fixture-frame={fi}>{fr.name}</button>
+                  <button type="button" class:list={['lab-frame', fi === 0 && 'is-active']} data-compare-frame={fi}>{fr.name}</button>
                 ))}
               </div>
             </div>
-            <div class="lab-looks">
-              <div class="label small">The emulsion</div>
-              {frames[0].looks.map((lk, li) => (
-                <button type="button" class:list={['lab-look', li === 3 && 'is-source', li === 0 && 'is-active']} data-fixture-look={li}>
-                  <span class="lab-look-dot" aria-hidden="true"></span>
-                  <span data-look-label={li}>{li === 3 ? 'The source it came from' : lk.name}</span>
-                </button>
-              ))}
-            </div>
-            <p class="lab-note">One frame, developed three ways, with the decoded source kept alongside. The slot holds when you step between frames, so the source stays put and you can walk the three in a row.</p>
+            <p class="lab-note">Drag across the frame. Left is the footage as it came off the camera, through a plain Rec.709 conversion; right is the same frame through Latent Print Engine.</p>
           </div>
         </div>
       </section>
 
       <section class="ritual-aside-right">
         <div class="ritual-words right" data-reveal>
-          <div class="label">Built for the timeline</div>
+          <div class="label">Built for Resolve</div>
           <h2>Your colour pipeline, respected.</h2>
-          <p class="fact">A managed timeline or a camera-log source comes in; an explicit delivery transform goes out. The node renders the whole frame &mdash; halation, grain and fall-off don&rsquo;t stop at tile edges &mdash; and heavy texture is honest about the playback it costs.</p>
-          <p class="fact">Or bring the camera&rsquo;s log straight in: eleven exact gamut-and-curve pairs, each one shipped only once its transfer function, primaries, inverse and neutral white are proven against named references. Fujifilm and Nikon are not in that menu yet. Breadth is not evidence.</p>
-          <div class="label">Managed timeline &nbsp;&middot;&nbsp; Camera log &nbsp;&middot;&nbsp; Explicit delivery</div>
+          <p class="fact">Bring the timeline in &mdash; DaVinci Wide Gamut, ACES or Rec.709 &mdash; or a camera&rsquo;s log straight in: eleven exact gamut-and-curve pairs. Deliver Rec.709, Rec.709-A, P3 or Rec.2020, or HDR in PQ and HLG, where a scanned negative or a projected slide may carry its light above paper white.</p>
+          <p class="fact">The node renders the whole frame, so halation and grain never stop at a tile&rsquo;s edge. An HD frame develops in about 40&nbsp;ms on an M4&nbsp;Pro; for 4K, Resolve&rsquo;s render cache plays the print in real time.</p>
+          <div class="label">Timeline &nbsp;&middot;&nbsp; Camera log &nbsp;&middot;&nbsp; SDR &amp; HDR delivery</div>
         </div>
       </section>
 
       <section class="lab-pair">
         <div class="ritual-words" data-reveal>
-          <div class="label">The Timer</div>
-          <h2>Print to a reference you already love.</h2>
-          <p class="fact">Point it at a lab print, a film still, a frame from a film. It renders grey test strips through the real chain and moves film exposure, print exposure, the printer lights and contrast until the greys sit where the reference&rsquo;s do.</p>
-          <p class="fact">Or match a chart: twenty-four patches through the same chain, skin and greys weighted heaviest, and the remaining difference reported rather than hidden. Or match grain: amount per tonal band, granule size, silver or dye character.</p>
-          <div class="label">A reference &nbsp;&middot;&nbsp; A chart &nbsp;&middot;&nbsp; Grain</div>
+          <div class="label">The projector</div>
+          <h2>The machine the film runs through.</h2>
+          <p class="fact">A second node, Latent Projection, carries the print through a gate: gate mattes in 8, 16 and 35mm, weave that wanders more in 8mm than in 35mm, lamp flicker, the lens&rsquo;s slow breathing, and an amber edge code along the bottom for dailies.</p>
+          <p class="fact">The Lab Report writes one line per frame &mdash; the recipe&rsquo;s fingerprint and the print&rsquo;s &mdash; so two machines can prove they made the same print.</p>
+          <div class="label">Gate &nbsp;&middot;&nbsp; Weave &nbsp;&middot;&nbsp; Flicker &nbsp;&middot;&nbsp; Breathing &nbsp;&middot;&nbsp; Edge code</div>
         </div>
-        <figure class="lab-card" data-reveal>
-          <div class="lab-card-head"><span>The Timer</span><span class="muted">One-Light</span></div>
-          <div class="lab-wedge">
-            <div class="label small">Reference</div>
-            <div class="lab-strip">{wedgeReference.map((c) => <span style={`background: ${c}`}></span>)}</div>
-          </div>
-          <div class="lab-wedge">
-            <div class="label small">The print</div>
-            <div class="lab-strip">{wedgePrint.map((c) => <span style={`background: ${c}`}></span>)}</div>
-          </div>
-          <div class="lab-wedge">
-            <div class="label small">Twenty-four patches</div>
-            <div class="lab-chart">{chart.map((c) => <span style={`background: ${c}`}></span>)}</div>
-          </div>
-          <figcaption>The grey strips and the twenty-four reference patches are rendered through the real chain, then read band by band and patch by patch.</figcaption>
-        </figure>
-      </section>
-
-      <section class="lab-pair reverse">
         <figure class="lab-card" data-reveal>
           <div class="lab-card-head"><span>Transport</span><span class="muted">35mm &middot; 24 fps</span></div>
-          {/* One frame from the fixture under the engine's own shipped dust atlas. The gate
-              mattes and burn plates are ProRes clips in the bundle — see the README. */}
           <div class="lab-specimen">
-            <img src="/lab/portrait-2-vision3-50d-2383.webp" alt="One frame from the fixture with the engine's dust atlas over it" loading="lazy" />
-            <span class="lab-dust" aria-hidden="true"></span>
+            <img src="/lab/compare/closeup-after.webp" alt="A frame printed through the engine, in the projector's gate" loading="lazy" />
           </div>
-          <div class="lab-edgecode"><span>5203</span><span>push 0</span><span>gen 1</span><span>0147</span></div>
+          <div class="lab-edgecode"><span>5207</span><span>push 0</span><span>gen 1</span><span>0147</span></div>
           <div class="lab-row"><span class="label small">Gate</span><span>35 &middot; 16 &middot; 8mm</span></div>
-          <div class="lab-row"><span class="label small">Damage</span><span>Reel&rsquo;s End</span></div>
-          <div class="lab-row"><span class="label small">Dust</span><span>Negative &amp; print</span></div>
-          <figcaption>One frame under the engine&rsquo;s own dust atlas, with the dailies edge code beneath it. The gate mattes and burn plates are ProRes clips inside the bundle.</figcaption>
-        </figure>
-        <div class="ritual-words right" data-reveal>
-          <div class="label">Transport and damage</div>
-          <h2>The machine the film runs through.</h2>
-          <p class="fact">Gate mattes in 8, 16 and 35mm &mdash; and 8mm wanders in the gate more than 35mm does. Lamp flicker, the projector&rsquo;s slow focus breathing, three burn plates named Reel&rsquo;s End, Light Leak and Colour Flare, dust on the negative and dirt on the print, and an amber edge code burnt along the bottom for dailies.</p>
-          <p class="fact">Every texture is seeded, so two renders of the same frame are the same frame. Bath Drift wanders density, fog, curve slope and the filter pack on a seeded walk: twenty-five reads like normal dailies variation, a hundred like an unreliable lab.</p>
-          <div class="label">Weave &nbsp;&middot;&nbsp; Flicker &nbsp;&middot;&nbsp; Breathing &nbsp;&middot;&nbsp; Dust &nbsp;&middot;&nbsp; Burn plates</div>
-        </div>
-      </section>
-
-      <section class="lab-pair">
-        <div class="ritual-words" data-reveal>
-          <div class="label">What leaves the room</div>
-          <h2>A print you can hand over without it drifting.</h2>
-          <p class="fact">The Recipe Card writes the whole node state to one file &mdash; stocks by name, every control, the engine version, a content fingerprint. Seal it when the print is approved and it reloads sealed, so the approved print cannot drift between review and delivery.</p>
-          <p class="fact">Set Print bakes the colour path into a 33-point cube for on-set monitors and dailies. Grain, halation and transport are deliberately left out: the set watches an honest print of the look, and the living texture stays in the develop.</p>
-          <p class="fact">The Lab Report writes one line per frame &mdash; the recipe fingerprint and the print fingerprint &mdash; so two machines can prove they made the same print.</p>
-          <div class="label">Recipe Card &nbsp;&middot;&nbsp; Sealed &nbsp;&middot;&nbsp; Set Print &nbsp;&middot;&nbsp; Lab Report</div>
-        </div>
-        <figure class="lab-card" data-reveal>
-          <div class="lab-card-head"><span>Recipe Card</span><span class="lab-seal">Sealed</span></div>
-          {/* Representative values, not a shipped preset — see the README. */}
-          <div class="lab-row"><span class="label small">Stock</span><span>Vision3 250D</span></div>
-          <div class="lab-row"><span class="label small">Push</span><span>+1</span></div>
-          <div class="lab-row"><span class="label small">Print path</span><span>Kodak 2383</span></div>
-          <div class="lab-row"><span class="label small">Paper grade</span><span>2.0</span></div>
-          <div class="lab-row"><span class="label small">Printer lights</span><span>&minus;2 &middot; 0 &middot; +3 pts</span></div>
-          <div class="lab-row"><span class="label small">Engine</span><span>{labCommerce.version}</span></div>
-          <div class="lab-row"><span class="label small">Fingerprint</span><span class="mono">f3c1 &hellip; 8ab2</span></div>
-          <div class="lab-card-foot"><span>Set Print &middot; 33-point cube</span><span>Lab Report &middot; one line per frame</span></div>
-          <figcaption>The card&rsquo;s own shape &mdash; the job ticket for a print, sealed once it is approved.</figcaption>
+          <div class="lab-row"><span class="label small">Report</span><span>One line per frame</span></div>
+          <figcaption>The edge code burns along the bottom of the frame, exposed amber like real key numbers.</figcaption>
         </figure>
       </section>
 
@@ -240,14 +201,32 @@ const wedgePrint = ['#1b1816','#2b2724','#3f3934','#574f48','#746a60','#948a7e',
         <div class="ritual-words wide" data-reveal>
           <div class="label">One look, one engine</div>
           <h2 class="large">There is no second Latent.</h2>
-          <p class="fact">The Lab runs the exact spectral nodes the apps run; deliberately, there is no simplified approximation of them anywhere. A negative developed in Resolve and one developed in The Ritual pass through the same emulsion, the same print, the same scanner. The look cannot drift.</p>
+          <p class="fact">The Lab runs the same spectral engine as The Ritual, with no simplified approximation of it anywhere. A negative developed in Resolve and one developed in The Ritual pass through the same emulsion, the same print, the same scanner.</p>
         </div>
       </section>
 
-      <section class="ritual-block tight">
+      <section id="buy" class="ritual-block tight">
         <div class="ritual-words wide" data-reveal>
-          <h2 class="large">A printing machine, not a LUT.</h2>
-          <p class="fact">Latent Print Engine for DaVinci Resolve Studio on macOS. Coming soon.</p>
+          <div class="label">Latent Print Engine {labCommerce.version}</div>
+          <h2 class="large">Film. Not a filter.</h2>
+          <p class="fact">For DaVinci Resolve Studio on macOS. Start with {labCommerce.trialDays} days free, then keep it by the year or for good. One account, up to two Macs.</p>
+          <div class="lab-plans">
+            <div class="lab-row">
+              <span class="lab-plan-name">Annual</span>
+              <span class="label right">{labCommerce.trialDays}-day free trial</span>
+              <span class="lab-plan-price">${labCommerce.yearlyUsd} / year</span>
+            </div>
+            <div class="lab-row">
+              <span class="lab-plan-name">Lifetime</span>
+              <span class="label right">One payment</span>
+              <span class="lab-plan-price">${labCommerce.lifetimeUsd}</span>
+            </div>
+          </div>
+          <div class="lab-doors">
+            <a class="door" href={labCommerce.downloadHref}>Download for macOS</a>
+            <a class="lab-secondary" href="/checkout">How purchase works</a>
+          </div>
+          <p class="lab-install">Install, open Latent Manager, sign in, start the trial or buy. Manager activates your Mac &mdash; there is no key to copy. Paddle is the merchant of record &middot; <a href="/refund">30-day refunds</a> &middot; <a href="/terms">Terms</a></p>
         </div>
       </section>
 
@@ -286,33 +265,25 @@ const wedgePrint = ['#1b1816','#2b2724','#3f3934','#574f48','#746a60','#948a7e',
   </div>
 
   <script define:vars={{ frames }}>
-    // The fixture: pick a frame, pick an emulsion. Every image is decoded up front so
-    // switching never shows a gap; the plate's src is set imperatively.
+    // The compare: pick a frame, drag across it. Both images of every frame are decoded up front so
+    // stepping between frames never shows a gap.
     (() => {
-      const plate = document.querySelector('[data-fixture-plate]');
+      const plate = document.querySelector('[data-compare]');
       if (!plate) return;
-      const cap = document.querySelector('[data-fixture-cap]');
-      let frame = 0, look = 0;
-      for (const f of frames) for (const l of f.looks) { const im = new Image(); im.src = l.img; }
-      const paint = () => {
-        const F = frames[frame], L = F.looks[look];
-        if (!plate.src.endsWith(L.img)) plate.src = L.img;
-        plate.alt = `${F.name} — ${L.name}`;
-        if (cap) cap.textContent = L.name === 'RAW' ? 'The source it came from' : L.name;
-        document.querySelectorAll('[data-fixture-frame]').forEach((b) =>
-          b.classList.toggle('is-active', Number(b.dataset.fixtureFrame) === frame));
-        document.querySelectorAll('[data-fixture-look]').forEach((b) => {
-          const i = Number(b.dataset.fixtureLook);
-          b.classList.toggle('is-active', i === look);
-          const label = b.querySelector(`[data-look-label="${i}"]`);
-          if (label && i !== 3) label.textContent = F.looks[i].name;
-        });
-      };
-      document.querySelectorAll('[data-fixture-frame]').forEach((b) =>
-        b.addEventListener('click', () => { frame = Number(b.dataset.fixtureFrame); paint(); }));
-      document.querySelectorAll('[data-fixture-look]').forEach((b) =>
-        b.addEventListener('click', () => { look = Number(b.dataset.fixtureLook); paint(); }));
-      paint();
+      const after = plate.querySelector('[data-compare-after]');
+      const before = plate.querySelector('[data-compare-before]');
+      const range = plate.querySelector('[data-compare-range]');
+      for (const f of frames) for (const src of [f.before, f.after]) { const im = new Image(); im.src = src; }
+      const setSplit = (v) => plate.style.setProperty('--split', `${v}%`);
+      range.addEventListener('input', () => setSplit(range.value));
+      setSplit(range.value);
+      document.querySelectorAll('[data-compare-frame]').forEach((b) =>
+        b.addEventListener('click', () => {
+          const F = frames[Number(b.dataset.compareFrame)];
+          after.src = F.after; after.alt = `${F.name}, developed and printed through Latent Print Engine`;
+          before.src = F.before; before.alt = `${F.name}, as the camera recorded it`;
+          document.querySelectorAll('[data-compare-frame]').forEach((o) => o.classList.toggle('is-active', o === b));
+        }));
     })();
   </script>
   {/* newsletter.js is already loaded by Base.astro; only the reveal is this page's own. */}
