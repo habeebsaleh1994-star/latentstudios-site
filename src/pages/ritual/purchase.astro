@@ -1,8 +1,8 @@
 ---
-// Get The Ritual for Mac — how a person goes from this page to developing: Manager, account, install, trial.
+// Get The Ritual for Mac — how a person goes from this page to developing: Manager, install, the mark, a plan.
 // The house shell (2026-10-12): the same header, type, plan cards and colophon as /ritual and /lab, so the
 // shop reads as one place. Its words are September's, checked against the shipping Manager (Apple and
-// Google sign-in, the house trial) and licensing service (14 days, no card, two Macs).
+// Google sign-in) and licensing service (two Macs); the mark replaced the timed trial on 2026-10-12.
 import Base from '../../layouts/Base.astro';
 import '../../styles/home.css';
 import '../../styles/ritual.css';
@@ -11,7 +11,7 @@ import { ritualCommerce } from '../../config/ritual-commerce.js';
 
 <Base
   title="Get The Ritual for Mac — Latent Studios"
-  description="Install Latent Manager, try The Ritual free for fourteen days with no card, then choose monthly, annual, or yours to keep."
+  description="Install Latent Manager and use The Ritual free, with the Latent mark on your photographs; choose monthly, annual, or yours to keep to make them clean."
   quiet={false}
   evening={false}
 >
@@ -42,11 +42,11 @@ import { ritualCommerce } from '../../config/ritual-commerce.js';
             <div class="ritual-hero-row">
               <div class="ritual-hero-lead" data-reveal>
                 <div class="label">The Ritual &middot; for Mac</div>
-                <h1 class="ritual-title">Fourteen days, everything.</h1>
-                <p class="ritual-lede">Every film, every tool, clean full-resolution exports. No card, nothing to cancel.</p>
+                <h1 class="ritual-title">Free, with the Latent mark.</h1>
+                <p class="ritual-lede">Every film, every tool, full-resolution exports. No card, nothing to cancel.</p>
               </div>
               <div class="ritual-hero-aside" data-reveal>
-                <p class="fact">When the fourteen days end your library stays on your Mac &mdash; you choose whether to keep developing.</p>
+                <p class="fact">Until you choose a plan, each photograph carries the Latent mark &mdash; on the canvas and in every export. A plan makes every photograph clean.</p>
                 <a class="ritual-door" href={ritualCommerce.manager.downloadHref}>Download Latent Manager<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
                 <div class="label">For macOS 26 on Apple silicon</div>
               </div>
@@ -60,7 +60,7 @@ import { ritualCommerce } from '../../config/ritual-commerce.js';
                 <li><strong>Download Latent Manager.</strong> Move it to Applications and open it.</li>
                 <li><strong>Sign in to your Latent account</strong> with Apple or Google. Manager keeps your plan, your Macs and your updates together.</li>
                 <li><strong>Install The Ritual</strong> from Manager, and open it.</li>
-                <li><strong>Begin your {ritualCommerce.trialDays} days</strong> in Manager &mdash; no payment method. Choose a plan whenever you are ready; Paddle handles the secure checkout.</li>
+                <li><strong>Use it free, with the Latent mark</strong> &mdash; no payment method. Choose a plan whenever you are ready; Paddle handles the secure checkout.</li>
               </ol>
             </div>
           </section>
@@ -68,7 +68,7 @@ import { ritualCommerce } from '../../config/ritual-commerce.js';
           <section id="access" class="ritual-access" data-reveal>
             <div class="ritual-access-head">
               <div>
-                <div class="label">After the trial</div>
+                <div class="label">When you are ready</div>
                 <h2>Choose how you keep it.</h2>
               </div>
               <p class="fact">Every plan opens the complete independent Mac edition: every tool, every stock, and updates as they ship. Use it on up to {ritualCommerce.supportedMacs} Macs at a time, swapped whenever you like in Manager. There is no license key to copy.</p>
@@ -84,7 +84,7 @@ import { ritualCommerce } from '../../config/ritual-commerce.js';
             </div>
             <div class="ritual-access-action">
               <p><strong>Yours to keep</strong> is exactly that: pay once, and The Ritual you buy is yours forever, with every update to that version free. If a new generation ever arrives, upgrade at half price &mdash; or keep the one you own.</p>
-              <p>When a trial or plan ends, nothing is taken away. Your library opens as view-only: your photographs stay as you developed them, and your original files can always be revealed or copied out. Developing and exporting ask for a plan.</p>
+              <p>When a plan ends, nothing is taken away. The Ritual keeps working and your photographs carry the Latent mark again; your original files can always be revealed or copied out.</p>
             </div>
           </section>
         </>

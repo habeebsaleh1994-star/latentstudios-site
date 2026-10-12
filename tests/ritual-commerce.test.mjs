@@ -18,9 +18,9 @@ test('holds the exact Ritual plan contract behind the closed publication switch'
       { id: 'perpetual', name: 'Yours to keep', priceUsd: '599' },
     ],
   );
-  // The house trial belongs to the licensing service, not to a Paddle price:
-  // fourteen days, no payment method, once per account and per Mac.
-  assert.equal(ritualCommerce.trialDays, 14);
+  // No timed trial (2026-10-12): without a plan every photograph carries the Latent mark.
+  assert.equal(ritualCommerce.markedWithoutPlan, true);
+  assert.equal('trialDays' in ritualCommerce, false);
   assert.equal(
     ritualCommerce.plans.some((plan) => 'trialDays' in plan),
     false,
@@ -78,11 +78,14 @@ test('purchase copy explains install-first access and the lock boundary', async 
   assert.match(home, /truth\.ritualPlatformStatus/u);
   assert.match(ritual, /truth\.ritualPlatformStatus/u);
   assert.match(ritual, /every tool, every stock, full-resolution exports/i);
-  assert.match(ritual, /Fourteen days, everything\. No card\./i);
-  assert.match(ritual, /opens as view-only/i);
-  assert.match(purchase, /Fourteen days, everything/i);
+  assert.match(ritual, /Free, with the Latent mark\./i);
+  assert.match(ritual, /the mark returns/i);
+  assert.match(purchase, /Free, with the Latent mark/i);
   assert.match(purchase, /no payment method/i);
-  assert.match(purchase, /view-only/i);
+  assert.match(purchase, /carry the Latent mark again/i);
+  for (const page of [ritual, purchase]) {
+    assert.doesNotMatch(page, /fourteen|view-only/i, 'the timed trial and view-only library are retired');
+  }
   assert.match(purchase, /original files can always be revealed or copied out/i);
   assert.match(purchase, /yours forever, with every update to that version free/i);
   assert.match(purchase, /Paddle handles the secure checkout/i);

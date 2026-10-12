@@ -11,7 +11,9 @@ export const ritualCommerce = Object.freeze({
   productName: 'The Ritual',
   edition: 'Independent Mac edition',
   supportedMacs: 2,
-  trialDays: 14,
+  // No timed trial (owner, 2026-10-12): without a plan The Ritual is free to use and every photograph carries the
+  // Latent proof mark, on the canvas and in every export; a plan removes it.
+  markedWithoutPlan: true,
   plans: Object.freeze([
     Object.freeze({
       id: 'monthly', name: 'Monthly', priceUsd: '14.99', cadence: 'month',
