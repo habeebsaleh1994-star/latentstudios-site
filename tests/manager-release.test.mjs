@@ -17,6 +17,10 @@ import {
   onRequestGet as ritualPackageGet,
   onRequestHead as ritualPackageHead,
 } from '../functions/api/manager/packages/latent-ritual/[channel]/[version].js';
+import { onRequestGet as managerFeedGet } from '../functions/api/manager/releases/latent-manager/[channel].js';
+import {
+  onRequestGet as managerPackageGet,
+} from '../functions/api/manager/packages/latent-manager/[channel]/[version].js';
 import {
   onRequestGet as contentFeedGet,
 } from '../functions/api/manager/content/latent-print-engine/[channel]/[collection].js';
@@ -189,6 +193,39 @@ test('serves Ritual only from its own fixed feed and application archive keys', 
 
   const printEngineRoute = await packageGet(packageContext);
   assert.equal(printEngineRoute.status, 503);
+});
+
+test('serves Latent Manager its own feed and archive, apart from every product', async () => {
+  const feedBody = new TextEncoder().encode('{"signed":"manager-record"}');
+  const packageBody = new Uint8Array([30, 31, 32, 33]);
+  const objects = new Map([
+    ['manager/latent-manager/production/release.json', { body: feedBody, etag: 'manager-feed' }],
+    [
+      'manager/latent-manager/production/1.1.6/Latent-Manager-1.1.6.zip',
+      { body: packageBody, etag: 'manager-package' },
+    ],
+  ]);
+  const feed = await managerFeedGet({
+    env: environment(objects),
+    params: { channel: 'production' },
+    request: new Request('https://latentstudios.art/api/manager/releases/latent-manager/production'),
+  });
+  assert.equal(feed.status, 200);
+  assert.equal(await feed.text(), '{"signed":"manager-record"}');
+
+  const packageContext = {
+    env: environment(objects),
+    params: { channel: 'production', version: '1.1.6' },
+    request: new Request('https://latentstudios.art/api/manager/packages/latent-manager/production/1.1.6'),
+  };
+  const response = await managerPackageGet(packageContext);
+  assert.equal(response.status, 200);
+  assert.equal(
+    response.headers.get('Content-Disposition'),
+    'attachment; filename="Latent-Manager-1.1.6.zip"',
+  );
+  assert.deepEqual(new Uint8Array(await response.arrayBuffer()), packageBody);
+  assert.equal((await ritualPackageGet(packageContext)).status, 503);
 });
 
 test('serves the bounded content catalog from one fixed collection', async () => {

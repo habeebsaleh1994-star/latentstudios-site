@@ -6,6 +6,10 @@ const MANAGER_PRODUCTS = new Map([
   ['latent-ritual', {
     packageFile(version) { return `Latent-The-Ritual-${version}.zip`; },
   }],
+  // Latent Manager's own feed: Manager updates itself, never riding a product's installer (2026-10-12).
+  ['latent-manager', {
+    packageFile(version) { return `Latent-Manager-${version}.zip`; },
+  }],
 ]);
 const MAXIMUM_FEED_BYTES = 100_000;
 const MAXIMUM_CONTENT_FEED_BYTES = 256 * 1024;
