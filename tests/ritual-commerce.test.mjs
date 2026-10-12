@@ -8,8 +8,8 @@ import { serveManagerApplication } from '../src/server/manager-application-relea
 
 const page = (path) => readFile(new URL(`../src/pages/${path}.astro`, import.meta.url), 'utf8');
 
-test('holds the exact Ritual plan contract behind the closed publication switch', () => {
-  assert.equal(ritualCommerce.releaseOpen, false);
+test('holds the exact Ritual plan contract, open for sale since 2026-10-12', () => {
+  assert.equal(ritualCommerce.releaseOpen, true);
   assert.deepEqual(
     ritualCommerce.plans.map(({ id, name, priceUsd }) => ({ id, name, priceUsd })),
     [
@@ -30,8 +30,8 @@ test('holds the exact Ritual plan contract behind the closed publication switch'
   assert.equal(ritualCommerce.manager.version, '1.1.4');
   assert.equal(ritualCommerce.manager.build, 237);
   assert.match(ritualCommerce.manager.sha256, /^[a-f0-9]{64}$/u);
-  assert.equal(truth.ritualStatus, 'Coming soon');
-  assert.equal(truth.ritualPlatformStatus, 'Mac and iPad · coming soon');
+  assert.equal(truth.ritualStatus, 'Available now');
+  assert.equal(truth.ritualPlatformStatus, 'Available now for Mac · iPad to follow');
 });
 
 test('keeps the customer Manager download unavailable while publication is closed', async () => {
@@ -39,7 +39,7 @@ test('keeps the customer Manager download unavailable while publication is close
   const response = await serveManagerApplication({
     request: new Request('https://latentstudios.art/download/manager'),
     env: { LATENT_RELEASES: { head() { touchedStorage = true; } } },
-  });
+  }, { commerceOpen: false });
   assert.equal(response.status, 404);
   assert.equal(touchedStorage, false);
 });
