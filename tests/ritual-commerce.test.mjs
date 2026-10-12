@@ -28,7 +28,7 @@ test('holds the exact Ritual plan contract behind the closed publication switch'
   );
   assert.equal(ritualCommerce.supportedMacs, 2);
   assert.equal(ritualCommerce.manager.version, '1.1.5');
-  assert.equal(ritualCommerce.manager.build, 238);
+  assert.equal(ritualCommerce.manager.build, 239);
   assert.match(ritualCommerce.manager.sha256, /^[a-f0-9]{64}$/u);
   assert.equal(truth.ritualStatus, 'Coming soon');
   assert.equal(truth.ritualPlatformStatus, 'Mac and iPad · coming soon');
