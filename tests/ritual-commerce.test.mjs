@@ -27,8 +27,8 @@ test('holds the exact Ritual plan contract, open for sale since 2026-10-12', () 
     'no plan carries a Paddle trial period',
   );
   assert.equal(ritualCommerce.supportedMacs, 2);
-  assert.equal(ritualCommerce.manager.version, '1.1.5');
-  assert.equal(ritualCommerce.manager.build, 239);
+  assert.equal(ritualCommerce.manager.version, '1.1.6');
+  assert.equal(ritualCommerce.manager.build, 240);
   assert.match(ritualCommerce.manager.sha256, /^[a-f0-9]{64}$/u);
   assert.equal(truth.ritualStatus, 'Available now');
   assert.equal(truth.ritualPlatformStatus, 'Available now for Mac · iPad to follow');
