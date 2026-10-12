@@ -5,10 +5,11 @@
 // canvas, feathered into the silk with a CSS mask. Words are set directly on the silk in two
 // columns that never exceed 27vw, so the plant in the middle stays clear.
 //
-// Truth lives in the labels below — keep them honest:
-//   Nera: not yet open · The Moment: on the App Store · The Ritual: coming soon · The Lab: coming soon · The Wall: beta, by invite
+// Truth lives in the labels below — keep them honest. Ritual's publication
+// label comes from the same switch that owns its purchase and download doors.
 import Base from '../layouts/Base.astro';
 import '../styles/home.css';
+import { truth } from '../config/truth';
 
 const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 ---
@@ -85,7 +86,7 @@ const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 
         <div class="row row-left">
           <a id="ritual" class="col room" href="/ritual" data-reveal>
-            <div class="label">An instrument &middot; a photographic workroom &middot; Mac and iPad &middot; coming soon</div>
+            <div class="label">An instrument &middot; a photographic workroom &middot; {truth.ritualPlatformStatus}</div>
             <h2 class="room-name">The Ritual</h2>
             <p class="line">A place to return to photographs over time, and to discover how they belong together.</p>
             <p class="fact">The life of a body of work in one room: gathering photographs, selecting and sequencing them, developing the negative, shaping the light, and making the print.</p>

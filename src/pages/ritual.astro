@@ -12,6 +12,7 @@ import Base from '../layouts/Base.astro';
 import '../styles/home.css';
 import '../styles/ritual.css';
 import { truth } from '../config/truth';
+import { ritualCommerce } from '../config/ritual-commerce.js';
 
 const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 
@@ -47,9 +48,9 @@ const stocks = [
 
 <Base
   title="The Ritual — a complete photographic workroom"
-  description="Live with a body of work from the first import to the finished print — develop the negative, mend the light, make the print. The Ritual, on Mac and iPad."
+  description="Live with a body of work from the first import to the finished print — develop the negative, mend the light, make the print. The Ritual, for Mac; iPad follows, included with every plan."
   ogImage="/og-ritual.png?v=1"
-  ogImageAlt="The Ritual — a complete photographic workroom, on Mac and iPad"
+  ogImageAlt="The Ritual — a complete photographic workroom for Mac, with iPad to follow"
   quiet={false}
   evening={false}
 >
@@ -80,13 +81,13 @@ const stocks = [
       <section class="ritual-hero">
         <div class="ritual-hero-row">
           <div class="ritual-hero-lead" data-reveal>
-            <div class="label">An instrument &middot; a photographic workroom &middot; Mac and iPad &middot; {truth.ritualStatus}</div>
+            <div class="label">An instrument &middot; a photographic workroom &middot; {truth.ritualPlatformStatus}</div>
             <h1 class="ritual-title">A complete photographic workroom.</h1>
             <p class="ritual-lede">Live with a body of work from the first import to the finished print.</p>
           </div>
           <div class="ritual-hero-aside" data-reveal>
             <p class="fact">Remember it, gather it, decide what matters, develop the negative, mend the light, make the print, and send it out.</p>
-            <a class="ritual-door" href="#letters">Enter the workroom<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
+            <a class="ritual-door" href={ritualCommerce.releaseOpen ? '#access' : '#letters'}>Enter the workroom<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
             <div class="label">{truth.ritualStatus}</div>
           </div>
         </div>
@@ -215,6 +216,10 @@ const stocks = [
           <div class="label">Two ways of sitting with it</div>
           <h2>The same Ritual, wherever you sit with the work.</h2>
           <p class="fact">Mac gives the work a room. iPad brings the same photographic process under your hands &mdash; not a lite edition; the same negative, print, retouch and story.</p>
+          {/* The Mac ships first and the iPad follows. Saying so is not a
+              hedge: the page must never read as though both can be had
+              today, and the plan a reader buys already covers the second. */}
+          <p class="fact ritual-soon"><strong>The Mac edition comes first.</strong> iPad follows, and every Mac plan already includes it &mdash; one Latent account, no second purchase.</p>
         </div>
         {/* One photograph, one develop state, two surfaces — the same frame at 4,906 K on
             Supra Endura, so the claim is shown rather than asserted. */}
@@ -241,21 +246,47 @@ const stocks = [
         </div>
       </section>
 
+      {ritualCommerce.releaseOpen && (
+        <section id="access" class="ritual-access" data-reveal>
+          <div class="ritual-access-head">
+            <div>
+              <div class="label">The independent Mac edition</div>
+              <h2>Fourteen days, everything. No card.</h2>
+            </div>
+            <p class="fact">Try the complete workroom for {ritualCommerce.trialDays} days &mdash; every tool, every stock, full-resolution exports, nothing to cancel. Then choose how you keep it. Every plan works on up to {ritualCommerce.supportedMacs} Macs, swapped whenever you like.</p>
+          </div>
+          <div class="ritual-plans">
+            {ritualCommerce.plans.map((plan) => (
+              <article class:list={['ritual-plan', { 'ritual-plan-featured': plan.id === 'annual' }]}>
+                <div class="label small">{plan.name}</div>
+                <p class="ritual-plan-price"><span>${plan.priceUsd}</span>{plan.cadence && <small> / {plan.cadence}</small>}</p>
+                <p>{plan.note}</p>
+              </article>
+            ))}
+          </div>
+          <div class="ritual-access-action">
+            <a class="ritual-door" href="/ritual/purchase">Get The Ritual for Mac<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
+            <p>Latent Manager holds your account, the secure checkout through Paddle, installation and updates. When a trial or plan ends, your library stays on your Mac and opens as view-only &mdash; your photographs and your original files are always yours.</p>
+            <p>The Ritual for iPad arrives after the Mac and is included with every plan here, at no extra cost.</p>
+          </div>
+        </section>
+      )}
+
       <section id="letters" class="ritual-letters" data-reveal>
         <div class="ritual-letters-row">
           <div class="home-letters-desk" data-newsletter>
             <div class="label">{truth.ritualStatus}</div>
-            <p class="line">The workroom is open to anyone who asks. Leave an address and we will send the build and the letter that comes with it.</p>
+            <p class="line">{ritualCommerce.releaseOpen ? 'Occasional letters from inside the workroom.' : 'The workroom is open to anyone who asks. Leave an address and we will send the build and the letter that comes with it.'}</p>
             <form class="home-letters-form" action={SUBSCRIBE_ENDPOINT} method="post" data-newsletter-form>
               <label class="visually-hidden" for="newsletter-email">Email address</label>
               <input id="newsletter-email" type="email" name="email" required autocomplete="email" placeholder="your address" />
               <input type="hidden" name="app" value="ritual" />
               <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
                      style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
-              <button type="submit" class="door">Join the beta</button>
+              <button type="submit" class="door">{ritualCommerce.releaseOpen ? 'Receive letters' : 'Join the beta'}</button>
             </form>
             <p class="home-letters-note" data-newsletter-error hidden role="alert">That email doesn't look right.</p>
-            <p class="home-letters-note" data-newsletter-done hidden role="status" aria-live="polite">You&rsquo;re on the list. The build comes next.</p>
+            <p class="home-letters-note" data-newsletter-done hidden role="status" aria-live="polite">{ritualCommerce.releaseOpen ? 'You&rsquo;re on the list.' : 'You&rsquo;re on the list. The build comes next.'}</p>
           </div>
           <div class="home-letters-colophon">
             <nav aria-label="Site">

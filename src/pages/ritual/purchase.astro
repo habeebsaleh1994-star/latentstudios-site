@@ -1,0 +1,80 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { ritualCommerce } from '../../config/ritual-commerce.js';
+---
+
+<Base
+  title="Get The Ritual for Mac — Latent Studios"
+  description="Install Latent Manager, try The Ritual free for fourteen days with no card, then choose monthly, annual, or yours to keep."
+>
+  {/* Hidden while the shop is shut; findable the moment it opens, so the
+      one publication switch really is the whole of publishing. */}
+  {!ritualCommerce.releaseOpen && (
+    <Fragment slot="head"><meta name="robots" content="noindex" /></Fragment>
+  )}
+  <Nav />
+  <main class="purchase" id="main">
+    <div class="legal-label">The Ritual &middot; Mac</div>
+    {ritualCommerce.releaseOpen ? (
+      <>
+        <h1>Fourteen days, everything.</h1>
+        <p class="lead">Every film, every tool, clean full-resolution exports. No card, nothing to cancel. When the fourteen days end your library stays on your Mac &mdash; you choose whether to keep developing.</p>
+
+        <ol>
+          <li><strong>Download Latent Manager.</strong> Move it to Applications and open it.</li>
+          <li><strong>Sign in to your Latent account.</strong> Apple or Google. Manager keeps your plan, your Macs and your updates together.</li>
+          <li><strong>Install The Ritual</strong> from Manager, and open it.</li>
+          <li><strong>Begin your {ritualCommerce.trialDays} days</strong> in Manager &mdash; no payment method. Choose a plan whenever you are ready; Paddle handles the secure checkout.</li>
+        </ol>
+
+        <a class="download" href={ritualCommerce.manager.downloadHref}>Download Latent Manager for macOS</a>
+
+        <div class="plans" aria-label="The Ritual access plans">
+          {ritualCommerce.plans.map((plan) => (
+            <div>
+              <strong>{plan.name}</strong>
+              <span>${plan.priceUsd}{plan.cadence ? ` / ${plan.cadence}` : ''}</span>
+              <small>{plan.note}</small>
+            </div>
+          ))}
+        </div>
+
+        <p>Every plan opens the complete independent Mac edition: every tool, every stock, and updates as they ship. Use it on up to {ritualCommerce.supportedMacs} Macs at a time, swapped whenever you like in Manager. There is no license key to copy.</p>
+        <p><strong>Yours to keep</strong> is exactly that: pay once, and The Ritual you buy is yours forever, with every update to that version free. If a new generation ever arrives, upgrade at half price &mdash; or keep the one you own.</p>
+        <p>When a trial or plan ends, nothing is taken away. Your library opens as view-only: your photographs stay as you developed them, and your original files can always be revealed or copied out. Developing and exporting ask for a plan.</p>
+        <p>Need help? Write to <a href="mailto:support@latentstudios.art">support@latentstudios.art</a>.</p>
+        <p><a href="/terms">Terms</a> &ensp;&middot;&ensp; <a href="/privacy">Privacy</a> &ensp;&middot;&ensp; <a href="/refund">Refunds</a></p>
+      </>
+    ) : (
+      <>
+        <h1>Public access is not open yet.</h1>
+        <p class="lead">The release is still being prepared. Nothing can be purchased from this page.</p>
+        <a class="back" href="/ritual#letters">Join the private beta →</a>
+      </>
+    )}
+    <a class="back" href="/ritual">← Explore The Ritual</a>
+  </main>
+  <Footer />
+
+  <style>
+    .purchase { max-width: 760px; margin: 0 auto; padding: 140px 24px 120px; }
+    .legal-label { font-family: var(--font-label); font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--amber-dim); margin-bottom: 20px; }
+    h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(40px, 7vw, 68px); line-height: 1; color: var(--text-bright); margin: 0 0 24px; }
+    p, li { font-family: var(--font-body); font-weight: 300; font-size: 16px; line-height: 1.7; color: var(--text-muted); }
+    .lead { font-size: 19px; color: var(--text); margin-bottom: 34px; }
+    ol { padding-left: 22px; margin: 0 0 34px; }
+    li { padding: 6px 0 6px 10px; }
+    strong { color: var(--text-bright); font-weight: 500; }
+    a { color: var(--amber); text-decoration: none; }
+    .download { display: inline-block; border: 1px solid var(--border-light); padding: 14px 20px; margin: 0 0 34px; }
+    .plans { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--border-light); margin: 0 0 32px; }
+    .plans div { display: flex; flex-direction: column; gap: 7px; padding: 20px; border-right: 1px solid var(--border-light); }
+    .plans div:last-child { border-right: 0; }
+    .plans span { font-family: var(--font-display); font-size: 22px; color: var(--text); }
+    .plans small { font-family: var(--font-body); font-size: 12px; line-height: 1.4; color: var(--text-muted); }
+    .back { display: inline-block; margin-top: 40px; }
+    @media (max-width: 640px) { .plans { grid-template-columns: 1fr; } .plans div { border-right: 0; border-bottom: 1px solid var(--border-light); } .plans div:last-child { border-bottom: 0; } }
+  </style>
+</Base>
