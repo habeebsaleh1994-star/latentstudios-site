@@ -31,18 +31,19 @@ const rooms = [
     alt: 'The Darkroom in The Ritual on Mac — a photograph between the Film, Light and Paper shelves and the emulsion list' },
 ];
 
-// Nine of the twenty-five on the shelf — the house blends leading, then the classics
-// people know. The full catalogue lives in the app, not on the page.
+// Nine of the 83 on the shelf (colour/catalog/films.json, 2026-10-12): one from each process the app
+// develops, the names people know. Each swatch is the stock's own dot from the app's catalogue (dot_color),
+// not a colour chosen for the page. The full catalogue lives in the app.
 const stocks = [
-  { name: 'Hearth 400', family: 'Latent · House Blend', swatch: '#E0B98E' },
-  { name: 'Ember 400', family: 'Latent · House Blend', swatch: '#C9774B' },
-  { name: 'Mineral 100', family: 'Latent · House Blend', swatch: '#7FA8A8' },
-  { name: 'Nocturne 800', family: 'Latent · House Blend', swatch: '#7B637B' },
-  { name: 'Portra 400', family: 'Kodak · C-41', swatch: '#E8C4A0' },
-  { name: 'CineStill 800T', family: 'CineStill · C-41', swatch: '#C9956A' },
-  { name: 'Velvia 50', family: 'Fuji · E-6', swatch: '#5A9E6A' },
-  { name: 'Kodachrome 64', family: 'Kodak · K-14', swatch: '#CE5A3A' },
-  { name: 'HP5 Plus', family: 'Ilford · B&W', swatch: '#9A9A9A' },
+  { name: 'Portra 400', family: 'Kodak · C-41', swatch: '#E2BFA8' },
+  { name: 'Ektar 100', family: 'Kodak · C-41', swatch: '#E2BFA8' },
+  { name: 'Pro 400H', family: 'Fujifilm · C-41', swatch: '#E2BFA8' },
+  { name: 'Velvia 50', family: 'Fujifilm · E-6', swatch: '#C8A13A' },
+  { name: 'Provia 100F', family: 'Fujifilm · E-6', swatch: '#2E9E7A' },
+  { name: 'Kodachrome 64', family: 'Kodak · K-14', swatch: '#E3B23C' },
+  { name: 'Vision3 500T', family: 'Kodak · ECN-2', swatch: '#A67B5B' },
+  { name: 'HP5 Plus', family: 'Ilford · B&W', swatch: '#A0A0A0' },
+  { name: 'Tri-X 400', family: 'Kodak · B&W', swatch: '#B4B4B4' },
 ];
 ---
 
@@ -127,8 +128,8 @@ const stocks = [
       <section class="ritual-aside-right">
         <div class="ritual-words right" data-reveal>
           <div class="label">The process</div>
-          <h2 class="large">Film, light, paper.</h2>
-          <p class="fact">Build the negative in Film. Interpret what it carries in Light. Realize it on Paper. Nothing is a look pasted on at the end; each choice belongs to the same developing photograph.</p>
+          <h2 class="large">Film, paper, finish.</h2>
+          <p class="fact">Expose and develop the negative in Film &mdash; push it, pull it, hold the shutter open long enough for the film to fail the way it really fails. Print it on Paper, under the light where it will be seen. Finish it for the screen. Nothing is a look pasted on at the end; each choice belongs to the same developing photograph.</p>
         </div>
       </section>
 
@@ -136,7 +137,7 @@ const stocks = [
         <div class="ritual-words" data-reveal>
           <div class="label">The materials</div>
           <h2>Film as behaviour, not as a look.</h2>
-          <p class="fact">Every stock is modelled &mdash; its latitude, its dye response, its grain, its failures. The house blends its own emulsions beside the ones you already know.</p>
+          <p class="fact">Every stock begins from its maker&rsquo;s own data &mdash; its curves, its dyes, its grain, its sharpness, its reciprocity &mdash; and is developed in its own chemistry: colour negative, slide, Kodachrome, motion-picture negative, black and white. Then it is printed on a real paper, or scanned the way a lab would scan it.</p>
         </div>
         <div class="ritual-stocks" data-reveal>
           {stocks.map((stock) => (
@@ -146,7 +147,7 @@ const stocks = [
               <span class="ritual-stock-family">{stock.family}</span>
             </div>
           ))}
-          <p class="ritual-stocks-coda">Nine of twenty-five on the shelf today. The catalogue keeps growing, and every stock behaves like the material it remembers.</p>
+          <p class="ritual-stocks-coda">Nine of 83 on the shelf today, with 21 papers to print them on. The catalogue keeps growing, and every stock behaves like the material it remembers.</p>
         </div>
       </section>
 
@@ -178,7 +179,7 @@ const stocks = [
         <div class="ritual-words" data-reveal>
           <div class="label">Stories</div>
           <h2>Finish more than one photograph.</h2>
-          <p class="fact">Rate, compare, collect and sequence on the Light Table. Then form covers, pairs, spreads, pauses and captions in a room made for reading the work.</p>
+          <p class="fact">Rate, compare, collect and sequence on the Light Table. Then form covers, pairs, spreads, breaths and captions in a room made for reading the work.</p>
         </div>
         {/* The arranging, as a timelapse: the recording's dead tail cut and the thinking
             pauses compressed 7×, so the sequence forms in one breath. */}
