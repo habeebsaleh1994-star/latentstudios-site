@@ -154,7 +154,7 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
             <img data-compare-before class="lab-compare-before" src={frames[0].before} alt={`${frames[0].name}, as the camera recorded it`} width="1600" height="900" />
             <span class="lab-compare-line" aria-hidden="true"></span>
             <span class="lab-compare-tag left">The footage</span>
-            <span class="lab-compare-tag right">Printed</span>
+            <span class="lab-compare-tag right" data-compare-printed>{frames[0].film ? `${frames[0].film} · ${frames[0].print}` : 'Printed'}</span>
             <input class="lab-compare-range" type="range" min="0" max="100" value="50" aria-label="Compare the footage with the print" data-compare-range />
           </figure>
           <div class="lab-fixture-controls">
@@ -296,6 +296,8 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
           const F = frames[Number(b.dataset.compareFrame)];
           after.src = F.after; after.alt = `${F.name}, developed and printed through Latent Print Engine`;
           before.src = F.before; before.alt = `${F.name}, as the camera recorded it`;
+          const printed = document.querySelector('[data-compare-printed]');
+          if (printed) printed.textContent = F.film ? `${F.film} · ${F.print}` : 'Printed';
           const recipe = document.querySelector('[data-compare-recipe]');
           if (recipe) {
             recipe.hidden = !F.film;
