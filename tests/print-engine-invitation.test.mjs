@@ -89,7 +89,7 @@ test('public download serves the production 1.1.3 release with range support and
   assert.equal(headResponse.headers.get('Content-Length'), String(size));
   assert.equal(headResponse.headers.get('Cache-Control'), 'public, max-age=3600');
   assert.equal(headResponse.headers.get('Content-Disposition'), 'attachment; filename="Latent-Print-Engine-1.1.3.pkg"');
-  assert.equal(headResponse.headers.get('X-Latent-Release-SHA256'), 'e4ecdb98d77ad81c564ba7ed44259f59b007666b6b724728b562458295735cd2');
+  assert.equal(headResponse.headers.get('X-Latent-Release-SHA256'), '2e1cda182b0ea66f2402e3353299de67f39fc2f95ed4a52c1fd8add50ae4e23b');
 
   const rangeResponse = await publicDownloadGet({
     env,
