@@ -1,80 +1,139 @@
 ---
+// Get The Ritual for Mac — how a person goes from this page to developing: Manager, account, install, trial.
+// The house shell (2026-10-12): the same header, type, plan cards and colophon as /ritual and /lab, so the
+// shop reads as one place. Its words are September's, checked against the shipping Manager (Apple and
+// Google sign-in, the house trial) and licensing service (14 days, no card, two Macs).
 import Base from '../../layouts/Base.astro';
-import Nav from '../../components/Nav.astro';
-import Footer from '../../components/Footer.astro';
+import '../../styles/home.css';
+import '../../styles/ritual.css';
 import { ritualCommerce } from '../../config/ritual-commerce.js';
 ---
 
 <Base
   title="Get The Ritual for Mac — Latent Studios"
   description="Install Latent Manager, try The Ritual free for fourteen days with no card, then choose monthly, annual, or yours to keep."
+  quiet={false}
+  evening={false}
 >
-  {/* Hidden while the shop is shut; findable the moment it opens, so the
-      one publication switch really is the whole of publishing. */}
-  {!ritualCommerce.releaseOpen && (
-    <Fragment slot="head"><meta name="robots" content="noindex" /></Fragment>
-  )}
-  <Nav />
-  <main class="purchase" id="main">
-    <div class="legal-label">The Ritual &middot; Mac</div>
-    {ritualCommerce.releaseOpen ? (
-      <>
-        <h1>Fourteen days, everything.</h1>
-        <p class="lead">Every film, every tool, clean full-resolution exports. No card, nothing to cancel. When the fourteen days end your library stays on your Mac &mdash; you choose whether to keep developing.</p>
+  <Fragment slot="head">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/cormorant-500-normal-latin.woff2" />
+    {/* Hidden while the shop is shut; findable the moment it opens, so the
+        one publication switch really is the whole of publishing. */}
+    {!ritualCommerce.releaseOpen && <meta name="robots" content="noindex" />}
+  </Fragment>
 
-        <ol>
-          <li><strong>Download Latent Manager.</strong> Move it to Applications and open it.</li>
-          <li><strong>Sign in to your Latent account.</strong> Apple or Google. Manager keeps your plan, your Macs and your updates together.</li>
-          <li><strong>Install The Ritual</strong> from Manager, and open it.</li>
-          <li><strong>Begin your {ritualCommerce.trialDays} days</strong> in Manager &mdash; no payment method. Choose a plan whenever you are ready; Paddle handles the secure checkout.</li>
-        </ol>
+  <div class="home ritual">
 
-        <a class="download" href={ritualCommerce.manager.downloadHref}>Download Latent Manager for macOS</a>
+    <header class="home-header ritual-header">
+      <a class="home-mark" href="/">Latent Studios<span class="home-berry" aria-hidden="true"></span></a>
+      <nav class="home-nav" aria-label="Rooms">
+        <a href="/nera">Nera</a>
+        <a href="/moment">The Moment</a>
+        <a href="/ritual" aria-current="page">The Ritual</a>
+        <a href="/lab">The Lab</a>
+        <a href="/versos">Versos</a>
+      </nav>
+    </header>
 
-        <div class="plans" aria-label="The Ritual access plans">
-          {ritualCommerce.plans.map((plan) => (
-            <div>
-              <strong>{plan.name}</strong>
-              <span>${plan.priceUsd}{plan.cadence ? ` / ${plan.cadence}` : ''}</span>
-              <small>{plan.note}</small>
+    <main id="main" class="ritual-main">
+      {ritualCommerce.releaseOpen ? (
+        <>
+          <section class="ritual-hero">
+            <div class="ritual-hero-row">
+              <div class="ritual-hero-lead" data-reveal>
+                <div class="label">The Ritual &middot; for Mac</div>
+                <h1 class="ritual-title">Fourteen days, everything.</h1>
+                <p class="ritual-lede">Every film, every tool, clean full-resolution exports. No card, nothing to cancel.</p>
+              </div>
+              <div class="ritual-hero-aside" data-reveal>
+                <p class="fact">When the fourteen days end your library stays on your Mac &mdash; you choose whether to keep developing.</p>
+                <a class="ritual-door" href={ritualCommerce.manager.downloadHref}>Download Latent Manager<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
+                <div class="label">For macOS 26 on Apple silicon</div>
+              </div>
             </div>
-          ))}
-        </div>
+          </section>
 
-        <p>Every plan opens the complete independent Mac edition: every tool, every stock, and updates as they ship. Use it on up to {ritualCommerce.supportedMacs} Macs at a time, swapped whenever you like in Manager. There is no license key to copy.</p>
-        <p><strong>Yours to keep</strong> is exactly that: pay once, and The Ritual you buy is yours forever, with every update to that version free. If a new generation ever arrives, upgrade at half price &mdash; or keep the one you own.</p>
-        <p>When a trial or plan ends, nothing is taken away. Your library opens as view-only: your photographs stay as you developed them, and your original files can always be revealed or copied out. Developing and exporting ask for a plan.</p>
-        <p>Need help? Write to <a href="mailto:support@latentstudios.art">support@latentstudios.art</a>.</p>
-        <p><a href="/terms">Terms</a> &ensp;&middot;&ensp; <a href="/privacy">Privacy</a> &ensp;&middot;&ensp; <a href="/refund">Refunds</a></p>
-      </>
-    ) : (
-      <>
-        <h1>Public access is not open yet.</h1>
-        <p class="lead">The release is still being prepared. Nothing can be purchased from this page.</p>
-        <a class="back" href="/ritual#letters">Join the private beta →</a>
-      </>
-    )}
-    <a class="back" href="/ritual">← Explore The Ritual</a>
-  </main>
-  <Footer />
+          <section class="ritual-block tight">
+            <div class="ritual-words wide" data-reveal>
+              <div class="label">Four steps</div>
+              <ol class="purchase-steps">
+                <li><strong>Download Latent Manager.</strong> Move it to Applications and open it.</li>
+                <li><strong>Sign in to your Latent account</strong> with Apple or Google. Manager keeps your plan, your Macs and your updates together.</li>
+                <li><strong>Install The Ritual</strong> from Manager, and open it.</li>
+                <li><strong>Begin your {ritualCommerce.trialDays} days</strong> in Manager &mdash; no payment method. Choose a plan whenever you are ready; Paddle handles the secure checkout.</li>
+              </ol>
+            </div>
+          </section>
+
+          <section id="access" class="ritual-access" data-reveal>
+            <div class="ritual-access-head">
+              <div>
+                <div class="label">After the trial</div>
+                <h2>Choose how you keep it.</h2>
+              </div>
+              <p class="fact">Every plan opens the complete Mac workroom: every tool, every stock, and updates as they ship. Use it on up to {ritualCommerce.supportedMacs} Macs at a time, swapped whenever you like in Manager. There is no licence key to copy.</p>
+            </div>
+            <div class="ritual-plans">
+              {ritualCommerce.plans.map((plan) => (
+                <article class:list={['ritual-plan', { 'ritual-plan-featured': plan.id === 'annual' }]}>
+                  <div class="label small">{plan.name}</div>
+                  <p class="ritual-plan-price"><span>${plan.priceUsd}</span>{plan.cadence && <small> / {plan.cadence}</small>}</p>
+                  <p>{plan.note}</p>
+                </article>
+              ))}
+            </div>
+            <div class="ritual-access-action">
+              <p><strong>Yours to keep</strong> is exactly that: pay once, and The Ritual you buy is yours, with every update to that version free. If a new generation arrives, upgrade at half price &mdash; or keep the one you own.</p>
+              <p>When a trial or plan ends, nothing is taken away. Your library opens as view-only: your photographs stay as you developed them, and your original files can always be revealed or copied out. Developing and exporting ask for a plan.</p>
+            </div>
+          </section>
+        </>
+      ) : (
+        <section class="ritual-hero">
+          <div class="ritual-hero-row">
+            <div class="ritual-hero-lead" data-reveal>
+              <div class="label">The Ritual &middot; for Mac</div>
+              <h1 class="ritual-title">Not open yet.</h1>
+              <p class="ritual-lede">The release is still being prepared. Nothing can be purchased from this page.</p>
+            </div>
+            <div class="ritual-hero-aside" data-reveal>
+              <a class="ritual-door" href="/ritual#letters">Hear when it opens<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section class="ritual-letters" data-reveal>
+        <div class="ritual-letters-row">
+          <div class="home-letters-desk">
+            <p class="line">Questions before you begin? Write to <span class="purchase-address">support@latentstudios.art</span>.</p>
+            <a class="door" href="/ritual">Explore The Ritual</a>
+          </div>
+          <div class="home-letters-colophon">
+            <nav aria-label="Site">
+              <a href="/nera">Nera</a>
+              <a href="/moment">The Moment</a>
+              <a href="/ritual">The Ritual</a>
+              <a href="/lab">The Lab</a>
+              <a href="/versos">Versos</a>
+              <a href="/privacy">Privacy</a>
+              <a href="/terms">Terms</a>
+              <a href="/refund">Refunds</a>
+              <a href="mailto:support@latentstudios.art">Support</a>
+            </nav>
+            <p class="home-mark home-mark-foot">Latent Studios<span class="home-berry" aria-hidden="true"></span> &nbsp;&middot;&nbsp; &copy; 2026</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../../scripts/reveal.js"></script>
 
   <style>
-    .purchase { max-width: 760px; margin: 0 auto; padding: 140px 24px 120px; }
-    .legal-label { font-family: var(--font-label); font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--amber-dim); margin-bottom: 20px; }
-    h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(40px, 7vw, 68px); line-height: 1; color: var(--text-bright); margin: 0 0 24px; }
-    p, li { font-family: var(--font-body); font-weight: 300; font-size: 16px; line-height: 1.7; color: var(--text-muted); }
-    .lead { font-size: 19px; color: var(--text); margin-bottom: 34px; }
-    ol { padding-left: 22px; margin: 0 0 34px; }
-    li { padding: 6px 0 6px 10px; }
-    strong { color: var(--text-bright); font-weight: 500; }
-    a { color: var(--amber); text-decoration: none; }
-    .download { display: inline-block; border: 1px solid var(--border-light); padding: 14px 20px; margin: 0 0 34px; }
-    .plans { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--border-light); margin: 0 0 32px; }
-    .plans div { display: flex; flex-direction: column; gap: 7px; padding: 20px; border-right: 1px solid var(--border-light); }
-    .plans div:last-child { border-right: 0; }
-    .plans span { font-family: var(--font-display); font-size: 22px; color: var(--text); }
-    .plans small { font-family: var(--font-body); font-size: 12px; line-height: 1.4; color: var(--text-muted); }
-    .back { display: inline-block; margin-top: 40px; }
-    @media (max-width: 640px) { .plans { grid-template-columns: 1fr; } .plans div { border-right: 0; border-bottom: 1px solid var(--border-light); } .plans div:last-child { border-bottom: 0; } }
+    .purchase-steps { margin: 18px 0 0; padding-left: 1.4em; display: grid; gap: 14px; max-width: 62ch; }
+    .purchase-steps li { font-weight: 400; font-size: 17.5px; line-height: 1.5; color: var(--soft); text-wrap: pretty; padding-left: 6px; }
+    .purchase-steps strong, .ritual-access-action strong { color: var(--ink, inherit); font-weight: 500; }
+    .purchase-address { user-select: all; }
   </style>
 </Base>
