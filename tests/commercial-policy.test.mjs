@@ -29,10 +29,22 @@ test('commercial terms match the release licensing contract', async () => {
   assert.match(refund, /support@latentstudios\.art/i);
 });
 
-test('Print Engine storefront stays closed while the product is coming soon', async () => {
+test('Print Engine storefront opens only with its status and its release', async () => {
   const lab = await source('lab');
+  const config = await readFile(new URL('../src/config/lab.ts', import.meta.url), 'utf8');
+  const truthSource = await readFile(new URL('../src/config/truth.ts', import.meta.url), 'utf8');
+  const release = await readFile(new URL('../src/server/print-engine-release.js', import.meta.url), 'utf8');
+  const storeOpen = /storeOpen:\s*true/.test(config);
+  const comingSoon = /labStatus:\s*'Coming soon'/.test(truthSource);
+  const version = /version:\s*'([^']+)'/.exec(config)?.[1];
 
-  assert.match(lab, /Coming soon/i);
-  assert.doesNotMatch(lab, /labCommerce\.(downloadHref|yearlyUsd|lifetimeUsd|trialDays)/);
-  assert.doesNotMatch(lab, /Download for macOS|See purchase options|id="plans"/i);
+  // the page shows the store only through its one switch
+  assert.match(lab, /labCommerce\.storeOpen \?/);
+  if (storeOpen) {
+    assert.ok(!comingSoon, 'an open store cannot be "Coming soon"');
+    assert.ok(version && release.includes(`Latent-Print-Engine-${version}.pkg`),
+      `the store sells ${version}, which must be the release behind /download/print-engine`);
+  } else {
+    assert.ok(comingSoon, 'a closed store says "Coming soon"');
+  }
 });

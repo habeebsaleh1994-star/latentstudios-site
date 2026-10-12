@@ -205,6 +205,7 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
         </div>
       </section>
 
+      {labCommerce.storeOpen ? (
       <section id="buy" class="ritual-block tight">
         <div class="ritual-words wide" data-reveal>
           <div class="label">Latent Print Engine {labCommerce.version}</div>
@@ -229,6 +230,14 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
           <p class="lab-install">Install, open Latent Manager, sign in, start the trial or buy. Manager activates your Mac &mdash; there is no key to copy. Paddle is the merchant of record &middot; <a href="/refund">30-day refunds</a> &middot; <a href="/terms">Terms</a></p>
         </div>
       </section>
+      ) : (
+      <section class="ritual-block tight">
+        <div class="ritual-words wide" data-reveal>
+          <h2 class="large">Film. Not a filter.</h2>
+          <p class="fact">Latent Print Engine for DaVinci Resolve Studio on macOS. {truth.labStatus}.</p>
+        </div>
+      </section>
+      )}
 
       <section id="letters" class="ritual-letters" data-reveal>
         <div class="ritual-letters-row">
