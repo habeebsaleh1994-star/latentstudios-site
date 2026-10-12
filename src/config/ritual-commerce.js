@@ -7,7 +7,7 @@
 // (product "The Ritual": Monthly, Annual, Yours to keep). The apps read
 // prices from the licensing service; this page is the shop window.
 export const ritualCommerce = Object.freeze({
-  releaseOpen: false,
+  releaseOpen: true,
   productName: 'The Ritual',
   edition: 'Independent Mac edition',
   supportedMacs: 2,
