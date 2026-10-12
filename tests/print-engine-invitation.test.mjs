@@ -65,7 +65,7 @@ test('download gate accepts either authority and rejects invalid invitations', a
   assert.equal(invalidResponse.status, 404);
 });
 
-test('public download serves the production 1.1.4 release with range support and no private token', async () => {
+test('public download serves the production 1.1.5 release with range support and no private token', async () => {
   const size = 31605354;
   const body = new Uint8Array([1, 2, 3, 4]);
   const env = {
@@ -74,7 +74,7 @@ test('public download serves the production 1.1.4 release with range support and
         return { size, httpEtag: 'test-etag' };
       },
       async get(key, options) {
-        assert.equal(key, 'manager/latent-print-engine/production/1.1.4/Latent-Print-Engine-1.1.4.pkg');
+        assert.equal(key, 'manager/latent-print-engine/production/1.1.5/Latent-Print-Engine-1.1.5.pkg');
         assert.deepEqual(options, { range: { offset: 10, length: 10 } });
         return { body, httpEtag: 'test-etag' };
       },
@@ -88,8 +88,8 @@ test('public download serves the production 1.1.4 release with range support and
   assert.equal(headResponse.status, 200);
   assert.equal(headResponse.headers.get('Content-Length'), String(size));
   assert.equal(headResponse.headers.get('Cache-Control'), 'public, max-age=3600');
-  assert.equal(headResponse.headers.get('Content-Disposition'), 'attachment; filename="Latent-Print-Engine-1.1.4.pkg"');
-  assert.equal(headResponse.headers.get('X-Latent-Release-SHA256'), '3b78961cf1713fe46876b82a0970201a27792fb84eb0e3638af3196f3febd485');
+  assert.equal(headResponse.headers.get('Content-Disposition'), 'attachment; filename="Latent-Print-Engine-1.1.5.pkg"');
+  assert.equal(headResponse.headers.get('X-Latent-Release-SHA256'), '06a64b60f5d40981f190633c8e1fe30bc0c5b149aa084f86765ba04b1cc57a6f');
 
   const rangeResponse = await publicDownloadGet({
     env,

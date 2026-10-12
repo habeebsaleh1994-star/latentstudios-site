@@ -8,6 +8,6 @@ export const labCommerce = {
   trialDays: 7,
   yearlyUsd: 199,
   lifetimeUsd: 499,
-  version: '1.1.4',
+  version: '1.1.5',
   downloadHref: '/download/print-engine',
 };
