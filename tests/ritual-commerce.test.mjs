@@ -30,6 +30,8 @@ test('holds the exact Ritual plan contract, open for sale since 2026-10-12', () 
   assert.equal(ritualCommerce.manager.version, '1.1.6');
   assert.equal(ritualCommerce.manager.build, 241);
   assert.match(ritualCommerce.manager.sha256, /^[a-f0-9]{64}$/u);
+  assert.match(ritualCommerce.manager.filename, /\.dmg$/u);
+  assert.match(ritualCommerce.manager.key, /\/Latent-Manager-1\.1\.6\.dmg$/u);
   assert.equal(truth.ritualStatus, 'Available now');
   assert.equal(truth.ritualPlatformStatus, 'Available now for Mac · iPad to follow');
 });
@@ -68,6 +70,7 @@ test('serves only the pinned Manager artifact when the publication gate is opene
   assert.equal(response.headers.get('Content-Range'), 'bytes 1-3/6');
   assert.equal(response.headers.get('X-Latent-Release-SHA256'), 'a'.repeat(64));
   assert.equal(response.headers.get('Content-Disposition'), `attachment; filename="${release.filename}"`);
+  assert.equal(response.headers.get('Content-Type'), 'application/x-apple-diskimage');
   assert.deepEqual(new Uint8Array(await response.arrayBuffer()), body.slice(1, 4));
 });
 

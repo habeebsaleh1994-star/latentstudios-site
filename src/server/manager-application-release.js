@@ -28,7 +28,7 @@ function headersFor(release, object, length) {
     'Cache-Control': 'public, max-age=3600',
     'Content-Disposition': `attachment; filename="${release.filename}"`,
     'Content-Length': String(length),
-    'Content-Type': 'application/zip',
+    'Content-Type': release.filename.endsWith('.dmg') ? 'application/x-apple-diskimage' : 'application/zip',
     'Cross-Origin-Resource-Policy': 'same-origin',
     'Referrer-Policy': 'no-referrer',
     'X-Content-Type-Options': 'nosniff',
