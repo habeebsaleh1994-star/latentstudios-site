@@ -10,5 +10,7 @@ export const truth = {
   labStatus: 'Available now',
   versosStatus: 'First call soon',
   ctaLabel: ritualCommerce.releaseOpen ? 'Get The Ritual' : 'Join the beta',
+  // The button goes where its words say: the shop while it is open, the invitation desk before.
+  ctaHref: ritualCommerce.releaseOpen ? '/ritual/purchase' : '/beta',
   showCommunity: true, // false hides the shared-world / Company sections
 };

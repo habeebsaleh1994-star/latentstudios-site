@@ -7,8 +7,8 @@
 // in to its normal frosted bar and the wordmark fades up. On every other page
 // (no full-bleed hero) the nav behaves exactly as before — frosted from the top.
 //
-// The CTA is configurable per page: the house pages send visitors to /beta
-// with the truth.ts label; each instrument page anchors to its own close
+// The CTA is configurable per page: the house pages send visitors where the truth.ts label says
+// (the Ritual shop while it is open, /beta before); each instrument page anchors to its own close
 // section instead (label per its current release state).
 import { truth } from '../config/truth';
 
@@ -18,7 +18,7 @@ interface Props {
   overHero?: boolean;
 }
 
-const { cta = { label: truth.ctaLabel, href: '/beta' }, overHero = false } = Astro.props;
+const { cta = { label: truth.ctaLabel, href: truth.ctaHref }, overHero = false } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isHome = overHero;
 

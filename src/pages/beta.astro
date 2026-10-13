@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { ritualCommerce } from '../config/ritual-commerce.js';
 
 // One door for all three instruments. The page is static; a small script
 // reads ?app=ritual|moment|lab and re-dresses the card — lockup, kicker,
@@ -67,7 +68,11 @@ const SUBSCRIBE_ENDPOINT = '/api/subscribe';
     <p class="beta-foot"><span data-beta-foot>Soon, on iPhone.</span> &nbsp;·&nbsp; <a href="/moment" data-beta-foot-link>See what it does</a></p>
   </main>
 
-  <script>
+  <script is:inline define:vars={{ ritualOpen: ritualCommerce.releaseOpen }}>
+    // The Ritual is on sale: its door is the shop, not an invitation desk.
+    if (ritualOpen && new URLSearchParams(window.location.search).get('app') === 'ritual') {
+      window.location.replace('/ritual/purchase');
+    }
     // Re-dress the door for the instrument named in the URL.
     const doors = {
       ritual: {
