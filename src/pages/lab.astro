@@ -78,7 +78,14 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
           </div>
           <div class="ritual-hero-aside" data-reveal>
             <p class="fact">This isn&rsquo;t a LUT. Each frame is exposed onto a film stock, developed, printed and viewed, the way the stock&rsquo;s own maker describes it &mdash; through the same engine as The Ritual.</p>
-            <div class="label">{truth.labStatus}</div>
+            {labCommerce.storeOpen ? (
+              <>
+                <a class="download" href={labCommerce.downloadHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
+                <div class="label">{labCommerce.trialDays} days free &middot; DaVinci Resolve Studio &middot; <a href="#buy">the plans</a></div>
+              </>
+            ) : (
+              <div class="label">{truth.labStatus}</div>
+            )}
           </div>
         </div>
         <figure class="ritual-plate wide" data-reveal>
@@ -232,7 +239,7 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
             </div>
           </div>
           <div class="lab-doors">
-            <a class="door" href={labCommerce.downloadHref}>Download for macOS</a>
+            <a class="download" href={labCommerce.downloadHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
             <a class="lab-secondary" href="/checkout">How purchase works</a>
           </div>
           <p class="lab-install">Install, open Latent Manager, sign in, start the trial or buy. Manager activates your Mac &mdash; there is no key to copy. Paddle is the merchant of record &middot; <a href="/refund">30-day refunds</a> &middot; <a href="/terms">Terms</a></p>

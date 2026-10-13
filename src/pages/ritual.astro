@@ -206,8 +206,17 @@ const stocks = [
           </div>
           <div class="ritual-hero-aside" data-reveal>
             <p class="fact">Free to download &mdash; every film and every tool, with the Latent mark until you choose a plan.</p>
-            <a class="ritual-door" href={ritualCommerce.releaseOpen ? '#access' : '#letters'}>Get The Ritual<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
-            <div class="label">{truth.ritualStatus}</div>
+            {ritualCommerce.releaseOpen ? (
+              <>
+                <a class="download" href={ritualCommerce.manager.downloadHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
+                <div class="label">Free &middot; macOS 26 on Apple silicon &middot; <a href="#access">the plans</a></div>
+              </>
+            ) : (
+              <>
+                <a class="ritual-door" href="#letters">Get The Ritual<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
+                <div class="label">{truth.ritualStatus}</div>
+              </>
+            )}
           </div>
         </div>
         <figure class="ritual-plate wide" data-reveal>
@@ -294,6 +303,13 @@ const stocks = [
         </div>
         <RitualCompare pairs={retouchPairs} widths={[1280, 2560]} ratio="5344 / 2892" name="Retouch" />
       </section>
+
+      {ritualCommerce.releaseOpen && (
+      <section class="download-band" data-reveal>
+        <p class="line">Five revolutions, one free download &mdash; every film and every tool.</p>
+        <a class="download" href={ritualCommerce.manager.downloadHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
+      </section>
+      )}
 
       <section class="ritual-block">
         <div class="ritual-words" data-reveal>
@@ -414,7 +430,10 @@ const stocks = [
             ))}
           </div>
           <div class="ritual-access-action">
-            <a class="ritual-door" href="/ritual/purchase">Get The Ritual for Mac<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
+            <div class="download-stack">
+              <a class="download" href={ritualCommerce.manager.downloadHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
+              <a class="download-more" href="/ritual/purchase">How it installs &rarr;</a>
+            </div>
             <p>Latent Manager holds your account, the secure checkout through Paddle, installation and updates. When a plan ends, The Ritual keeps working and the mark returns &mdash; your photographs and your original files are always yours.</p>
             <p>The Ritual for iPad arrives after the Mac and is included with every plan here, at no extra cost.</p>
           </div>
