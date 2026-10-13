@@ -1,3 +1,5 @@
+import { countDownload } from './download-count.js';
+
 export const PRINT_ENGINE_RELEASE = Object.freeze({
   key: 'manager/latent-print-engine/production/1.1.6/Latent-Print-Engine-1.1.6.pkg',
   filename: 'Latent-Print-Engine-1.1.6.pkg',
@@ -80,6 +82,7 @@ export async function servePrintEngineRelease(context, { cacheControl = 'private
     headers.set('Content-Range', `bytes ${requestedRange.offset}-${end}/${metadata.size}`);
   }
 
+  countDownload(context, 'latent-print-engine/direct', /([\d.]+)\.pkg$/u.exec(PRINT_ENGINE_RELEASE.filename)?.[1] ?? 'current', requestedRange);
   return new Response(object.body, {
     status: requestedRange ? 206 : 200,
     headers,

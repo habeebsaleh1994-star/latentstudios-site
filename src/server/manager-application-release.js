@@ -1,4 +1,5 @@
 import { ritualCommerce } from '../config/ritual-commerce.js';
+import { countDownload } from './download-count.js';
 
 function parseRange(value, size) {
   if (!value) return null;
@@ -38,9 +39,10 @@ function headersFor(release, object, length) {
 }
 
 export async function serveManagerApplication(
-  { request, env },
+  context,
   { commerceOpen = ritualCommerce.releaseOpen, release = ritualCommerce.manager } = {},
 ) {
+  const { request, env } = context;
   if (!commerceOpen || (request.method !== 'GET' && request.method !== 'HEAD')) {
     return new Response('Not found', { status: 404 });
   }
@@ -69,5 +71,6 @@ export async function serveManagerApplication(
     const end = requestedRange.offset + requestedRange.length - 1;
     headers.set('Content-Range', `bytes ${requestedRange.offset}-${end}/${metadata.size}`);
   }
+  countDownload(context, 'latent-manager', release.version, requestedRange);
   return new Response(object.body, { status: requestedRange ? 206 : 200, headers });
 }

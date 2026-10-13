@@ -71,6 +71,39 @@ test('serves only the pinned Manager artifact when the publication gate is opene
   assert.deepEqual(new Uint8Array(await response.arrayBuffer()), body.slice(1, 4));
 });
 
+test('counts a Manager download once, anonymously, on the piece that starts at the first byte', async () => {
+  const body = new Uint8Array([1, 2, 3, 4, 5, 6]);
+  const release = { ...ritualCommerce.manager, sha256: 'a'.repeat(64) };
+  const tallies = [];
+  const pending = [];
+  const env = {
+    LATENT_RELEASES: {
+      async head() { return { size: body.byteLength }; },
+      async get() { return { body: body.slice() }; },
+    },
+    DOWNLOAD_COUNTS: {
+      prepare(sql) {
+        return { bind(...values) { return { async run() { tallies.push({ sql, values }); } }; } };
+      },
+    },
+  };
+  const fetchPiece = (range) => serveManagerApplication({
+    request: new Request('https://latentstudios.art/download/manager', range ? { headers: { Range: range } } : {}),
+    env,
+    waitUntil(promise) { pending.push(promise); },
+  }, { commerceOpen: true, release });
+  await fetchPiece();
+  await fetchPiece('bytes=0-2');
+  await fetchPiece('bytes=3-5');
+  await Promise.all(pending);
+  assert.equal(tallies.length, 2);
+  for (const { sql, values } of tallies) {
+    assert.match(sql, /download_counts/u);
+    assert.deepEqual(values.slice(1), ['latent-manager', release.version]);
+    assert.match(values[0], /^\d{4}-\d{2}-\d{2}$/u);
+  }
+});
+
 test('purchase copy explains install-first access and the lock boundary', async () => {
   const [home, ritual, purchase] = await Promise.all([
     page('index'), page('ritual'), page('ritual/purchase'),

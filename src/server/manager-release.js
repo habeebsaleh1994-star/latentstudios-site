@@ -1,3 +1,5 @@
+import { countDownload } from './download-count.js';
+
 const MANAGER_CHANNELS = new Set(['production', 'qa']);
 const MANAGER_PRODUCTS = new Map([
   ['latent-print-engine', {
@@ -141,7 +143,8 @@ export async function serveManagerContentFeed({ request, env }, channel, collect
   return new Response(object.body, { headers });
 }
 
-export async function serveManagerPackage({ request, env }, product, channel, version) {
+export async function serveManagerPackage(context, product, channel, version) {
+  const { request, env } = context;
   const definition = MANAGER_PRODUCTS.get(product);
   const key = managerPackageKey(product, channel, version);
   if (!key || (request.method !== 'GET' && request.method !== 'HEAD')) {
@@ -181,6 +184,7 @@ export async function serveManagerPackage({ request, env }, product, channel, ve
       `bytes ${requestedRange.offset}-${end}/${metadata.size}`,
     );
   }
+  countDownload(context, `${product}/${channel}`, version, requestedRange);
   return new Response(object.body, {
     status: requestedRange ? 206 : 200,
     headers,
