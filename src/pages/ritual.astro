@@ -6,8 +6,9 @@
 // asymmetry the homepage uses, and doors as words. No safelight pulse, no status chip,
 // no amber CTA button, no lamp switch.
 //
-// Every capture and every sentence comes from the previous ritual.astro; the media truth
-// plan still applies — these are the July 2026 captures.
+// The room captures are the app as it ships (13 October 2026, The Ritual 1.0.3 on a library of
+// 382 photographs from Lebanon). The Mac/iPad pair and the Story films are still the July 2026
+// captures, until the iPad edition can be captured beside the Mac.
 import Base from '../layouts/Base.astro';
 import '../styles/home.css';
 import '../styles/ritual.css';
@@ -19,16 +20,16 @@ const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 const rooms = [
   { n: '01', name: 'Studio', slug: 'studio',
     line: 'The front door. It remembers your work before asking for a task.',
-    alt: 'The Studio in The Ritual on Mac — a photograph from Joun across the top, and beneath it 382 frames counted back through the years' },
+    alt: 'The Studio in The Ritual on Mac — the newest print, a boy holding a worn football, across the top, and the prints on the wall beneath it' },
   { n: '02', name: 'Workbench', slug: 'workbench',
     line: 'Today’s work, gathered — and the archive’s physical truth kept visible.',
-    alt: 'The Workbench in The Ritual on Mac — the frame left mid-edit, twelve waiting to develop, and the note that every photograph lives outside the library' },
+    alt: 'The Workbench in The Ritual on Mac — the photograph last left in the Darkroom, a print drying on the line, and rows of frames waiting to be developed and chosen' },
   { n: '03', name: 'Light Table', slug: 'lighttable',
     line: 'Read, compare, narrow, and arrange a body of work.',
-    alt: 'The Light Table in The Ritual on Mac — a rated grid of a body of work beside one photograph held large with its exposure' },
+    alt: 'The Light Table in The Ritual on Mac — a rated grid of a body of work from Lebanon beside one photograph held large with its details' },
   { n: '04', name: 'Darkroom', slug: 'darkroom',
     line: 'The deep working room, from negative to print.',
-    alt: 'The Darkroom in The Ritual on Mac — a photograph between the Film, Light and Paper shelves and the emulsion list' },
+    alt: 'The Darkroom in The Ritual on Mac — a portrait developing on Portra 400, the Film, Paper, Finish and Retouch steps at left and the film shelf at right' },
 ];
 
 // Nine of the 83 on the shelf (colour/catalog/films.json, 2026-10-12): one from each process the app
@@ -96,8 +97,8 @@ const stocks = [
           <img src="/ritual-darkroom-2560.webp"
                srcset="/ritual-darkroom-1280.webp 1280w, /ritual-darkroom-2560.webp 2560w"
                sizes="(max-width: 1288px) 100vw, 1240px"
-               width="5120" height="2598" fetchpriority="high"
-               alt="The Darkroom in The Ritual on Mac — a photograph from Joun developing on Supra Endura, with the Film, Light and Paper shelves at left and the emulsion list at right" />
+               width="5120" height="2668" fetchpriority="high"
+               alt="The Darkroom in The Ritual on Mac — a boy holding a worn football, developed on Portra 400 and printed on Endura Premier, the negative's curve at left and the colour negative films at right" />
         </figure>
       </section>
 
@@ -114,7 +115,7 @@ const stocks = [
                 <img src={`/ritual-${room.slug}-1280.webp`}
                      srcset={`/ritual-${room.slug}-640.webp 640w, /ritual-${room.slug}-1280.webp 1280w`}
                      sizes="(max-width: 900px) 90vw, 330px"
-                     width="5120" height="2598" loading="lazy" alt={room.alt} />
+                     width="5120" height="2668" loading="lazy" alt={room.alt} />
               </figure>
               <div class="ritual-room-foot">
                 <div class="label small">{room.n} &middot; {room.name}</div>
@@ -170,8 +171,8 @@ const stocks = [
           <img src="/ritual-printroom-2160.webp"
                srcset="/ritual-printroom-1080.webp 1080w, /ritual-printroom-2160.webp 2160w"
                sizes="(max-width: 1128px) 100vw, 1080px"
-               width="5120" height="2598" loading="lazy"
-               alt="The Print Room in The Ritual on Mac — a print on Kodak 2393 above a seven-step test strip, with the paper, filter pack, dodge and burn, and preflash benches beneath it" />
+               width="5120" height="2668" loading="lazy"
+               alt="The Print Room in The Ritual on Mac — a print on Endura Premier above a seven-step test strip, with the paper, test strip, filter pack, dodge and burn, and preflash benches beneath it" />
         </figure>
       </section>
 
