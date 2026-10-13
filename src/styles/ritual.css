@@ -27,6 +27,25 @@
   background: linear-gradient(to bottom, var(--ground) 0, var(--ground) 52%, rgba(26,22,20,0.7) 74%, rgba(26,22,20,0) 100%);
 }
 
+/* The one door that is always in reach: the download, at the end of the header.
+   A hairline pill in the amber of the labels; it fills on hover. On a phone the
+   header stacks, so it sits level with the mark instead. */
+.ritual-header .home-nav { margin-left: auto; }
+.ritual .header-download {
+  flex: none; align-self: baseline; white-space: nowrap;
+  font-family: var(--sans); font-weight: 500; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--amber-accent); text-decoration: none;
+  padding: 8px 14px 7px; border: 1px solid rgba(232, 196, 160, 0.55); border-radius: 999px;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+.ritual .header-download:hover, .ritual .header-download:focus-visible {
+  background: var(--amber-accent); border-color: var(--amber-accent); color: var(--ground);
+}
+@media (max-width: 720px) {
+  .ritual-header .home-nav { margin-left: 0; }
+  .ritual .header-download { position: absolute; top: 16px; right: 20px; padding: 7px 12px 6px; font-size: 10px; letter-spacing: 0.16em; }
+}
+
 .ritual-main {
   position: relative; z-index: 1; max-width: 1360px; margin: 0 auto;
   padding: 0 clamp(20px, 4vw, 56px) clamp(70px, 10vh, 130px);
