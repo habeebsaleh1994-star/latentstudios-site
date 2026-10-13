@@ -175,8 +175,8 @@ const stocks = [
   <Fragment slot="head">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/cormorant-500-normal-latin.woff2" />
     {/* The hero capture is this page's LCP image. */}
-    <link rel="preload" as="image" href="/ritual-darkroom-2560.webp"
-      imagesrcset="/ritual-darkroom-1280.webp 1280w, /ritual-darkroom-2560.webp 2560w"
+    <link rel="preload" as="image" href="/ritual-darkroom-2560.webp?v=20261013"
+      imagesrcset="/ritual-darkroom-1280.webp?v=20261013 1280w, /ritual-darkroom-2560.webp?v=20261013 2560w"
       imagesizes="(max-width: 1288px) 100vw, 1240px" fetchpriority="high" />
   </Fragment>
 
@@ -210,8 +210,8 @@ const stocks = [
           </div>
         </div>
         <figure class="ritual-plate wide" data-reveal>
-          <img src="/ritual-darkroom-2560.webp"
-               srcset="/ritual-darkroom-1280.webp 1280w, /ritual-darkroom-2560.webp 2560w"
+          <img src="/ritual-darkroom-2560.webp?v=20261013"
+               srcset="/ritual-darkroom-1280.webp?v=20261013 1280w, /ritual-darkroom-2560.webp?v=20261013 2560w"
                sizes="(max-width: 1288px) 100vw, 1240px"
                width="5120" height="2880" fetchpriority="high"
                alt="The Darkroom in The Ritual on Mac — light breaking through storm clouds on Vision3 500T with its rem-jet removed, each light ringed in red, the Halation panel open beside it" />
@@ -325,8 +325,8 @@ const stocks = [
           {rooms.map((room) => (
             <div class="ritual-room" data-reveal>
               <figure class="ritual-plate">
-                <img src={`/ritual-${room.image}-1280.webp`}
-                     srcset={`/ritual-${room.image}-640.webp 640w, /ritual-${room.image}-1280.webp 1280w`}
+                <img src={`/ritual-${room.image}-1280.webp?v=20261013`}
+                     srcset={`/ritual-${room.image}-640.webp?v=20261013 640w, /ritual-${room.image}-1280.webp?v=20261013 1280w`}
                      sizes="(max-width: 900px) 90vw, 330px"
                      width="5120" height={room.height} loading="lazy" alt={room.alt} />
               </figure>
