@@ -1,0 +1,39 @@
+---
+// One before/after viewer: a line across the whole frame, by pointer or keys, with a tab per pair (13 October 2026).
+// Each pair is two images of the same frame: the owner's screenshots of The Ritual (panel open on what changed) or
+// engine renders of his raws. Nothing here is drawn.
+interface Side { src: string; label: string; alt: string }
+interface Pair { id: string; tab: string; before: Side; after: Side; note?: string }
+interface Props { pairs: Pair[]; widths: [number, number]; ratio: string; name: string }
+const { pairs, widths, ratio, name } = Astro.props;
+const srcset = (src: string) => `/${src}-${widths[0]}.webp ${widths[0]}w, /${src}-${widths[1]}.webp ${widths[1]}w`;
+---
+<div class="ritual-compare" style={`--ratio: ${ratio}`} data-reveal>
+  {pairs.map((pair, i) => (
+    <figure class:list={['ritual-plate', 'ritual-compare-plate', { on: i === 0 }]} data-pair={pair.id}
+            tabindex={i === 0 ? 0 : -1} role="slider" aria-label={`${pair.before.label} or ${pair.after.label}`}
+            aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+      <img class="ritual-compare-after" src={`/${pair.after.src}-${widths[0]}.webp`} srcset={srcset(pair.after.src)}
+           sizes="(max-width: 1288px) 100vw, 1240px" loading="lazy" alt={pair.after.alt} />
+      <img class="ritual-compare-before" src={`/${pair.before.src}-${widths[0]}.webp`} srcset={srcset(pair.before.src)}
+           sizes="(max-width: 1288px) 100vw, 1240px" loading="lazy" alt={pair.before.alt} />
+      <span class="ritual-compare-line" aria-hidden="true"><span class="ritual-compare-knob"></span></span>
+      <figcaption><span class="ritual-compare-tag before">{pair.before.label}</span><span class="ritual-compare-tag after">{pair.after.label}</span></figcaption>
+    </figure>
+  ))}
+  {pairs.length > 1 && (
+    <div class="ritual-compare-choose" role="radiogroup" aria-label={name}>
+      {pairs.map((pair, i) => (
+        <button type="button" role="radio" aria-checked={i === 0 ? 'true' : 'false'} data-pair={pair.id}
+                class:list={{ on: i === 0 }}>{pair.tab}</button>
+      ))}
+    </div>
+  )}
+  {pairs.some((p) => p.note) && (
+    <div class="ritual-compare-notes">
+      {pairs.map((pair, i) => pair.note && (
+        <p class:list={['ritual-compare-note', { on: i === 0 }]} data-pair={pair.id}>{pair.note}</p>
+      ))}
+    </div>
+  )}
+</div>

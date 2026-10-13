@@ -10,6 +10,7 @@
 // 382 photographs from Lebanon). The Mac/iPad pair and the Story films are still the July 2026
 // captures, until the iPad edition can be captured beside the Mac.
 import Base from '../layouts/Base.astro';
+import RitualCompare from '../components/RitualCompare.astro';
 import '../styles/home.css';
 import '../styles/ritual.css';
 import { truth } from '../config/truth';
@@ -18,19 +19,134 @@ import { ritualCommerce } from '../config/ritual-commerce.js';
 const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 
 const rooms = [
-  { n: '01', name: 'Studio', slug: 'studio', image: 'studio', height: 2880,
+  { n: '01', name: 'Studio', slug: 'studio', image: 'studio', height: 2771,
     line: 'The front door. It remembers your work before asking for a task.',
-    alt: 'The Studio in The Ritual on Mac — a lone tree on a mountain plain, developed on Velvia 50, across the top, and the prints on the wall beneath it' },
-  { n: '02', name: 'Workbench', slug: 'workbench', image: 'workbench', height: 2820,
-    line: 'Today’s work, gathered — and the archive’s physical truth kept visible.',
-    alt: 'The Workbench in The Ritual on Mac — a black-and-white portrait on HP5 Plus where the work was left, four prints drying on the line, and rows of frames waiting to be developed and chosen' },
-  { n: '03', name: 'Light Table', slug: 'lighttable', image: 'lighttable', height: 2820,
+    alt: 'The Studio in The Ritual on Mac — a man passing a statue of Mary on a Beirut street, fresh from the wash on Portra 400 and Endura Premier, and the prints on the wall beneath it' },
+  { n: '02', name: 'Workbench', slug: 'workbench', image: 'workbench', height: 2771,
+    line: 'Today’s work, gathered — where you left off, the prints drying on the line.',
+    alt: 'The Workbench in The Ritual on Mac — where you left off, today’s prints drying on the line, and the frames waiting to be developed and chosen' },
+  { n: '03', name: 'Light Table', slug: 'lighttable', image: 'lighttable', height: 2771,
     line: 'Read, compare, narrow, and arrange a body of work.',
-    alt: 'The Light Table in The Ritual on Mac — a rated grid of a body of work from Lebanon beside one photograph held large with its details' },
+    alt: 'The Light Table in The Ritual on Mac — a rated grid of a body of work beside one photograph held large, developed on Velvia 100' },
   { n: '04', name: 'Darkroom', slug: 'darkroom', image: 'room-darkroom', height: 2668,
     line: 'The deep working room, from negative to print.',
     alt: 'The Darkroom in The Ritual on Mac — a portrait developing on Portra 400, the Film, Paper, Finish and Retouch steps at left and the film shelf at right' },
 ];
+
+// One raw file through ten developments (13 October 2026): the owner's X100V raw of a grandmother and a girl with
+// roses, developed headless by The Ritual's engine, then printed. First Light is the raw as the camera saw it.
+const films = [
+  { id: 'firstlight', name: 'First Light', family: 'The raw' },
+  { id: 'kodak_portra_400', name: 'Portra 400', family: 'Kodak · C-41' },
+  { id: 'kodak_gold_200', name: 'Gold 200', family: 'Kodak · C-41' },
+  { id: 'fujifilm_pro_400h', name: 'Pro 400H', family: 'Fujifilm · C-41' },
+  { id: 'kodak_ektar_100', name: 'Ektar 100', family: 'Kodak · C-41' },
+  { id: 'fujifilm_velvia_50', name: 'Velvia 50', family: 'Fujifilm · E-6' },
+  { id: 'kodak_kodachrome_64', name: 'Kodachrome 64', family: 'Kodak · K-14' },
+  { id: 'kodak_vision3_500t', name: 'Vision3 500T', family: 'Kodak · ECN-2' },
+  { id: 'ilford_hp5_plus', name: 'HP5 Plus', family: 'Ilford · B&W' },
+  { id: 'kodak_tri_x_400', name: 'Tri-X 400', family: 'Kodak · B&W' },
+];
+
+// First Light, then the film: three of the owner's raws (the 81EF and 85 filters as a photographer would use them).
+const filmPairs = [
+  { id: 'glasses', tab: 'Kodachrome 64',
+    before: { src: 'ritual-show/ba-glasses-firstlight', label: 'First Light', alt: 'A boy in round glasses against a painted wall, as the camera saw it' },
+    after: { src: 'ritual-show/ba-glasses-film', label: 'Kodachrome 64', alt: 'The same boy, developed on Kodachrome 64' } },
+  { id: 'grove', tab: 'Vision3 500T',
+    before: { src: 'ritual-show/ba-grove-firstlight', label: 'First Light', alt: 'An olive grove with the sun in the branches, as the camera saw it' },
+    after: { src: 'ritual-show/ba-grove-removed', label: 'Vision3 500T · backing removed', alt: 'The same grove on Vision3 500T, the sun ringed by halation' } },
+  { id: 'dusk', tab: 'Velvia 50',
+    before: { src: 'ritual-show/ba-dusk-firstlight', label: 'First Light', alt: 'A hill town above the clouds at dusk, as the camera saw it' },
+    after: { src: 'ritual-show/ba-dusk-film', label: 'Velvia 50', alt: 'The same dusk on Velvia 50' } },
+];
+
+// Inside the Darkroom: the owner's screenshots of The Ritual 1.0.5, the panel open on what changed (13 October 2026).
+const ui = (n: number) => `ritual-show/ui-${String(n).padStart(2, '0')}`;
+// The Latent engine: the same raw decoded by a traditional raw engine and by 3.1 with finest detail (the owner's screenshots).
+const enginePairs = [
+  { id: 'engine-eye', tab: 'An eye',
+    before: { src: ui(12), label: 'Traditional engine', alt: "An old man's eye at First Light, decoded by a traditional raw engine" },
+    after: { src: ui(13), label: 'Latent Engine 3.1 · finest detail', alt: 'The same eye, Latent Engine 3.1 with finest detail' },
+    note: 'Latent’s own raw reconstruction, written for this darkroom, shown at First Light with no film: more of what the sensor recorded.' },
+  { id: 'engine-slide', tab: 'A slide',
+    before: { src: ui(19), label: 'Traditional engine', alt: 'A bag on Kodachrome 64, decoded by a traditional raw engine' },
+    after: { src: ui(20), label: 'Latent Engine 3.1 · finest detail', alt: 'The same bag on Kodachrome 64, Latent Engine 3.1 with finest detail' },
+    note: 'The engine beneath the film: the same Kodachrome slide, from a finer reconstruction of the raw.' },
+  { id: 'engine-wool', tab: 'Wool, five stops over',
+    before: { src: ui(22), label: 'Traditional engine', alt: 'A wool sweater at First Light, five stops over, decoded by a traditional raw engine' },
+    after: { src: ui(23), label: 'Latent Engine 3.1 · finest detail', alt: 'The same wool, Latent Engine 3.1 with finest detail' },
+    note: 'Every fibre the sensor caught, five stops up, resolved before the film develops it.' },
+];
+
+const darkroomPairs = [
+  { id: 'print', tab: 'Develop and print',
+    before: { src: ui(10), label: 'Before', alt: 'A young woman by a window of icons, the raw before development' },
+    after: { src: ui(9), label: 'Portra 400 · Endura Transparency', alt: 'The same portrait developed on Portra 400 and printed on Endura Transparency' },
+    note: 'The raw, exposed onto Portra 400, developed, and printed on Endura Transparency, every step from Kodak’s own data.' },
+  { id: 'slide', tab: 'Slide film',
+    before: { src: ui(17), label: 'Kodachrome 64 · as exposed', alt: 'A slide on Kodachrome 64, as exposed' },
+    after: { src: ui(18), label: 'Kodak’s correction applied', alt: 'The same slide with Kodak’s own correction applied: plus a third of a stop and a CC05R filter' },
+    note: 'A slide is the picture itself, with no print to time it. Where the film strays, Kodak’s own correction, a third of a stop and a CC05 red, is one press away.' },
+  { id: 'grain', tab: 'Grain',
+    before: { src: ui(2), label: 'Before', alt: 'Skin and lips at full size on Portra 400, the grain raised' },
+    after: { src: ui(3), label: 'After', alt: 'The same skin with a finer grain' },
+    note: 'Grain is silver on the negative: its size, its clumping and where it gathers across the tones, set by each film’s measured granularity.' },
+  { id: 'halation', tab: 'Halation',
+    before: { src: ui(48), label: 'Rem-jet · this film', alt: 'A train window on Vision3 500T, the backing as made' },
+    after: { src: ui(49), label: 'Rem-jet removed', alt: 'The same window with the backing removed, the light ringed red' },
+    note: 'Choose the film’s backing: as made, or removed the way cinematographers do, and every bright light bleeds through the base.' },
+  { id: 'grain-pushed', tab: 'Grain · pushed',
+    before: { src: ui(50), label: 'Before', alt: 'A train window and its strip light on Vision3 500T' },
+    after: { src: ui(51), label: 'After', alt: 'The same window with the grain pushed hard' },
+    note: 'Push the grain until it roars: it stays silver, clumped by density, never noise laid on top.' },
+  { id: 'wash', tab: 'Wash',
+    before: { src: ui(42), label: 'Before', alt: 'A Tri-X print pushed two stops, before the Wash finish' },
+    after: { src: ui(43), label: 'After', alt: 'The same print after the Wash finish' },
+    note: 'A digital finish after the print, never instead of it: curves, hues and a wash of colour.' },
+];
+
+// The finishing bench: Retouch on the negative, from the owner's screenshots of 1.0.5.
+const retouchPairs = [
+  { id: 'face', tab: 'Portrait',
+    before: { src: ui(4), label: 'Before', alt: 'A portrait of a young woman before Retouch this face' },
+    after: { src: ui(6), label: 'Face retouched', alt: 'The same portrait with the skin evened and the texture kept' },
+    note: 'Retouch this face: the skin evened, its texture kept, eyes, teeth and lips each a press away.' },
+  { id: 'spot', tab: 'Spot',
+    before: { src: ui(7), label: 'Before', alt: 'Skin up close before spot healing' },
+    after: { src: ui(8), label: 'Healed', alt: 'The same skin after spot healing' },
+    note: 'Spot, Heal and Clone mend the negative itself, so every repair carries the grain of the film it sits on.' },
+  { id: 'remove', tab: 'Remove',
+    before: { src: ui(29), label: 'Before', alt: 'A man diving into the sea' },
+    after: { src: ui(30), label: 'Removed', alt: 'The same sea with the diver removed' },
+    note: 'Paint over anything that shouldn’t be there; Remove fills it from the photograph around it.' },
+  { id: 'remove-stroke', tab: 'Remove · the stroke',
+    before: { src: ui(26), label: 'Before', alt: 'The rocks and the sea before Remove' },
+    after: { src: ui(27), label: 'The stroke', alt: 'The diver painted over with the Remove brush' },
+    note: 'One stroke over the diver; the Remove panel shows the stroke, its size and what it will fill.' },
+  { id: 'distance', tab: 'Light & Tone',
+    before: { src: ui(45), label: 'Before', alt: 'A scene before a Distance region darkens part of it' },
+    after: { src: ui(46), label: 'After', alt: 'The same scene darkened by distance' },
+    note: 'Shape light by distance, subject, brush, oval or gradient: dodging and burning, the darkroom’s oldest moves.' },
+];
+
+
+// Every other screenshot the owner made of 1.0.5: one view each, the panel open on the feature.
+const gallery = [
+  [1, 'Film · Camera', 'Portra 400 and the camera: scene light, film balance, exposure, shutter, filters.'],
+  [5, 'Retouch · Portrait', 'Retouch this face, with the skin, eyes, teeth and lips each its own control.'],
+  [11, 'Paper · View', 'Print it on paper, on a print film, or scan it as a lab would: Noritsu, Frontier, a camera scan.'],
+  [21, 'Paper · Print films · ETERNA Vivid 160', 'Kodak 2383, Fuji ETERNA-CP and the rest, and the Print Room one press away.'],
+  [28, 'Paper · Film edge', 'The diver gone, and the film’s own edge: none, 35 mm, 16 mm or 8 mm.'],
+  [31, 'The Print Room', 'A work print under the enlarger.'],
+  [32, 'The Print Room', 'Strike a test strip.'],
+  [34, 'The Print Room', 'Read the strip, choose the time.'],
+  [35, 'The Print Room', 'Make the print.'],
+  [36, 'Paper · Toning, grade and viewing', 'Tri-X pushed two stops, on Multigrade: toning, the paper grade and developer, and the light it is seen in.'],
+  [44, 'Retouch · Light & Tone', 'The moves: brighten, darken, open the highlights, deepen the shadows, warm, cool, clarity.'],
+  [47, 'Paper · Print', 'The train on Kodak 2383 print film, the printer’s lights to hand.'],
+  [52, 'Film · A JPEG, developed', 'A JPEG developed as a scene, on Kodachrome 25.'],
+] as const;
 
 // Nine of the 83 on the shelf (colour/catalog/films.json, 2026-10-12): one from each process the app
 // develops, the names people know. Each swatch is the stock's own dot from the app's catalogue (dot_color),
@@ -49,8 +165,8 @@ const stocks = [
 ---
 
 <Base
-  title="The Ritual — a complete photographic workroom"
-  description="Live with a body of work from the first import to the finished print — develop the negative, mend the light, make the print. The Ritual, for Mac; iPad follows, included with every plan."
+  title="The Ritual — a revolutionary darkroom for your raw files"
+  description="Don’t edit it. Develop it. The Ritual is a darkroom for your raw files on Mac: its own raw engine, 83 real films from each maker’s data, developed, printed and retouched on the negative. Free to download."
   ogImage="/og-ritual.png?v=1"
   ogImageAlt="The Ritual — a complete photographic workroom for Mac, with iPad to follow"
   quiet={false}
@@ -83,13 +199,13 @@ const stocks = [
       <section class="ritual-hero">
         <div class="ritual-hero-row">
           <div class="ritual-hero-lead" data-reveal>
-            <div class="label">An instrument &middot; a photographic workroom &middot; {truth.ritualPlatformStatus}</div>
-            <h1 class="ritual-title">A complete photographic workroom.</h1>
-            <p class="ritual-lede">Live with a body of work from the first import to the finished print.</p>
+            <div class="label">The Ritual &middot; {truth.ritualPlatformStatus}</div>
+            <h1 class="ritual-title">Don&rsquo;t edit it. Develop it.</h1>
+            <p class="ritual-lede">A revolutionary darkroom for your raw files: its own raw engine, real film from each maker&rsquo;s data, developed, printed and retouched on the negative.</p>
           </div>
           <div class="ritual-hero-aside" data-reveal>
-            <p class="fact">Remember it, gather it, decide what matters, develop the negative, mend the light, make the print, and send it out.</p>
-            <a class="ritual-door" href={ritualCommerce.releaseOpen ? '#access' : '#letters'}>Enter the workroom<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
+            <p class="fact">Free to download &mdash; every film and every tool, with the Latent mark until you choose a plan.</p>
+            <a class="ritual-door" href={ritualCommerce.releaseOpen ? '#access' : '#letters'}>Get The Ritual<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
             <div class="label">{truth.ritualStatus}</div>
           </div>
         </div>
@@ -98,13 +214,110 @@ const stocks = [
                srcset="/ritual-darkroom-1280.webp 1280w, /ritual-darkroom-2560.webp 2560w"
                sizes="(max-width: 1288px) 100vw, 1240px"
                width="5120" height="2880" fetchpriority="high"
-               alt="The Darkroom in The Ritual on Mac — light breaking through storm clouds on Vision3 500T with its rem-jet removed, each light ringed in red as on CineStill, the Halation panel open beside it" />
+               alt="The Darkroom in The Ritual on Mac — light breaking through storm clouds on Vision3 500T with its rem-jet removed, each light ringed in red, the Halation panel open beside it" />
         </figure>
       </section>
 
       <section class="ritual-block">
         <div class="ritual-words" data-reveal>
-          <div class="label">The rooms</div>
+          <div class="label">Revolution 01 &middot; The engine</div>
+          <h2>A raw engine of our own.</h2>
+          <p class="fact">Before any film sees the photograph, Latent reconstructs the raw itself. Written for this darkroom, it recovers more of what the sensor recorded &mdash; the line of an eyelid, the grain of a slide, the weave of wool five stops over. Drag across: a traditional raw engine on the left, Latent Engine 3.1 with finest detail on the right.</p>
+        </div>
+        <RitualCompare pairs={enginePairs} widths={[1280, 2560]} ratio="5344 / 2892" name="The Latent engine" />
+      </section>
+
+      <section class="ritual-block">
+        <div class="ritual-words" data-reveal>
+          <div class="label">Revolution 02 &middot; The film</div>
+          <h2>Real film. Really developed.</h2>
+          <p class="fact">One raw file, developed on ten of the 83 films on the shelf. Every stock begins from its maker&rsquo;s own data &mdash; curves, dyes, grain, sharpness, reciprocity &mdash; and develops in its own chemistry: colour negative, slide, Kodachrome, motion picture, black and white. Then it is printed on one of 21 papers, or scanned as a lab would.</p>
+        </div>
+        <div class="ritual-filmshow" data-reveal>
+          <figure class="ritual-plate ritual-filmshow-plate">
+            {films.map((film, i) => (
+              <img class:list={['ritual-filmshow-img', { on: i === 1 }]} data-film={film.id}
+                   src={`/ritual-show/films-${film.id}-1200.webp`}
+                   srcset={`/ritual-show/films-${film.id}-1200.webp 1200w, /ritual-show/films-${film.id}-2400.webp 2400w`}
+                   sizes="(max-width: 1288px) 100vw, 1240px" width="2400" height="1600" loading={i === 1 ? 'eager' : 'lazy'}
+                   alt={`A grandmother and a girl with roses, developed on ${film.name}`} />
+            ))}
+          </figure>
+          <div class="ritual-filmshow-shelf" role="radiogroup" aria-label="Develop this photograph on">
+            {films.map((film, i) => (
+              <button type="button" role="radio" aria-checked={i === 1 ? 'true' : 'false'} data-film={film.id}
+                      class:list={['ritual-filmshow-film', { on: i === 1 }]}>
+                <span class="ritual-stock-name">{film.name}</span>
+                <span class="ritual-stock-family">{film.family}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+        <div class="ritual-words" data-reveal>
+          <div class="label">First Light, then the film</div>
+          <p class="fact">Drag across: on the left the raw as the camera saw it, on the right the same raw exposed onto film, developed and printed.</p>
+        </div>
+        <RitualCompare pairs={filmPairs} widths={[1200, 2400]} ratio="3 / 2" name="First Light, then the film" />
+      </section>
+
+      <section class="ritual-block">
+        <div class="ritual-words" data-reveal>
+          <div class="label">Revolution 03 &middot; The colour</div>
+          <h2>Velvia, as only Velvia sees it.</h2>
+          <p class="fact">Red that burns and still holds its detail, from Fujifilm&rsquo;s own curves and dyes, developed in E-6. Colour no slider can fake, because it is the film&rsquo;s own.</p>
+        </div>
+        <div class="ritual-pair" data-reveal>
+          {[[24, 'Roses on Velvia 100, the whole frame'], [25, 'The same roses on Velvia 100, up close']].map(([n, alt]) => (
+            <figure class="ritual-plate">
+              <img src={`/ritual-show/ui-${n}-1280.webp`} srcset={`/ritual-show/ui-${n}-1280.webp 1280w, /ritual-show/ui-${n}-2560.webp 2560w`}
+                   sizes="(max-width: 1288px) 100vw, 1240px" width="2560" height="1385" loading="lazy" alt={`${alt}, in The Ritual's Darkroom`} />
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      <section class="ritual-block">
+        <div class="ritual-words" data-reveal>
+          <div class="label">Revolution 04 &middot; The darkroom</div>
+          <h2>Every choice a darkroom made.</h2>
+          <p class="fact">The film and its print, a slide and Kodak&rsquo;s own correction, the grain, the film&rsquo;s backing, the finish &mdash; each from the maker&rsquo;s own data. Drag across each frame; the panel shows what changed.</p>
+        </div>
+        <RitualCompare pairs={darkroomPairs} widths={[1280, 2560]} ratio="5344 / 2892" name="Inside the Darkroom" />
+      </section>
+
+      <section class="ritual-block">
+        <div class="ritual-words" data-reveal>
+          <div class="label">Revolution 05 &middot; Retouch</div>
+          <h2>Retouch the negative, not the surface.</h2>
+          <p class="fact">Repair what distracts, shape the light, work gently with a face. Every touch sits on the negative, so it carries the film&rsquo;s grain and redevelops when the film changes.</p>
+        </div>
+        <RitualCompare pairs={retouchPairs} widths={[1280, 2560]} ratio="5344 / 2892" name="Retouch" />
+      </section>
+
+      <section class="ritual-block">
+        <div class="ritual-words" data-reveal>
+          <div class="label">The print</div>
+          <h2>Make the print.</h2>
+          <p class="fact">Strike a test strip, balance the filters or split the grade, dodge and burn, and make the print under the light where it will be seen. Then tone the silver &mdash; selenium, sepia, iron blue, copper or gold, alone or together.</p>
+        </div>
+        <figure class="ritual-plate wide" data-reveal>
+          <img src="/ritual-show/ui-33-1280.webp"
+               srcset="/ritual-show/ui-33-1280.webp 1280w, /ritual-show/ui-33-2560.webp 2560w"
+               sizes="(max-width: 1288px) 100vw, 1240px" width="2560" height="1385" loading="lazy"
+               alt="The Print Room in The Ritual — a man at a seaside stall at sunset, the print with its test strip on the easel" />
+        </figure>
+        <div class="ritual-tones" data-reveal>
+          {[['untoned', 'Untoned'], ['sepia', 'Sepia'], ['iron-blue', 'Iron blue'], ['copper', 'Copper'], ['blue-copper', 'Blue and copper']].map(([id, name]) => (
+            <figure><img src={`/ritual-show/tone-${id}.webp`} width="900" height="600" loading="lazy"
+                         alt={`A boy holding a toy gun, Tri-X pushed two stops, a black-and-white print toned ${name.toLowerCase()}`} />
+              <figcaption class="label small">{name}</figcaption></figure>
+          ))}
+        </div>
+      </section>
+
+      <section class="ritual-block">
+        <div class="ritual-words" data-reveal>
+          <div class="label">The workroom</div>
           <h2>One place to live with the work.</h2>
           <p class="fact">Studio remembers. Workbench gathers what needs you today. Light Table helps you decide. Darkroom carries the photograph from negative to print.</p>
         </div>
@@ -126,125 +339,58 @@ const stocks = [
         </div>
       </section>
 
-      <section class="ritual-aside-right">
-        <div class="ritual-words right" data-reveal>
-          <div class="label">The process</div>
-          <h2 class="large">Film, paper, finish.</h2>
-          <p class="fact">Expose and develop the negative in Film &mdash; push it, pull it, hold the shutter open long enough for the film to fail the way it really fails. Print it on Paper, under the light where it will be seen. Finish it for the screen. Nothing is a look pasted on at the end; each choice belongs to the same developing photograph.</p>
+      <section class="ritual-block">
+        <div class="ritual-words" data-reveal>
+          <div class="label">The community</div>
+          <h2>Hang a print.</h2>
+          <p class="fact">The Field is a public place for finished prints, and Circles a private one for the people you choose. Everyone sees what you hang; your originals and edits stay in your library.</p>
         </div>
+        <figure class="ritual-plate wide" data-reveal>
+          <img src="/ritual-community-1280.webp"
+               srcset="/ritual-community-1280.webp 1280w, /ritual-community-2560.webp 2560w"
+               sizes="(max-width: 1288px) 100vw, 1240px" width="2560" height="1385" loading="lazy"
+               alt="The Community in The Ritual — the Field, a wall of finished prints hung by photographers, each on its film and paper" />
+        </figure>
       </section>
 
       <section class="ritual-block">
         <div class="ritual-words" data-reveal>
-          <div class="label">The materials</div>
-          <h2>Film as behaviour, not as a look.</h2>
-          <p class="fact">Every stock begins from its maker&rsquo;s own data &mdash; its curves, its dyes, its grain, its sharpness, its reciprocity &mdash; and is developed in its own chemistry: colour negative, slide, Kodachrome, motion-picture negative, black and white. Then it is printed on a real paper, or scanned the way a lab would scan it.</p>
+          <div class="label">Every corner</div>
+          <h2>The whole Darkroom, as it ships.</h2>
+          <p class="fact">Each view with its panel open on what it does.</p>
         </div>
-        <div class="ritual-stocks" data-reveal>
-          {stocks.map((stock) => (
-            <div class="ritual-stock">
-              <span class="ritual-swatch" style={`background: ${stock.swatch}`} aria-hidden="true"></span>
-              <span class="ritual-stock-name">{stock.name}</span>
-              <span class="ritual-stock-family">{stock.family}</span>
-            </div>
+        <div class="ritual-gallery">
+          {gallery.map(([n, label, line]) => (
+            <figure data-reveal>
+              <div class="ritual-plate">
+                <img src={`/ritual-show/ui-${String(n).padStart(2, '0')}-1280.webp`}
+                     srcset={`/ritual-show/ui-${String(n).padStart(2, '0')}-1280.webp 1280w, /ritual-show/ui-${String(n).padStart(2, '0')}-2560.webp 2560w`}
+                     sizes="(max-width: 760px) 100vw, 620px" width="2560" height="1385" loading="lazy" alt={`${label}: ${line}`} />
+              </div>
+              <figcaption><span class="label small">{label}</span>{line}</figcaption>
+            </figure>
           ))}
-          <p class="ritual-stocks-coda">Nine of 83 on the shelf today, with 21 papers to print them on. The catalogue keeps growing, and every stock behaves like the material it remembers.</p>
-        </div>
-      </section>
-
-      <section class="ritual-aside-right">
-        <div class="ritual-words right" data-reveal>
-          <div class="label">The finishing bench</div>
-          <h2>Retouch the negative, not the surface.</h2>
-          <p class="fact">Repair what distracts. Shape local light and tone. Work gently with a face. Every touch inherits the photograph&rsquo;s grain, density and roll-off &mdash; and redevelops when the process changes.</p>
-          <div class="label">Repair &nbsp;&middot;&nbsp; Light &amp; Tone &nbsp;&middot;&nbsp; Portrait</div>
         </div>
       </section>
 
       <section class="ritual-block">
-        <div class="ritual-words" data-reveal>
-          <div class="label">The Print Room</div>
-          <h2>Make the print.</h2>
-          <p class="fact">Strike a test strip. Balance the filters or split the grade. Preflash, dodge, burn, keep a work print, and make the final print under the light where it will be seen.</p>
-        </div>
-        <figure class="ritual-plate push-right" data-reveal>
-          <img src="/ritual-printroom-2160.webp"
-               srcset="/ritual-printroom-1080.webp 1080w, /ritual-printroom-2160.webp 2160w"
-               sizes="(max-width: 1128px) 100vw, 1080px"
-               width="5120" height="2820" loading="lazy"
-               alt="The Print Room in The Ritual on Mac — a black-and-white print of a man and two cats on Ilford Multigrade IV RC above a seven-step test strip, with the paper, test strip, split-grade, dodge and burn, and preflash benches beneath it" />
-        </figure>
-      </section>
-
-      <section class="ritual-block">
-        <div class="ritual-words" data-reveal>
-          <div class="label">Stories</div>
-          <h2>Finish more than one photograph.</h2>
-          <p class="fact">Rate, compare, collect and sequence on the Light Table. Then form covers, pairs, spreads, breaths and captions in a room made for reading the work.</p>
-        </div>
-        {/* The arranging, as a timelapse: the recording's dead tail cut and the thinking
-            pauses compressed 7×, so the sequence forms in one breath. */}
-        <figure class="ritual-plate wide" data-reveal>
-          <video data-autoplay muted loop playsinline preload="none"
-                 poster="/ritual-story-canvas-poster.webp" width="1920" height="1080"
-                 aria-label="Spreads being arranged on the Story canvas in The Ritual — prints drawn onto a spine and paired into a sequence">
-            <source src="/ritual-story-canvas.webm" type="video/webm" />
-            <source src="/ritual-story-canvas.mp4" type="video/mp4" />
-          </video>
-        </figure>
-        <p class="ritual-connector" data-reveal>Then it breathes.</p>
-        <figure class="ritual-plate wide" data-reveal>
-          {/* The one authorized stand-in from the old repo, until re-captured. */}
-          <video data-autoplay muted loop playsinline preload="none"
-                 poster="/story-mode-reader-poster.jpg" width="1920" height="1080"
-                 aria-label="The Story reader — one spread breathing across the full screen">
-            <source src="/story-mode-reader.webm" type="video/webm" />
-            <source src="/story-mode-reader.mp4" type="video/mp4" />
-          </video>
-        </figure>
-      </section>
-
-      <section class="ritual-block tight">
-        <div class="ritual-words" data-reveal>
-          <div class="label">Archive &amp; Bridge</div>
-          <h2>The work remains yours.</h2>
-          <p class="fact">The Ritual keeps originals, source volumes and catalogue facts in their proper places. Bring a Lightroom Classic catalogue, or a Capture One catalogue or session, without changing the source.</p>
-        </div>
-        <p class="ritual-claim" data-reveal>Your curation arrives. Your photographs arrive as negatives.</p>
-      </section>
-
-      <section class="ritual-block">
-        <div class="ritual-words right push" data-reveal>
-          <div class="label">Two ways of sitting with it</div>
-          <h2>The same Ritual, wherever you sit with the work.</h2>
-          <p class="fact">Mac gives the work a room. iPad brings the same photographic process under your hands &mdash; not a lite edition; the same negative, print, retouch and story.</p>
-          {/* The Mac ships first and the iPad follows. Saying so is not a
-              hedge: the page must never read as though both can be had
-              today, and the plan a reader buys already covers the second. */}
-          <p class="fact ritual-soon"><strong>The Mac edition comes first.</strong> iPad follows, and every Mac plan already includes it &mdash; one Latent account, no second purchase.</p>
-        </div>
-        {/* One photograph, one develop state, two surfaces — the same frame at 4,906 K on
-            Supra Endura, so the claim is shown rather than asserted. */}
-        <div class="ritual-devices" data-reveal>
-          <figure class="ritual-plate device-mac">
-            <img src="/ritual-device-mac-1280.webp"
-                 srcset="/ritual-device-mac-640.webp 640w, /ritual-device-mac-1280.webp 1280w"
-                 sizes="(max-width: 900px) 90vw, 646px" width="5120" height="2598" loading="lazy"
-                 alt="The Darkroom on Mac — a portrait of Youssef from Joun developing on Supra Endura, the emulsion list and scan finishes to one side" />
-          </figure>
-          <figure class="ritual-plate device-ipad">
-            <img src="/ritual-device-ipad-900.webp"
-                 srcset="/ritual-device-ipad-450.webp 450w, /ritual-device-ipad-900.webp 900w"
-                 sizes="(max-width: 900px) 90vw, 430px" width="2746" height="1908" loading="lazy"
-                 alt="The same portrait open in the Darkroom on iPad — the same emulsion, chemistry, paper and Retouch, under your hands" />
-          </figure>
-        </div>
-      </section>
-
-      <section class="ritual-close">
-        <div class="ritual-words wide" data-reveal>
-          <h2 class="large">From first import to the work you send out.</h2>
-          <p class="fact">Send single photographs, batches, contact sheets and story proofs out in the shapes the work needs &mdash; with saved recipes, without leaving the room.</p>
+        <div class="ritual-also" data-reveal>
+          <div>
+            <div class="label">Stories</div>
+            <p class="fact">Rate, compare and sequence on the Light Table, then lay out covers, pairs, spreads and captions in a room made for reading the work.</p>
+          </div>
+          <div>
+            <div class="label">Archive &amp; Bridge</div>
+            <p class="fact">Originals stay where they are. Bring a Lightroom Classic or Capture One catalogue without changing the source &mdash; your photographs arrive as negatives.</p>
+          </div>
+          <div>
+            <div class="label">Export</div>
+            <p class="fact">Single photographs, batches, contact sheets and story proofs, in the shapes the work needs, with saved recipes.</p>
+          </div>
+          <div>
+            <div class="label">Mac, then iPad</div>
+            <p class="fact">The Mac edition comes first. iPad follows with the same negative, print, retouch and story, and every Mac plan already includes it.</p>
+          </div>
         </div>
       </section>
 
@@ -309,4 +455,76 @@ const stocks = [
 
   {/* newsletter.js is already loaded by Base.astro; only the reveal is this page's own. */}
   <script src="../scripts/reveal.js"></script>
+
+<script>
+  // The film shelf: a press develops the same raw on another film (every development is a real engine render).
+  document.querySelectorAll('.ritual-filmshow').forEach((show) => {
+    const pick = (id) => {
+      show.querySelectorAll('.ritual-filmshow-img').forEach((img) => img.classList.toggle('on', img.dataset.film === id));
+      show.querySelectorAll('.ritual-filmshow-film').forEach((b) => {
+        const on = b.dataset.film === id;
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-checked', on ? 'true' : 'false');
+      });
+    };
+    show.querySelectorAll('.ritual-filmshow-film').forEach((b) => b.addEventListener('click', () => pick(b.dataset.film)));
+  });
+  // Before and after: a hairline that glides — once from the edge when the viewer arrives, then after the pointer,
+  // eased, never jumping. Touch drags; arrow keys step. A tab cross-fades to its pair and the reveal plays again.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.ritual-compare').forEach((box) => {
+    let cut = 100, target = 100, raf = 0, revealed = false;
+    const apply = () => {
+      box.style.setProperty('--cut', `${cut}%`);
+      box.style.setProperty('--before-tag', String(Math.min(1, Math.max(0, (cut - 8) / 14))));
+      box.style.setProperty('--after-tag', String(Math.min(1, Math.max(0, (92 - cut) / 14))));
+      const plate = box.querySelector('.ritual-compare-plate.on');
+      if (plate) plate.setAttribute('aria-valuenow', String(Math.round(cut)));
+    };
+    const step = () => {
+      cut += (target - cut) * 0.16;
+      if (Math.abs(target - cut) < 0.05) cut = target;
+      apply();
+      raf = cut === target ? 0 : requestAnimationFrame(step);
+    };
+    const glide = (v) => { target = Math.max(0, Math.min(100, v)); if (reduce) { cut = target; apply(); return; } if (!raf) raf = requestAnimationFrame(step); };
+    const reveal = () => {
+      if (reduce) { cut = target = 50; apply(); return; }
+      cut = 100; target = 100; apply();
+      const start = performance.now(), from = 100, to = 50, dur = 1400;
+      const tick = (t) => {
+        const k = Math.min(1, (t - start) / dur), e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+        cut = target = from + (to - from) * e; apply();
+        if (k < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    apply();
+    new IntersectionObserver((entries, obs) => {
+      if (entries.some((e) => e.isIntersecting) && !revealed) { revealed = true; reveal(); obs.disconnect(); }
+    }, { threshold: 0.45 }).observe(box);
+    box.querySelectorAll('.ritual-compare-plate').forEach((plate) => {
+      const at = (e) => { const r = plate.getBoundingClientRect(); return ((e.clientX - r.left) / r.width) * 100; };
+      let dragging = false;
+      plate.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse' || dragging) glide(at(e)); });
+      plate.addEventListener('pointerdown', (e) => { dragging = true; plate.setPointerCapture(e.pointerId); glide(at(e)); });
+      plate.addEventListener('pointerup', () => { dragging = false; });
+      plate.addEventListener('pointercancel', () => { dragging = false; });
+      plate.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); glide(target + (e.key === 'ArrowLeft' ? -5 : 5)); }
+      });
+    });
+    box.querySelectorAll('.ritual-compare-choose button').forEach((b) => b.addEventListener('click', () => {
+      box.querySelectorAll('.ritual-compare-plate, .ritual-compare-note').forEach((p) => {
+        const on = p.dataset.pair === b.dataset.pair;
+        p.classList.toggle('on', on);
+        if (p.classList.contains('ritual-compare-plate')) p.tabIndex = on ? 0 : -1;
+      });
+      box.querySelectorAll('.ritual-compare-choose button').forEach((x) => {
+        const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-checked', on ? 'true' : 'false');
+      });
+      reveal();
+    }));
+  });
+</script>
 </Base>

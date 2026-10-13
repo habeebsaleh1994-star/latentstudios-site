@@ -145,3 +145,74 @@
   .ritual-plan { border-right: 0; border-bottom: 1px solid var(--hair); }
   .ritual-plan:last-child { border-bottom: 0; }
 }
+
+/* The work itself (13 October 2026): one raw on ten films, First Light against the film, and loupes. Real engine
+   renders of the owner's raws; nothing here is drawn. */
+.ritual-filmshow { display: flex; flex-direction: column; gap: 18px; }
+.ritual-filmshow-plate { position: relative; aspect-ratio: 3 / 2; }
+.ritual-filmshow-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.35s ease; }
+.ritual-filmshow-img.on { opacity: 1; }
+.ritual-filmshow-shelf { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0 18px; }
+.ritual-filmshow-film { all: unset; cursor: pointer; display: flex; flex-direction: column; gap: 4px; padding: 11px 0; border-top: 1px solid var(--hair); min-width: 0; }
+.ritual-filmshow-film .ritual-stock-name { font-family: var(--serif); font-size: 19px; color: var(--soft); transition: color 0.2s; }
+.ritual-filmshow-film:hover .ritual-stock-name, .ritual-filmshow-film.on .ritual-stock-name { color: var(--ink-bright); }
+.ritual-filmshow-film.on { border-top-color: var(--amber-accent); }
+.ritual-filmshow-film:focus-visible { outline: 1px solid var(--amber-accent); outline-offset: 4px; }
+.ritual-filmshow + .ritual-stocks .ritual-stock { display: none; }
+.ritual-filmshow + .ritual-stocks { margin-top: 6px; }
+
+.ritual-compare { --cut: 50%; --before-tag: 1; --after-tag: 1; display: flex; flex-direction: column; gap: 16px; }
+.ritual-compare-stage { position: relative; }
+.ritual-compare-plate { position: relative; aspect-ratio: var(--ratio, 3 / 2); touch-action: pan-y; cursor: col-resize; outline: none; }
+.ritual-compare-plate:not(.on) { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+.ritual-compare > .ritual-compare-plate:not(.on) { display: none; }
+.ritual-compare-plate { transition: opacity 0.5s ease; }
+.ritual-compare-plate img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
+.ritual-compare-before { clip-path: inset(0 calc(100% - var(--cut)) 0 0); }
+.ritual-compare-line { position: absolute; top: 0; bottom: 0; left: var(--cut); width: 1px; margin-left: -0.5px;
+  background: rgba(240, 230, 214, 0.85); box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.25); pointer-events: none; }
+.ritual-compare-knob { position: absolute; top: 50%; left: 50%; width: 38px; height: 38px; transform: translate(-50%, -50%);
+  border-radius: 50%; border: 1px solid rgba(240, 230, 214, 0.9); background: rgba(20, 16, 14, 0.38);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.ritual-compare-knob::before, .ritual-compare-knob::after { content: ''; position: absolute; top: 50%; width: 6px; height: 6px;
+  border-top: 1px solid rgba(240, 230, 214, 0.95); border-left: 1px solid rgba(240, 230, 214, 0.95); }
+.ritual-compare-knob::before { left: 9px; transform: translateY(-50%) rotate(-45deg); }
+.ritual-compare-knob::after { right: 9px; transform: translateY(-50%) rotate(135deg); }
+.ritual-compare-plate:focus-visible .ritual-compare-knob { border-color: var(--amber-accent); }
+.ritual-compare-plate figcaption { position: absolute; left: 18px; right: 18px; bottom: 16px; display: flex; justify-content: space-between;
+  font-family: var(--sans); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #fff; pointer-events: none; }
+.ritual-compare-tag { padding: 6px 10px; border-radius: 2px; background: rgba(20, 16, 14, 0.55); backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px); transition: opacity 0.25s ease; }
+.ritual-compare-tag.before { opacity: var(--before-tag); }
+.ritual-compare-tag.after { opacity: var(--after-tag); }
+.ritual-compare-choose { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.ritual-compare-choose button { all: unset; cursor: pointer; font-family: var(--sans); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--soft); padding: 4px 0; border-bottom: 1px solid transparent; transition: color 0.2s, border-color 0.2s; }
+.ritual-compare-choose button.on, .ritual-compare-choose button:hover { color: var(--ink-bright); border-bottom-color: var(--amber-accent); }
+.ritual-compare-choose button:focus-visible { outline: 1px solid var(--amber-accent); outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) { .ritual-compare-plate, .ritual-compare-tag { transition: none; } }
+
+.ritual-loupes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.ritual-loupes figure { margin: 0; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.ritual-loupes img { width: 100%; height: auto; aspect-ratio: 1; border-radius: 50%; border: 1px solid var(--hair); display: block; }
+.ritual-loupes figcaption { font-family: var(--serif); font-style: italic; font-size: 17px; line-height: 1.4; color: var(--soft); }
+.ritual-loupes figcaption .label { display: block; font-style: normal; }
+
+@media (max-width: 760px) {
+  .ritual-filmshow-shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ritual-loupes { grid-template-columns: minmax(0, 1fr); max-width: 420px; }
+}
+.ritual-compare-note { display: none; font-style: italic; font-size: 17px; line-height: 1.5; color: var(--soft); margin: 4px 0 0; max-width: 62ch; }
+.ritual-compare-note.on { display: block; }
+.ritual-tones { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.ritual-tones figure { margin: 0; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.ritual-tones img { width: 100%; height: auto; display: block; border: 1px solid var(--edge); border-radius: 2px; }
+@media (max-width: 760px) { .ritual-tones { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.ritual-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 28px; }
+.ritual-gallery figure { margin: 0; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.ritual-gallery figcaption { font-style: italic; font-size: 16px; line-height: 1.45; color: var(--soft); }
+.ritual-gallery figcaption .label { display: block; font-style: normal; }
+@media (max-width: 760px) { .ritual-gallery { grid-template-columns: minmax(0, 1fr); } }
+.ritual-pair { display: flex; flex-direction: column; gap: 22px; }
+.ritual-also { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 56px; border-top: 1px solid var(--hair); padding-top: 34px; }
+.ritual-also > div { min-width: 0; }
+@media (max-width: 760px) { .ritual-also { grid-template-columns: minmax(0, 1fr); } }
