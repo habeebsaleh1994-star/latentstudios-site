@@ -5,7 +5,7 @@ export const labCommerce = {
   // (PRINT_ENGINE_RELEASE) and the Lab's status no longer "Coming soon" (truth.ts); the commercial
   // policy test holds the three together.
   storeOpen: true,
-  trialDays: 7,
+  // No timed trial: Print Engine is free to use with the Latent mark on the picture until a plan is chosen.
   yearlyUsd: 199,
   lifetimeUsd: 499,
   version: '1.1.6',

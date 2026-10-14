@@ -21,7 +21,8 @@ test('commercial terms match the release licensing contract', async () => {
   const [terms, refund] = await Promise.all([source('terms'), source('refund')]);
 
   assert.match(terms, /up to two Mac computers/i);
-  assert.match(terms, /free seven-day trial and requires a payment method/i);
+  assert.match(terms, /Print Engine is free to install and use without a plan/i);
+  assert.doesNotMatch(terms, /seven-day trial/i);
   assert.match(terms, /renews each year until you cancel/i);
   assert.match(terms, /perpetual plan is a single, non-recurring payment/i);
   assert.match(terms, /does not upload your photographs, footage, or Resolve projects/i);
