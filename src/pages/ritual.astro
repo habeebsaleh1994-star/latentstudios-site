@@ -195,7 +195,8 @@ const stocks = [
         <a href="https://wall.latentstudios.art">The Wall</a>
         <a href="#letters">Letters</a>
       </nav>
-      {ritualCommerce.releaseOpen && <a class="header-download" href={ritualCommerce.manager.downloadHref}>Download</a>}
+      {ritualCommerce.releaseOpen && <a class="header-download" data-mac-only href={ritualCommerce.manager.downloadHref}>Download</a>}
+      {ritualCommerce.releaseOpen && <a class="header-download" data-away-only href="#send-mac-hero">Send to Mac</a>}
     </header>
 
     <main id="main" class="ritual-main">
@@ -311,7 +312,8 @@ const stocks = [
       {ritualCommerce.releaseOpen && (
       <section class="download-band" data-reveal>
         <p class="line">Five revolutions, one free download &mdash; every film and every tool.</p>
-        <a class="download" href={ritualCommerce.manager.downloadHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
+        <a class="download" data-mac-only href={ritualCommerce.manager.downloadHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
+        <a class="download" data-away-only href="#send-mac-hero">Send it to my Mac<span class="download-arrow" aria-hidden="true">&uarr;</span></a>
       </section>
       )}
 

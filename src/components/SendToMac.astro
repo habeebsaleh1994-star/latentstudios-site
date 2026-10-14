@@ -42,6 +42,8 @@ const plans = Object.fromEntries(ritualCommerce.plans.map((p) => [p.id, ritualPl
   [data-away-only] { display: none !important; }
   html[data-away] [data-mac-only] { display: none !important; }
   html[data-away] [data-away-only] { display: flex !important; }
+  /* links keep their own inline shape (the header pill, the download band) */
+  html[data-away] a[data-away-only] { display: inline-flex !important; }
 
   .send-mac [hidden] { display: none !important; }
   .send-mac { flex-direction: column; gap: 14px; width: 100%; max-width: 420px; }
