@@ -125,6 +125,7 @@ test('the pages carry the approved send-to-Mac and plan words', async () => {
   assert.match(form, /Copy the link/u);
   assert.match(form, /Waiting on your Mac\./u);
   assert.match(form, /Check your email on your Mac\. The link opens the download page, with the steps\./u);
+  assert.match(form, /Not there in a minute\? Look in Spam or Junk, from ritual@mail\.latentstudios\.art\./u);
   assert.match(form, /The Ritual is for Mac \(macOS 26, Apple silicon\)/u);
   assert.match(ritual, /Plans are bought in Latent Manager\. A button above downloads it and opens it on that plan, where you choose and pay\./u);
   assert.match(ritual, /data-choose-plan/u);
