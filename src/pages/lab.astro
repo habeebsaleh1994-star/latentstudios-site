@@ -22,12 +22,12 @@ const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 // Moments from graded films, each as it came off the camera and as the engine printed it, with the
 // film and the print it went through.
 const frames = [
-  { name: 'The platform', film: 'Kodak Vision3 500T', print: 'Kodak 2393 Premier', before: '/lab/compare/subway-before.webp', after: '/lab/compare/subway-after.webp', loupe: { before: '/lab/compare/subway-before-4k.webp', after: '/lab/compare/subway-after-4k.webp' } },
-  { name: 'The pool', film: 'Kodak Portra 400', print: 'Kodak Endura Premier', before: '/lab/compare/pool-before.webp', after: '/lab/compare/pool-after.webp', loupe: { before: '/lab/compare/pool-before-4k.webp', after: '/lab/compare/pool-after-4k.webp' } },
-  { name: 'The dancer', film: 'Fujifilm Eterna Vivid 160', print: 'Fujifilm Eterna CP', before: '/lab/compare/dancer-before.webp', after: '/lab/compare/dancer-after.webp', loupe: { before: '/lab/compare/dancer-before-4k.webp', after: '/lab/compare/dancer-after-4k.webp' } },
-  { name: 'The gate', film: null, print: null, loupe: null, before: '/lab/compare/gate-before.webp', after: '/lab/compare/gate-after.webp' },
-  { name: 'The close-up', film: null, print: null, loupe: null, before: '/lab/compare/closeup-before.webp', after: '/lab/compare/closeup-after.webp' },
-  { name: 'The stairs', film: null, print: null, loupe: null, before: '/lab/compare/stairs-before.webp', after: '/lab/compare/stairs-after.webp' },
+  { alt: 'A woman waiting on a subway platform', film: 'Kodak Vision3 500T', print: 'Kodak 2393 Premier', before: '/lab/compare/subway-before.webp', after: '/lab/compare/subway-after.webp', loupe: { before: '/lab/compare/subway-before-4k.webp', after: '/lab/compare/subway-after-4k.webp' } },
+  { alt: 'A woman standing in an empty swimming pool', film: 'Kodak Portra 400', print: 'Kodak Endura Premier', before: '/lab/compare/pool-before.webp', after: '/lab/compare/pool-after.webp', loupe: { before: '/lab/compare/pool-before-4k.webp', after: '/lab/compare/pool-after-4k.webp' } },
+  { alt: 'A dancer stretching by a curtained window', film: 'Fujifilm Eterna Vivid 160', print: 'Fujifilm Eterna CP', before: '/lab/compare/dancer-before.webp', after: '/lab/compare/dancer-after.webp', loupe: { before: '/lab/compare/dancer-before-4k.webp', after: '/lab/compare/dancer-after-4k.webp' } },
+  { alt: 'A woman resting her head against an iron gate in the sun', film: null, print: null, loupe: null, before: '/lab/compare/gate-before.webp', after: '/lab/compare/gate-after.webp' },
+  { alt: 'A close portrait of a woman among leaves', film: null, print: null, loupe: null, before: '/lab/compare/closeup-before.webp', after: '/lab/compare/closeup-after.webp' },
+  { alt: 'A woman on garden stairs, caught in the sun', film: null, print: null, loupe: null, before: '/lab/compare/stairs-before.webp', after: '/lab/compare/stairs-after.webp' },
 ];
 
 // The catalog, as the plug-in's film and paper lists hold it.
@@ -158,8 +158,8 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
         </div>
         <div class="lab-fixture" data-reveal>
           <figure class="ritual-plate lab-fixture-plate lab-compare" data-compare>
-            <img data-compare-after src={frames[0].after} alt={`${frames[0].name}, developed and printed through Latent Print Engine`} width="1600" height="900" />
-            <img data-compare-before class="lab-compare-before" src={frames[0].before} alt={`${frames[0].name}, as the camera recorded it`} width="1600" height="900" />
+            <img data-compare-after src={frames[0].after} alt={`${frames[0].alt}, developed and printed through Latent Print Engine`} width="1600" height="900" />
+            <img data-compare-before class="lab-compare-before" src={frames[0].before} alt={`${frames[0].alt}, as the camera recorded it`} width="1600" height="900" />
             <span class="lab-compare-line" aria-hidden="true"></span>
             <span class="lab-loupe" data-compare-loupe aria-hidden="true"></span>
             <span class="lab-compare-tag left">The footage</span>
@@ -171,7 +171,7 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
               <div class="label small">The frame</div>
               <div class="lab-frames">
                 {frames.map((fr, fi) => (
-                  <button type="button" class:list={['lab-frame', fi === 0 && 'is-active']} data-compare-frame={fi}>{fr.name}</button>
+                  <button type="button" class:list={['lab-frame', fi === 0 && 'is-active']} data-compare-frame={fi} aria-label={`Frame ${fi + 1} of ${frames.length}`}>{String(fi + 1).padStart(2, '0')}</button>
                 ))}
               </div>
             </div>
@@ -334,8 +334,8 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
           current = F;
           preload(F);
           if (loupeNote) loupeNote.hidden = !F.loupe;
-          after.src = F.after; after.alt = `${F.name}, developed and printed through Latent Print Engine`;
-          before.src = F.before; before.alt = `${F.name}, as the camera recorded it`;
+          after.src = F.after; after.alt = `${F.alt}, developed and printed through Latent Print Engine`;
+          before.src = F.before; before.alt = `${F.alt}, as the camera recorded it`;
           const printed = document.querySelector('[data-compare-printed]');
           if (printed) printed.textContent = F.film ? `${F.film} · ${F.print}` : 'Printed';
           const recipe = document.querySelector('[data-compare-recipe]');
