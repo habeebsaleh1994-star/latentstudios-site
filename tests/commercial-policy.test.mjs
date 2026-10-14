@@ -14,7 +14,7 @@ test('privacy policy names the Manager account and licensing data boundary', asy
   assert.match(privacy, /session token is kept in your Mac&rsquo;s Keychain/i);
   assert.match(privacy, /installation public key and fingerprint/i);
   assert.match(privacy, /never receives your photographs, footage, project files, or payment card details/i);
-  assert.match(privacy, /support@latentstudios\.art/i);
+  assert.match(privacy, /privacy@latentstudios\.art/i);
 });
 
 test('commercial terms match the release licensing contract', async () => {
@@ -26,7 +26,7 @@ test('commercial terms match the release licensing contract', async () => {
   assert.match(terms, /perpetual plan is a single, non-recurring payment/i);
   assert.match(terms, /does not upload your photographs, footage, or Resolve projects/i);
   assert.match(refund, /30 days from the date of purchase/i);
-  assert.match(refund, /support@latentstudios\.art/i);
+  assert.match(refund, /billing@latentstudios\.art/i);
 });
 
 test('Print Engine storefront opens only with its status and its release', async () => {

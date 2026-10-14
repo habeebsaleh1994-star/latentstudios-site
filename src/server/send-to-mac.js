@@ -15,6 +15,7 @@ import { siteOrigin } from '../config/site.js';
 import { ritualPlan, ritualPlanSummary, ritualPurchasePath } from '../config/ritual-commerce.js';
 
 export const EMAIL_RE = /^[^\s@<>()",;]{1,64}@[^\s@<>()",;]{1,253}\.[^\s@<>()",;.]{2,63}$/u;
+export const REPLY_TO = 'ritual@latentstudios.art';
 export const DEFAULT_FROM = 'The Ritual <ritual@mail.latentstudios.art>';   // the sending domain onboarded on Cloudflare Email Service
 export const LIMITS = Object.freeze({
   ip: { max: 6, seconds: 3600 },
@@ -44,11 +45,11 @@ export function chooseMailer(env, fetcher = fetch) {
     return {
       name: 'resend',
       from,
-      async send({ to, from: sender, subject, text, html }) {
+      async send({ to, from: sender, replyTo, subject, text, html }) {
         const res = await fetcher('https://api.resend.com/emails', {
           method: 'POST',
           headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ from: sender, to: [to], subject, text, html }),
+          body: JSON.stringify({ from: sender, to: [to], reply_to: replyTo, subject, text, html }),
         });
         if (!res.ok) throw new Error(`mailer_status_${res.status}`);
       },
@@ -85,7 +86,7 @@ export function composeEmail(planId) {
     '',
     'The Ritual runs on macOS 26 with Apple silicon.',
     '',
-    'Questions? Reply to support@latentstudios.art.',
+    'Questions? Reply to ritual@latentstudios.art.',
     'Latent Studios',
     '',
     'You received this because someone asked latentstudios.art to send this link to this address. Nothing else will follow.',
@@ -104,7 +105,7 @@ ${chosen ? `<tr><td style="font-family:${serif};font-size:19px;line-height:1.45;
 <tr><td style="padding:8px 0 30px;"><a href="${link}" style="font-family:${serif};font-style:italic;font-size:26px;color:${amber};text-decoration:none;">Get The Ritual for Mac &rarr;</a><br><span style="font-family:${sans};font-size:12px;color:${soft};">${link}</span></td></tr>
 <tr><td style="border-top:1px solid ${hair};padding-top:22px;font-family:${sans};font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#c9a682;padding-bottom:10px;">Four steps</td></tr>
 ${STEPS.map(([a, b], i) => `<tr><td style="font-family:${serif};font-size:17px;line-height:1.5;color:${soft};padding:6px 0;">${i + 1}.&nbsp; <strong style="font-weight:600;color:${ink};">${escapeHTML(a)}</strong> ${escapeHTML(b)}</td></tr>`).join('\n')}
-<tr><td style="font-family:${sans};font-size:12px;line-height:1.6;color:${soft};padding-top:26px;">The Ritual runs on macOS 26 with Apple silicon. Questions? Write to support@latentstudios.art.</td></tr>
+<tr><td style="font-family:${sans};font-size:12px;line-height:1.6;color:${soft};padding-top:26px;">The Ritual runs on macOS 26 with Apple silicon. Questions? Write to ritual@latentstudios.art.</td></tr>
 <tr><td style="font-family:${sans};font-size:11px;line-height:1.6;color:#6f6458;padding-top:18px;">Someone asked latentstudios.art to send this link to this address. Nothing else will follow.</td></tr>
 </table></td></tr></table></body></html>`;
   return { subject, text, html, link };
@@ -164,7 +165,8 @@ export async function handleSendToMac({ request, env = {}, waitUntil }, deps = {
 
   const message = composeEmail(planId);
   try {
-    await mailer.send({ to: email, from: mailer.from, subject: message.subject, text: message.text, html: message.html });
+    // Replies reach a real inbox: the sending subdomain has none, The Ritual's address does.
+    await mailer.send({ to: email, from: mailer.from, replyTo: REPLY_TO, subject: message.subject, text: message.text, html: message.html });
   } catch (error) {
     // The reason only; never the address.
     console.error('send-to-mac: mailer failed', mailer.name, error instanceof Error ? error.message : 'unknown');
