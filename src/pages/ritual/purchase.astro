@@ -46,7 +46,7 @@ const planSummaries = Object.fromEntries(ritualCommerce.plans.map((plan) => [pla
           <section class="ritual-hero">
             {/* ?plan= (a Choose button, or the emailed link): which plan, and Manager opened on it. */}
             <div class="purchase-chosen" data-chosen data-plans={JSON.stringify(planSummaries)} hidden>
-              <p class="purchase-chosen-line">You chose <span data-chosen-summary></span></p>
+              <p class="purchase-chosen-line">Manager opens on <span data-chosen-summary></span>. You choose and pay there, when you’re ready.</p>
               <p class="purchase-chosen-open" data-mac-only>
                 <span>Already have Latent Manager? Open it on this plan.</span>
                 <a class="purchase-button" data-open-manager href="latent-manager://ritual/plans">Open Manager on this plan</a>

@@ -11,7 +11,7 @@ const plans = Object.fromEntries(ritualCommerce.plans.map((p) => [p.id, ritualPl
 ---
 <div class="send-mac" data-away-only data-send-mac id={id} data-plans={JSON.stringify(plans)} data-plan-from-query={planFromQuery || undefined}>
   <p class="send-mac-other label small">The Ritual is for Mac (macOS 26, Apple silicon)</p>
-  <p class="send-mac-chosen" data-send-mac-chosen hidden={!chosen}>{chosen ? `You chose ${ritualPlanSummary(chosen)}` : ''}</p>
+  <p class="send-mac-chosen" data-send-mac-chosen hidden={!chosen}>{chosen ? `${ritualPlanSummary(chosen)} · in Manager` : ''}</p>
   <div data-send-mac-ask>
     <p class="send-mac-line">The Ritual runs on your Mac. Send yourself the link and open it there.</p>
     <form class="send-mac-form" action="/api/send-to-mac" method="post" data-send-mac-form novalidate>
@@ -102,7 +102,7 @@ const plans = Object.fromEntries(ritualCommerce.plans.map((p) => [p.id, ritualPl
       const id = (event as CustomEvent<string>).detail;
       if (!plans[id]) return;
       planField.value = id;
-      chosen.textContent = `You chose ${plans[id]}`;
+      chosen.textContent = `${plans[id]} · in Manager`;
       chosen.hidden = false;
       linkBox.hidden = true;
       say('');

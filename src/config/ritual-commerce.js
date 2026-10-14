@@ -18,15 +18,15 @@ export const ritualCommerce = Object.freeze({
   markedWithoutPlan: true,
   plans: Object.freeze([
     Object.freeze({
-      id: 'monthly', name: 'Monthly', priceUsd: '14.99', cadence: 'month', choose: 'Choose monthly',
+      id: 'monthly', name: 'Monthly', priceUsd: '14.99', cadence: 'month', choose: 'Monthly, in Manager',
       note: 'Cancel any time.',
     }),
     Object.freeze({
-      id: 'annual', name: 'Annual', priceUsd: '149.99', cadence: 'year', choose: 'Choose annual',
+      id: 'annual', name: 'Annual', priceUsd: '149.99', cadence: 'year', choose: 'Annual, in Manager',
       note: 'Two months free versus monthly.',
     }),
     Object.freeze({
-      id: 'perpetual', name: 'Yours to keep', priceUsd: '599', cadence: null, choose: 'Choose to keep',
+      id: 'perpetual', name: 'Yours to keep', priceUsd: '599', cadence: null, choose: 'To keep, in Manager',
       note: 'Pay once. Every update to this version, free.',
     }),
   ]),

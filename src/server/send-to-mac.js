@@ -73,7 +73,7 @@ const escapeHTML = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace
 export function composeEmail(planId) {
   const link = purchaseLink(planId);
   const plan = ritualPlan(planId);
-  const chosen = plan ? `You chose ${ritualPlanSummary(plan)}.` : '';
+  const chosen = plan ? `Latent Manager opens on ${ritualPlanSummary(plan)}. You choose and pay there, when you’re ready.` : '';
   const subject = 'The Ritual, for your Mac';
   const text = [
     'Open this on your Mac:',

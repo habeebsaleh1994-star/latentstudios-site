@@ -16,7 +16,7 @@ test('plan words and links match the approved copy', () => {
   assert.equal(ritualPlanSummary(ritualPlan('annual')), 'Annual · $149.99 a year');
   assert.equal(ritualPlanSummary(ritualPlan('perpetual')), 'Yours to keep · $599 once');
   assert.deepEqual(['monthly', 'annual', 'perpetual'].map((id) => ritualPlan(id).choose),
-    ['Choose monthly', 'Choose annual', 'Choose to keep']);
+    ['Monthly, in Manager', 'Annual, in Manager', 'To keep, in Manager']);
   assert.equal(ritualPurchasePath('annual'), '/ritual/purchase?plan=annual');
   assert.equal(ritualPurchasePath('nonsense'), '/ritual/purchase');
   assert.equal(ritualManagerPlanURL('monthly'), 'latent-manager://ritual/plans?plan=monthly');
@@ -126,7 +126,7 @@ test('the pages carry the approved send-to-Mac and plan words', async () => {
   assert.match(form, /Waiting on your Mac\./u);
   assert.match(form, /Check your email on your Mac\. The link opens the download page, with the steps\./u);
   assert.match(form, /The Ritual is for Mac \(macOS 26, Apple silicon\)/u);
-  assert.match(ritual, /Choosing a plan downloads Manager and opens it on that plan, ready to pay\./u);
+  assert.match(ritual, /Plans are bought in Latent Manager\. A button above downloads it and opens it on that plan, where you choose and pay\./u);
   assert.match(ritual, /data-choose-plan/u);
   assert.match(purchase, /Already have Latent Manager\? Open it on this plan\./u);
   assert.match(purchase, /Open Manager on this plan/u);
