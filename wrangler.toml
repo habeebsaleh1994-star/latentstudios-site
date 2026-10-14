@@ -11,3 +11,8 @@ bucket_name = "latent-software-releases"
 binding = "DOWNLOAD_COUNTS"
 database_name = "latent-site-counts"
 database_id = "66f89a2e-2781-4a69-8e1e-385ce7484088"
+
+# The send-to-Mac email (src/server/send-to-mac.js) goes through latent-mailer (workers/mailer), which holds the Email Service binding.
+[[env.production.services]]
+binding = "SEND_EMAIL"
+service = "latent-mailer"

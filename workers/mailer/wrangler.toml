@@ -1,0 +1,9 @@
+name = "latent-mailer"
+main = "src/index.js"
+compatibility_date = "2026-05-12"
+# Reached only through the site's service binding: no workers.dev address, no preview address.
+workers_dev = false
+preview_urls = false
+
+[[send_email]]
+name = "EMAIL"

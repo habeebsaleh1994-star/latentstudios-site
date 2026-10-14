@@ -15,7 +15,7 @@ import { siteOrigin } from '../config/site.js';
 import { ritualPlan, ritualPlanSummary, ritualPurchasePath } from '../config/ritual-commerce.js';
 
 export const EMAIL_RE = /^[^\s@<>()",;]{1,64}@[^\s@<>()",;]{1,253}\.[^\s@<>()",;.]{2,63}$/u;
-export const DEFAULT_FROM = 'The Ritual <ritual@latentstudios.art>';
+export const DEFAULT_FROM = 'The Ritual <ritual@mail.latentstudios.art>';   // the sending domain onboarded on Cloudflare Email Service
 export const LIMITS = Object.freeze({
   ip: { max: 6, seconds: 3600 },
   address: { max: 2, seconds: 3600 },

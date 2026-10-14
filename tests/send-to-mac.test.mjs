@@ -106,7 +106,7 @@ test('the Cloudflare binding and Resend adapters send the same message', async (
   const bound = [];
   const cf = chooseMailer({ SEND_EMAIL: { async send(m) { bound.push(m); } } });
   await cf.send({ to: 'a@example.com', from: cf.from, subject: 's', text: 't', html: 'h' });
-  assert.deepEqual(bound[0].from, { name: 'The Ritual', email: 'ritual@latentstudios.art' });
+  assert.deepEqual(bound[0].from, { name: 'The Ritual', email: 'ritual@mail.latentstudios.art' });
   const calls = [];
   const resend = chooseMailer({ RESEND_API_KEY: 're_test' }, async (url, init) => { calls.push({ url, init }); return new Response('{}'); });
   await resend.send({ to: 'a@example.com', from: resend.from, subject: 's', text: 't', html: 'h' });
