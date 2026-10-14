@@ -262,3 +262,6 @@
   padding: clamp(28px, 4vh, 44px) 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair);
 }
 .download-band .line { font-size: clamp(20px, 2vw, 26px); max-width: 34ch; }
+
+/* What's new: one serif line above the notes */
+.ritual .ritual-whats-title { margin: 10px 0 0; font-family: var(--serif); font-weight: 400; font-size: clamp(24px, 3vw, 34px); line-height: 1.15; color: var(--ink-bright); text-wrap: balance; }
