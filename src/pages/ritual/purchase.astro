@@ -4,9 +4,13 @@
 // shop reads as one place. Its words are September's, checked against the shipping Manager (Apple and
 // Google sign-in) and licensing service (two Macs); the mark replaced the timed trial on 2026-10-12.
 import Base from '../../layouts/Base.astro';
+import DeviceProbe from '../../components/DeviceProbe.astro';
+import SendToMac from '../../components/SendToMac.astro';
 import '../../styles/home.css';
 import '../../styles/ritual.css';
-import { ritualCommerce } from '../../config/ritual-commerce.js';
+import { ritualCommerce, ritualPlanSummary, ritualPurchasePath } from '../../config/ritual-commerce.js';
+
+const planSummaries = Object.fromEntries(ritualCommerce.plans.map((plan) => [plan.id, ritualPlanSummary(plan)]));
 ---
 
 <Base
@@ -16,6 +20,7 @@ import { ritualCommerce } from '../../config/ritual-commerce.js';
   evening={false}
 >
   <Fragment slot="head">
+    <DeviceProbe />
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/cormorant-500-normal-latin.woff2" />
     {/* Hidden while the shop is shut; findable the moment it opens, so the
         one publication switch really is the whole of publishing. */}
@@ -39,6 +44,14 @@ import { ritualCommerce } from '../../config/ritual-commerce.js';
       {ritualCommerce.releaseOpen ? (
         <>
           <section class="ritual-hero">
+            {/* ?plan= (a Choose button, or the emailed link): which plan, and Manager opened on it. */}
+            <div class="purchase-chosen" data-chosen data-plans={JSON.stringify(planSummaries)} hidden>
+              <p class="purchase-chosen-line">You chose <span data-chosen-summary></span></p>
+              <p class="purchase-chosen-open" data-mac-only>
+                <span>Already have Latent Manager? Open it on this plan.</span>
+                <a class="purchase-button" data-open-manager href="latent-manager://ritual/plans">Open Manager on this plan</a>
+              </p>
+            </div>
             <div class="ritual-hero-row">
               <div class="ritual-hero-lead" data-reveal>
                 <div class="label">The Ritual &middot; for Mac</div>
@@ -47,8 +60,17 @@ import { ritualCommerce } from '../../config/ritual-commerce.js';
               </div>
               <div class="ritual-hero-aside" data-reveal>
                 <p class="fact">Until you choose a plan, each photograph carries the Latent mark &mdash; on the canvas and in every export. A plan makes every photograph clean.</p>
-                <a class="ritual-door" href={ritualCommerce.manager.downloadHref}>Download Latent Manager<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
-                <div class="label">For macOS 26 on Apple silicon</div>
+                <div class="purchase-get" data-mac-only>
+                  <div class="label">For macOS 26 on Apple silicon</div>
+                  <a class="ritual-door" href={ritualCommerce.manager.downloadHref} data-download>Download Latent Manager<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
+                  <p class="purchase-file">Latent Manager {ritualCommerce.manager.version} &middot; a signed disk image from Latent Studios</p>
+                  <div class="purchase-started" data-download-started role="status" aria-live="polite" hidden>
+                    <div class="label">Your download has started</div>
+                    <p>Next: open <strong>Latent Manager.dmg</strong> from your Downloads, drag Latent Manager to Applications, and open it. <a href="#install">The steps</a></p>
+                    <p class="purchase-again">Didn&rsquo;t start? <a href={ritualCommerce.manager.downloadHref}>Download again</a></p>
+                  </div>
+                </div>
+                <SendToMac id="send-mac-purchase" planFromQuery />
               </div>
             </div>
           </section>
@@ -62,6 +84,36 @@ import { ritualCommerce } from '../../config/ritual-commerce.js';
                 <li><strong>Install The Ritual</strong> from Manager, and open it.</li>
                 <li><strong>Use it free, with the Latent mark</strong> &mdash; no payment method. Choose a plan whenever you are ready; Paddle handles the secure checkout.</li>
               </ol>
+            </div>
+            <div id="install" class="purchase-install" data-reveal>
+              <figure>
+                <svg viewBox="0 0 120 80" aria-hidden="true">
+                  <rect x="34" y="18" width="52" height="40" rx="5" class="stroke" />
+                  <line x1="34" y1="46" x2="86" y2="46" class="stroke" />
+                  <circle cx="78" cy="52" r="1.8" class="berry" />
+                  <text x="60" y="36" text-anchor="middle" class="tag">.dmg</text>
+                </svg>
+                <figcaption><span class="label small">1</span>Open Latent Manager.dmg from your Downloads.</figcaption>
+              </figure>
+              <figure>
+                <svg viewBox="0 0 120 80" aria-hidden="true">
+                  <rect x="10" y="24" width="30" height="30" rx="7" class="stroke" />
+                  <circle cx="25" cy="39" r="2.4" class="berry" />
+                  <path d="M47 39 H72" class="stroke dash" />
+                  <path d="M68 34 L74 39 L68 44" class="stroke" />
+                  <path d="M82 28 h10 l4 5 h16 v24 h-30 z" class="stroke" />
+                </svg>
+                <figcaption><span class="label small">2</span>Drag Latent Manager to Applications.</figcaption>
+              </figure>
+              <figure>
+                <svg viewBox="0 0 120 80" aria-hidden="true">
+                  <rect x="24" y="14" width="72" height="50" rx="4" class="stroke" />
+                  <line x1="24" y1="24" x2="96" y2="24" class="stroke" />
+                  <circle cx="30" cy="19" r="1.4" class="fill" /><circle cx="35" cy="19" r="1.4" class="fill" /><circle cx="40" cy="19" r="1.4" class="fill" />
+                  <circle cx="60" cy="43" r="3" class="berry" />
+                </svg>
+                <figcaption><span class="label small">3</span>Open it from Applications, and sign in.</figcaption>
+              </figure>
             </div>
           </section>
 
@@ -79,6 +131,7 @@ import { ritualCommerce } from '../../config/ritual-commerce.js';
                   <div class="label small">{plan.name}</div>
                   <p class="ritual-plan-price"><span>${plan.priceUsd}</span>{plan.cadence && <small> / {plan.cadence}</small>}</p>
                   <p>{plan.note}</p>
+                  <a class:list={['ritual-plan-choose', { primary: plan.id === 'annual' }]} href={ritualPurchasePath(plan.id)}>{plan.choose}</a>
                 </article>
               ))}
             </div>
@@ -130,10 +183,67 @@ import { ritualCommerce } from '../../config/ritual-commerce.js';
 
   <script src="../../scripts/reveal.js"></script>
 
+  <script>
+    // The plan chosen on /ritual (or in the emailed link), and the download's next step.
+    const chosen = document.querySelector<HTMLElement>('[data-chosen]');
+    const started = document.querySelector<HTMLElement>('[data-download-started]');
+    const download = document.querySelector<HTMLAnchorElement>('[data-download]');
+    const onMac = !document.documentElement.hasAttribute('data-away');
+    const showStarted = () => { if (started) started.hidden = false; };
+    download?.addEventListener('click', showStarted);
+
+    const plan = new URLSearchParams(location.search).get('plan') || '';
+    const plans: Record<string, string> = JSON.parse(chosen?.dataset.plans || '{}');
+    if (chosen && plans[plan]) {
+      chosen.querySelector('[data-chosen-summary]')!.textContent = plans[plan];
+      chosen.querySelector<HTMLAnchorElement>('[data-open-manager]')!.href = `latent-manager://ritual/plans?plan=${plan}`;
+      chosen.hidden = false;
+      // On a Mac a chosen plan starts Manager's download, once per visit (a reload does not download it again).
+      if (onMac && download) {
+        let first = true;
+        try { first = sessionStorage.getItem('ritual-download-started') !== plan; sessionStorage.setItem('ritual-download-started', plan); } catch { /* private mode */ }
+        if (first) {
+          // A hidden frame: the disk image downloads and this page, with its next steps, stays.
+          const frame = document.createElement('iframe');
+          frame.hidden = true;
+          frame.src = download.href;
+          document.body.append(frame);
+          showStarted();
+        }
+      }
+    }
+  </script>
+
   <style>
     .purchase-steps { margin: 18px 0 0; padding-left: 1.4em; display: grid; gap: 14px; max-width: 62ch; }
     .purchase-steps li { font-weight: 400; font-size: 17.5px; line-height: 1.5; color: var(--soft); text-wrap: pretty; padding-left: 6px; }
     .purchase-steps strong, .ritual-access-action strong { color: var(--ink, inherit); font-weight: 500; }
     .purchase-address { user-select: all; }
+    :global(.send-mac-chosen) { display: none !important; }
+    .purchase-chosen { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 28px; padding: 18px 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+    .purchase-chosen[hidden] { display: none; }
+    .purchase-chosen-line { margin: 0; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(24px, 2.6vw, 32px); line-height: 1.15; color: var(--ink-bright); }
+    .purchase-chosen-open { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin: 0; font-size: 15px; line-height: 1.5; color: var(--soft); }
+    .ritual .purchase-button { font-family: var(--sans); font-weight: 500; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; color: var(--ground); background: var(--amber-accent); border-radius: 2px; padding: 12px 18px; }
+    .ritual .purchase-button:hover { background: var(--ink-bright); color: var(--ground); }
+    .purchase-get { display: flex; flex-direction: column; gap: 14px; }
+    .purchase-get .label { margin: 0; }
+    .purchase-file { margin: 0; font-size: 14px; line-height: 1.5; color: var(--soft); }
+    .purchase-started { display: flex; flex-direction: column; gap: 8px; padding: 16px 0 0; border-top: 1px solid var(--hair); }
+    .purchase-started[hidden] { display: none; }
+    .purchase-started p { margin: 0; font-size: 15.5px; line-height: 1.55; color: var(--soft); }
+    .purchase-started strong { color: var(--ink-bright); font-weight: 500; }
+    .purchase-started .purchase-again { font-size: 14px; }
+    .purchase-install { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; max-width: 760px; scroll-margin-top: 120px; }
+    .purchase-install figure { margin: 0; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+    .purchase-install svg { display: block; width: 100%; height: auto; border: 1px solid var(--edge); border-radius: 3px; background: var(--bg-deep, #121010); }
+    .purchase-install .stroke { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+    .purchase-install .dash { stroke-dasharray: 3 3; }
+    .purchase-install .berry { fill: var(--amber-accent); }
+    .purchase-install .fill { fill: var(--soft); }
+    .purchase-install .tag { font-family: var(--sans); font-size: 9px; letter-spacing: 0.1em; fill: var(--soft); }
+    .purchase-install figcaption { font-size: 15px; line-height: 1.45; color: var(--soft); }
+    .purchase-install figcaption .label { display: block; }
+    @media (max-width: 560px) { .purchase-install { grid-template-columns: minmax(0, 1fr); max-width: 320px; } }
   </style>
 </Base>

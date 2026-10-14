@@ -1,0 +1,16 @@
+---
+// Which device is reading (2026-10-14). The page is served as the Mac version; this marks <html data-away>
+// before first paint when the reader cannot run The Ritual here: "phone" for iPhone, iPad (also iPadOS's
+// desktop-class Safari), Android and the Instagram/Facebook in-app browsers; "desktop" for Windows, Linux and
+// ChromeOS. CSS then swaps [data-mac-only] for [data-away-only]. No script, no swap: the Mac version stays.
+---
+<script is:inline>
+  (function () {
+    try {
+      var ua = navigator.userAgent || '', p = navigator.platform || '', touch = navigator.maxTouchPoints || 0;
+      var phone = /iPhone|iPad|iPod|Android|Mobile|Instagram|FBAN|FBAV|FB_IAB/i.test(ua) || (/Mac/i.test(p) && touch > 1);
+      var mac = !phone && (/Mac/i.test(p) || /Macintosh/i.test(ua));
+      if (phone || !mac) document.documentElement.setAttribute('data-away', phone ? 'phone' : 'desktop');
+    } catch (e) { /* the Mac version stays */ }
+  })();
+</script>

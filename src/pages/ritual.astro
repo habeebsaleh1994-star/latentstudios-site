@@ -11,10 +11,12 @@
 // captures, until the iPad edition can be captured beside the Mac.
 import Base from '../layouts/Base.astro';
 import RitualCompare from '../components/RitualCompare.astro';
+import DeviceProbe from '../components/DeviceProbe.astro';
+import SendToMac from '../components/SendToMac.astro';
 import '../styles/home.css';
 import '../styles/ritual.css';
 import { truth } from '../config/truth';
-import { ritualCommerce } from '../config/ritual-commerce.js';
+import { ritualCommerce, ritualPurchasePath } from '../config/ritual-commerce.js';
 
 const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 
@@ -173,6 +175,7 @@ const stocks = [
   evening={false}
 >
   <Fragment slot="head">
+    <DeviceProbe />
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/cormorant-500-normal-latin.woff2" />
     {/* The hero capture is this page's LCP image. */}
     <link rel="preload" as="image" href="/ritual-darkroom-2560.webp?v=20261013"
@@ -208,8 +211,9 @@ const stocks = [
             <p class="fact">Free to download &mdash; every film and every tool, with the Latent mark until you choose a plan.</p>
             {ritualCommerce.releaseOpen ? (
               <>
-                <a class="download" href={ritualCommerce.manager.downloadHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
-                <div class="label">Free &middot; macOS 26 on Apple silicon &middot; <a href="#access">the plans</a></div>
+                <a class="download" data-mac-only href={ritualCommerce.manager.downloadHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
+                <div class="label" data-mac-only>Free &middot; macOS 26 on Apple silicon &middot; <a href="#access">the plans</a></div>
+                <SendToMac id="send-mac-hero" />
               </>
             ) : (
               <>
@@ -426,14 +430,20 @@ const stocks = [
                 <div class="label small">{plan.name}</div>
                 <p class="ritual-plan-price"><span>${plan.priceUsd}</span>{plan.cadence && <small> / {plan.cadence}</small>}</p>
                 <p>{plan.note}</p>
+                <a class:list={['ritual-plan-choose', { primary: plan.id === 'annual' }]} href={ritualPurchasePath(plan.id)} data-choose-plan={plan.id}>{plan.choose}</a>
               </article>
             ))}
           </div>
+          <div class="ritual-plans-coda">
+            <p>Choosing a plan downloads Manager and opens it on that plan, ready to pay. Your plan lives in your Latent account, on every Mac you sign in to.</p>
+            <div class="label small">For macOS 26 on Apple silicon</div>
+          </div>
           <div class="ritual-access-action">
-            <div class="download-stack">
+            <div class="download-stack" data-mac-only>
               <a class="download" href={ritualCommerce.manager.downloadHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
               <a class="download-more" href="/ritual/purchase">How it installs &rarr;</a>
             </div>
+            <SendToMac id="send-mac-plans" />
             <p>Latent Manager holds your account, the secure checkout through Paddle, installation and updates. When a plan ends, The Ritual keeps working and the mark returns &mdash; your photographs and your original files are always yours.</p>
             <p>The Ritual for iPad arrives after the Mac and is included with every plan here, at no extra cost.</p>
           </div>
@@ -477,6 +487,16 @@ const stocks = [
   <script src="../scripts/reveal.js"></script>
 
 <script>
+  // Where The Ritual cannot run (DeviceProbe), a plan's Choose button carries the plan into the send-to-Mac form.
+  document.querySelectorAll<HTMLAnchorElement>('[data-choose-plan]').forEach((choose) => choose.addEventListener('click', (event) => {
+    if (!document.documentElement.hasAttribute('data-away')) return;
+    const form = document.getElementById('send-mac-plans');
+    if (!form) return;
+    event.preventDefault();
+    form.dispatchEvent(new CustomEvent('send-mac:plan', { detail: choose.dataset.choosePlan }));
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    form.querySelector<HTMLInputElement>('input[type="email"]')?.focus({ preventScroll: true });
+  }));
   // The film shelf: a press develops the same raw on another film (every development is a real engine render).
   document.querySelectorAll('.ritual-filmshow').forEach((show) => {
     const pick = (id) => {

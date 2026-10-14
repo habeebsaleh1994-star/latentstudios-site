@@ -1,0 +1,178 @@
+---
+// "Send it to my Mac" (owner-approved, 2026-10-14). Shown only where The Ritual cannot run (see DeviceProbe):
+// one email with the purchase link, or the link itself to share or copy. The plan, when one was chosen, rides in
+// the link. The address goes to /api/send-to-mac and nowhere else; Letters only when the box is ticked.
+import { ritualCommerce, ritualPlan, ritualPlanSummary } from '../config/ritual-commerce.js';
+
+interface Props { id: string; plan?: string; planFromQuery?: boolean }
+const { id, plan = '', planFromQuery = false } = Astro.props;
+const chosen = ritualPlan(plan);
+const plans = Object.fromEntries(ritualCommerce.plans.map((p) => [p.id, ritualPlanSummary(p)]));
+---
+<div class="send-mac" data-away-only data-send-mac id={id} data-plans={JSON.stringify(plans)} data-plan-from-query={planFromQuery || undefined}>
+  <p class="send-mac-other label small">The Ritual is for Mac (macOS 26, Apple silicon)</p>
+  <p class="send-mac-chosen" data-send-mac-chosen hidden={!chosen}>{chosen ? `You chose ${ritualPlanSummary(chosen)}` : ''}</p>
+  <div data-send-mac-ask>
+    <p class="send-mac-line">The Ritual runs on your Mac. Send yourself the link and open it there.</p>
+    <form class="send-mac-form" action="/api/send-to-mac" method="post" data-send-mac-form novalidate>
+      <div class="send-mac-field">
+        <label class="visually-hidden" for={`${id}-email`}>Email address</label>
+        <input id={`${id}-email`} type="email" name="email" required autocomplete="email" inputmode="email"
+               autocapitalize="off" spellcheck="false" placeholder="your address" />
+      </div>
+      <input type="hidden" name="plan" value={chosen ? chosen.id : ''} data-send-mac-plan />
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="send-mac-trap" />
+      <button type="submit" class="ritual-door send-mac-send">Send it to my Mac<span class="home-berry ritual-door-berry" aria-hidden="true"></span></button>
+      <label class="send-mac-letters"><input type="checkbox" name="letters" value="1" /> Also send me Letters from the studio</label>
+    </form>
+    <div class="send-mac-copy-row">
+      <button type="button" class="door send-mac-copy" data-send-mac-copy>Copy the link</button>
+      <input class="send-mac-link" data-send-mac-link readonly hidden aria-label="The link to open on your Mac" />
+    </div>
+    <p class="send-mac-status" data-send-mac-status role="status" aria-live="polite"></p>
+  </div>
+  <div class="send-mac-done" data-send-mac-done hidden>
+    <p class="send-mac-done-head">Waiting on your Mac.</p>
+    <p class="send-mac-line">Check your email on your Mac. The link opens the download page, with the steps.</p>
+  </div>
+</div>
+
+<style is:global>
+  /* The page is the Mac version; data-away (DeviceProbe) swaps it where The Ritual cannot run. */
+  [data-away-only] { display: none !important; }
+  html[data-away] [data-mac-only] { display: none !important; }
+  html[data-away] [data-away-only] { display: flex !important; }
+
+  .send-mac [hidden] { display: none !important; }
+  .send-mac { flex-direction: column; gap: 14px; width: 100%; max-width: 420px; }
+  .send-mac-other { display: none; }
+  html[data-away="desktop"] .send-mac-other { display: block; }
+  .ritual .send-mac-chosen { margin: 0; font-family: var(--sans); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber-accent); }
+  .ritual .send-mac-line { margin: 0; font-weight: 500; font-size: 19px; line-height: 1.4; color: var(--ink-bright); text-wrap: pretty; }
+  .send-mac [data-send-mac-ask] { display: flex; flex-direction: column; gap: 14px; }
+  .send-mac-form { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin: 0; }
+  .send-mac-field { width: 100%; border-bottom: 1px solid rgba(212, 196, 176, 0.4); }
+  .ritual .send-mac-field input {
+    width: 100%; box-sizing: border-box; background: transparent; border: 0; outline: none; border-radius: 0;
+    font-family: var(--serif); font-weight: 500; font-size: 20px; color: var(--ink-bright); padding: 11px 0;
+  }
+  .ritual .send-mac-field input::placeholder { color: var(--soft); }
+  .send-mac-field:focus-within { border-bottom-color: var(--amber-accent); }
+  .ritual .send-mac-send { background: none; border: 0; padding: 0; cursor: pointer; font-size: 26px; }
+  .ritual .send-mac-send:disabled { opacity: 0.5; cursor: default; }
+  .ritual .send-mac-letters { display: flex; align-items: center; gap: 10px; font-size: 15px; line-height: 1.4; color: var(--soft); cursor: pointer; }
+  .ritual .send-mac-letters input { appearance: none; -webkit-appearance: none; flex: 0 0 auto; width: 16px; height: 16px; margin: 0; border: 1px solid rgba(212, 196, 176, 0.5); border-radius: 2px; background: transparent; display: grid; place-content: center; cursor: pointer; }
+  .ritual .send-mac-letters input:checked { background: var(--amber-accent); border-color: var(--amber-accent); }
+  .ritual .send-mac-letters input:checked::after { content: ''; width: 8px; height: 4px; border-left: 1.5px solid var(--ground); border-bottom: 1.5px solid var(--ground); transform: translateY(-1px) rotate(-45deg); }
+  .ritual .send-mac-letters input:focus-visible { outline: 1px solid var(--amber-accent); outline-offset: 3px; }
+  .send-mac-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+  .send-mac-copy-row { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding-top: 4px; }
+  .ritual .send-mac-copy { color: var(--amber-accent); padding: 6px 0; }
+  .ritual .send-mac-link { width: 100%; box-sizing: border-box; font-family: var(--sans); font-size: 13px; color: var(--ink-bright); background: transparent; border: 1px solid var(--hair); border-radius: 2px; padding: 8px 10px; }
+  .ritual .send-mac-status { margin: 0; font-style: italic; font-size: 17px; line-height: 1.45; color: var(--soft); }
+  .ritual .send-mac-status:empty { display: none; }
+  .ritual .send-mac-done-head { margin: 0 0 8px; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 30px; line-height: 1.1; color: var(--ink-bright); }
+</style>
+
+<script>
+  import { siteOrigin } from '../config/site.js';
+
+  document.querySelectorAll<HTMLElement>('[data-send-mac]').forEach((root) => {
+    if (root.dataset.ready) return;
+    root.dataset.ready = '1';
+    const plans: Record<string, string> = JSON.parse(root.dataset.plans || '{}');
+    const form = root.querySelector<HTMLFormElement>('[data-send-mac-form]')!;
+    const input = form.querySelector<HTMLInputElement>('input[type="email"]')!;
+    const planField = form.querySelector<HTMLInputElement>('[data-send-mac-plan]')!;
+    const chosen = root.querySelector<HTMLElement>('[data-send-mac-chosen]')!;
+    const status = root.querySelector<HTMLElement>('[data-send-mac-status]')!;
+    const ask = root.querySelector<HTMLElement>('[data-send-mac-ask]')!;
+    const done = root.querySelector<HTMLElement>('[data-send-mac-done]')!;
+    const send = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const copy = root.querySelector<HTMLButtonElement>('[data-send-mac-copy]')!;
+    const linkBox = root.querySelector<HTMLInputElement>('[data-send-mac-link]')!;
+
+    const link = () => `${siteOrigin}/ritual/purchase${plans[planField.value] ? `?plan=${planField.value}` : ''}`;
+    const say = (words: string) => { status.textContent = words; };
+
+    // A plan chosen on this page (the cards' Choose buttons) rides in the link.
+    root.addEventListener('send-mac:plan', (event) => {
+      const id = (event as CustomEvent<string>).detail;
+      if (!plans[id]) return;
+      planField.value = id;
+      chosen.textContent = `You chose ${plans[id]}`;
+      chosen.hidden = false;
+      linkBox.hidden = true;
+      say('');
+    });
+
+    if (root.dataset.planFromQuery !== undefined) {
+      const fromQuery = new URLSearchParams(location.search).get('plan') || '';
+      if (plans[fromQuery]) root.dispatchEvent(new CustomEvent('send-mac:plan', { detail: fromQuery }));
+    }
+
+    const showLink = () => {
+      linkBox.value = link();
+      linkBox.hidden = false;
+      linkBox.focus();
+      linkBox.select();
+      linkBox.setSelectionRange(0, linkBox.value.length);
+    };
+
+    copy.addEventListener('click', async () => {
+      const url = link();
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: 'The Ritual, for your Mac', text: 'Open this on your Mac:', url });
+          return;
+        } catch (error) {
+          if (error instanceof DOMException && error.name === 'AbortError') return;
+        }
+      }
+      try {
+        await navigator.clipboard.writeText(url);
+        say('Link copied. Open it on your Mac.');
+        return;
+      } catch { /* in-app browsers often refuse the clipboard */ }
+      showLink();
+      say('Copy this link and open it on your Mac.');
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!input.checkValidity() || !input.value.trim()) {
+        say('That email doesn’t look right.');
+        input.focus();
+        return;
+      }
+      say('');
+      send.disabled = true;
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: input.value.trim(),
+            plan: planField.value,
+            letters: form.querySelector<HTMLInputElement>('input[name="letters"]')!.checked,
+            website: form.querySelector<HTMLInputElement>('input[name="website"]')!.value,
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          ask.hidden = true;
+          chosen.hidden = true;
+          done.hidden = false;
+          return;
+        }
+        if (data.error === 'invalid_email') say('That email doesn’t look right.');
+        else if (data.error === 'rate_limited') say('That’s a few too many for now. Copy the link instead, or try again in an hour.');
+        else if (data.error === 'not_configured') say('We can’t send email from here just yet. Copy the link instead and open it on your Mac.');
+        else say('That didn’t send. Copy the link instead and open it on your Mac.');
+      } catch {
+        say('We couldn’t be reached. Copy the link instead and open it on your Mac.');
+      }
+      send.disabled = false;
+    });
+  });
+</script>
