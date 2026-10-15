@@ -1,5 +1,6 @@
 import { ritualCommerce } from '../config/ritual-commerce.js';
 import { countDownload } from './download-count.js';
+import { countStep } from './funnel-count.js';
 
 function parseRange(value, size) {
   if (!value) return null;
@@ -72,5 +73,7 @@ export async function serveManagerApplication(
     headers.set('Content-Range', `bytes ${requestedRange.offset}-${end}/${metadata.size}`);
   }
   countDownload(context, 'latent-manager', release.version, requestedRange);
+  // Under its source too, when the page that started it was opened from a link we count (src/scripts/source.js).
+  if (!requestedRange || requestedRange.offset === 0) countStep(context, 'manager-download', new URL(request.url).searchParams.get('ref'));
   return new Response(object.body, { status: requestedRange ? 206 : 200, headers });
 }

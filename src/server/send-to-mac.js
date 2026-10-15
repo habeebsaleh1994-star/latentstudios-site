@@ -13,6 +13,8 @@
 
 import { siteOrigin } from '../config/site.js';
 import { ritualPlan, ritualPlanSummary, ritualPurchasePath } from '../config/ritual-commerce.js';
+import { SEND_TO_MAC_SOURCE, withSource } from '../config/funnel.js';
+import { countStep } from './funnel-count.js';
 
 export const EMAIL_RE = /^[^\s@<>()",;]{1,64}@[^\s@<>()",;]{1,253}\.[^\s@<>()",;.]{2,63}$/u;
 export const REPLY_TO = 'ritual@latentstudios.art';
@@ -58,8 +60,9 @@ export function chooseMailer(env, fetcher = fetch) {
   return null;
 }
 
+// The link carries ?ref=send-to-mac, so its visit and the download it starts are counted under the email.
 export function purchaseLink(planId) {
-  return `${siteOrigin}${ritualPurchasePath(planId)}`;
+  return `${siteOrigin}${withSource(ritualPurchasePath(planId), SEND_TO_MAC_SOURCE)}`;
 }
 
 const STEPS = [
@@ -172,5 +175,6 @@ export async function handleSendToMac({ request, env = {}, waitUntil }, deps = {
     console.error('send-to-mac: mailer failed', mailer.name, error instanceof Error ? error.message : 'unknown');
     return json({ ok: false, error: 'send_failed', subscribed }, 502);
   }
+  countStep({ env, waitUntil }, 'link-sent', SEND_TO_MAC_SOURCE);
   return json({ ok: true, subscribed });
 }

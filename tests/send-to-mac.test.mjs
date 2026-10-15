@@ -37,7 +37,8 @@ test('sends one email with the purchase link, the chosen plan and the four steps
     assert.match(body, /Install The Ritual/u);
     assert.match(body, /Annual · \$149\.99 a year/u);
   }
-  assert.match(composeEmail('').link, /\/ritual\/purchase$/u);
+  assert.match(composeEmail('').link, /\/ritual\/purchase\?ref=send-to-mac$/u);
+  assert.match(composeEmail('annual').link, /\/ritual\/purchase\?plan=annual&ref=send-to-mac$/u);
 });
 
 test('refuses a bad address, drops the honeypot, and limits repeats', async () => {
