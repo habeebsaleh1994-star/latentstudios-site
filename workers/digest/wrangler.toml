@@ -1,0 +1,36 @@
+name = "latent-digest"
+main = "src/index.js"
+compatibility_date = "2026-05-12"
+# Runs only on its schedule: no workers.dev address, no preview address.
+workers_dev = false
+preview_urls = false
+
+# Every morning at 06:00 UTC (09:00 in Beirut in summer, 08:00 in winter): yesterday, in numbers.
+[triggers]
+crons = ["0 6 * * *"]
+
+[vars]
+DIGEST_TO = "habeebsaleh1994@gmail.com"
+
+# Read only, by the queries in src/digest.js: the site's anonymous tallies, the licences and sales, the accounts.
+[[d1_databases]]
+binding = "COUNTS"
+database_name = "latent-site-counts"
+database_id = "66f89a2e-2781-4a69-8e1e-385ce7484088"
+
+[[d1_databases]]
+binding = "LICENSING"
+database_name = "latent-licensing"
+database_id = "d5446e5e-a1dc-4239-b033-a981a9eb718e"
+
+[[d1_databases]]
+binding = "ACCOUNTS"
+database_name = "latent-accounts"
+database_id = "e673dd96-9090-4fa3-abde-fe7352e71572"
+
+[[services]]
+binding = "MAILER"
+service = "latent-mailer"
+
+[observability]
+enabled = true
