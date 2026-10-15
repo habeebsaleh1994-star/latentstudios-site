@@ -9,8 +9,7 @@ preview_urls = false
 [triggers]
 crons = ["0 6 * * *"]
 
-[vars]
-DIGEST_TO = "habeebsaleh1994@gmail.com"
+# DIGEST_TO, the letter's one recipient, is a secret (wrangler secret put DIGEST_TO), so no address sits in this public repo.
 
 # Read only, by the queries in src/digest.js: the site's anonymous tallies, the licences and sales, the accounts.
 [[d1_databases]]
