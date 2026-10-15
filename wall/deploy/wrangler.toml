@@ -34,3 +34,11 @@ SITES_SERVICE = "latent-wall-sites"
 #   RESEND_KEY  the mail service's key (Resend, sending only, latentstudios.art). Without it the door shows the link on the page.
 #   CF_TOKEN    a Cloudflare token that may attach Workers to addresses and read the zone's DNS records. Without it Publish
 #               says addresses cannot be made yet.
+
+# Workers Logs: on for every live server (15 Oct 2026), so a failure can always be read in the dashboard.
+[observability]
+enabled = true
+
+[observability.logs]
+enabled = true
+invocation_logs = true

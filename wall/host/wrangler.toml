@@ -21,3 +21,11 @@ bucket_name = "latent-wall-sites"
 BARE_HOSTS = ""
 
 
+
+# Workers Logs: on for every live server (15 Oct 2026), so a failure can always be read in the dashboard.
+[observability]
+enabled = true
+
+[observability.logs]
+enabled = true
+invocation_logs = true

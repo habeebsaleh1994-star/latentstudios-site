@@ -7,3 +7,11 @@ preview_urls = false
 
 [[send_email]]
 name = "EMAIL"
+
+# Workers Logs: on for every live server (15 Oct 2026), so a failure can always be read in the dashboard.
+[observability]
+enabled = true
+
+[observability.logs]
+enabled = true
+invocation_logs = true
