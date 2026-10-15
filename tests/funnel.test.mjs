@@ -67,11 +67,14 @@ test('the middleware counts a page opened from a counted link, never an API call
   const visit = (path, method = 'GET') => middleware({
     request: new Request(`https://latentstudios.art${path}`, { method }),
     env: { DOWNLOAD_COUNTS: db },
-    next: async () => new Response('page'),
+    next: async () => (path.startsWith('/ritual?')
+      ? new Response(null, { status: 308, headers: { location: path.replace('/ritual?', '/ritual/?') } })
+      : new Response('page', { headers: { 'content-type': 'text/html; charset=utf-8' } })),
   });
   await visit('/ritual/purchase?plan=annual&ref=send-to-mac');
-  await visit('/ritual?ref=youtube');
-  await visit('/ritual?ref=whatever');
+  await visit('/ritual?ref=youtube'); // the redirect: not counted
+  await visit('/ritual/?ref=youtube'); // the page it leads to: counted
+  await visit('/ritual/?ref=whatever');
   await visit('/ritual');
   await visit('/api/send-to-mac?ref=youtube', 'POST');
   await visit('/download/manager?ref=youtube');

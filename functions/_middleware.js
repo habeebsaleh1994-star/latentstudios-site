@@ -11,10 +11,16 @@ export const onRequest = (context) => {
   const isOldLabPath = url.pathname === '/resolve' || url.pathname === '/resolve/';
 
   if (!isAlias && !isOldLabPath) {
-    // A page opened from a link we count (?ref=<source>): one tally, numbers only. Downloads count themselves.
+    // A page opened from a link we count (?ref=<source>): one tally, numbers only, and only for the page itself --
+    // not the trailing-slash redirect in front of it, which a browser follows. Downloads count themselves.
     if (request.method === 'GET' && !url.pathname.startsWith('/api/') && !url.pathname.startsWith('/download/')
       && funnelSource(url.searchParams.get('ref'))) {
-      countStep(context, 'page-visit', url.searchParams.get('ref'));
+      return Promise.resolve(next()).then((response) => {
+        if (response.status === 200 && (response.headers.get('content-type') || '').includes('text/html')) {
+          countStep(context, 'page-visit', url.searchParams.get('ref'));
+        }
+        return response;
+      });
     }
     return next();
   }
