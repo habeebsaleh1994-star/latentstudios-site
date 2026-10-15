@@ -1,0 +1,281 @@
+---
+// Get Latent Print Engine — how a colourist goes from this page to a print on a node: the installer, Manager,
+// Resolve, the Guide, and where the node sits in their grade (2026-10-15). The Lab's twin of /ritual/purchase,
+// in the same house shell. Every step is the shipped installer's and plug-in's own (LatentOFX on
+// print-engine/main): the installer stops while Resolve is open, asks for the password because the node goes
+// to /Library/OFX/Plugins, and carries Latent Manager; the node is in Effects › Film Emulation; its Guide… button
+// opens the guide inside it; Footage, Node Input and Node Output are the panel's own names.
+import Base from '../../layouts/Base.astro';
+import DeviceProbe from '../../components/DeviceProbe.astro';
+import SendToMac from '../../components/SendToMac.astro';
+import '../../styles/home.css';
+import '../../styles/ritual.css';
+import '../../styles/lab.css';
+import { labCommerce } from '../../config/lab';
+import { truth } from '../../config/truth';
+
+const installer = `Latent-Print-Engine-${labCommerce.version}.pkg`;
+
+// Where the node sits, by how the project is set up: what to set under Footage and Output. The guide's own
+// chapter 2 ("Footage: what reaches the node"), shortened.
+const pipelines = [
+  { name: 'A colour-managed project', how: 'DaVinci YRGB Color Managed, timeline in DaVinci WG / Intermediate',
+    set: 'Nothing to choose. Footage stays on Resolve Node Pipeline, DWG / Intermediate, for every camera.' },
+  { name: 'A Color Space Transform first', how: 'Your camera → DaVinci WG / Intermediate in the node before it',
+    set: 'Node Input is what the CST outputs. Leave Camera Log off, or the log is decoded twice.' },
+  { name: 'An ACES 2.0 project', how: 'ACEScct or ACEScc; Output Transform Rec.709, sRGB, P3-D65 or Rec.2100 PQ 1000 nits',
+    set: 'Node Input is the project’s ACES log; Node Output is ACES 2.0 for the same display, so ACES shows the print as printed.' },
+  { name: 'A camera’s log, straight in', how: 'Not colour-managed, no CST',
+    set: 'Input Source: Camera Log, and its exact gamut and curve from eleven: ARRI, Sony, Canon, Panasonic, RED, Blackmagic, Apple, DJI.' },
+];
+---
+
+<Base
+  title="Get Latent Print Engine — Latent Studios"
+  description="Install Latent Print Engine for DaVinci Resolve Studio in four steps and use it free, with the Latent mark on the picture; choose a plan in Latent Manager to make every frame clean."
+  ogImage="/og-lab.png?v=2"
+  ogImageAlt="The Lab — Latent Print Engine, in DaVinci Resolve"
+  quiet={false}
+  evening={false}
+>
+  <Fragment slot="head">
+    <DeviceProbe />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/cormorant-500-normal-latin.woff2" />
+    {!labCommerce.storeOpen && <meta name="robots" content="noindex" />}
+  </Fragment>
+
+  <div class="home ritual lab">
+
+    <header class="home-header ritual-header">
+      <a class="home-mark" href="/">Latent Studios<span class="home-berry" aria-hidden="true"></span></a>
+      <nav class="home-nav" aria-label="Rooms">
+        <a href="/nera">Nera</a>
+        <a href="/moment">The Moment</a>
+        <a href="/ritual">The Ritual</a>
+        <a href="/lab" aria-current="page">The Lab</a>
+        <a href="https://wall.latentstudios.art">The Wall</a>
+      </nav>
+    </header>
+
+    <main id="main" class="ritual-main">
+      {labCommerce.storeOpen ? (
+        <>
+          <section class="ritual-hero">
+            <div class="ritual-hero-row">
+              <div class="ritual-hero-lead" data-reveal>
+                <div class="label">Latent Print Engine &middot; for DaVinci Resolve</div>
+                <h1 class="ritual-title">Free, with the Latent mark.</h1>
+                <p class="ritual-lede">Every stock and every control, inside your own grade. No card, nothing to cancel.</p>
+              </div>
+              <div class="ritual-hero-aside" data-reveal>
+                <p class="fact">Until you choose a plan, the picture carries the Latent mark &mdash; in the viewer and in every render. A plan makes every frame clean.</p>
+                <div class="install-get" data-mac-only>
+                  <div class="label">DaVinci Resolve Studio &middot; macOS 14 or later on Apple silicon</div>
+                  <a class="ritual-door" href={labCommerce.downloadHref} data-download>Download Print Engine<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
+                  <p class="install-file">Latent Print Engine {labCommerce.version} &middot; a signed, notarized installer from Latent Studios, with Latent Manager</p>
+                  <div class="install-started" data-download-started role="status" aria-live="polite" hidden>
+                    <div class="label">Your download has started</div>
+                    <p>Next: <strong>quit DaVinci Resolve</strong>, then open <strong>{installer}</strong> from your Downloads. <a href="#install">The steps</a></p>
+                    <p class="install-again">Didn&rsquo;t start? <a href={labCommerce.downloadHref}>Download again</a></p>
+                  </div>
+                </div>
+                <SendToMac id="send-mac-install" product="lab" />
+              </div>
+            </div>
+          </section>
+
+          <section id="install" class="ritual-block tight install-steps-block">
+            <div class="ritual-words wide" data-reveal>
+              <div class="label">Four steps</div>
+              <ol class="install-steps">
+                <li><strong>Quit DaVinci Resolve, then open the installer</strong> from your Downloads. It stops while Resolve is open: a node can&rsquo;t be replaced while Resolve is using it.</li>
+                <li><strong>Enter your Mac&rsquo;s password</strong> when the installer asks. The node goes into the Mac&rsquo;s OpenFX folder, where Resolve looks for it, and Latent Manager into Applications.</li>
+                <li><strong>Open Latent Manager and sign in</strong> with Apple or Google. Manager keeps your plan, your Macs and your updates together.</li>
+                <li><strong>Open Resolve.</strong> On the Color page, open <span class="ui">Effects</span> and drag <span class="ui">Latent Print Engine</span> from <span class="ui">Film Emulation</span> onto a node. Press <span class="ui">Guide&hellip;</span> at the top of it: the guide opens, with the setup for your project and what every control does.</li>
+              </ol>
+            </div>
+            <div class="install-figures" data-reveal>
+              <figure>
+                <svg viewBox="0 0 120 80" aria-hidden="true">
+                  <path d="M42 22 h36 l8 8 v32 h-44 z" class="stroke" />
+                  <path d="M78 22 v8 h8" class="stroke" />
+                  <circle cx="64" cy="52" r="1.8" class="berry" />
+                  <text x="60" y="45" text-anchor="middle" class="tag">.pkg</text>
+                </svg>
+                <figcaption><span class="label small">1 &middot; 2</span>Resolve closed, open the installer.</figcaption>
+              </figure>
+              <figure>
+                <svg viewBox="0 0 120 80" aria-hidden="true">
+                  <rect x="22" y="14" width="76" height="52" rx="4" class="stroke" />
+                  <line x1="22" y1="24" x2="98" y2="24" class="stroke" />
+                  <circle cx="28" cy="19" r="1.4" class="fill" /><circle cx="33" cy="19" r="1.4" class="fill" /><circle cx="38" cy="19" r="1.4" class="fill" />
+                  <circle cx="60" cy="45" r="3" class="berry" />
+                </svg>
+                <figcaption><span class="label small">3</span>Open Latent Manager, and sign in.</figcaption>
+              </figure>
+              <figure>
+                <svg viewBox="0 0 120 80" aria-hidden="true">
+                  <rect x="14" y="33" width="20" height="14" rx="3" class="stroke" />
+                  <rect x="50" y="33" width="20" height="14" rx="3" class="stroke berry-stroke" />
+                  <rect x="86" y="33" width="20" height="14" rx="3" class="stroke" />
+                  <path d="M34 40 H50 M70 40 H86" class="stroke" />
+                  <circle cx="60" cy="40" r="2.2" class="berry" />
+                  <text x="60" y="62" text-anchor="middle" class="tag">Guide&hellip;</text>
+                </svg>
+                <figcaption><span class="label small">4</span>Drag it onto a node; press Guide&hellip;</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section class="ritual-block tight" aria-labelledby="fit-head">
+            <div class="ritual-words wide" data-reveal>
+              <div class="label">Where it sits in your grade</div>
+              <h2 id="fit-head">One setting decides the rest.</h2>
+              <p class="fact">Film reacts to light, so the node first turns what reaches it back into the light of the scene. Resolve hands an effect the numbers but not their name, so <span class="ui">Footage</span> tells it. However you work:</p>
+              <div class="install-fit">
+                {pipelines.map((p) => (
+                  <div class="install-fit-row">
+                    <div>
+                      <p class="install-fit-name">{p.name}</p>
+                      <p class="label small">{p.how}</p>
+                    </div>
+                    <p class="install-fit-set">{p.set}</p>
+                  </div>
+                ))}
+              </div>
+              <p class="install-note">Check it with <span class="ui">Output &rsaquo; View &rsaquo; Source Check</span>: the footage as the node reads it should look natural and unprocessed. Grade exposure and balance before the node, as you would light and expose film; the creative grade after it. Then pick a <span class="ui">Starting Point</span> &mdash; thirteen looks across cinema, colour negative, slide and black &amp; white &mdash; and develop from there.</p>
+            </div>
+          </section>
+
+          <section id="access" class="ritual-access" data-reveal>
+            <div class="ritual-access-head">
+              <div>
+                <div class="label">When you are ready</div>
+                <h2>Choose how you keep it.</h2>
+              </div>
+              <p class="fact">A plan opens every stock and every control without the mark, with updates as they ship. Plans are chosen in Latent Manager, where Paddle handles the secure checkout and Manager activates your Mac &mdash; there is no key to copy. One account, up to two Macs.</p>
+            </div>
+            <div class="lab-plans install-plans">
+              <div class="lab-row">
+                <span class="lab-plan-name">Annual</span>
+                <span class="label right">Renews each year</span>
+                <span class="lab-plan-price">${labCommerce.yearlyUsd} / year</span>
+              </div>
+              <div class="lab-row">
+                <span class="lab-plan-name">Lifetime</span>
+                <span class="label right">One payment</span>
+                <span class="lab-plan-price">${labCommerce.lifetimeUsd}</span>
+              </div>
+            </div>
+            <div class="ritual-access-action">
+              <p><strong>Already installed?</strong> Latent Manager offers each new version as it ships, and the download on this page is always the latest: run it over the one you have.</p>
+              <p>Paddle is the merchant of record &middot; <a href="/refund">30-day refunds</a> &middot; <a href="/terms">Terms</a></p>
+            </div>
+          </section>
+        </>
+      ) : (
+        <section class="ritual-hero">
+          <div class="ritual-hero-row">
+            <div class="ritual-hero-lead" data-reveal>
+              <div class="label">Latent Print Engine &middot; for DaVinci Resolve</div>
+              <h1 class="ritual-title">Not open yet.</h1>
+              <p class="ritual-lede">{truth.labStatus}. Nothing can be downloaded from this page.</p>
+            </div>
+            <div class="ritual-hero-aside" data-reveal>
+              <a class="ritual-door" href="/lab#letters">Hear when it opens<span class="home-berry ritual-door-berry" aria-hidden="true"></span></a>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section class="ritual-letters" data-reveal>
+        <div class="ritual-letters-row">
+          <div class="home-letters-desk">
+            <p class="line">Questions before you begin? Write to <span class="install-address">lab@latentstudios.art</span>.</p>
+            <a class="door" href="/lab">Explore the Lab</a>
+          </div>
+          <div class="home-letters-colophon">
+            <nav aria-label="Site">
+              <a href="/nera">Nera</a>
+              <a href="/moment">The Moment</a>
+              <a href="/ritual">The Ritual</a>
+              <a href="/lab">The Lab</a>
+              <a href="https://wall.latentstudios.art">The Wall</a>
+              <a href="/privacy">Privacy</a>
+              <a href="/terms">Terms</a>
+              <a href="/refund">Refunds</a>
+              <a href="mailto:lab@latentstudios.art">Support</a>
+            </nav>
+            <p class="home-mark home-mark-foot">Latent Studios<span class="home-berry" aria-hidden="true"></span> &nbsp;&middot;&nbsp; &copy; 2026</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../../scripts/reveal.js"></script>
+
+  <script>
+    // The download's next step. The Lab's Download buttons arrive here with ?download: on a Mac the installer
+    // starts at once, once per visit (a reload does not download it again), and this page with its steps stays.
+    const started = document.querySelector<HTMLElement>('[data-download-started]');
+    const download = document.querySelector<HTMLAnchorElement>('[data-download]');
+    const onMac = !document.documentElement.hasAttribute('data-away');
+    const showStarted = () => { if (started) started.hidden = false; };
+    download?.addEventListener('click', showStarted);
+
+    if (onMac && download && new URLSearchParams(location.search).has('download')) {
+      let first = true;
+      try { first = sessionStorage.getItem('lab-download-started') !== '1'; sessionStorage.setItem('lab-download-started', '1'); } catch { /* private mode */ }
+      if (first) {
+        // A hidden frame: the installer downloads and this page, with its next steps, stays.
+        const frame = document.createElement('iframe');
+        frame.hidden = true;
+        frame.src = download.href;
+        document.body.append(frame);
+      }
+      showStarted();
+    }
+  </script>
+
+  <style>
+    .ui { color: var(--ink-bright); font-weight: 500; white-space: nowrap; }
+    .install-address { user-select: all; }
+    .install-get { display: flex; flex-direction: column; gap: 14px; }
+    .install-get .label { margin: 0; }
+    .install-file { margin: 0; font-size: 14px; line-height: 1.5; color: var(--soft); }
+    .install-started { display: flex; flex-direction: column; gap: 8px; padding: 16px 0 0; border-top: 1px solid var(--hair); }
+    .install-started[hidden] { display: none; }
+    .install-started p { margin: 0; font-size: 15.5px; line-height: 1.55; color: var(--soft); }
+    .install-started strong { color: var(--ink-bright); font-weight: 500; overflow-wrap: anywhere; }
+    .install-started .install-again { font-size: 14px; }
+
+    .install-steps-block { scroll-margin-top: 120px; }
+    .install-steps { margin: 18px 0 0; padding-left: 1.4em; display: grid; gap: 14px; max-width: 64ch; }
+    .install-steps li { font-weight: 400; font-size: 17.5px; line-height: 1.5; color: var(--soft); text-wrap: pretty; padding-left: 6px; }
+    .install-steps strong, .ritual-access-action strong { color: var(--ink-bright); font-weight: 500; }
+    .install-steps .ui { white-space: normal; }
+
+    .install-figures { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; max-width: 760px; }
+    .install-figures figure { margin: 0; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+    .install-figures svg { display: block; width: 100%; height: auto; border: 1px solid var(--edge); border-radius: 3px; background: var(--bg-deep, #121010); }
+    .install-figures .stroke { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+    .install-figures .berry-stroke { stroke: var(--amber-accent); }
+    .install-figures .berry { fill: var(--amber-accent); }
+    .install-figures .fill { fill: var(--soft); }
+    .install-figures .tag { font-family: var(--sans); font-size: 9px; letter-spacing: 0.1em; fill: var(--soft); }
+    .install-figures figcaption { font-size: 15px; line-height: 1.45; color: var(--soft); }
+    .install-figures figcaption .label { display: block; }
+
+    .install-fit { margin-top: clamp(22px, 3.5vh, 34px); max-width: 920px; border-bottom: 1px solid var(--hair); }
+    .install-fit-row { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 10px 40px; padding: 18px 0; border-top: 1px solid var(--hair); }
+    .install-fit-row .label { margin: 6px 0 0; text-transform: none; letter-spacing: 0.02em; font-size: 13px; line-height: 1.45; color: var(--soft); }
+    .install-fit-name { margin: 0; font-weight: 500; font-size: 20px; line-height: 1.3; color: var(--ink-bright); }
+    .install-fit-set { margin: 0; font-size: 16.5px; line-height: 1.5; color: var(--soft); text-wrap: pretty; }
+    .install-note { margin: clamp(20px, 3vh, 28px) 0 0; max-width: 70ch; font-size: 16px; line-height: 1.6; color: var(--soft); text-wrap: pretty; }
+
+    .install-plans { margin-top: 0; padding-top: 0; border-top: 0; }
+    @media (max-width: 720px) { .install-fit-row { grid-template-columns: minmax(0, 1fr); } }
+    @media (max-width: 560px) { .install-figures { grid-template-columns: minmax(0, 1fr); max-width: 320px; } }
+  </style>
+</Base>

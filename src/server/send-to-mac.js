@@ -1,5 +1,6 @@
 // "Send it to my Mac" (2026-10-14): a visitor on a phone (or a Windows/Linux desktop) leaves an address and
-// receives one email with the purchase link, to open on the Mac where The Ritual runs.
+// receives one email with the download link, to open on the Mac where The Ritual runs. Since 2026-10-15 the Lab
+// sends one too (`product: 'lab'`): the link to /lab/install, with Print Engine's own steps for Resolve.
 //
 // Nothing about the person is kept: the address is used for this one email and, only if they ticked
 // "Also send me Letters from the studio", handed to the existing /api/subscribe path. It never appears in a
@@ -19,6 +20,8 @@ import { countStep } from './funnel-count.js';
 export const EMAIL_RE = /^[^\s@<>()",;]{1,64}@[^\s@<>()",;]{1,253}\.[^\s@<>()",;.]{2,63}$/u;
 export const REPLY_TO = 'ritual@latentstudios.art';
 export const DEFAULT_FROM = 'The Ritual <ritual@mail.latentstudios.art>';   // the sending domain onboarded on Cloudflare Email Service
+export const LAB_REPLY_TO = 'lab@latentstudios.art';
+export const LAB_FROM = 'Latent Print Engine <lab@mail.latentstudios.art>';
 export const LIMITS = Object.freeze({
   ip: { max: 6, seconds: 3600 },
   address: { max: 2, seconds: 3600 },
@@ -32,15 +35,15 @@ const json = (obj, status = 200) =>
 
 export function chooseMailer(env, fetcher = fetch) {
   const from = env.SEND_FROM || DEFAULT_FROM;
+  const sender = (address) => {
+    const named = /^(.*?)\s*<([^>]+)>$/u.exec(address);
+    return named ? { name: named[1], email: named[2] } : address;
+  };
   if (env.SEND_EMAIL && typeof env.SEND_EMAIL.send === 'function') {
-    const named = /^(.*?)\s*<([^>]+)>$/u.exec(from);
     return {
       name: 'cloudflare',
       from,
-      send: (message) => env.SEND_EMAIL.send({
-        ...message,
-        from: named ? { name: named[1], email: named[2] } : from,
-      }),
+      send: (message) => env.SEND_EMAIL.send({ ...message, from: sender(message.from || from) }),
     };
   }
   if (env.RESEND_API_KEY) {
@@ -65,6 +68,11 @@ export function purchaseLink(planId) {
   return `${siteOrigin}${withSource(ritualPurchasePath(planId), SEND_TO_MAC_SOURCE)}`;
 }
 
+export const LAB_INSTALL_PATH = '/lab/install';
+export function labInstallLink() {
+  return `${siteOrigin}${withSource(LAB_INSTALL_PATH, SEND_TO_MAC_SOURCE)}`;
+}
+
 const STEPS = [
   ['Download Latent Manager.', 'Open Latent Manager.dmg, drag it to Applications, and open it.'],
   ['Sign in to your Latent account', 'with Apple or Google. Manager keeps your plan, your Macs and your updates together.'],
@@ -72,13 +80,41 @@ const STEPS = [
   ['Use it free, with the Latent mark.', 'Choose a plan whenever you are ready; Paddle handles the secure checkout.'],
 ];
 
+// The Lab's steps, as /lab/install gives them (the installer refuses to run while Resolve is open).
+const LAB_STEPS = [
+  ['Quit DaVinci Resolve,', 'then download Latent Print Engine and open the installer.'],
+  ['Enter your Mac’s password', 'when the installer asks: the node goes into the Mac’s OpenFX folder, Latent Manager into Applications.'],
+  ['Open Latent Manager and sign in', 'with Apple or Google.'],
+  ['Open Resolve.', 'On the Color page, drag Latent Print Engine from Effects › Film Emulation onto a node, and press Guide… at the top of it.'],
+];
+
 const escapeHTML = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-export function composeEmail(planId) {
-  const link = purchaseLink(planId);
-  const plan = ritualPlan(planId);
+const RITUAL_COPY = {
+  subject: 'The Ritual, for your Mac',
+  kicker: 'The Ritual &middot; for Mac',
+  door: 'Get The Ritual for Mac',
+  steps: STEPS,
+  needs: 'The Ritual runs on macOS 26 with Apple silicon.',
+  replyTo: REPLY_TO,
+};
+const LAB_COPY = {
+  subject: 'Latent Print Engine, for your Mac',
+  kicker: 'Latent Print Engine &middot; for DaVinci Resolve',
+  door: 'Get Latent Print Engine for Mac',
+  steps: LAB_STEPS,
+  needs: 'Latent Print Engine runs in DaVinci Resolve Studio on a Mac with Apple silicon and macOS 14 or later.',
+  replyTo: LAB_REPLY_TO,
+};
+
+export function composeEmail(planId, product = 'ritual') {
+  const lab = product === 'lab';
+  const copy = lab ? LAB_COPY : RITUAL_COPY;
+  const link = lab ? labInstallLink() : purchaseLink(planId);
+  const plan = lab ? null : ritualPlan(planId);
   const chosen = plan ? `Latent Manager opens on ${ritualPlanSummary(plan)}. You choose and pay there, when you’re ready.` : '';
-  const subject = 'The Ritual, for your Mac';
+  const subject = copy.subject;
+  const STEPS = copy.steps;
   const text = [
     'Open this on your Mac:',
     link,
@@ -87,9 +123,9 @@ export function composeEmail(planId) {
     'Four steps:',
     ...STEPS.map(([a, b], i) => `${i + 1}. ${a} ${b}`),
     '',
-    'The Ritual runs on macOS 26 with Apple silicon.',
+    copy.needs,
     '',
-    'Questions? Reply to ritual@latentstudios.art.',
+    `Questions? Reply to ${copy.replyTo}.`,
     'Latent Studios',
     '',
     'You received this because someone asked latentstudios.art to send this link to this address. Nothing else will follow.',
@@ -102,16 +138,16 @@ export function composeEmail(planId) {
 <body style="margin:0;padding:0;background:${ground};">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${ground};"><tr><td align="center" style="padding:40px 20px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
-<tr><td style="font-family:${sans};font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#c9a682;padding-bottom:18px;">The Ritual &middot; for Mac</td></tr>
+<tr><td style="font-family:${sans};font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#c9a682;padding-bottom:18px;">${copy.kicker}</td></tr>
 <tr><td style="font-family:${serif};font-size:34px;line-height:1.1;color:${ink};padding-bottom:16px;">Open this on your Mac.</td></tr>
 ${chosen ? `<tr><td style="font-family:${serif};font-size:19px;line-height:1.45;color:${ink};padding-bottom:12px;">${escapeHTML(chosen)}</td></tr>` : ''}
-<tr><td style="padding:8px 0 30px;"><a href="${link}" style="font-family:${serif};font-style:italic;font-size:26px;color:${amber};text-decoration:none;">Get The Ritual for Mac &rarr;</a><br><span style="font-family:${sans};font-size:12px;color:${soft};">${link}</span></td></tr>
+<tr><td style="padding:8px 0 30px;"><a href="${link}" style="font-family:${serif};font-style:italic;font-size:26px;color:${amber};text-decoration:none;">${copy.door} &rarr;</a><br><span style="font-family:${sans};font-size:12px;color:${soft};">${link}</span></td></tr>
 <tr><td style="border-top:1px solid ${hair};padding-top:22px;font-family:${sans};font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#c9a682;padding-bottom:10px;">Four steps</td></tr>
 ${STEPS.map(([a, b], i) => `<tr><td style="font-family:${serif};font-size:17px;line-height:1.5;color:${soft};padding:6px 0;">${i + 1}.&nbsp; <strong style="font-weight:600;color:${ink};">${escapeHTML(a)}</strong> ${escapeHTML(b)}</td></tr>`).join('\n')}
-<tr><td style="font-family:${sans};font-size:12px;line-height:1.6;color:${soft};padding-top:26px;">The Ritual runs on macOS 26 with Apple silicon. Questions? Write to ritual@latentstudios.art.</td></tr>
+<tr><td style="font-family:${sans};font-size:12px;line-height:1.6;color:${soft};padding-top:26px;">${escapeHTML(copy.needs)} Questions? Write to ${copy.replyTo}.</td></tr>
 <tr><td style="font-family:${sans};font-size:11px;line-height:1.6;color:#6f6458;padding-top:18px;">Someone asked latentstudios.art to send this link to this address. Nothing else will follow.</td></tr>
 </table></td></tr></table></body></html>`;
-  return { subject, text, html, link };
+  return { subject, text, html, link, replyTo: copy.replyTo, from: lab ? LAB_FROM : null };
 }
 
 async function digest(value) {
@@ -144,7 +180,8 @@ async function readBody(request) {
 export async function handleSendToMac({ request, env = {}, waitUntil }, deps = {}) {
   const data = await readBody(request);
   const email = String(data.email || '').trim();
-  const planId = ritualPlan(String(data.plan || '')) ? String(data.plan) : '';
+  const product = data.product === 'lab' ? 'lab' : 'ritual';
+  const planId = product === 'ritual' && ritualPlan(String(data.plan || '')) ? String(data.plan) : '';
   const letters = data.letters === true || data.letters === '1' || data.letters === 'on' || data.letters === 'true';
 
   if (String(data.website || '').trim() !== '') return json({ ok: true });
@@ -166,15 +203,15 @@ export async function handleSendToMac({ request, env = {}, waitUntil }, deps = {
   const mailer = deps.mailer === undefined ? chooseMailer(env) : deps.mailer;
   if (!mailer) return json({ ok: false, error: 'not_configured', subscribed }, 503);
 
-  const message = composeEmail(planId);
+  const message = composeEmail(planId, product);
   try {
-    // Replies reach a real inbox: the sending subdomain has none, The Ritual's address does.
-    await mailer.send({ to: email, from: mailer.from, replyTo: REPLY_TO, subject: message.subject, text: message.text, html: message.html });
+    // Replies reach a real inbox: the sending subdomain has none, the product's own address does.
+    await mailer.send({ to: email, from: message.from || mailer.from, replyTo: message.replyTo, subject: message.subject, text: message.text, html: message.html });
   } catch (error) {
     // The reason only; never the address.
     console.error('send-to-mac: mailer failed', mailer.name, error instanceof Error ? error.message : 'unknown');
     return json({ ok: false, error: 'send_failed', subscribed }, 502);
   }
-  countStep({ env, waitUntil }, 'link-sent', SEND_TO_MAC_SOURCE);
+  if (product === 'ritual') countStep({ env, waitUntil }, 'link-sent', SEND_TO_MAC_SOURCE);
   return json({ ok: true, subscribed });
 }

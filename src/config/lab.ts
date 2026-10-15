@@ -10,4 +10,7 @@ export const labCommerce = {
   lifetimeUsd: 499,
   version: '1.1.6',
   downloadHref: '/download/print-engine',
+  // How it installs: the steps, Send to Mac, and where the node sits in a grade. The Lab's Download buttons go
+  // here with ?download, which starts the installer and keeps the steps in view.
+  installHref: '/lab/install',
 };

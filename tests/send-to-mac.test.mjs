@@ -126,7 +126,9 @@ test('the pages carry the approved send-to-Mac and plan words', async () => {
   assert.match(form, /Copy the link/u);
   assert.match(form, /Waiting on your Mac\./u);
   assert.match(form, /Check your email on your Mac\. The link opens the download page, with the steps\./u);
-  assert.match(form, /Not there in a minute\? Look in Spam or Junk, from ritual@mail\.latentstudios\.art\./u);
+  assert.match(form, /Not there in a minute\? Look in Spam or Junk, from \{words\.sender\}\./u);
+  assert.match(form, /sender: 'ritual@mail\.latentstudios\.art'/u);
+  assert.match(form, /sender: 'lab@mail\.latentstudios\.art'/u);
   assert.match(form, /The Ritual is for Mac \(macOS 26, Apple silicon\)/u);
   assert.match(ritual, /Plans are bought in Latent Manager\. A button above downloads it and opens it on that plan, where you choose and pay\./u);
   assert.match(ritual, /data-choose-plan/u);
@@ -134,4 +136,46 @@ test('the pages carry the approved send-to-Mac and plan words', async () => {
   assert.match(purchase, /Open Manager on this plan/u);
   assert.match(purchase, /Your download has started/u);
   assert.match(purchase, /For macOS 26 on Apple silicon/u);
+});
+
+test('the Lab sends its own email: the install link, Print Engine\'s steps, its own sender and reply address', async () => {
+  const sent = [];
+  const mailer = { name: 'test', from: 'The Ritual <ritual@mail.latentstudios.art>', async send(m) { sent.push(m); } };
+  const res = await handleSendToMac({ request: post({ email: 'a@example.com', product: 'lab', plan: 'annual' }) }, { mailer, limit: open });
+  assert.equal(res.status, 200);
+  assert.equal(sent.length, 1);
+  assert.equal(sent[0].subject, 'Latent Print Engine, for your Mac');
+  assert.equal(sent[0].from, 'Latent Print Engine <lab@mail.latentstudios.art>');
+  assert.equal(sent[0].replyTo, 'lab@latentstudios.art');
+  for (const body of [sent[0].text, sent[0].html]) {
+    assert.match(body, /https:\/\/latentstudios\.art\/lab\/install\?ref=send-to-mac/u);
+    assert.match(body, /Quit DaVinci Resolve,/u);
+    assert.match(body, /Film Emulation/u);
+    assert.match(body, /DaVinci Resolve Studio/u);
+    assert.doesNotMatch(body, /The Ritual|ritual\/purchase|\$149/u);
+  }
+  // The Ritual's email is unchanged when no product is named.
+  const ritual = composeEmail('');
+  assert.equal(ritual.subject, 'The Ritual, for your Mac');
+  assert.equal(ritual.replyTo, 'ritual@latentstudios.art');
+  assert.equal(ritual.from, null);
+  // The Cloudflare binding sends from the message's own sender when it names one.
+  const bound = [];
+  const cf = chooseMailer({ SEND_EMAIL: { async send(m) { bound.push(m); } } });
+  await cf.send({ to: 'a@example.com', from: 'Latent Print Engine <lab@mail.latentstudios.art>', subject: 's', text: 't', html: 'h' });
+  assert.deepEqual(bound[0].from, { name: 'Latent Print Engine', email: 'lab@mail.latentstudios.art' });
+});
+
+test('the Lab pages: every Download goes through /lab/install, which gives the steps and Send to Mac', async () => {
+  const read = (path) => readFile(new URL(`../src/${path}`, import.meta.url), 'utf8');
+  const [lab, install] = await Promise.all([read('pages/lab.astro'), read('pages/lab/install.astro')]);
+  assert.doesNotMatch(lab, /href=\{labCommerce\.downloadHref\}/u);
+  assert.match(lab, /<SendToMac id="send-mac-lab" product="lab" \/>/u);
+  assert.match(lab, /<DeviceProbe \/>/u);
+  assert.match(install, /<SendToMac id="send-mac-install" product="lab" \/>/u);
+  assert.match(install, /Your download has started/u);
+  assert.match(install, /quit DaVinci Resolve/u);
+  assert.match(install, /Film Emulation/u);
+  assert.match(install, /Guide&hellip;/u);
+  assert.match(install, /macOS 14 or later on Apple silicon/u);
 });

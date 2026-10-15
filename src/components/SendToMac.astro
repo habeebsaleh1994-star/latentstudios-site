@@ -2,18 +2,27 @@
 // "Send it to my Mac" (owner-approved, 2026-10-14). Shown only where The Ritual cannot run (see DeviceProbe):
 // one email with the purchase link, or the link itself to share or copy. The plan, when one was chosen, rides in
 // the link. The address goes to /api/send-to-mac and nowhere else; Letters only when the box is ticked.
+// `product="lab"` (2026-10-15): the Lab's version, whose link is /lab/install with Print Engine's steps.
 import { ritualCommerce, ritualPlan, ritualPlanSummary } from '../config/ritual-commerce.js';
 
-interface Props { id: string; plan?: string; planFromQuery?: boolean }
-const { id, plan = '', planFromQuery = false } = Astro.props;
-const chosen = ritualPlan(plan);
-const plans = Object.fromEntries(ritualCommerce.plans.map((p) => [p.id, ritualPlanSummary(p)]));
+interface Props { id: string; plan?: string; planFromQuery?: boolean; product?: 'ritual' | 'lab' }
+const { id, plan = '', planFromQuery = false, product = 'ritual' } = Astro.props;
+const lab = product === 'lab';
+const chosen = lab ? undefined : ritualPlan(plan);
+const plans = lab ? {} : Object.fromEntries(ritualCommerce.plans.map((p) => [p.id, ritualPlanSummary(p)]));
+const words = lab
+  ? { other: 'Latent Print Engine is for DaVinci Resolve Studio on a Mac (Apple silicon)',
+      line: 'Print Engine runs in DaVinci Resolve on your Mac. Send yourself the link and open it there.',
+      sender: 'lab@mail.latentstudios.art' }
+  : { other: 'The Ritual is for Mac (macOS 26, Apple silicon)',
+      line: 'The Ritual runs on your Mac. Send yourself the link and open it there.',
+      sender: 'ritual@mail.latentstudios.art' };
 ---
-<div class="send-mac" data-away-only data-send-mac id={id} data-plans={JSON.stringify(plans)} data-plan-from-query={planFromQuery || undefined}>
-  <p class="send-mac-other label small">The Ritual is for Mac (macOS 26, Apple silicon)</p>
+<div class="send-mac" data-away-only data-send-mac id={id} data-product={product} data-plans={JSON.stringify(plans)} data-plan-from-query={planFromQuery || undefined}>
+  <p class="send-mac-other label small">{words.other}</p>
   <p class="send-mac-chosen" data-send-mac-chosen hidden={!chosen}>{chosen ? `${ritualPlanSummary(chosen)} · in Manager` : ''}</p>
   <div data-send-mac-ask>
-    <p class="send-mac-line">The Ritual runs on your Mac. Send yourself the link and open it there.</p>
+    <p class="send-mac-line">{words.line}</p>
     <form class="send-mac-form" action="/api/send-to-mac" method="post" data-send-mac-form novalidate>
       <div class="send-mac-field">
         <label class="visually-hidden" for={`${id}-email`}>Email address</label>
@@ -34,7 +43,7 @@ const plans = Object.fromEntries(ritualCommerce.plans.map((p) => [p.id, ritualPl
   <div class="send-mac-done" data-send-mac-done hidden>
     <p class="send-mac-done-head">Waiting on your Mac.</p>
     <p class="send-mac-line">Check your email on your Mac. The link opens the download page, with the steps.</p>
-    <p class="send-mac-line">Not there in a minute? Look in Spam or Junk, from ritual@mail.latentstudios.art.</p>
+    <p class="send-mac-line">Not there in a minute? Look in Spam or Junk, from {words.sender}.</p>
   </div>
 </div>
 
@@ -95,7 +104,10 @@ const plans = Object.fromEntries(ritualCommerce.plans.map((p) => [p.id, ritualPl
     const copy = root.querySelector<HTMLButtonElement>('[data-send-mac-copy]')!;
     const linkBox = root.querySelector<HTMLInputElement>('[data-send-mac-link]')!;
 
-    const link = () => `${siteOrigin}/ritual/purchase${plans[planField.value] ? `?plan=${planField.value}` : ''}`;
+    const lab = root.dataset.product === 'lab';
+    const link = () => lab
+      ? `${siteOrigin}/lab/install`
+      : `${siteOrigin}/ritual/purchase${plans[planField.value] ? `?plan=${planField.value}` : ''}`;
     const say = (words: string) => { status.textContent = words; };
 
     // A plan chosen on this page (the cards' Choose buttons) rides in the link.
@@ -126,7 +138,7 @@ const plans = Object.fromEntries(ritualCommerce.plans.map((p) => [p.id, ritualPl
       const url = link();
       if (navigator.share) {
         try {
-          await navigator.share({ title: 'The Ritual, for your Mac', text: 'Open this on your Mac:', url });
+          await navigator.share({ title: lab ? 'Latent Print Engine, for your Mac' : 'The Ritual, for your Mac', text: 'Open this on your Mac:', url });
           return;
         } catch (error) {
           if (error instanceof DOMException && error.name === 'AbortError') return;
@@ -157,6 +169,7 @@ const plans = Object.fromEntries(ritualCommerce.plans.map((p) => [p.id, ritualPl
           body: JSON.stringify({
             email: input.value.trim(),
             plan: planField.value,
+            product: lab ? 'lab' : 'ritual',
             letters: form.querySelector<HTMLInputElement>('input[name="letters"]')!.checked,
             website: form.querySelector<HTMLInputElement>('input[name="website"]')!.value,
           }),

@@ -10,6 +10,8 @@
 // the frames from footage graded with it. The plug-in follows The Ritual's Film, Paper and
 // Finish; a feature leaves this page the day it leaves the plug-in.
 import Base from '../layouts/Base.astro';
+import DeviceProbe from '../components/DeviceProbe.astro';
+import SendToMac from '../components/SendToMac.astro';
 import '../styles/home.css';
 import '../styles/ritual.css';
 import '../styles/lab.css';
@@ -18,6 +20,8 @@ import { labCommerce } from '../config/lab';
 import sensitivity from '../data/vision3-250d-sensitivity.json';
 
 const SUBSCRIBE_ENDPOINT = '/api/subscribe';
+// Every Download goes through the install page, which starts the installer and keeps its next steps in view.
+const getHref = `${labCommerce.installHref}?download`;
 
 // Moments from graded films, each as it came off the camera and as the engine printed it, with the
 // film and the print it went through.
@@ -50,6 +54,7 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
   evening={false}
 >
   <Fragment slot="head">
+    <DeviceProbe />
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/cormorant-500-normal-latin.woff2" />
   </Fragment>
   <div class="home ritual lab">
@@ -64,7 +69,8 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
         <a href="https://wall.latentstudios.art">The Wall</a>
         <a href="#letters">Letters</a>
       </nav>
-      {labCommerce.storeOpen && <a class="header-download" href={labCommerce.downloadHref}>Download</a>}
+      {labCommerce.storeOpen && <a class="header-download" data-mac-only href={getHref}>Download</a>}
+      {labCommerce.storeOpen && <a class="header-download" data-away-only href="#send-mac-lab">Send to Mac</a>}
     </header>
 
     <main id="main" class="ritual-main">
@@ -80,8 +86,9 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
             <p class="fact">This isn&rsquo;t a LUT. Each frame is exposed onto a film stock, developed, printed and viewed, the way the stock&rsquo;s own maker describes it &mdash; through the same engine as The Ritual.</p>
             {labCommerce.storeOpen ? (
               <>
-                <a class="download" href={labCommerce.downloadHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
-                <div class="label">Free, with the Latent mark &middot; DaVinci Resolve Studio &middot; <a href="#buy">the plans</a></div>
+                <a class="download" data-mac-only href={getHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
+                <div class="label" data-mac-only>Free, with the Latent mark &middot; DaVinci Resolve Studio &middot; <a href={labCommerce.installHref}>how it installs</a> &middot; <a href="#buy">the plans</a></div>
+                <SendToMac id="send-mac-lab" product="lab" />
               </>
             ) : (
               <div class="label">{truth.labStatus}</div>
@@ -186,9 +193,10 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
         <div class="ritual-words right" data-reveal>
           <div class="label">Built for Resolve</div>
           <h2>Your colour pipeline, respected.</h2>
-          <p class="fact">Bring the timeline in &mdash; DaVinci Wide Gamut, ACES or Rec.709 &mdash; or a camera&rsquo;s log straight in: eleven exact gamut-and-curve pairs. Deliver Rec.709, Rec.709-A, P3 or Rec.2020, or HDR in PQ and HLG, where a scanned negative or a projected slide may carry its light above paper white.</p>
+          <p class="fact">Bring the timeline in &mdash; DaVinci Wide Gamut, ACEScct or ACEScc, or Rec.709 &mdash; or a camera&rsquo;s log straight in: eleven exact gamut-and-curve pairs. Deliver Rec.709, Rec.709-A, P3 or Rec.2020, or HDR in PQ and HLG, where a scanned negative or a projected slide may carry its light above paper white. In an ACES 2.0 project the node hands its print to ACES so the Output Transform shows it exactly as printed; and for a film-out or a lab&rsquo;s pipeline it writes a cinema negative as a log scan in ADX10.</p>
+          <p class="fact">A guide lives inside the node: press <i>Guide&hellip;</i> for the setup that fits your project and what every control does, and choose one of thirteen Starting Points to begin from.</p>
           <p class="fact">The node renders the whole frame, so halation and grain never stop at a tile&rsquo;s edge. An HD frame develops in about 40&nbsp;ms on an M4&nbsp;Pro; for 4K, Resolve&rsquo;s render cache plays the print in real time.</p>
-          <div class="label">Timeline &nbsp;&middot;&nbsp; Camera log &nbsp;&middot;&nbsp; SDR &amp; HDR delivery</div>
+          <div class="label">Timeline &nbsp;&middot;&nbsp; Camera log &nbsp;&middot;&nbsp; ACES 2.0 &nbsp;&middot;&nbsp; SDR &amp; HDR delivery &nbsp;&middot;&nbsp; Log scan</div>
         </div>
       </section>
 
@@ -239,10 +247,11 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
             </div>
           </div>
           <div class="lab-doors">
-            <a class="download" href={labCommerce.downloadHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
-            <a class="lab-secondary" href="/checkout">How purchase works</a>
+            <a class="download" data-mac-only href={getHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
+            <a class="download" data-away-only href="#send-mac-lab">Send it to my Mac<span class="download-arrow" aria-hidden="true">&uarr;</span></a>
+            <a class="lab-secondary" href={labCommerce.installHref}>How it installs &rarr;</a>
           </div>
-          <p class="lab-install">Install, open Latent Manager, sign in, and use it free with the mark, or choose a plan. Manager activates your Mac &mdash; there is no key to copy. Paddle is the merchant of record &middot; <a href="/refund">30-day refunds</a> &middot; <a href="/terms">Terms</a></p>
+          <p class="lab-install">Quit Resolve, run the installer, open Latent Manager and sign in, and find the node in Effects &rsaquo; Film Emulation. Use it free with the mark, or choose a plan in Manager, which activates your Mac &mdash; there is no key to copy. Paddle is the merchant of record &middot; <a href="/refund">30-day refunds</a> &middot; <a href="/terms">Terms</a></p>
         </div>
       </section>
       ) : (
