@@ -265,3 +265,8 @@
 
 /* What's new: one serif line above the notes */
 .ritual .ritual-whats-title { margin: 10px 0 0; font-family: var(--serif); font-weight: 400; font-size: clamp(24px, 3vw, 34px); line-height: 1.15; color: var(--ink-bright); text-wrap: balance; }
+
+/* the pointer to the in-camera firmware, for visitors who came for it (2026-10-16) */
+.ritual .ritual-fw-note { margin: 4px 0 0; font-size: 15px; line-height: 1.5; color: var(--soft); max-width: 36ch; }
+.ritual .ritual-fw-note a { color: var(--amber-accent); text-decoration: none; white-space: nowrap; }
+.ritual .ritual-fw-note a:hover { color: var(--ink-bright); }

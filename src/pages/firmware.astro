@@ -1,0 +1,98 @@
+---
+// The Ritual for Canon 5D and 5D Mark II (2026-10-16): the free in-camera firmware, coming soon. The announcement
+// bar's door (config/announce.js). Visitors took The Ritual for Mac — paid, needs a Mac — for this, so the page says
+// plainly what it is: free, in the camera, no Mac; the first wave is the 5D and the 5D Mark II. Signups are tagged
+// `firmware` in the newsletter (the list= field, as Nera's page does), so one letter can go to them on launch day.
+// Owner's decision: free (16 Oct 2026). Not affiliated with Canon, and it says so.
+import Base from '../layouts/Base.astro';
+import '../styles/home.css';
+import '../styles/ritual.css';
+
+const SUBSCRIBE_ENDPOINT = '/api/subscribe';
+---
+
+<Base
+  title="The Ritual for Canon 5D — free firmware, coming soon — Latent Studios"
+  description="Free firmware that brings The Ritual's films into the Canon EOS 5D and 5D Mark II: photographs developed in the camera, no Mac needed. Coming soon."
+  quiet={false}
+  evening={false}
+  announceBar={false}
+>
+  <Fragment slot="head">
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/cormorant-500-normal-latin.woff2" />
+  </Fragment>
+
+  <div class="home ritual">
+
+    <header class="home-header ritual-header">
+      <a class="home-mark" href="/">Latent Studios<span class="home-berry" aria-hidden="true"></span></a>
+      <nav class="home-nav" aria-label="Rooms">
+        <a href="/nera">Nera</a>
+        <a href="/moment">The Moment</a>
+        <a href="/ritual">The Ritual</a>
+        <a href="/lab">The Lab</a>
+        <a href="https://wall.latentstudios.art">The Wall</a>
+      </nav>
+    </header>
+
+    <main id="main" class="ritual-main">
+      <section class="ritual-hero">
+        <div class="ritual-hero-row">
+          <div class="ritual-hero-lead">
+            <div class="label">For Canon EOS 5D and 5D Mark II &middot; coming soon</div>
+            <h1 class="ritual-title">The Ritual, in the camera.</h1>
+            <p class="ritual-lede">Free firmware that develops your photographs with The Ritual&rsquo;s films, right in the camera. No Mac, no computer, nothing to pay.</p>
+          </div>
+          <div class="ritual-hero-aside">
+            <div class="home-letters-desk fw-desk" data-newsletter>
+              <div class="label">Get notified</div>
+              <p class="fact">One letter on the day it&rsquo;s ready. Nothing else.</p>
+              <form class="home-letters-form" action={SUBSCRIBE_ENDPOINT} method="post" data-newsletter-form>
+                <label class="visually-hidden" for="firmware-email">Email address</label>
+                <input id="firmware-email" type="email" name="email" required autocomplete="email" placeholder="your address" />
+                <input type="hidden" name="list" value="firmware" />
+                <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+                       style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
+                <button type="submit" class="door">Tell me</button>
+              </form>
+              <p class="home-letters-note" data-newsletter-error hidden role="alert">That email doesn't look right.</p>
+              <p class="home-letters-note" data-newsletter-done hidden role="status" aria-live="polite">You&rsquo;re on the list. One letter, when it&rsquo;s ready.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ritual-block tight">
+        <div class="fw-facts">
+          <div class="fw-fact"><div class="label">Price</div><p class="line">Free</p></div>
+          <div class="fw-fact"><div class="label">Cameras, first wave</div><p class="line">Canon EOS 5D and 5D Mark II</p></div>
+          <div class="fw-fact"><div class="label">Needs</div><p class="line">The camera and a memory card. No Mac.</p></div>
+        </div>
+      </section>
+
+      <section class="ritual-block tight">
+        <div class="ritual-words wide">
+          <div class="label">Not the same as The Ritual for Mac</div>
+          <p class="fact">The Ritual for Mac is a separate app: a whole darkroom for your raw files, free with the Latent mark, with plans for clean prints. The firmware is its own thing, free, and runs on the camera itself. <a href="/ritual">The Ritual for Mac &rarr;</a></p>
+        </div>
+      </section>
+
+      <p class="fw-small">Not affiliated with or endorsed by Canon Inc. Canon and EOS are trademarks of Canon Inc. Custom firmware is installed at your own risk; clear install and removal steps will come with the release.</p>
+    </main>
+  </div>
+
+  <style>
+    .fw-desk { display: flex; flex-direction: column; gap: 14px; width: 100%; max-width: 420px; }
+    .ritual .fw-desk .home-letters-form { border-bottom-color: rgba(212, 196, 176, 0.4); }
+    .ritual .fw-desk .home-letters-form input[type="email"] { color: var(--ink-bright); }
+    .ritual .fw-desk .home-letters-form input[type="email"]::placeholder { color: var(--soft); }
+    .ritual .fw-desk .door { color: var(--amber-accent); }
+    .ritual .fw-desk .home-letters-note { color: var(--soft); }
+    .fw-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+    .fw-fact { padding: 22px 22px 24px 0; }
+    .fw-fact + .fw-fact { padding-left: 22px; border-left: 1px solid var(--hair); }
+    .ritual .fw-fact .line { margin: 0; }
+    .fw-small { font-size: 13px; line-height: 1.6; color: var(--soft); max-width: 70ch; margin: 0; }
+    @media (max-width: 720px) { .fw-fact + .fw-fact { padding-left: 0; border-left: 0; border-top: 1px solid var(--hair); } }
+  </style>
+</Base>

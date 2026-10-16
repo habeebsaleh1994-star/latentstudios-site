@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import AnnounceBar from '../components/AnnounceBar.astro';
+import { announce } from '../config/announce.js';
 
 interface Props {
   title?: string;
@@ -14,6 +16,8 @@ interface Props {
   quiet?: boolean;
   /** Let the room warm after local sunset (html.is-evening). A page with one appearance (the Ritual) opts out. */
   evening?: boolean;
+  /** Show the site-wide announcement bar (config/announce.js). A page that is the announcement's own door opts out. */
+  announceBar?: boolean;
 }
 
 const {
@@ -25,7 +29,9 @@ const {
   themeColor = room === 'paper' ? '#f3efe6' : '#1A1614',
   quiet = true,
   evening = true,
+  announceBar = true,
 } = Astro.props;
+const showAnnounce = announceBar && announce.on;
 
 const ogImageURL = new URL(ogImage, Astro.site).href;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
@@ -70,6 +76,11 @@ const jsonLd = {
          shell (quiet={false}, Cormorant) preload their own via the head slot. -->
     {room !== 'paper' && quiet && <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/outfit-latin.woff2" />}
     <slot name="head" />
+    {showAnnounce && <script is:inline define:vars={{ key: `latent-announce-closed:${announce.id}` }}>
+      // the bar, decided before first paint, so pinned headers start below it
+      try { if (!localStorage.getItem(key)) document.documentElement.setAttribute('data-announce', ''); }
+      catch (e) { document.documentElement.setAttribute('data-announce', ''); }
+    </script>}
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <!-- The lamplit evening, decided before first paint: the visitor's stored
@@ -89,6 +100,7 @@ const jsonLd = {
 
   <body class={room === 'paper' ? 'room-paper' : ''} data-no-quiet={quiet ? undefined : ''}>
     <a class="skip-link" href="#main">Skip to content</a>
+    {showAnnounce && <AnnounceBar />}
     <slot />
     <script>
       import '../scripts/quiet.js';
