@@ -3,12 +3,17 @@
 // bar's door (config/announce.js). Visitors took The Ritual for Mac — paid, needs a Mac — for this, so the page says
 // plainly what it is: free, in the camera, no Mac; the first wave is the 5D and the 5D Mark II. Signups are tagged
 // `firmware` in the newsletter (the list= field, as Nera's page does), so one letter can go to them on launch day.
-// Owner's decision: free (16 Oct 2026). Not affiliated with Canon, and it says so.
+// Owner's decision: free (16 Oct 2026), pay what you want from $0 to $100 (config/firmware.js). Not affiliated with
+// Canon, and it says so.
 import Base from '../layouts/Base.astro';
+import { firmware, firmwareDestination } from '../config/firmware.js';
 import '../styles/home.css';
 import '../styles/ritual.css';
 
 const SUBSCRIBE_ENDPOINT = '/api/subscribe';
+const released = firmware.released && Boolean(firmware.downloadHref);
+const suggested = firmware.suggested;
+const doorLabel = (amount) => (amount === 0 ? 'Download' : `Pay $${amount} and download`);
 ---
 
 <Base
@@ -39,11 +44,31 @@ const SUBSCRIBE_ENDPOINT = '/api/subscribe';
       <section class="ritual-hero">
         <div class="ritual-hero-row">
           <div class="ritual-hero-lead">
-            <div class="label">For Canon EOS 5D and 5D Mark II &middot; coming soon</div>
+            <div class="label">For Canon EOS 5D and 5D Mark II{!released && <> &middot; coming soon</>}</div>
             <h1 class="ritual-title">The Ritual, in the camera.</h1>
-            <p class="ritual-lede">Free firmware that develops your photographs with The Ritual&rsquo;s films, right in the camera. No Mac, no computer, nothing to pay.</p>
+            {released
+              ? <p class="ritual-lede">Free firmware that develops your photographs with The Ritual&rsquo;s films, right in the camera. No Mac, no computer. Pay what you want, from $0.</p>
+              : <p class="ritual-lede">Free firmware that develops your photographs with The Ritual&rsquo;s films, right in the camera. No Mac, no computer, nothing to pay.</p>}
           </div>
           <div class="ritual-hero-aside">
+            {released ? (
+            <div class="fw-desk fw-pay" data-firmware-pay data-checkout={firmware.checkoutOrigin} data-download={firmware.downloadHref}>
+              <div class="label">Pay what you want</div>
+              <div class="fw-amounts" role="radiogroup" aria-label="Amount">
+                {firmware.amounts.map((amount) => (
+                  <button type="button" class="fw-amount" role="radio" aria-checked={amount === suggested ? 'true' : 'false'} data-amount={amount}>${amount}</button>
+                ))}
+                <label class="fw-other">
+                  <span class="visually-hidden">Another amount, in dollars, up to 100</span>
+                  <span aria-hidden="true">$</span>
+                  <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" placeholder="other" data-amount-other />
+                </label>
+              </div>
+              <a class="fw-door" href={firmwareDestination(suggested)} data-door>{doorLabel(suggested)}</a>
+              <p class="fact">$0 is fine. What you pay keeps the firmware going.</p>
+              <p class="home-letters-note" data-amount-error hidden role="alert">Choose a whole number of dollars, up to $100.</p>
+            </div>
+            ) : (
             <div class="home-letters-desk fw-desk" data-newsletter>
               <div class="label">Get notified</div>
               <p class="fact">One letter on the day it&rsquo;s ready. Nothing else.</p>
@@ -58,17 +83,27 @@ const SUBSCRIBE_ENDPOINT = '/api/subscribe';
               <p class="home-letters-note" data-newsletter-error hidden role="alert">That email doesn't look right.</p>
               <p class="home-letters-note" data-newsletter-done hidden role="status" aria-live="polite">You&rsquo;re on the list. One letter, when it&rsquo;s ready.</p>
             </div>
+            )}
           </div>
         </div>
       </section>
 
       <section class="ritual-block tight">
         <div class="fw-facts">
-          <div class="fw-fact"><div class="label">Price</div><p class="line">Free</p></div>
+          <div class="fw-fact"><div class="label">Price</div><p class="line">{released ? 'Free, or pay what you want' : 'Free'}</p></div>
           <div class="fw-fact"><div class="label">Cameras, first wave</div><p class="line">Canon EOS 5D and 5D Mark II</p></div>
           <div class="fw-fact"><div class="label">Needs</div><p class="line">The camera and a memory card. No Mac.</p></div>
         </div>
       </section>
+
+      {released && (
+      <section class="ritual-block tight" data-supporters data-source={`${firmware.checkoutOrigin}/v1/firmware/supporters`} hidden>
+        <div class="ritual-words wide">
+          <div class="label">Supporters</div>
+          <p class="fact fw-names" data-supporter-names></p>
+        </div>
+      </section>
+      )}
 
       <section class="ritual-block tight">
         <div class="ritual-words wide">
@@ -94,5 +129,56 @@ const SUBSCRIBE_ENDPOINT = '/api/subscribe';
     .ritual .fw-fact .line { margin: 0; }
     .fw-small { font-size: 13px; line-height: 1.6; color: var(--soft); max-width: 70ch; margin: 0; }
     @media (max-width: 720px) { .fw-fact + .fw-fact { padding-left: 0; border-left: 0; border-top: 1px solid var(--hair); } }
+    .fw-amounts { display: flex; flex-wrap: wrap; gap: 8px; }
+    .fw-amount, .fw-other { font: inherit; font-size: 15px; color: var(--ink); background: transparent; border: 1px solid rgba(212, 196, 176, 0.28); border-radius: 999px; padding: 8px 16px; cursor: pointer; }
+    .fw-amount[aria-checked="true"], .fw-other.is-active { border-color: var(--amber-accent); color: var(--ink-bright); }
+    .fw-other { display: inline-flex; align-items: center; gap: 2px; cursor: text; }
+    .fw-other input { width: 3.6em; font: inherit; color: var(--ink-bright); background: transparent; border: 0; outline: none; padding: 0; }
+    .fw-other input::placeholder { color: var(--soft); }
+    .fw-door { align-self: flex-start; font-size: 15px; color: var(--ground, #1A1614); background: var(--amber-accent); border-radius: 999px; padding: 11px 22px; text-decoration: none; }
+    .fw-door[aria-disabled="true"] { opacity: .4; pointer-events: none; }
+    .fw-names { overflow-wrap: anywhere; }
   </style>
+
+  <script>
+    import { firmwareAmount, firmwareDestination } from '../config/firmware.js';
+
+    const desk = document.querySelector<HTMLElement>('[data-firmware-pay]');
+    if (desk) {
+      const config = { checkoutOrigin: desk.dataset.checkout ?? '', downloadHref: desk.dataset.download ?? '' };
+      const door = desk.querySelector<HTMLAnchorElement>('[data-door]')!;
+      const other = desk.querySelector<HTMLInputElement>('[data-amount-other]')!;
+      const otherBox = other.closest('.fw-other')!;
+      const error = desk.querySelector<HTMLElement>('[data-amount-error]')!;
+      const buttons = [...desk.querySelectorAll<HTMLButtonElement>('[data-amount]')];
+      const show = (amount: number | null) => {
+        error.hidden = amount !== null || other.value.trim() === '';
+        const href = amount === null ? null : firmwareDestination(amount, config);
+        door.setAttribute('aria-disabled', href ? 'false' : 'true');
+        if (href) door.href = href; else door.removeAttribute('href');
+        door.textContent = amount === null || amount === 0 ? 'Download' : `Pay $${amount} and download`;
+      };
+      buttons.forEach((button) => button.addEventListener('click', () => {
+        buttons.forEach((each) => each.setAttribute('aria-checked', each === button ? 'true' : 'false'));
+        otherBox.classList.remove('is-active');
+        other.value = '';
+        show(Number(button.dataset.amount));
+      }));
+      other.addEventListener('input', () => {
+        buttons.forEach((each) => each.setAttribute('aria-checked', 'false'));
+        otherBox.classList.add('is-active');
+        show(firmwareAmount(other.value));
+      });
+    }
+
+    const wall = document.querySelector<HTMLElement>('[data-supporters]');
+    if (wall?.dataset.source) {
+      fetch(wall.dataset.source).then((response) => (response.ok ? response.json() : null)).then((list) => {
+        const names = Array.isArray(list?.names) ? list.names.filter((name: unknown) => typeof name === 'string') : [];
+        if (names.length === 0) return;
+        wall.querySelector('[data-supporter-names]')!.textContent = names.join(' · ');
+        wall.hidden = false;
+      }).catch(() => {});
+    }
+  </script>
 </Base>
