@@ -8,6 +8,8 @@
 // lives only in the BUTTONDOWN_API_KEY environment variable (Pages → Settings →
 // Environment variables) and is never exposed to the browser.
 
+import { keepSignup, noteButtondown } from "../../src/server/signup-store.js";
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const json = (obj, status = 200) =>
@@ -48,7 +50,19 @@ export const onRequestPost = async ({ request, env }) => {
   const apiKey = env.BUTTONDOWN_API_KEY || env.Latent;
 
   if (!EMAIL_RE.test(email)) return json({ ok: false, error: "invalid_email" }, 400);
-  if (!apiKey) return json({ ok: false, error: "not_configured" }, 500);
+
+  // Kept by us first (src/server/signup-store.js): if Buttondown refuses below, the person is still on the list,
+  // and is told so; the address waits here to be imported.
+  const tags = [...new Set([tag, list, appTag].filter(Boolean))];
+  const db = env.DOWNLOAD_COUNTS;
+  const kept = await keepSignup(db, email, tags);
+  const refused = async (reason, response) => {
+    console.warn("buttondown refused a signup", reason);
+    await noteButtondown(db, email, reason);
+    return kept ? json({ ok: true, kept: true }) : response;
+  };
+
+  if (!apiKey) return refused("not_configured", json({ ok: false, error: "not_configured" }, 500));
 
   let res;
   try {
@@ -63,16 +77,19 @@ export const onRequestPost = async ({ request, env }) => {
         // "regular" = added immediately, no confirmation email. Remove this line
         // to switch to Buttondown's double opt-in (subscriber must click to confirm).
         type: "regular",
-        tags: [...new Set([tag, list, appTag].filter(Boolean))],
+        tags,
         referrer_url: request.headers.get("Referer") || undefined,
         ip_address: request.headers.get("CF-Connecting-IP") || undefined,
       }),
     });
   } catch {
-    return json({ ok: false, error: "upstream_unreachable" }, 502);
+    return refused("upstream_unreachable", json({ ok: false, error: "upstream_unreachable" }, 502));
   }
 
-  if (res.ok) return json({ ok: true, created: true });
+  if (res.ok) {
+    await noteButtondown(db, email);
+    return json({ ok: true, created: true });
+  }
 
   const status = res.status;
   const body = await res.text();
@@ -82,10 +99,12 @@ export const onRequestPost = async ({ request, env }) => {
   // Already on the list → Buttondown returns 400 with code "email_already_exists".
   // Match on the explicit code (not a loose word) so real failures aren't masked.
   if (status === 400 && (code === "email_already_exists" || /already (exists|subscribed)/i.test(body))) {
+    await noteButtondown(db, email);
     return json({ ok: true, already: true });
   }
 
   // Any other non-2xx is a genuine failure — surface Buttondown's own reason so
   // it can never silently look like success again.
-  return json({ ok: false, error: "buttondown_error", status, code, detail: body.slice(0, 300) }, 502);
+  return refused(`${status} ${code || body.slice(0, 200)}`.trim(),
+    json({ ok: false, error: "buttondown_error", status, code, detail: body.slice(0, 300) }, 502));
 };
