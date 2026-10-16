@@ -65,7 +65,7 @@ const doorLabel = (amount) => (amount === 0 ? 'Download' : `Pay $${amount} and d
                 </label>
               </div>
               <a class="fw-door" href={firmwareDestination(suggested)} data-door>{doorLabel(suggested)}</a>
-              <p class="fact">$0 is fine. What you pay keeps the firmware maintained, brings new features, and brings it to more cameras.</p>
+              <p class="fact" data-pay-note data-paid="$0 is fine. What you pay keeps the firmware maintained, brings new features, and brings it to more cameras." data-free="Free it is. The camera won&rsquo;t tell anyone.">$0 is fine. What you pay keeps the firmware maintained, brings new features, and brings it to more cameras.</p>
               <p class="home-letters-note" data-amount-error hidden role="alert">Choose a whole number of dollars, up to $100.</p>
             </div>
             ) : (
@@ -150,6 +150,7 @@ const doorLabel = (amount) => (amount === 0 ? 'Download' : `Pay $${amount} and d
       const other = desk.querySelector<HTMLInputElement>('[data-amount-other]')!;
       const otherBox = other.closest('.fw-other')!;
       const error = desk.querySelector<HTMLElement>('[data-amount-error]')!;
+      const note = desk.querySelector<HTMLElement>('[data-pay-note]')!;
       const buttons = [...desk.querySelectorAll<HTMLButtonElement>('[data-amount]')];
       const show = (amount: number | null) => {
         error.hidden = amount !== null || other.value.trim() === '';
@@ -157,6 +158,7 @@ const doorLabel = (amount) => (amount === 0 ? 'Download' : `Pay $${amount} and d
         door.setAttribute('aria-disabled', href ? 'false' : 'true');
         if (href) door.href = href; else door.removeAttribute('href');
         door.textContent = amount === null || amount === 0 ? 'Download' : `Pay $${amount} and download`;
+        note.textContent = (amount === 0 ? note.dataset.free : note.dataset.paid) ?? '';
       };
       buttons.forEach((button) => button.addEventListener('click', () => {
         buttons.forEach((each) => each.setAttribute('aria-checked', each === button ? 'true' : 'false'));
