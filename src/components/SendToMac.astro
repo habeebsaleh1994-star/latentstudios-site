@@ -41,9 +41,22 @@ const words = lab
     <p class="send-mac-status" data-send-mac-status role="status" aria-live="polite"></p>
   </div>
   <div class="send-mac-done" data-send-mac-done hidden>
-    <p class="send-mac-done-head">Waiting on your Mac.</p>
-    <p class="send-mac-line">Check your email on your Mac. The link opens the download page, with the steps.</p>
-    <p class="send-mac-line">Not there in a minute? Look in Spam or Junk, from {words.sender}.</p>
+    <p class="send-mac-done-head">Sent. Now to your Mac.</p>
+    <p class="send-mac-line">Open the email on your Mac: the link there starts the download, with the steps.</p>
+    <p class="send-mac-line send-mac-ios-only">Faster from your iPhone: AirDrop the page to your Mac now.</p>
+    <button type="button" class="download send-mac-across" data-send-mac-across>Send it to my Mac<span class="download-arrow" aria-hidden="true">&uarr;</span></button>
+    <p class="send-mac-status" data-send-mac-status-done role="status" aria-live="polite"></p>
+    <input class="send-mac-link" data-send-mac-link-done readonly hidden aria-label="The link to open on your Mac" />
+    <p class="send-mac-line send-mac-small">Not there in a minute? Look in Spam or Junk, from {words.sender}.</p>
+  </div>
+  <div class="send-mac-arrived" data-send-mac-arrived hidden>
+    <p class="send-mac-done-head">You&rsquo;re on your phone.</p>
+    <p class="send-mac-line">{lab ? 'Print Engine installs on your Mac.' : 'The Ritual installs on your Mac.'} Send this page across and the download starts there.</p>
+    <button type="button" class="download send-mac-across" data-send-mac-across>Send it to my Mac<span class="download-arrow" aria-hidden="true">&uarr;</span></button>
+    <p class="send-mac-line send-mac-small send-mac-ios-only">Tap it, choose <strong>AirDrop</strong>, then your Mac. It opens there, ready to download.</p>
+    <p class="send-mac-line send-mac-small">Or open the same email on your Mac.</p>
+    <p class="send-mac-status" data-send-mac-status-arrived role="status" aria-live="polite"></p>
+    <input class="send-mac-link" data-send-mac-link-arrived readonly hidden aria-label="The link to open on your Mac" />
   </div>
 </div>
 
@@ -84,6 +97,12 @@ const words = lab
   .ritual .send-mac-status { margin: 0; font-style: italic; font-size: 17px; line-height: 1.45; color: var(--soft); }
   .ritual .send-mac-status:empty { display: none; }
   .ritual .send-mac-done-head { margin: 0 0 8px; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 30px; line-height: 1.1; color: var(--ink-bright); }
+  .send-mac-done, .send-mac-arrived { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+  .ritual .send-mac-small { font-size: 16px; color: var(--soft); }
+  .ritual .send-mac-small strong { color: var(--ink-bright); font-weight: 600; }
+  .send-mac-ios-only { display: none; }
+  html[data-ios] .send-mac-ios-only { display: block; }
+  .ritual .send-mac-across { border: 0; cursor: pointer; margin: 4px 0; }
 </style>
 
 <script>
@@ -105,9 +124,18 @@ const words = lab
     const linkBox = root.querySelector<HTMLInputElement>('[data-send-mac-link]')!;
 
     const lab = root.dataset.product === 'lab';
+    // the link carries ?ref=send-to-mac, so the visit and the download it starts on the Mac are counted under it
     const link = () => lab
-      ? `${siteOrigin}/lab/install`
-      : `${siteOrigin}/ritual/purchase${plans[planField.value] ? `?plan=${planField.value}` : ''}`;
+      ? `${siteOrigin}/lab/install?ref=send-to-mac`
+      : `${siteOrigin}/ritual/purchase?${plans[planField.value] ? `plan=${planField.value}&` : ''}ref=send-to-mac`;
+    const ios = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (/Mac/i.test(navigator.platform) && navigator.maxTouchPoints > 1);
+    if (ios) document.documentElement.setAttribute('data-ios', '');
+    const arrived = root.querySelector<HTMLElement>('[data-send-mac-arrived]')!;
+    const arrivedStatus = root.querySelector<HTMLElement>('[data-send-mac-status-arrived]')!;
+    const arrivedLink = root.querySelector<HTMLInputElement>('[data-send-mac-link-arrived]')!;
+    root.querySelectorAll<HTMLButtonElement>('[data-send-mac-across]').forEach((b) => {
+      b.firstChild!.textContent = ios && navigator.share ? 'AirDrop it to my Mac' : navigator.share ? 'Share the link to my Mac' : 'Copy the link';
+    });
     const say = (words: string) => { status.textContent = words; };
 
     // A plan chosen on this page (the cards' Choose buttons) rides in the link.
@@ -133,6 +161,37 @@ const words = lab
       linkBox.select();
       linkBox.setSelectionRange(0, linkBox.value.length);
     };
+
+    // Opened from the email, still on the phone: the email is already sent, so offer the way across instead.
+    if (new URLSearchParams(location.search).get('ref') === 'send-to-mac') {
+      ask.hidden = true;
+      chosen.hidden = true;
+      arrived.hidden = false;
+    }
+
+    const across = async (where: HTMLElement, box: HTMLInputElement) => {
+      const url = link();
+      const tell = (words: string) => { where.textContent = words; };
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: lab ? 'Latent Print Engine, for your Mac' : 'The Ritual, for your Mac', url });
+          tell('Sent. Open it on your Mac.');
+          return;
+        } catch (error) {
+          if (error instanceof DOMException && error.name === 'AbortError') return;
+        }
+      }
+      try {
+        await navigator.clipboard.writeText(url);
+        tell('Link copied. Open it on your Mac.');
+        return;
+      } catch { /* in-app browsers often refuse the clipboard */ }
+      box.value = url; box.hidden = false; box.focus(); box.select(); box.setSelectionRange(0, url.length);
+      tell('Copy this link and open it on your Mac.');
+    };
+    arrived.querySelector<HTMLButtonElement>('[data-send-mac-across]')!.addEventListener('click', () => across(arrivedStatus, arrivedLink));
+    done.querySelector<HTMLButtonElement>('[data-send-mac-across]')!.addEventListener('click', () =>
+      across(root.querySelector<HTMLElement>('[data-send-mac-status-done]')!, root.querySelector<HTMLInputElement>('[data-send-mac-link-done]')!));
 
     copy.addEventListener('click', async () => {
       const url = link();

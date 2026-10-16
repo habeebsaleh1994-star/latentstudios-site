@@ -30,7 +30,7 @@ test('sends one email with the purchase link, the chosen plan and the four steps
   assert.deepEqual(await res.json(), { ok: true, subscribed: false });
   assert.equal(sent.length, 1);
   assert.equal(sent[0].to, 'a@example.com');
-  assert.equal(sent[0].subject, 'The Ritual, for your Mac');
+  assert.equal(sent[0].subject, 'Open on your Mac: The Ritual');
   for (const body of [sent[0].text, sent[0].html]) {
     assert.match(body, /https:\/\/latentstudios\.art\/ritual\/purchase\?plan=annual/u);
     assert.match(body, /Sign in to your Latent account/u);
@@ -124,8 +124,12 @@ test('the pages carry the approved send-to-Mac and plan words', async () => {
   assert.match(form, /Send it to my Mac/u);
   assert.match(form, /Also send me Letters from the studio/u);
   assert.match(form, /Copy the link/u);
-  assert.match(form, /Waiting on your Mac\./u);
-  assert.match(form, /Check your email on your Mac\. The link opens the download page, with the steps\./u);
+  assert.match(form, /Sent\. Now to your Mac\./u);
+  assert.match(form, /Open the email on your Mac: the link there starts the download, with the steps\./u);
+  // opened from the email on a phone: the way across, not the form again
+  assert.match(form, /You&rsquo;re on your phone\./u);
+  assert.match(form, /AirDrop it to my Mac/u);
+  assert.match(form, /get\('ref'\) === 'send-to-mac'/u);
   assert.match(form, /Not there in a minute\? Look in Spam or Junk, from \{words\.sender\}\./u);
   assert.match(form, /sender: 'ritual@mail\.latentstudios\.art'/u);
   assert.match(form, /sender: 'lab@mail\.latentstudios\.art'/u);
@@ -144,7 +148,7 @@ test('the Lab sends its own email: the install link, Print Engine\'s steps, its 
   const res = await handleSendToMac({ request: post({ email: 'a@example.com', product: 'lab', plan: 'annual' }) }, { mailer, limit: open });
   assert.equal(res.status, 200);
   assert.equal(sent.length, 1);
-  assert.equal(sent[0].subject, 'Latent Print Engine, for your Mac');
+  assert.equal(sent[0].subject, 'Open on your Mac: Latent Print Engine');
   assert.equal(sent[0].from, 'Latent Print Engine <lab@mail.latentstudios.art>');
   assert.equal(sent[0].replyTo, 'lab@latentstudios.art');
   for (const body of [sent[0].text, sent[0].html]) {
@@ -156,7 +160,7 @@ test('the Lab sends its own email: the install link, Print Engine\'s steps, its 
   }
   // The Ritual's email is unchanged when no product is named.
   const ritual = composeEmail('');
-  assert.equal(ritual.subject, 'The Ritual, for your Mac');
+  assert.equal(ritual.subject, 'Open on your Mac: The Ritual');
   assert.equal(ritual.replyTo, 'ritual@latentstudios.art');
   assert.equal(ritual.from, null);
   // The Cloudflare binding sends from the message's own sender when it names one.

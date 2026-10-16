@@ -91,7 +91,7 @@ const LAB_STEPS = [
 const escapeHTML = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 const RITUAL_COPY = {
-  subject: 'The Ritual, for your Mac',
+  subject: 'Open on your Mac: The Ritual',
   kicker: 'The Ritual &middot; for Mac',
   door: 'Get The Ritual for Mac',
   steps: STEPS,
@@ -99,7 +99,7 @@ const RITUAL_COPY = {
   replyTo: REPLY_TO,
 };
 const LAB_COPY = {
-  subject: 'Latent Print Engine, for your Mac',
+  subject: 'Open on your Mac: Latent Print Engine',
   kicker: 'Latent Print Engine &middot; for DaVinci Resolve',
   door: 'Get Latent Print Engine for Mac',
   steps: LAB_STEPS,
@@ -115,9 +115,12 @@ export function composeEmail(planId, product = 'ritual') {
   const chosen = plan ? `Latent Manager opens on ${ritualPlanSummary(plan)}. You choose and pay there, when you’re ready.` : '';
   const subject = copy.subject;
   const STEPS = copy.steps;
+  const across = 'Reading this on your iPhone? Tap the button: the page that opens sends itself to your Mac with AirDrop, in two taps.';
   const text = [
     'Open this on your Mac:',
     link,
+    '',
+    across,
     '',
     ...(chosen ? [chosen, ''] : []),
     'Four steps:',
@@ -136,12 +139,15 @@ export function composeEmail(planId, product = 'ritual') {
   const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="color-scheme" content="dark"><title>${subject}</title></head>
 <body style="margin:0;padding:0;background:${ground};">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:${ground};">On your iPhone? The link sends itself to your Mac with AirDrop.</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${ground};"><tr><td align="center" style="padding:40px 20px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
 <tr><td style="font-family:${sans};font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#c9a682;padding-bottom:18px;">${copy.kicker}</td></tr>
 <tr><td style="font-family:${serif};font-size:34px;line-height:1.1;color:${ink};padding-bottom:16px;">Open this on your Mac.</td></tr>
 ${chosen ? `<tr><td style="font-family:${serif};font-size:19px;line-height:1.45;color:${ink};padding-bottom:12px;">${escapeHTML(chosen)}</td></tr>` : ''}
-<tr><td style="padding:8px 0 30px;"><a href="${link}" style="font-family:${serif};font-style:italic;font-size:26px;color:${amber};text-decoration:none;">${copy.door} &rarr;</a><br><span style="font-family:${sans};font-size:12px;color:${soft};">${link}</span></td></tr>
+<tr><td style="padding:8px 0 14px;"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="background:${amber};border-radius:999px;"><a href="${link}" style="display:inline-block;padding:16px 28px 15px;font-family:${sans};font-size:14px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:${ground};text-decoration:none;">${copy.door}</a></td></tr></table></td></tr>
+<tr><td style="font-family:${serif};font-size:17px;line-height:1.45;color:${ink};padding-bottom:6px;">${escapeHTML(across)}</td></tr>
+<tr><td style="padding:0 0 30px;"><span style="font-family:${sans};font-size:12px;color:${soft};">${link}</span></td></tr>
 <tr><td style="border-top:1px solid ${hair};padding-top:22px;font-family:${sans};font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#c9a682;padding-bottom:10px;">Four steps</td></tr>
 ${STEPS.map(([a, b], i) => `<tr><td style="font-family:${serif};font-size:17px;line-height:1.5;color:${soft};padding:6px 0;">${i + 1}.&nbsp; <strong style="font-weight:600;color:${ink};">${escapeHTML(a)}</strong> ${escapeHTML(b)}</td></tr>`).join('\n')}
 <tr><td style="font-family:${sans};font-size:12px;line-height:1.6;color:${soft};padding-top:26px;">${escapeHTML(copy.needs)} Questions? Write to ${copy.replyTo}.</td></tr>
