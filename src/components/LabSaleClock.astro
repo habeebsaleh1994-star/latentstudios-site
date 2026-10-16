@@ -1,0 +1,18 @@
+---
+// Ends the Lab's Lifetime sale in the visitor's browser at its hour, so a page built before it never shows a
+// price that has passed: [data-sale-until] hides, [data-sale-after] (the regular price) shows.
+import { labCommerce } from '../config/lab';
+const endsAt = labCommerce.sale.endsAt;
+---
+<script is:inline define:vars={{ endsAt }}>
+  (() => {
+    const end = Date.parse(endsAt);
+    const settle = () => {
+      if (Date.now() < end) return false;
+      document.querySelectorAll('[data-sale-until]').forEach((el) => { el.hidden = true; });
+      document.querySelectorAll('[data-sale-after]').forEach((el) => { el.hidden = false; });
+      return true;
+    };
+    if (!settle()) setTimeout(settle, Math.min(end - Date.now() + 1000, 2147483000));
+  })();
+</script>

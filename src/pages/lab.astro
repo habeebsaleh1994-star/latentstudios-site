@@ -16,7 +16,8 @@ import '../styles/home.css';
 import '../styles/ritual.css';
 import '../styles/lab.css';
 import { truth } from '../config/truth';
-import { labCommerce } from '../config/lab';
+import { labCommerce, labSaleOn } from '../config/lab';
+import LabSaleClock from '../components/LabSaleClock.astro';
 import sensitivity from '../data/vision3-250d-sensitivity.json';
 
 const SUBSCRIBE_ENDPOINT = '/api/subscribe';
@@ -88,6 +89,12 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
               <>
                 <a class="download" data-mac-only href={getHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
                 <div class="label" data-mac-only>Free, with the Latent mark &middot; DaVinci Resolve Studio &middot; <a href={labCommerce.installHref}>how it installs</a> &middot; <a href="#buy">the plans</a></div>
+                {labSaleOn && (
+                  <p class="lab-sale" data-sale-until>
+                    <span class="lab-sale-head">{labCommerce.sale.percentOff}% off Lifetime, until {labCommerce.sale.endsLabel}</span>
+                    <span class="lab-sale-deal"><s>${labCommerce.lifetimeUsd}</s> <b>${labCommerce.sale.lifetimeUsd}</b> with <span class="lab-code">{labCommerce.sale.code}</span> at checkout in Latent Manager</span>
+                  </p>
+                )}
                 <SendToMac id="send-mac-lab" product="lab" />
               </>
             ) : (
@@ -242,8 +249,19 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
             </div>
             <div class="lab-row">
               <span class="lab-plan-name">Lifetime</span>
-              <span class="label right">One payment</span>
-              <span class="lab-plan-price">${labCommerce.lifetimeUsd}</span>
+              {labSaleOn ? (
+                <>
+                  <span class="label right" data-sale-until><span class="lab-code">{labCommerce.sale.code}</span> &middot; until {labCommerce.sale.endsLabel}</span>
+                  <span class="label right" data-sale-after hidden>One payment</span>
+                  <span class="lab-plan-price" data-sale-until><s>${labCommerce.lifetimeUsd}</s> ${labCommerce.sale.lifetimeUsd}</span>
+                  <span class="lab-plan-price" data-sale-after hidden>${labCommerce.lifetimeUsd}</span>
+                </>
+              ) : (
+                <>
+                  <span class="label right">One payment</span>
+                  <span class="lab-plan-price">${labCommerce.lifetimeUsd}</span>
+                </>
+              )}
             </div>
           </div>
           <div class="lab-doors">
@@ -363,4 +381,5 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
   </script>
   {/* newsletter.js is already loaded by Base.astro; only the reveal is this page's own. */}
   <script src="../scripts/reveal.js"></script>
+  {labSaleOn && <LabSaleClock />}
 </Base>

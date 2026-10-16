@@ -13,4 +13,16 @@ export const labCommerce = {
   // How it installs: the steps, Send to Mac, and where the node sits in a grade. The Lab's Download buttons go
   // here with ?download, which starts the installer and keeps the steps in view.
   installHref: '/lab/install',
+  // A sale on Lifetime, by a Paddle discount code (Paddle → Discounts). The site shows it until `endsAt`: a build
+  // after that leaves it out, and pages built before it hide it in the visitor's browser at that moment.
+  sale: {
+    code: 'LATENTLAB25',
+    percentOff: 25,
+    lifetimeUsd: '374.25',
+    endsAt: '2026-10-31T20:59:00Z', // 23:59 in Beirut
+    endsLabel: '31 October',
+  },
 };
+
+/// Whether the Lifetime sale is still on at build time.
+export const labSaleOn = Date.now() < Date.parse(labCommerce.sale.endsAt);

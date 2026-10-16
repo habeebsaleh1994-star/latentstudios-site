@@ -11,7 +11,8 @@ import SendToMac from '../../components/SendToMac.astro';
 import '../../styles/home.css';
 import '../../styles/ritual.css';
 import '../../styles/lab.css';
-import { labCommerce } from '../../config/lab';
+import { labCommerce, labSaleOn } from '../../config/lab';
+import LabSaleClock from '../../components/LabSaleClock.astro';
 import { truth } from '../../config/truth';
 
 const installer = `Latent-Print-Engine-${labCommerce.version}.pkg`;
@@ -163,8 +164,19 @@ const pipelines = [
               </div>
               <div class="lab-row">
                 <span class="lab-plan-name">Lifetime</span>
-                <span class="label right">One payment</span>
-                <span class="lab-plan-price">${labCommerce.lifetimeUsd}</span>
+                {labSaleOn ? (
+                  <>
+                    <span class="label right" data-sale-until><span class="lab-code">{labCommerce.sale.code}</span> &middot; until {labCommerce.sale.endsLabel}</span>
+                    <span class="label right" data-sale-after hidden>One payment</span>
+                    <span class="lab-plan-price" data-sale-until><s>${labCommerce.lifetimeUsd}</s> ${labCommerce.sale.lifetimeUsd}</span>
+                    <span class="lab-plan-price" data-sale-after hidden>${labCommerce.lifetimeUsd}</span>
+                  </>
+                ) : (
+                  <>
+                    <span class="label right">One payment</span>
+                    <span class="lab-plan-price">${labCommerce.lifetimeUsd}</span>
+                  </>
+                )}
               </div>
             </div>
             <div class="ritual-access-action">
@@ -278,4 +290,5 @@ const pipelines = [
     @media (max-width: 720px) { .install-fit-row { grid-template-columns: minmax(0, 1fr); } }
     @media (max-width: 560px) { .install-figures { grid-template-columns: minmax(0, 1fr); max-width: 320px; } }
   </style>
+  {labSaleOn && <LabSaleClock />}
 </Base>

@@ -178,3 +178,18 @@
   .lab-pair.reverse .lab-card figcaption { text-align: left; }
   .lab-fixture-plate, .lab-fixture-controls { flex-basis: 100%; }
 }
+
+/* the Lifetime sale: one amber line under the hero door, the code in a hairline pill */
+.lab-sale { margin: 4px 0 0; display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; border: 1px solid rgba(232, 196, 160, 0.38); border-radius: 3px; }
+.lab-sale-head { font-family: var(--sans); font-weight: 500; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber-accent); }
+.lab-sale-deal { font-size: 17px; line-height: 1.45; color: var(--ink-bright); }
+.lab-sale-deal s, .lab-plan-price s { color: var(--soft); font-weight: 400; margin-right: 4px; }
+.lab-sale-deal b { font-weight: 500; }
+.lab-code { font-family: var(--sans); font-weight: 500; font-size: 0.82em; letter-spacing: 0.12em; color: var(--amber-accent); border: 1px solid rgba(232, 196, 160, 0.5); border-radius: 999px; padding: 1px 8px 0; white-space: nowrap; }
+.lab-row .label .lab-code { font-size: 9.5px; }
+.lab-sale-deal, .lab-plan-price { font-variant-numeric: lining-nums; }
+/* on a phone the sale's code and date take their own line under the Lifetime price */
+@media (max-width: 560px) {
+  .lab-plans .lab-row:has(> [data-sale-until]) { flex-wrap: wrap; }
+  .lab-plans .lab-row > .label[data-sale-until] { order: 3; flex-basis: 100%; text-align: left; white-space: normal; }
+}
