@@ -138,6 +138,7 @@ const doorLabel = (amount) => (amount === 0 ? 'Download' : `Pay $${amount} and d
     .fw-door { align-self: flex-start; font-size: 15px; color: var(--ground, #1A1614); background: var(--amber-accent); border-radius: 999px; padding: 11px 22px; text-decoration: none; }
     .fw-door[aria-disabled="true"] { opacity: .4; pointer-events: none; }
     .fw-names { overflow-wrap: anywhere; }
+    [data-supporters][hidden] { display: none !important; }
   </style>
 
   <script>
