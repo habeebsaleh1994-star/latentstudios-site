@@ -13,13 +13,16 @@ export const firmware = Object.freeze({
   amounts: Object.freeze([0, 10, 25, 50, 100]),
   suggested: 25,
   minimumUsd: 0,
+  // Paid amounts start at $5 (owner, 18 Oct 2026): Paddle keeps about 5% + $0.50 of each payment.
+  minimumPaidUsd: 5,
   maximumUsd: 100,
 });
 
-/// A whole number of dollars from $0 to $100, or null.
+/// $0, or a whole number of dollars from $5 to $100; anything else is null.
 export function firmwareAmount(value) {
   const amount = typeof value === 'number' ? value : /^\d{1,3}$/u.test(String(value ?? '').trim()) ? Number(String(value).trim()) : NaN;
-  return Number.isSafeInteger(amount) && amount >= firmware.minimumUsd && amount <= firmware.maximumUsd ? amount : null;
+  if (!Number.isSafeInteger(amount) || amount > firmware.maximumUsd) return null;
+  return amount === 0 || amount >= firmware.minimumPaidUsd ? amount : null;
 }
 
 /// Where the buyer goes for an amount: $0 is the download itself, anything else Paddle's checkout at that amount.

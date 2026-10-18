@@ -9,10 +9,13 @@ test('the firmware is not released: no checkout and no download until release da
   assert.equal(firmware.downloadHref, null);
 });
 
-test('pay what you want: whole dollars from $0 to $100', () => {
+test('pay what you want: $0, or whole dollars from $5 to $100', () => {
   assert.deepEqual(firmware.amounts, [0, 10, 25, 50, 100]);
   assert.equal(firmwareAmount('25'), 25);
   assert.equal(firmwareAmount(' 7 '), 7);
+  assert.equal(firmwareAmount(5), 5);
+  assert.equal(firmwareAmount(1), null);
+  assert.equal(firmwareAmount('4'), null);
   assert.equal(firmwareAmount(0), 0);
   for (const bad of ['101', '2.5', '-1', 'ten', '', null, 1e9]) assert.equal(firmwareAmount(bad), null, String(bad));
 });
