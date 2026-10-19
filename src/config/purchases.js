@@ -5,7 +5,7 @@
 export const purchases = Object.freeze({
   paused: true,
   label: 'Plans are paused',
-  line: 'We are moving to a new payment provider, so plans can’t be bought for a few days.',
+  line: 'We are moving to a new payment provider, so plans can’t be bought for a short while.',
   ask: 'Leave your email and we’ll write the moment they’re back.',
   done: 'Thank you. We’ll write the moment plans are back.',
 });
