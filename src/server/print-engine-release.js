@@ -1,9 +1,9 @@
 import { countDownload } from './download-count.js';
 
 export const PRINT_ENGINE_RELEASE = Object.freeze({
-  key: 'manager/latent-print-engine/production/1.1.8/Latent-Print-Engine-1.1.8.pkg',
-  filename: 'Latent-Print-Engine-1.1.8.pkg',
-  sha256: '8cfac25387f78cbce47cddf4e6b1d703b1d3346df5389895dbdddb86739b3b2b',
+  key: 'manager/latent-print-engine/production/1.1.9/Latent-Print-Engine-1.1.9.pkg',
+  filename: 'Latent-Print-Engine-1.1.9.pkg',
+  sha256: 'e1159637d9b52534f6b8affe10c3e3d79fb64480326c3ebb9fc7cabd0888d816',
 });
 
 function parseRange(value, size) {
