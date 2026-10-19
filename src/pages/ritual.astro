@@ -13,6 +13,7 @@ import Base from '../layouts/Base.astro';
 import RitualCompare from '../components/RitualCompare.astro';
 import DeviceProbe from '../components/DeviceProbe.astro';
 import SendToMac from '../components/SendToMac.astro';
+import PurchasesPaused from '../components/PurchasesPaused.astro';
 import '../styles/home.css';
 import '../styles/ritual.css';
 import { truth } from '../config/truth';
@@ -452,6 +453,7 @@ const stocks = [
             </div>
             <p class="fact">Install the complete workroom and use it &mdash; every tool, every stock, full-resolution exports, no card, nothing to cancel. Until you choose a plan, each photograph carries the Latent mark, on the canvas and in every export. A plan makes every photograph clean, on up to {ritualCommerce.supportedMacs} Macs, swapped whenever you like.</p>
           </div>
+          <PurchasesPaused product="ritual" id="plans-back-ritual" />
           <div class="ritual-plans">
             {ritualCommerce.plans.map((plan) => (
               <article class:list={['ritual-plan', { 'ritual-plan-featured': plan.id === 'annual' }]}>
