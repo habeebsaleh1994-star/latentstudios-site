@@ -92,8 +92,8 @@ const darkroomPairs = [
     after: { src: ui(18), label: 'Kodak’s correction applied', alt: 'The same slide with Kodak’s own correction applied: plus a third of a stop and a CC05R filter' },
     note: 'A slide is the picture itself, with no print to time it. Where the film strays, Kodak’s own correction, a third of a stop and a CC05 red, is one press away.' },
   { id: 'grain', tab: 'Grain',
-    before: { src: ui(2), label: 'Before', alt: 'Skin and lips at full size on Portra 400, the grain raised' },
-    after: { src: ui(3), label: 'After', alt: 'The same skin with a finer grain' },
+    before: { src: ui(2), label: 'Before', alt: 'A portrait detail at full size on Portra 400, the grain raised' },
+    after: { src: ui(3), label: 'After', alt: 'The same detail with a finer grain' },
     note: 'Grain is silver on the negative: its size, its clumping and where it gathers across the tones, set by each film’s measured granularity.' },
   { id: 'halation', tab: 'Halation',
     before: { src: ui(48), label: 'Rem-jet · this film', alt: 'A train window on Vision3 500T, the backing as made' },
@@ -111,14 +111,14 @@ const darkroomPairs = [
 
 // The finishing bench: Retouch on the negative, from the owner's screenshots of 1.0.5.
 const retouchPairs = [
-  { id: 'face', tab: 'Portrait',
-    before: { src: ui(4), label: 'Before', alt: 'A portrait of a young woman before Retouch this face' },
-    after: { src: ui(6), label: 'Face retouched', alt: 'The same portrait with the skin evened and the texture kept' },
-    note: 'Retouch this face: the skin evened, its texture kept, eyes, teeth and lips each a press away.' },
   { id: 'spot', tab: 'Spot',
-    before: { src: ui(7), label: 'Before', alt: 'Skin up close before spot healing' },
-    after: { src: ui(8), label: 'Healed', alt: 'The same skin after spot healing' },
+    before: { src: ui(7), label: 'Before', alt: 'A close detail of a photograph before spot healing' },
+    after: { src: ui(8), label: 'Healed', alt: 'The same detail after spot healing' },
     note: 'Spot, Heal and Clone mend the negative itself, so every repair carries the grain of the film it sits on.' },
+  { id: 'portrait', tab: 'Portrait',
+    before: { src: ui(4), label: 'Before', alt: 'A portrait before retouching' },
+    after: { src: ui(6), label: 'Retouched', alt: 'The same portrait retouched on the negative, its texture kept' },
+    note: 'Portrait retouching on the negative: even tone, the texture kept, every touch carrying the film’s grain.' },
   { id: 'remove', tab: 'Remove',
     before: { src: ui(29), label: 'Before', alt: 'A man diving into the sea' },
     after: { src: ui(30), label: 'Removed', alt: 'The same sea with the diver removed' },
@@ -137,7 +137,7 @@ const retouchPairs = [
 // Every other screenshot the owner made of 1.0.5: one view each, the panel open on the feature.
 const gallery = [
   [1, 'Film · Camera', 'Portra 400 and the camera: scene light, film balance, exposure, shutter, filters.'],
-  [5, 'Retouch · Portrait', 'Retouch this face, with the skin, eyes, teeth and lips each its own control.'],
+  [5, 'Retouch · Portrait', 'Portrait retouching, gentle and precise, each touch on the negative.'],
   [11, 'Paper · View', 'Print it on paper, on a print film, or scan it as a lab would: Noritsu, Frontier, a camera scan.'],
   [21, 'Paper · Print films · ETERNA Vivid 160', 'Kodak 2383, Fuji ETERNA-CP and the rest, and the Print Room one press away.'],
   [28, 'Paper · Film edge', 'The diver gone, and the film’s own edge: none, 35 mm, 16 mm or 8 mm.'],
@@ -306,7 +306,7 @@ const stocks = [
         <div class="ritual-words" data-reveal>
           <div class="label">Revolution 05 &middot; Retouch</div>
           <h2>Retouch the negative, not the surface.</h2>
-          <p class="fact">Repair what distracts, shape the light, work gently with a face. Every touch sits on the negative, so it carries the film&rsquo;s grain and redevelops when the film changes.</p>
+          <p class="fact">Repair what distracts, shape the light, work gently with a portrait. Every touch sits on the negative, so it carries the film&rsquo;s grain and redevelops when the film changes.</p>
         </div>
         <RitualCompare pairs={retouchPairs} widths={[1280, 2560]} ratio="5344 / 2892" name="Retouch" />
       </section>
