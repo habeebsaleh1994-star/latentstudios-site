@@ -4,10 +4,10 @@
 // No "free" (owner, 2026-10-16): it ships as pay what you want, so nothing promises a price before release.
 export const announce = Object.freeze({
   on: true,
-  id: 'firmware-2026-10',
+  id: 'firmware-2026-10-b',
   href: '/firmware',
   lead: 'The Ritual for Canon 5D and 5D Mark II: firmware, coming soon.',
   short: 'The Ritual for Canon 5D: firmware, coming soon.',
-  tail: 'It runs in the camera, no computer needed.',
+  tail: 'It runs in the camera. The Ritual for Mac, the whole darkroom, is available now.',
   door: 'Get notified',
 });
