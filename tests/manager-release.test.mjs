@@ -288,3 +288,29 @@ test('serves immutable encrypted assets with exact byte ranges', async () => {
     404,
   );
 });
+
+test('counts a package as an install, update or repair when Manager says which, once, on its first byte', async () => {
+  const tallies = [];
+  const db = { prepare: (sql) => ({ bind: (...args) => ({ run: async () => { tallies.push(args); } }) }) };
+  const body = new Uint8Array(8);
+  const key = 'manager/latent-ritual/production/1.0.10/Latent-The-Ritual-1.0.10.zip';
+  const env = { ...environment(new Map([[key, { body, etag: 'e' }]])), DOWNLOAD_COUNTS: db };
+  const get = (headers) => ritualPackageGet({
+    env,
+    params: { channel: 'production', version: '1.0.10' },
+    request: new Request('https://latentstudios.art/api/manager/packages/latent-ritual/production/1.0.10', { headers }),
+  });
+  await get({ Range: 'bytes=0-7', 'X-Latent-Download': 'install' });
+  await get({ Range: 'bytes=4-7', 'X-Latent-Download': 'install' }); // a later piece: not a new download
+  await get({ 'X-Latent-Download': 'update' });
+  await get({ 'X-Latent-Download': 'Repair ' });
+  await get({ 'X-Latent-Download': 'something-else' }); // unknown words keep the plain key
+  await get({}); // a Manager from before 1.1.11 says nothing
+  assert.deepEqual(tallies.map((args) => args[1]), [
+    'latent-ritual/production/install',
+    'latent-ritual/production/update',
+    'latent-ritual/production/repair',
+    'latent-ritual/production',
+    'latent-ritual/production',
+  ]);
+});
