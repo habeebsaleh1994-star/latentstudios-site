@@ -3,7 +3,7 @@
 // paid leaves an address instead, tagged by product, and hears the moment plans are back. `paused: false` takes the
 // note down everywhere and puts the Lifetime sale line back on /lab.
 export const purchases = Object.freeze({
-  paused: true,
+  paused: false,
   label: 'Plans are paused',
   line: 'We are moving to a new payment provider, so plans can’t be bought for a short while.',
   ask: 'Leave your email and we’ll write the moment they’re back.',

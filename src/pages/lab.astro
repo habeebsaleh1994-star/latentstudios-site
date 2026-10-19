@@ -94,7 +94,7 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
                 {labSaleOn && !purchases.paused && (
                   <p class="lab-sale" data-sale-until>
                     <span class="lab-sale-head">{labCommerce.sale.percentOff}% off Lifetime, until {labCommerce.sale.endsLabel}</span>
-                    <span class="lab-sale-deal"><s>${labCommerce.lifetimeUsd}</s> <b>${labCommerce.sale.lifetimeUsd}</b> with <span class="lab-code">{labCommerce.sale.code}</span> at checkout in Latent Manager</span>
+                    <span class="lab-sale-deal"><s>${labCommerce.lifetimeUsd}</s> <b>${labCommerce.sale.lifetimeUsd}</b> applied at checkout in Latent Manager</span>
                   </p>
                 )}
                 <SendToMac id="send-mac-lab" product="lab" />
@@ -254,7 +254,7 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
               <span class="lab-plan-name">Lifetime</span>
               {labSaleOn ? (
                 <>
-                  <span class="label right" data-sale-until><span class="lab-code">{labCommerce.sale.code}</span> &middot; until {labCommerce.sale.endsLabel}</span>
+                  <span class="label right" data-sale-until>{labCommerce.sale.percentOff}% off &middot; until {labCommerce.sale.endsLabel}</span>
                   <span class="label right" data-sale-after hidden>One payment</span>
                   <span class="lab-plan-price" data-sale-until><s>${labCommerce.lifetimeUsd}</s> ${labCommerce.sale.lifetimeUsd}</span>
                   <span class="lab-plan-price" data-sale-after hidden>${labCommerce.lifetimeUsd}</span>
@@ -272,7 +272,7 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
             <a class="download" data-away-only href="#send-mac-lab">Send it to my Mac<span class="download-arrow" aria-hidden="true">&uarr;</span></a>
             <a class="lab-secondary" href={labCommerce.installHref}>How it installs &rarr;</a>
           </div>
-          <p class="lab-install">Quit Resolve, run the installer, open Latent Manager and sign in, and find the node in Effects &rsaquo; Film Emulation. Use it free with the mark, or choose a plan in Manager, which activates your Mac &mdash; there is no key to copy. Paddle is the merchant of record &middot; <a href="/refund">30-day refunds</a> &middot; <a href="/terms">Terms</a></p>
+          <p class="lab-install">Quit Resolve, run the installer, open Latent Manager and sign in, and find the node in Effects &rsaquo; Film Emulation. Use it free with the mark, or choose a plan in Manager, which activates your Mac &mdash; there is no key to copy. Secure checkout by Stripe &middot; <a href="/refund">30-day refunds</a> &middot; <a href="/terms">Terms</a></p>
         </div>
       </section>
       ) : (
