@@ -10,6 +10,7 @@ preview_urls = false
 crons = ["0 6 * * *"]
 
 # DIGEST_TO, the letter's one recipient, is a secret (wrangler secret put DIGEST_TO), so no address sits in this public repo.
+# DIGEST_EXCLUDE_ACCOUNTS, the owner's test account ids (comma-separated), is a secret too: their purchases never count.
 
 # Read only, by the queries in src/digest.js: the site's anonymous tallies, the licences and sales, the accounts.
 [[d1_databases]]
