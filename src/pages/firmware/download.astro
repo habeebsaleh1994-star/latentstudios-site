@@ -1,0 +1,90 @@
+---
+// The Ritual, in the camera: the downloads (first release, 1.0). Where a $0 choice and a paid checkout both land.
+// One door per camera and computer; each file is the camera's 20 films with the install steps and licence inside.
+// Before release the page only points back to /firmware. The firmware is free; paying is optional support, so
+// nothing here reads as a price or a sale (the licence: "given to you free, not sold").
+import Base from '../../layouts/Base.astro';
+import { firmware, firmwareDownloads, firmwareNeeds, firmwareVersion } from '../../config/firmware.js';
+import '../../styles/home.css';
+import '../../styles/ritual.css';
+
+const released = firmware.released;
+const cameras = ['Canon EOS 5D Mark II', 'Canon EOS 5D'];
+const size = (bytes) => (bytes ? `${(bytes / 1e9).toFixed(1)} GB` : '');
+---
+
+<Base
+  title="Download The Ritual, in the camera — Latent Studios"
+  description="Download The Ritual for the Canon EOS 5D and 5D Mark II, for Mac or Windows."
+  quiet={false}
+  evening={false}
+  announceBar={false}
+>
+  <div class="home ritual">
+    <header class="home-header ritual-header">
+      <a class="home-mark" href="/">Latent Studios<span class="home-berry" aria-hidden="true"></span></a>
+      <nav class="home-nav" aria-label="Rooms">
+        <a href="/nera">Nera</a>
+        <a href="/moment">The Moment</a>
+        <a href="/ritual">The Ritual</a>
+        <a href="/lab">The Lab</a>
+        <a href="https://wall.latentstudios.art">The Wall</a>
+      </nav>
+    </header>
+
+    <main id="main" class="ritual-main">
+      <section class="ritual-hero">
+        <div class="ritual-hero-lead">
+          <div class="label">The Ritual, in the camera &middot; {firmwareVersion}</div>
+          <h1 class="ritual-title">Choose your camera.</h1>
+          {released
+            ? <p class="ritual-lede">One download for your camera and your computer. The steps to install and remove it are inside.</p>
+            : <p class="ritual-lede">Not ready yet. <a href="/firmware">Get one letter on the day it is &rarr;</a></p>}
+        </div>
+      </section>
+
+      {released && (
+      <section class="ritual-block tight">
+        <div class="fw-cameras">
+          {cameras.map((camera) => (
+            <div class="fw-camera">
+              <div class="label">{camera}</div>
+              <p class="fact">Needs {firmwareNeeds[camera]}</p>
+              <div class="fw-doors">
+                {firmwareDownloads.filter((file) => file.camera === camera).map((file) => (
+                  file.sha256
+                    ? <a class="fw-door" href={`/download/firmware/${file.slug}`} download>For {file.os} <span class="fw-size">{size(file.bytes)}</span></a>
+                    : <span class="fw-door" aria-disabled="true">For {file.os} &middot; in a moment</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+      )}
+
+      {released && (
+      <section class="ritual-block tight">
+        <div class="ritual-words wide">
+          <div class="label">Good to know</div>
+          <p class="fact">Each download is about 3.6 GB: the camera&rsquo;s 20 films. Open &ldquo;How to use Ritual.txt&rdquo; inside before you start.</p>
+          <p class="fact">On Windows, the first time you open it Windows says &ldquo;Windows protected your PC&rdquo;. Choose More info, then Run anyway.</p>
+          <p class="fact">If it earns a place in your camera, you can <a href="/firmware">pay what you want</a> any time. It helps bring The Ritual to more cameras.</p>
+          <p class="fw-small">Not affiliated with or endorsed by Canon Inc. Canon and EOS are trademarks of Canon Inc. Custom firmware is installed at your own risk; follow the steps that come with it.</p>
+        </div>
+      </section>
+      )}
+    </main>
+  </div>
+
+  <style>
+    .fw-cameras { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+    @media (max-width: 720px) { .fw-cameras { grid-template-columns: 1fr; } }
+    .fw-camera { display: grid; gap: 12px; align-content: start; }
+    .fw-doors { display: flex; flex-wrap: wrap; gap: 10px; }
+    .fw-door { font-size: 15px; color: var(--ground, #1A1614); background: var(--amber-accent); border-radius: 999px; padding: 11px 22px; text-decoration: none; }
+    .fw-door[aria-disabled="true"] { opacity: .4; }
+    .fw-size { opacity: .7; margin-left: 6px; font-size: 13px; }
+    .fw-small { font-size: 13px; line-height: 1.6; color: var(--soft); max-width: 70ch; margin: 0; }
+  </style>
+</Base>

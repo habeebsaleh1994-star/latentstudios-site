@@ -32,3 +32,29 @@ export function firmwareDestination(amount, config = firmware) {
   if (dollars === 0) return config.downloadHref;
   return `${config.checkoutOrigin}/firmware?amount=${dollars}`;
 }
+
+/// The four downloads of the first release (1.0, 20 Oct 2026, from the camera session): each carries the camera's 20
+/// films (about 3.6 GB) with "How to use Ritual.txt" and LICENCE.txt inside. Served byte for byte from R2
+/// (latent-software-releases) by functions/download/firmware/[file].js, only once `released` is true. A null sha256
+/// means the file is not uploaded yet, and its door stays closed.
+export const firmwareVersion = '1.0';
+export const firmwareDownloads = Object.freeze([
+  Object.freeze({ slug: 'mark-ii-mac', camera: 'Canon EOS 5D Mark II', os: 'Mac', filename: 'Ritual-for-5D-Mark-II-1.0.dmg',
+    key: 'firmware/the-ritual-5d/1.0/Ritual-for-5D-Mark-II-1.0.dmg', bytes: 3567631531,
+    sha256: '2187cacaf2d0c2d4185c048deb447c2468b058418dfb64ba006651d1d5079dca' }),
+  Object.freeze({ slug: 'mark-ii-windows', camera: 'Canon EOS 5D Mark II', os: 'Windows', filename: 'Ritual-for-5D-Mark-II-1.0-Windows.zip',
+    key: 'firmware/the-ritual-5d/1.0/Ritual-for-5D-Mark-II-1.0-Windows.zip', bytes: 3567367105,
+    sha256: 'f9d4b67cf895cc011158e93e1e1a9b332ff1b7c04466a7f8d96ce70e6d64e81e' }),
+  Object.freeze({ slug: 'classic-mac', camera: 'Canon EOS 5D', os: 'Mac', filename: 'Ritual-for-5D-Classic-1.0.dmg',
+    key: 'firmware/the-ritual-5d/1.0/Ritual-for-5D-Classic-1.0.dmg', bytes: null, sha256: null }),
+  Object.freeze({ slug: 'classic-windows', camera: 'Canon EOS 5D', os: 'Windows', filename: 'Ritual-for-5D-Classic-1.0-Windows.zip',
+    key: 'firmware/the-ritual-5d/1.0/Ritual-for-5D-Classic-1.0-Windows.zip', bytes: 3567287983,
+    sha256: '5869e5e3ddd35ceb9c8e4f2cd97774190fca2591a58153dd301c09cedca03a51' }),
+]);
+
+/// What each camera needs before installing (from the camera session).
+export const firmwareNeeds = Object.freeze({
+  'Canon EOS 5D': 'Canon firmware 1.1.1, a full battery, and a CompactFlash card of 8 GB or more.',
+  'Canon EOS 5D Mark II': 'Canon firmware 2.1.2, a full battery, and a CompactFlash card of 8 GB or more.',
+});
+

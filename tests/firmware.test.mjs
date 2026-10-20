@@ -34,3 +34,22 @@ test('the page keeps "get notified" until release, and never words payment as a 
   assert.match(page, /list" value="firmware"/u);
   assert.doesNotMatch(page, /donat|crowdfund|pledge/iu);
 });
+
+test('the first release lists four downloads, served only once released, byte for byte', async () => {
+  const { firmwareDownloads } = await import('../src/config/firmware.js');
+  const { serveFirmwareFile } = await import('../src/server/firmware-release.js');
+  assert.equal(firmwareDownloads.length, 4);
+  for (const file of firmwareDownloads) assert.match(file.key, /^firmware\/the-ritual-5d\/1\.0\//u);
+  const bucket = { head: async () => ({ size: 3567631531 }), get: async (_k, o) => ({ body: 'x', range: o }) };
+  const req = (h = {}) => new Request('https://latentstudios.art/download/firmware/mark-ii-mac', { headers: h });
+  const ctx = (h) => ({ request: req(h), env: { LATENT_RELEASES: bucket } });
+  assert.equal((await serveFirmwareFile(ctx(), 'mark-ii-mac', { released: false })).status, 404);
+  assert.equal((await serveFirmwareFile(ctx(), 'classic-mac', { released: true })).status, 404); // not uploaded yet
+  const full = await serveFirmwareFile(ctx(), 'mark-ii-mac', { released: true });
+  assert.equal(full.status, 200);
+  assert.equal(full.headers.get('Content-Length'), '3567631531');
+  assert.match(full.headers.get('Content-Disposition'), /Ritual-for-5D-Mark-II-1\.0\.dmg/u);
+  const part = await serveFirmwareFile(ctx({ Range: 'bytes=100-199' }), 'mark-ii-mac', { released: true });
+  assert.equal(part.status, 206);
+  assert.equal(part.headers.get('Content-Range'), 'bytes 100-199/3567631531');
+});
