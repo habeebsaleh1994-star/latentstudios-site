@@ -1,7 +1,7 @@
 ---
 // The Ritual for Canon 5D and 5D Mark II (2026-10-16): the in-camera firmware, coming soon. The announcement
 // bar's door (config/announce.js). Visitors took The Ritual for Mac — paid, needs a Mac — for this, so the page says
-// plainly what it is: in the camera, no computer; the first wave is the 5D and the 5D Mark II. Signups are tagged
+// plainly what it is: in the camera (installed once from a Mac or Windows PC); the first wave is the 5D and the 5D Mark II. Signups are tagged
 // `firmware` in the newsletter (the list= field, as Nera's page does), so one letter can go to them on launch day.
 // Owner's decision: free (16 Oct 2026), pay what you want from $0 to $100 (config/firmware.js). Not affiliated with
 // Canon, and it says so.
@@ -18,7 +18,7 @@ const doorLabel = (amount) => (amount === 0 ? 'Download' : `Pay $${amount} and d
 
 <Base
   title="The Ritual for Canon 5D — firmware, coming soon — Latent Studios"
-  description="Firmware that brings The Ritual's films into the Canon EOS 5D and 5D Mark II: photographs developed in the camera, no computer needed. Coming soon."
+  description="Firmware that brings The Ritual's films into the Canon EOS 5D and 5D Mark II: photographs developed in the camera. Coming soon."
   quiet={false}
   evening={false}
   announceBar={false}
@@ -47,8 +47,8 @@ const doorLabel = (amount) => (amount === 0 ? 'Download' : `Pay $${amount} and d
             <div class="label">For Canon EOS 5D and 5D Mark II{!released && <> &middot; coming soon</>}</div>
             <h1 class="ritual-title">The Ritual, in the camera.</h1>
             {released
-              ? <p class="ritual-lede">Firmware that develops your photographs with The Ritual&rsquo;s films, right in the camera. No computer needed. Pay what you want.</p>
-              : <p class="ritual-lede">Firmware that develops your photographs with The Ritual&rsquo;s films, right in the camera. No computer needed.</p>}
+              ? <p class="ritual-lede">Firmware that develops your photographs with The Ritual&rsquo;s films, right in the camera. Once it&rsquo;s installed, no computer needed. Pay what you want.</p>
+              : <p class="ritual-lede">Firmware that develops your photographs with The Ritual&rsquo;s films, right in the camera. Once it&rsquo;s installed, no computer needed.</p>}
           </div>
           <div class="ritual-hero-aside">
             {released ? (
@@ -92,7 +92,7 @@ const doorLabel = (amount) => (amount === 0 ? 'Download' : `Pay $${amount} and d
         <div class="fw-facts">
           {released && <div class="fw-fact"><div class="label">Price</div><p class="line">Pay what you want</p></div>}
           <div class="fw-fact"><div class="label">Cameras, first wave</div><p class="line">Canon EOS 5D and 5D Mark II</p></div>
-          <div class="fw-fact"><div class="label">Needs</div><p class="line">The camera and a memory card. No computer.</p></div>
+          <div class="fw-fact"><div class="label">Needs</div><p class="line">The camera and a memory card, and a Mac or Windows PC to install it once.</p></div>
         </div>
       </section>
 

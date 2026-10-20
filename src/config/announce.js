@@ -8,6 +8,6 @@ export const announce = Object.freeze({
   href: '/firmware',
   lead: 'The Ritual for Canon 5D and 5D Mark II: firmware, coming soon.',
   short: 'The Ritual for Canon 5D: firmware, coming soon.',
-  tail: 'It runs in the camera, no computer needed.',
+  tail: 'It runs in the camera. The Ritual for Mac, the whole darkroom, is available now.',
   door: 'Get notified',
 });
