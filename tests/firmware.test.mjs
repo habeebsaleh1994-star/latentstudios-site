@@ -44,7 +44,7 @@ test('the first release lists four downloads, served only once released, byte fo
   const req = (h = {}) => new Request('https://latentstudios.art/download/firmware/mark-ii-mac', { headers: h });
   const ctx = (h) => ({ request: req(h), env: { LATENT_RELEASES: bucket } });
   assert.equal((await serveFirmwareFile(ctx(), 'mark-ii-mac', { released: false })).status, 404);
-  assert.equal((await serveFirmwareFile(ctx(), 'classic-mac', { released: true })).status, 404); // not uploaded yet
+  assert.equal((await serveFirmwareFile(ctx(), 'nope', { released: true })).status, 404);
   const full = await serveFirmwareFile(ctx(), 'mark-ii-mac', { released: true });
   assert.equal(full.status, 200);
   assert.equal(full.headers.get('Content-Length'), '3567631531');
