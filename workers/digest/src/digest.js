@@ -27,7 +27,7 @@ export async function gatherDigest(env, day) {
   const skip = excludedAccounts(env);
   const notSkipped = skip.length ? `AND account_id NOT IN (${skip.map((_, i) => `?${i + 2}`).join(', ')})` : '';
   const notSkippedAll = skip.length ? `AND account_id NOT IN (${skip.map((_, i) => `?${i + 1}`).join(', ')})` : '';
-  const [funnel, downloads, accounts, accountsTotal, plans, earnings, active, refunds] = await Promise.all([
+  const [funnel, downloads, accounts, accountsTotal, plans, earnings, active, refunds, fwDownloads, fwPaid] = await Promise.all([
     all(env.COUNTS, 'SELECT step, source, SUM(count) AS n FROM funnel_counts WHERE day = ?1 GROUP BY step, source', day),
     one(env.COUNTS, "SELECT COALESCE(SUM(count), 0) AS n FROM download_counts WHERE day = ?1 AND product = 'latent-manager'", day),
     one(env.ACCOUNTS, 'SELECT COUNT(*) AS n FROM accounts WHERE substr(created_at, 1, 10) = ?1 AND deleted_at IS NULL', day),
@@ -37,6 +37,7 @@ export async function gatherDigest(env, day) {
         AND substr(created_at, 1, 10) = ?1 ${notSkipped} GROUP BY product_id, plan`, day, ...skip),
     one(env.LICENSING, `SELECT COALESCE(SUM(earnings_minor), 0) AS minor FROM sale_notices
       WHERE substr(occurred_at, 1, 10) = ?1 AND earnings_currency = 'USD'
+        AND transaction_id NOT IN (SELECT transaction_id FROM firmware_supporters WHERE refunded_at IS NOT NULL)
         AND transaction_id NOT IN (SELECT paddle_transaction_id FROM commercial_entitlements
           WHERE paddle_transaction_id IS NOT NULL AND (status <> 'active' OR purchase_reversed_at IS NOT NULL
             ${skip.length ? `OR account_id IN (${skip.map((_, i) => `?${i + 2}`).join(', ')})` : ''}))`, day, ...skip),
@@ -44,6 +45,16 @@ export async function gatherDigest(env, day) {
       WHERE access_basis = 'paid' AND status = 'active' ${notSkippedAll} GROUP BY product_id, tier`, ...skip),
     one(env.LICENSING, `SELECT COUNT(*) AS n FROM commercial_entitlements
       WHERE access_basis = 'paid' AND substr(purchase_reversed_at, 1, 10) = ?1 ${notSkipped}`, day, ...skip),
+    // The Ritual, in the camera: downloads started and finished (download_counts, `<file>` and `<file>/finished`),
+    // and what was paid (firmware_supporters, refunds left out), with what Stripe left us (sale_notices).
+    all(env.COUNTS, `SELECT product, SUM(CASE WHEN day = ?1 THEN count ELSE 0 END) AS day_n, SUM(count) AS total_n
+      FROM download_counts WHERE product LIKE 'the-ritual-5d/%' AND day <= ?1 GROUP BY product`, day),
+    one(env.LICENSING, `SELECT COUNT(*) AS n, COALESCE(SUM(f.grand_total_minor), 0) AS minor,
+        COALESCE(SUM(s.earnings_minor), 0) AS kept_minor,
+        COALESCE(SUM(CASE WHEN substr(f.paid_at, 1, 10) = ?1 THEN 1 ELSE 0 END), 0) AS day_n,
+        COALESCE(SUM(CASE WHEN substr(f.paid_at, 1, 10) = ?1 THEN f.grand_total_minor ELSE 0 END), 0) AS day_minor
+      FROM firmware_supporters f LEFT JOIN sale_notices s ON s.transaction_id = f.transaction_id
+      WHERE f.refunded_at IS NULL AND f.currency = 'USD' AND substr(f.paid_at, 1, 10) <= ?1`, day),
   ]);
   const step = (name, source) => funnel.filter((r) => r.step === name && (!source || r.source === source))
     .reduce((sum, r) => sum + Number(r.n), 0);
@@ -63,6 +74,24 @@ export async function gatherDigest(env, day) {
     earningsMinor: Number(earnings.minor ?? 0),
     activePlans: active.map((r) => ({ product: PRODUCT[r.product] ?? r.product, tier: r.tier, n: Number(r.n) })),
     refunds: Number(refunds.n ?? 0),
+    firmware: firmwareNumbers(fwDownloads, fwPaid),
+  };
+}
+
+const FIRMWARE_FILES = { 'classic-mac': '5D Mac', 'classic-windows': '5D Windows', 'mark-ii-mac': '5D Mark II Mac', 'mark-ii-windows': '5D Mark II Windows' };
+
+/// Started = a download that began at the first byte; finished = its last byte reached the person (whole or resumed).
+export function firmwareNumbers(rows = [], paid = {}) {
+  const count = (finished, field) => rows.filter((r) => String(r.product).endsWith('/finished') === finished)
+    .reduce((sum, r) => sum + Number(r[field] ?? 0), 0);
+  const files = Object.entries(FIRMWARE_FILES).map(([slug, name]) => ({
+    name,
+    finished: Number(rows.find((r) => r.product === `the-ritual-5d/${slug}/finished`)?.total_n ?? 0),
+  }));
+  return {
+    day: { started: count(false, 'day_n'), finished: count(true, 'day_n'), paid: Number(paid.day_n ?? 0), minor: Number(paid.day_minor ?? 0) },
+    total: { started: count(false, 'total_n'), finished: count(true, 'total_n'), paid: Number(paid.n ?? 0), minor: Number(paid.minor ?? 0), keptMinor: Number(paid.kept_minor ?? 0) },
+    files,
   };
 }
 
@@ -84,6 +113,7 @@ export function composeDigest(d) {
     ...(d.refunds ? [`Refunded or charged back: ${d.refunds}`] : []),
     '',
     ...(d.sources.length ? ['FROM YOUR LINKS', ...d.sources.map((s) => `${s.source}: ${s.visits} visits · ${s.downloads} downloads`), ''] : []),
+    ...firmwareLines(d.firmware),
     'SO FAR',
     `Accounts: ${d.totalAccounts} · paying: ${activePaid} (${percent(activePaid, d.totalAccounts)})`,
     ...d.activePlans.map((p) => `  ${p.product} ${p.tier}: ${p.n}`),
@@ -104,6 +134,19 @@ ${lines.map((line) => {
   }).join('\n')}
 </table></td></tr></table></body></html>`;
   return { subject, text, html };
+}
+
+function firmwareLines(f) {
+  if (!f || (!f.total.started && !f.total.finished && !f.total.paid)) return [];
+  const t = f.total;
+  return [
+    'THE RITUAL, IN THE CAMERA',
+    `Yesterday: ${f.day.started} ${f.day.started === 1 ? 'download' : 'downloads'} started · ${f.day.finished} finished · ${f.day.paid} paid (${money(f.day.minor)})`,
+    `So far: ${t.finished} finished · ${t.paid} paid (${percent(t.paid, t.finished)} of finished) · ${money(t.minor)} supported, ${money(t.keptMinor)} after Stripe`
+      + (t.paid ? ` · average ${money(Math.round(t.minor / t.paid))}` : ''),
+    `Finished by file: ${f.files.map((x) => `${x.name} ${x.finished}`).join(' · ')}`,
+    '',
+  ];
 }
 
 export async function sendDigest(env, now = new Date()) {

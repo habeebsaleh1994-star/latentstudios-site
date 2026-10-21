@@ -72,3 +72,31 @@ test('sales are plans still standing: refunds, chargebacks and the owner\'s test
   }
   assert.ok(licensing.some((q) => /status = 'active' AND purchase_reversed_at IS NULL/u.test(q.sql)));
 });
+
+test('the morning letter tells the firmware story: started, finished, paid, what Stripe left, by file', async () => {
+  const { firmwareNumbers } = await import('../workers/digest/src/digest.js');
+  const rows = [
+    { product: 'the-ritual-5d/classic-mac', day_n: 3, total_n: 10 },
+    { product: 'the-ritual-5d/classic-mac/finished', day_n: 2, total_n: 7 },
+    { product: 'the-ritual-5d/mark-ii-windows', day_n: 1, total_n: 4 },
+    { product: 'the-ritual-5d/mark-ii-windows/finished', day_n: 1, total_n: 3 },
+  ];
+  const firmware = firmwareNumbers(rows, { n: 2, minor: 3500, kept_minor: 3240, day_n: 1, day_minor: 1000 });
+  assert.deepEqual(firmware.total, { started: 14, finished: 10, paid: 2, minor: 3500, keptMinor: 3240 });
+  assert.deepEqual(firmware.day, { started: 4, finished: 3, paid: 1, minor: 1000 });
+  const { text } = composeDigest({ ...sample, firmware });
+  assert.match(text, /THE RITUAL, IN THE CAMERA/u);
+  assert.match(text, /Yesterday: 4 downloads started · 3 finished · 1 paid \(\$10\.00\)/u);
+  assert.match(text, /So far: 10 finished · 2 paid \(20\.0% of finished\) · \$35\.00 supported, \$32\.40 after Stripe · average \$17\.50/u);
+  assert.match(text, /5D Mac 7 · 5D Windows 0 · 5D Mark II Mac 0 · 5D Mark II Windows 3/u);
+  assert.doesNotMatch(composeDigest({ ...sample, firmware: firmwareNumbers() }).text, /IN THE CAMERA/u);
+});
+
+test('a refunded firmware payment is never counted as earned', async () => {
+  const asked = [];
+  const db = { prepare: (sql) => ({ bind: (...args) => { asked.push(sql); return { all: async () => ({ results: [] }), first: async () => ({}) }; } }) };
+  const { gatherDigest } = await import('../workers/digest/src/digest.js');
+  await gatherDigest({ COUNTS: db, ACCOUNTS: db, LICENSING: db }, '2026-10-21');
+  assert.ok(asked.some((sql) => /FROM sale_notices/u.test(sql) && /firmware_supporters WHERE refunded_at IS NOT NULL/u.test(sql)));
+  assert.ok(asked.some((sql) => /FROM firmware_supporters f/u.test(sql) && /f\.refunded_at IS NULL/u.test(sql)));
+});
