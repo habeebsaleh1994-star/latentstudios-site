@@ -1,0 +1,179 @@
+---
+// The Ritual, in the camera: the guide, online. The same steps as "How to use Ritual.txt" in each download, kept
+// current here (a correction never waits for a new 3.6 GB file). One page, both cameras; Mac and Windows differ
+// only in making the card. Words are the guide's own, plus what the owner's own install taught (INFO, the blinks,
+// the first photo).
+import Base from '../../layouts/Base.astro';
+import { firmwareNeeds, firmwareVersion } from '../../config/firmware.js';
+import '../../styles/home.css';
+import '../../styles/ritual.css';
+
+const makeCard = [
+  'Copy any photos off the card. Put the card in the camera and format it (MENU → Format).',
+  'On a Mac: put the card in the Mac (a card reader is fine) and open Make Ritual Card. Click “Make the card”. It puts Ritual and its films on the card and checks everything (a few minutes), then asks for the Mac’s password once. It ejects the card when it is done.',
+  'On Windows: right-click the zip you downloaded, choose Extract All, and open the new folder. Put the card in the PC and open Make Ritual Card. If Windows says “Windows protected your PC”, click More info, then Run anyway. Click “Make the card”; Windows asks once to allow it to mark the card: click Yes. It ejects the card when it is done.',
+];
+
+const words = [
+  ['Film', 'The film each photo develops on. Turn the dial to choose, press SET to load it.'],
+  ['Development', '“Box speed”, or the film pushed or pulled: developed longer or shorter, as a lab does. Pushed: more contrast and grain. Pulled: softer.'],
+  ['Paper', 'The paper the photo is printed on. Some black-and-white papers also have a Grade (0 to 5): the higher, the more contrast.'],
+  ['Halation', 'Cine films only (Kodak Vision3 250D and 500T): the red glow around bright lights. Soft, Medium or Full.'],
+  ['Light', 'The light Ritual develops for: your camera’s white balance (Auto shows the last light it measured, e.g. 4000 K).'],
+  ['Roll', 'Ritual counts your photos in rolls of 36, like film: “Roll 3 · 12 of 36”. A new roll starts by itself after 36, or when you load another film.'],
+];
+
+const cameras = [
+  {
+    id: 'five-d',
+    name: 'Canon EOS 5D',
+    steps: [
+      ['The first time only', [
+        'Put the card in the camera. MENU → Firmware Ver. 1.1.1 → OK.',
+        'The camera finds LATBOOT1.FIR. Let it run: the red light blinks 3 times, then pauses, again and again. Seen that a few rounds in a row? It worked. (4 blinks each time means it did not: tell us.)',
+        'Take the battery out, wait a few seconds, put it back, turn the camera on and press INFO: Ritual’s film screen. Turn the dial to choose a film and press SET. You are ready to shoot.',
+        'You never need to do this again on this camera. With a normal card, the camera works exactly like a normal Canon.',
+      ]],
+      ['Shooting', [
+        'Turn the camera on with the Ritual card in it: Ritual starts by itself.',
+        'Press INFO to see Ritual’s film screen. Turn the dial to choose a film, press SET to load it.',
+        'Shoot as usual. Each photo develops a few seconds after you stop shooting. Leave the camera on for a moment after a burst so it can catch up. Press INFO or PLAY to see your photos.',
+        'On a cine film the film screen has a Halation row. Press ▼ to it and turn the dial: Soft, Medium or Full. It stays as you leave it.',
+      ]],
+      ['How long it takes', [
+        'A photo’s picture on the screen: about 15 seconds (up to a minute right after a burst).',
+        'Its full photo in the RITUAL folder: about 40 seconds more (a cine film with its glow: about a minute).',
+      ]],
+    ],
+    off: 'To turn Ritual off for good: copy LATBOOT0.FIR from the “Turn Ritual off” folder onto a card and run it from MENU → Firmware Ver., as in the first time. The red light blinks 2 times, again and again. Then take the battery out and put it back.',
+  },
+  {
+    id: 'mark-ii',
+    name: 'Canon EOS 5D Mark II',
+    steps: [
+      ['The first time only', [
+        'Put the card in the camera and turn it on. Press MENU, go to Firmware Ver. 2.1.2, press SET, then choose OK.',
+        'Choose RITSETUP.FIR. The screen says “Set up Ritual on this camera”. Press SET to set it up (MENU: not now).',
+        'While it says “Setting up Ritual”, do not switch off or take the battery out. It takes a few seconds.',
+        'When it says “Ritual is ready”, switch the camera off, then on. If it says “Ritual is already set up”, nothing needed changing: switch off, then on.',
+        'If it says “This could not finish”, nothing was changed: write to us. If it says “The camera needs a quick repair”, keep the camera switched on and write to us.',
+        'You never need to do this again on this camera. With a normal card, the camera works exactly like a normal Canon.',
+      ]],
+      ['Shooting', [
+        'Turn the camera on with the Ritual card in it. The red light comes on for a moment while Ritual starts. The back screen stays dark while you shoot: that is Ritual, as it should be.',
+        'Press INFO to see Ritual’s film screen. Turn the dial to choose a film, press SET to load it.',
+        'Shoot as usual. A few seconds after each shot its picture is ready, on the film you shot it on. Press INFO or PLAY to see your photos.',
+        'Every photo is also saved on your film at a share size (2040 × 1360). For the full size (2808 × 1872) of one photo, press SET on it. For every photo at full size: on the film screen, press ▼ to the Size row and turn the dial to Full.',
+        'On a cine film the film screen has a Halation row. Press ▼ to it and turn the dial: Soft, Medium or Full. The photo shows first without the glow; the glowing one takes its place when its share size is ready.',
+        'To delete a photo: press the trash button on it, then SET.',
+      ]],
+      ['How long it takes', [
+        'A photo’s picture on the screen: about 15 seconds.',
+        'Its share size in the RITUAL folder: about 35 seconds more (a minute in all, a cine film with its glow too). A full size takes a little longer.',
+      ]],
+    ],
+    off: null,
+  },
+];
+
+const always = [
+  'INFO is the key button. It opens Ritual’s film screen, and it shows your photos as they develop. If a photo hasn’t appeared yet, press INFO.',
+  'Sometimes the first photo after you turn the camera on doesn’t show until you take another one. Take a second photo and both appear.',
+  'After a burst, photos develop one by one, the newest first. Switched off before they are all done? They go on the next time you turn the camera on: nothing is lost.',
+  'The camera freezes (the buttons do nothing, or the screen is stuck): wait until the red card light is off, take the battery out for a few seconds, put it back and turn the camera on. Nothing is lost.',
+  'Never take the card or the battery out while the red card light is on.',
+  '“Reading the card” when you turn the camera on: wait a few seconds.',
+  'Do not format the Ritual card in the camera unless you want Ritual off it. You can always make it again.',
+  'More films later: put your Ritual card in the computer, open the new Make Ritual Card and click “Make the card”. Your photos stay.',
+];
+---
+
+<Base
+  title="How to use The Ritual, in the camera — Latent Studios"
+  description="Install and use The Ritual firmware on the Canon EOS 5D and 5D Mark II: making the card, the first time, shooting, and what to do if something goes wrong."
+  quiet={false}
+  evening={false}
+  announceBar={false}
+>
+  <div class="home ritual">
+    <header class="home-header ritual-header">
+      <a class="home-mark" href="/">Latent Studios<span class="home-berry" aria-hidden="true"></span></a>
+      <nav class="home-nav" aria-label="Rooms">
+        <a href="/nera">Nera</a>
+        <a href="/moment">The Moment</a>
+        <a href="/ritual">The Ritual</a>
+        <a href="/lab">The Lab</a>
+        <a href="https://wall.latentstudios.art">The Wall</a>
+      </nav>
+    </header>
+
+    <main id="main" class="ritual-main">
+      <section class="ritual-hero">
+        <div class="ritual-hero-lead">
+          <div class="label">The Ritual, in the camera &middot; {firmwareVersion}</div>
+          <h1 class="ritual-title">How to use Ritual.</h1>
+          <p class="ritual-lede">The same steps as the guide in your download, kept up to date here.</p>
+          <p class="fw-jump"><a href="#five-d">Canon EOS 5D</a> <a href="#mark-ii">Canon EOS 5D Mark II</a></p>
+        </div>
+      </section>
+
+      <section class="ritual-block tight">
+        <div class="ritual-words wide fw-guide">
+          <div class="label">Make the card</div>
+          <p class="fact">Both cameras. Your photos are always Canon&rsquo;s own raw file (CR2, in DCIM), plus Ritual&rsquo;s photo on your film, in the RITUAL folder on the card.</p>
+          <ul>{makeCard.map((step) => <li>{step}</li>)}</ul>
+        </div>
+      </section>
+
+      {cameras.map((camera) => (
+        <section class="ritual-block tight" id={camera.id}>
+          <div class="ritual-words wide fw-guide">
+            <div class="label">{camera.name}</div>
+            <p class="fact">Needs {firmwareNeeds[camera.name]} Check it in MENU &rarr; Firmware Ver.; if it shows another number, install Canon&rsquo;s from Canon&rsquo;s website first.</p>
+            {camera.steps.map(([title, items]) => (
+              <div class="fw-step">
+                <h2 class="fw-step-title">{title}</h2>
+                {title === 'How long it takes'
+                  ? <ul>{items.map((item) => <li>{item}</li>)}</ul>
+                  : <ol>{items.map((item) => <li>{item}</li>)}</ol>}
+              </div>
+            ))}
+            {camera.off && <p class="fact">{camera.off}</p>}
+          </div>
+        </section>
+      ))}
+
+      <section class="ritual-block tight">
+        <div class="ritual-words wide fw-guide">
+          <div class="label">Good to know</div>
+          <ul>{always.map((item) => <li>{item}</li>)}</ul>
+        </div>
+      </section>
+
+      <section class="ritual-block tight">
+        <div class="ritual-words wide fw-guide">
+          <div class="label">Words on the screen</div>
+          <dl>{words.map(([term, meaning]) => <><dt>{term}</dt><dd>{meaning}</dd></>)}</dl>
+          <p class="fact">Still stuck? <a href="/support">Write to us</a>. The card keeps a log of what happened: we may ask you for it.</p>
+          <p class="fw-small">Not affiliated with or endorsed by Canon Inc. Canon and EOS are trademarks of Canon Inc. Custom firmware is installed at your own risk.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <style>
+    .fw-jump { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0 0; }
+    .fw-jump a { font-size: 15px; color: var(--ground, #1A1614); background: var(--amber-accent); border-radius: 999px; padding: 10px 20px; text-decoration: none; }
+    .fw-guide { display: grid; gap: 16px; }
+    .fw-guide ol, .fw-guide ul { margin: 0; padding-left: 1.3em; display: grid; gap: 10px; }
+    .fw-guide li { font-size: 17px; line-height: 1.55; color: var(--soft); padding-left: 4px; }
+    .fw-step { display: grid; gap: 10px; margin-top: 8px; }
+    .fw-step-title { font-weight: 500; font-size: 22px; line-height: 1.2; margin: 0; color: var(--ink-bright); }
+    .fw-guide dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 10px 20px; }
+    .fw-guide dt { font-size: 17px; color: var(--ink-bright); }
+    .fw-guide dd { margin: 0; font-size: 17px; line-height: 1.55; color: var(--soft); }
+    @media (max-width: 560px) { .fw-guide dl { grid-template-columns: 1fr; gap: 2px; } .fw-guide dd { margin-bottom: 10px; } }
+    .fw-small { font-size: 13px; line-height: 1.6; color: var(--soft); max-width: 70ch; margin: 10px 0 0; }
+    section[id] { scroll-margin-top: 24px; }
+  </style>
+</Base>
