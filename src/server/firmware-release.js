@@ -1,6 +1,6 @@
 // The firmware downloads, served byte for byte from R2 (config/firmware.js lists them). Ranges are honoured so a
 // 3.6 GB download can resume; a download counts once, on the request that starts at the first byte.
-import { countDownload } from './download-count.js';
+import { countDownload, countFinishedDownload } from './download-count.js';
 import { firmware, firmwareDownloads, firmwareVersion } from '../config/firmware.js';
 
 function parseRange(value, size) {
@@ -57,6 +57,22 @@ export async function serveFirmwareFile(context, slug, { released = firmware.rel
   const length = range?.length ?? metadata.size;
   headers.set('Content-Length', String(length));
   if (range) headers.set('Content-Range', `bytes ${range.offset}-${range.offset + range.length - 1}/${metadata.size}`);
-  countDownload(context, `the-ritual-5d/${slug}`, firmwareVersion, range);
-  return new Response(object.body, { status: range ? 206 : 200, headers });
+  const product = `the-ritual-5d/${slug}`;
+  countDownload(context, product, firmwareVersion, range);
+  const reachesEnd = !range || range.offset + range.length === metadata.size;
+  const body = reachesEnd ? whenDelivered(context, object.body, length, () => countFinishedDownload(context, product, firmwareVersion)) : object.body;
+  return new Response(body, { status: range ? 206 : 200, headers });
+}
+
+/// Hands the file on unchanged and calls `done` only once all of it has been taken up by the reader. The bytes go
+/// through Cloudflare's own fixed-length stream (no script runs per piece, so 3.6 GB costs no CPU time, and the
+/// response keeps its exact length for progress bars and resuming). A reader who closes the tab or loses the line
+/// cancels the stream, the pipe fails, and `done` never runs for a download that did not finish.
+function whenDelivered(context, body, length, done) {
+  if (!body || typeof body.pipeTo !== 'function') return body;
+  const Fixed = globalThis.FixedLengthStream;
+  const pass = Fixed ? new Fixed(length) : new TransformStream();
+  const delivered = body.pipeTo(pass.writable).then(done, () => {});
+  context.waitUntil?.(delivered);
+  return pass.readable;
 }

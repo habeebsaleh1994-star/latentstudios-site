@@ -54,3 +54,34 @@ test('the first release lists four downloads, served only once released, byte fo
   assert.equal(part.status, 206);
   assert.equal(part.headers.get('Content-Range'), 'bytes 100-199/3567631531');
 });
+
+test('a download counts once when it starts, and once more only when its last byte is handed over', async () => {
+  const { serveFirmwareFile } = await import('../src/server/firmware-release.js');
+  const size = 3567532901; // the 5D Mac file; the fake bucket streams a few small pieces in its place
+  const counted = [];
+  const db = { prepare: () => ({ bind: (_day, product) => ({ run: async () => { counted.push(product); } }) }) };
+  const stream = (n) => new ReadableStream({
+    start(c) { for (let i = 0; i < n; i += 100) c.enqueue(new Uint8Array(Math.min(100, n - i))); c.close(); },
+  });
+  const bucket = { head: async () => ({ size }), get: async () => ({ body: stream(300) }) };
+  const run = async (headers, read) => {
+    counted.length = 0;
+    const waits = [];
+    const ctx = {
+      request: new Request('https://latentstudios.art/download/firmware/classic-mac', { headers }),
+      env: { LATENT_RELEASES: bucket, DOWNLOAD_COUNTS: db },
+      waitUntil: (p) => waits.push(p),
+    };
+    const res = await serveFirmwareFile(ctx, 'classic-mac', { released: true });
+    if (read === 'all') await res.arrayBuffer();
+    else if (read === 'cancel') { const r = res.body.getReader(); await r.read(); await r.cancel(); }
+    await Promise.all(waits);
+    await new Promise((r) => setTimeout(r, 0));
+    return [...counted];
+  };
+  assert.deepEqual(await run({}, 'all'), ['the-ritual-5d/classic-mac', 'the-ritual-5d/classic-mac/finished']);
+  assert.deepEqual(await run({}, 'cancel'), ['the-ritual-5d/classic-mac']);
+  assert.deepEqual(await run({ Range: `bytes=${size - 600}-` }, 'all'), ['the-ritual-5d/classic-mac/finished']);
+  assert.deepEqual(await run({ Range: 'bytes=0-499' }, 'all'), ['the-ritual-5d/classic-mac']);
+  assert.deepEqual(await run({ Range: 'bytes=200-499' }, 'all'), []);
+});
