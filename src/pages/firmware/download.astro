@@ -65,7 +65,7 @@ const size = (bytes) => (bytes ? `${(bytes / 1e9).toFixed(1)} GB` : '');
 
       {released && (
       <section class="ritual-block tight">
-        <div class="ritual-words wide">
+        <div class="ritual-words wide fw-notes">
           <div class="label">Good to know</div>
           <p class="fact">Each download is about 3.6 GB: the camera&rsquo;s 20 films. Open &ldquo;How to use Ritual.txt&rdquo; inside before you start.</p>
           <p class="fact">On Windows, the first time you open it Windows says &ldquo;Windows protected your PC&rdquo;. Choose More info, then Run anyway.</p>
@@ -79,7 +79,9 @@ const size = (bytes) => (bytes ? `${(bytes / 1e9).toFixed(1)} GB` : '');
 
   <style>
     .fw-cameras { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
-    @media (max-width: 720px) { .fw-cameras { grid-template-columns: 1fr; } }
+    @media (max-width: 720px) { .fw-cameras { grid-template-columns: 1fr; gap: 56px; } }
+    .fw-notes { display: grid; gap: 14px; }
+    .fw-notes .fw-small { margin-top: 10px; }
     .fw-camera { display: grid; gap: 12px; align-content: start; }
     .fw-doors { display: flex; flex-wrap: wrap; gap: 10px; }
     .fw-door { font-size: 15px; color: var(--ground, #1A1614); background: var(--amber-accent); border-radius: 999px; padding: 11px 22px; text-decoration: none; }
