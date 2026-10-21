@@ -7,8 +7,8 @@
 // FIRMWARE_DOWNLOAD_URL on the licensing service, then turn `released` true here and deploy. Until then /firmware
 // keeps its "get notified" form and no checkout exists anywhere.
 export const firmware = Object.freeze({
-  released: false,
-  downloadHref: null,
+  released: true,
+  downloadHref: '/firmware/download',
   checkoutOrigin: 'https://license.latentstudios.art',
   amounts: Object.freeze([0, 10, 25, 50, 100]),
   suggested: 25,
