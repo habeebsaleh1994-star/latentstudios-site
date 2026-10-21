@@ -1,0 +1,56 @@
+---
+// The "plans are paused" note (config/purchases.js), placed where a plan is chosen on /ritual, /ritual/purchase and
+// /lab. Its form posts to /api/subscribe with list=plans-back-<product>, so the day plans return we write to exactly
+// the people who wanted to buy. Renders nothing when purchases are not paused.
+import { purchases, pausedFreeLine } from '../config/purchases.js';
+
+interface Props {
+  product: 'ritual' | 'lab';
+  id: string;
+}
+const { product, id } = Astro.props;
+const productName = product === 'lab' ? 'Print Engine' : 'The Ritual';
+const line = `${purchases.line} ${pausedFreeLine(productName)}`;
+---
+{purchases.paused && (
+  <aside class="plans-paused" aria-label={purchases.label} data-newsletter data-plans-paused={product}>
+    <div class="label">{purchases.label}</div>
+    <p class="plans-paused-line">{line}</p>
+    <p class="plans-paused-ask">{purchases.ask}</p>
+    <form class="plans-paused-form" action="/api/subscribe" method="post" data-newsletter-form>
+      <label class="visually-hidden" for={id}>Email address</label>
+      <input id={id} type="email" name="email" required autocomplete="email" placeholder="your address" />
+      <input type="hidden" name="list" value={`plans-back-${product}`} />
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+             style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
+      <button type="submit">Tell me</button>
+    </form>
+    <p class="plans-paused-note" data-newsletter-error hidden role="alert">That email doesn't look right.</p>
+    <p class="plans-paused-note" data-newsletter-done hidden role="status" aria-live="polite">{purchases.done}</p>
+  </aside>
+)}
+
+<style>
+  .plans-paused {
+    margin: 28px 0 32px; padding: 20px 22px; max-width: 640px;
+    border: 1px solid var(--hair, rgba(212, 196, 176, 0.18)); border-left: 2px solid var(--amber-accent, #E8C4A0);
+    background: rgba(232, 196, 160, 0.04);
+  }
+  .plans-paused .label { color: var(--amber-label, #c9a682); margin-bottom: 8px; }
+  .plans-paused-line { margin: 0; color: var(--ink-bright, #E8DDD0); line-height: 1.5; }
+  .plans-paused-ask { margin: 8px 0 14px; color: var(--ink, #D4C4B0); line-height: 1.5; }
+  .plans-paused-form { display: flex; gap: 8px; flex-wrap: wrap; }
+  .plans-paused-form input[type="email"] {
+    flex: 1 1 220px; min-width: 0; padding: 10px 12px; font: inherit; font-size: 15px;
+    color: var(--ink-bright, #E8DDD0); background: transparent;
+    border: 1px solid var(--hair, rgba(212, 196, 176, 0.18)); border-radius: 0;
+  }
+  .plans-paused-form input[type="email"]:focus { outline: none; border-color: var(--amber-accent, #E8C4A0); }
+  .plans-paused-form button {
+    padding: 10px 18px; font: inherit; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer;
+    color: var(--ground, #1A1614); background: var(--amber-accent, #E8C4A0); border: 0; border-radius: 0;
+  }
+  .plans-paused-form button:hover, .plans-paused-form button:focus-visible { background: var(--ink-bright, #E8DDD0); outline: none; }
+  .plans-paused-form button:disabled { opacity: 0.6; cursor: default; }
+  .plans-paused-note { margin: 10px 0 0; color: var(--ink, #D4C4B0); font-size: 14px; }
+</style>

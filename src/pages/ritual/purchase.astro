@@ -6,6 +6,7 @@
 import Base from '../../layouts/Base.astro';
 import DeviceProbe from '../../components/DeviceProbe.astro';
 import SendToMac from '../../components/SendToMac.astro';
+import PurchasesPaused from '../../components/PurchasesPaused.astro';
 import '../../styles/home.css';
 import '../../styles/ritual.css';
 import { ritualCommerce, ritualPlanSummary, ritualPurchasePath } from '../../config/ritual-commerce.js';
@@ -44,6 +45,7 @@ const planSummaries = Object.fromEntries(ritualCommerce.plans.map((plan) => [pla
       {ritualCommerce.releaseOpen ? (
         <>
           <section class="ritual-hero">
+            <PurchasesPaused product="ritual" id="plans-back-purchase" />
             {/* ?plan= (a Choose button, or the emailed link): which plan, and Manager opened on it. */}
             <div class="purchase-chosen" data-chosen data-plans={JSON.stringify(planSummaries)} hidden>
               <p class="purchase-chosen-line">Manager opens on <span data-chosen-summary></span>. You choose and pay there, when you’re ready.</p>
@@ -82,7 +84,7 @@ const planSummaries = Object.fromEntries(ritualCommerce.plans.map((plan) => [pla
                 <li><strong>Download Latent Manager.</strong> Move it to Applications and open it.</li>
                 <li><strong>Sign in to your Latent account</strong> with Apple or Google. Manager keeps your plan, your Macs and your updates together.</li>
                 <li><strong>Install The Ritual</strong> from Manager, and open it.</li>
-                <li><strong>Use it free, with the Latent mark</strong> &mdash; no payment method. Choose a plan whenever you are ready; Paddle handles the secure checkout.</li>
+                <li><strong>Use it free, with the Latent mark</strong> &mdash; no payment method. Choose a plan whenever you are ready; the checkout is secure, by Stripe.</li>
               </ol>
             </div>
             <div id="install" class="purchase-install" data-reveal>

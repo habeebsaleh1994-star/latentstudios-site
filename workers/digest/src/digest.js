@@ -14,18 +14,36 @@ export function previousDay(now = new Date()) {
 const all = async (db, sql, ...args) => (await db.prepare(sql).bind(...args).all()).results ?? [];
 const one = async (db, sql, ...args) => (await db.prepare(sql).bind(...args).first()) ?? {};
 
+/// The owner's own test accounts (secret DIGEST_EXCLUDE_ACCOUNTS, comma-separated account ids): their purchases are
+/// tests, never sales, so no count or total includes them.
+export function excludedAccounts(env) {
+  return String(env.DIGEST_EXCLUDE_ACCOUNTS ?? '').split(',').map((id) => id.trim())
+    .filter((id) => /^[0-9a-f-]{36}$/u.test(id));
+}
+
 export async function gatherDigest(env, day) {
-  const [funnel, downloads, accounts, accountsTotal, plans, earnings, active] = await Promise.all([
+  // Sales are plans still standing: a refund or chargeback since (status revoked) is no sale, and the owner's own
+  // test accounts are left out. Earnings follow the same plans; a renewal (no plan of its own) counts as earned.
+  const skip = excludedAccounts(env);
+  const notSkipped = skip.length ? `AND account_id NOT IN (${skip.map((_, i) => `?${i + 2}`).join(', ')})` : '';
+  const notSkippedAll = skip.length ? `AND account_id NOT IN (${skip.map((_, i) => `?${i + 1}`).join(', ')})` : '';
+  const [funnel, downloads, accounts, accountsTotal, plans, earnings, active, refunds] = await Promise.all([
     all(env.COUNTS, 'SELECT step, source, SUM(count) AS n FROM funnel_counts WHERE day = ?1 GROUP BY step, source', day),
     one(env.COUNTS, "SELECT COALESCE(SUM(count), 0) AS n FROM download_counts WHERE day = ?1 AND product = 'latent-manager'", day),
     one(env.ACCOUNTS, 'SELECT COUNT(*) AS n FROM accounts WHERE substr(created_at, 1, 10) = ?1 AND deleted_at IS NULL', day),
     one(env.ACCOUNTS, 'SELECT COUNT(*) AS n FROM accounts WHERE deleted_at IS NULL'),
     all(env.LICENSING, `SELECT product_id AS product, plan, COUNT(*) AS n FROM commercial_entitlements
-      WHERE access_basis = 'paid' AND substr(created_at, 1, 10) = ?1 GROUP BY product_id, plan`, day),
+      WHERE access_basis = 'paid' AND status = 'active' AND purchase_reversed_at IS NULL
+        AND substr(created_at, 1, 10) = ?1 ${notSkipped} GROUP BY product_id, plan`, day, ...skip),
     one(env.LICENSING, `SELECT COALESCE(SUM(earnings_minor), 0) AS minor FROM sale_notices
-      WHERE substr(occurred_at, 1, 10) = ?1 AND earnings_currency = 'USD'`, day),
+      WHERE substr(occurred_at, 1, 10) = ?1 AND earnings_currency = 'USD'
+        AND transaction_id NOT IN (SELECT paddle_transaction_id FROM commercial_entitlements
+          WHERE paddle_transaction_id IS NOT NULL AND (status <> 'active' OR purchase_reversed_at IS NOT NULL
+            ${skip.length ? `OR account_id IN (${skip.map((_, i) => `?${i + 2}`).join(', ')})` : ''}))`, day, ...skip),
     all(env.LICENSING, `SELECT product_id AS product, tier, COUNT(*) AS n FROM commercial_entitlements
-      WHERE access_basis = 'paid' AND status = 'active' GROUP BY product_id, tier`),
+      WHERE access_basis = 'paid' AND status = 'active' ${notSkippedAll} GROUP BY product_id, tier`, ...skip),
+    one(env.LICENSING, `SELECT COUNT(*) AS n FROM commercial_entitlements
+      WHERE access_basis = 'paid' AND substr(purchase_reversed_at, 1, 10) = ?1 ${notSkipped}`, day, ...skip),
   ]);
   const step = (name, source) => funnel.filter((r) => r.step === name && (!source || r.source === source))
     .reduce((sum, r) => sum + Number(r.n), 0);
@@ -44,6 +62,7 @@ export async function gatherDigest(env, day) {
     newPlans: plans.map((r) => ({ product: PRODUCT[r.product] ?? r.product, plan: r.plan ?? 'plan', n: Number(r.n) })),
     earningsMinor: Number(earnings.minor ?? 0),
     activePlans: active.map((r) => ({ product: PRODUCT[r.product] ?? r.product, tier: r.tier, n: Number(r.n) })),
+    refunds: Number(refunds.n ?? 0),
   };
 }
 
@@ -62,6 +81,7 @@ export function composeDigest(d) {
     `New accounts: ${d.newAccounts}`,
     `New plans: ${newPlans}${d.newPlans.length ? ` (${d.newPlans.map((p) => `${p.n} ${p.product} ${p.plan}`).join(', ')})` : ''}`,
     `Earned: ${money(d.earningsMinor)}`,
+    ...(d.refunds ? [`Refunded or charged back: ${d.refunds}`] : []),
     '',
     ...(d.sources.length ? ['FROM YOUR LINKS', ...d.sources.map((s) => `${s.source}: ${s.visits} visits · ${s.downloads} downloads`), ''] : []),
     'SO FAR',
@@ -69,11 +89,11 @@ export function composeDigest(d) {
     ...d.activePlans.map((p) => `  ${p.product} ${p.tier}: ${p.n}`),
     '',
     'Numbers only: nothing about any person is in this letter.',
-    'Paddle: https://vendors.paddle.com/transactions-v2',
+    'Stripe: https://dashboard.stripe.com/payments',
   ];
   const text = lines.join('\n');
   const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  const quiet = (line) => line.startsWith('Numbers only') || line.startsWith('Paddle');
+  const quiet = (line) => line.startsWith('Numbers only') || line.startsWith('Stripe');
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="dark"><title>${esc(subject)}</title></head>
 <body style="margin:0;background:#1A1614;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#1A1614;"><tr><td align="center" style="padding:36px 20px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;color:#E8DDD0;">

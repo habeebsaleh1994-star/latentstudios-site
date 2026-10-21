@@ -13,6 +13,7 @@ import Base from '../layouts/Base.astro';
 import RitualCompare from '../components/RitualCompare.astro';
 import DeviceProbe from '../components/DeviceProbe.astro';
 import SendToMac from '../components/SendToMac.astro';
+import PurchasesPaused from '../components/PurchasesPaused.astro';
 import '../styles/home.css';
 import '../styles/ritual.css';
 import { truth } from '../config/truth';
@@ -91,8 +92,8 @@ const darkroomPairs = [
     after: { src: ui(18), label: 'Kodak’s correction applied', alt: 'The same slide with Kodak’s own correction applied: plus a third of a stop and a CC05R filter' },
     note: 'A slide is the picture itself, with no print to time it. Where the film strays, Kodak’s own correction, a third of a stop and a CC05 red, is one press away.' },
   { id: 'grain', tab: 'Grain',
-    before: { src: ui(2), label: 'Before', alt: 'Skin and lips at full size on Portra 400, the grain raised' },
-    after: { src: ui(3), label: 'After', alt: 'The same skin with a finer grain' },
+    before: { src: ui(2), label: 'Before', alt: 'A portrait detail at full size on Portra 400, the grain raised' },
+    after: { src: ui(3), label: 'After', alt: 'The same detail with a finer grain' },
     note: 'Grain is silver on the negative: its size, its clumping and where it gathers across the tones, set by each film’s measured granularity.' },
   { id: 'halation', tab: 'Halation',
     before: { src: ui(48), label: 'Rem-jet · this film', alt: 'A train window on Vision3 500T, the backing as made' },
@@ -110,14 +111,14 @@ const darkroomPairs = [
 
 // The finishing bench: Retouch on the negative, from the owner's screenshots of 1.0.5.
 const retouchPairs = [
-  { id: 'face', tab: 'Portrait',
-    before: { src: ui(4), label: 'Before', alt: 'A portrait of a young woman before Retouch this face' },
-    after: { src: ui(6), label: 'Face retouched', alt: 'The same portrait with the skin evened and the texture kept' },
-    note: 'Retouch this face: the skin evened, its texture kept, eyes, teeth and lips each a press away.' },
   { id: 'spot', tab: 'Spot',
-    before: { src: ui(7), label: 'Before', alt: 'Skin up close before spot healing' },
-    after: { src: ui(8), label: 'Healed', alt: 'The same skin after spot healing' },
+    before: { src: ui(7), label: 'Before', alt: 'A close detail of a photograph before spot healing' },
+    after: { src: ui(8), label: 'Healed', alt: 'The same detail after spot healing' },
     note: 'Spot, Heal and Clone mend the negative itself, so every repair carries the grain of the film it sits on.' },
+  { id: 'portrait', tab: 'Portrait',
+    before: { src: ui(4), label: 'Before', alt: 'A portrait before retouching' },
+    after: { src: ui(6), label: 'Retouched', alt: 'The same portrait retouched on the negative, its texture kept' },
+    note: 'Portrait retouching on the negative: even tone, the texture kept, every touch carrying the film’s grain.' },
   { id: 'remove', tab: 'Remove',
     before: { src: ui(29), label: 'Before', alt: 'A man diving into the sea' },
     after: { src: ui(30), label: 'Removed', alt: 'The same sea with the diver removed' },
@@ -136,7 +137,7 @@ const retouchPairs = [
 // Every other screenshot the owner made of 1.0.5: one view each, the panel open on the feature.
 const gallery = [
   [1, 'Film · Camera', 'Portra 400 and the camera: scene light, film balance, exposure, shutter, filters.'],
-  [5, 'Retouch · Portrait', 'Retouch this face, with the skin, eyes, teeth and lips each its own control.'],
+  [5, 'Retouch · Portrait', 'Portrait retouching, gentle and precise, each touch on the negative.'],
   [11, 'Paper · View', 'Print it on paper, on a print film, or scan it as a lab would: Noritsu, Frontier, a camera scan.'],
   [21, 'Paper · Print films · ETERNA Vivid 160', 'Kodak 2383, Fuji ETERNA-CP and the rest, and the Print Room one press away.'],
   [28, 'Paper · Film edge', 'The diver gone, and the film’s own edge: none, 35 mm, 16 mm or 8 mm.'],
@@ -206,7 +207,7 @@ const stocks = [
           <div class="ritual-hero-lead" data-reveal>
             <div class="label">The Ritual &middot; {truth.ritualPlatformStatus}</div>
             <h1 class="ritual-title">Don&rsquo;t edit it. Develop it.</h1>
-            <p class="ritual-lede">A revolutionary darkroom for your raw files: its own raw engine, real film from each maker&rsquo;s data, developed, printed and retouched on the negative.</p>
+            <p class="ritual-lede">A revolutionary darkroom for your raw files: its own raw engine, real film from each maker&rsquo;s data, developed, printed and retouched on the negative. As organic as it gets: your photograph is never generated.</p>
           </div>
           <div class="ritual-hero-aside" data-reveal>
             <p class="fact">Free to download &mdash; every film and every tool, with the Latent mark until you choose a plan.</p>
@@ -305,7 +306,7 @@ const stocks = [
         <div class="ritual-words" data-reveal>
           <div class="label">Revolution 05 &middot; Retouch</div>
           <h2>Retouch the negative, not the surface.</h2>
-          <p class="fact">Repair what distracts, shape the light, work gently with a face. Every touch sits on the negative, so it carries the film&rsquo;s grain and redevelops when the film changes.</p>
+          <p class="fact">Repair what distracts, shape the light, work gently with a portrait. Every touch sits on the negative, so it carries the film&rsquo;s grain and redevelops when the film changes.</p>
         </div>
         <RitualCompare pairs={retouchPairs} widths={[1280, 2560]} ratio="5344 / 2892" name="Retouch" />
       </section>
@@ -420,25 +421,25 @@ const stocks = [
 
       <section id="whats-new" class="ritual-block">
         <div class="ritual-words wide" data-reveal>
-          <div class="label">What&rsquo;s new &middot; The Ritual 1.0.7</div>
-          <h2 class="ritual-whats-title">One home on every Latent surface, and the brightest light, read anew.</h2>
+          <div class="label">What&rsquo;s new &middot; The Ritual 1.0.10</div>
+          <h2 class="ritual-whats-title">Made for the finest cameras, and light with the largest files.</h2>
         </div>
         <div class="ritual-also" data-reveal>
           <div>
-            <div class="label">Continue with Apple</div>
-            <p class="fact">Step into the Community with the Apple ID you use on The Moment, and arrive in the home you already have: your prints and the people you follow. Google stays available.</p>
+            <div class="label">Made for the finest cameras</div>
+            <p class="fact">Latent&rsquo;s own engine develops the Phase One IQ4 150MP and IQ3 100MP, the Hasselblad X2D 100C, H6D-100c and CFV 100C, the Fujifilm GFX100 II and GFX100RF in 16-bit, the Leica M10-R, M Monochrom, SL2 and Q2, and the Pentax 645Z &mdash; even the Phase One files Apple&rsquo;s own engine cannot open.</p>
           </div>
           <div>
-            <div class="label">Clipped light, read anew</div>
-            <p class="fact">The brightest parts of a photograph &mdash; a low sun, a sky through leaves, a lamp at night &mdash; develop with clean edges and colour that flows on without a seam.</p>
+            <div class="label">Faster, lighter</div>
+            <p class="fact">A 150-megapixel photograph shows its first picture in about a second, and a developed one opens again at once, sharp. The Ritual uses about a third of the memory it did with large raws.</p>
           </div>
           <div>
-            <div class="label">Mentions on the back</div>
-            <p class="fact">Writing on the back of a print, type @ and a few letters of a name: the people to mention appear, and each mention leads to their home.</p>
+            <div class="label">Clipped Light, true to the light</div>
+            <p class="fact">A blown highlight now glows the same on every film, whatever light it was shot in: a tungsten film in daylight, a daylight film under tungsten.</p>
           </div>
           <div>
-            <div class="label">Coming next</div>
-            <p class="fact">Circles, rebuilt for the Mac, as private rooms in the same gallery.</p>
+            <div class="label">Honest, always</div>
+            <p class="fact">Finest detail tells you how long is left, and &ldquo;Developing&rdquo; stays until the sharp picture is truly there. When something can&rsquo;t happen, The Ritual tells you why and what to do.</p>
           </div>
         </div>
       </section>
@@ -452,6 +453,7 @@ const stocks = [
             </div>
             <p class="fact">Install the complete workroom and use it &mdash; every tool, every stock, full-resolution exports, no card, nothing to cancel. Until you choose a plan, each photograph carries the Latent mark, on the canvas and in every export. A plan makes every photograph clean, on up to {ritualCommerce.supportedMacs} Macs, swapped whenever you like.</p>
           </div>
+          <PurchasesPaused product="ritual" id="plans-back-ritual" />
           <div class="ritual-plans">
             {ritualCommerce.plans.map((plan) => (
               <article class:list={['ritual-plan', { 'ritual-plan-featured': plan.id === 'annual' }]}>
@@ -472,7 +474,7 @@ const stocks = [
               <a class="download-more" href="/ritual/purchase">How it installs &rarr;</a>
             </div>
             <SendToMac id="send-mac-plans" />
-            <p>Latent Manager holds your account, the secure checkout through Paddle, installation and updates. When a plan ends, The Ritual keeps working and the mark returns &mdash; your photographs and your original files are always yours.</p>
+            <p>Latent Manager holds your account, the secure checkout, installation and updates. When a plan ends, The Ritual keeps working and the mark returns &mdash; your photographs and your original files are always yours.</p>
             <p>The Ritual for iPad arrives after the Mac and is included with every plan here, at no extra cost.</p>
           </div>
         </section>

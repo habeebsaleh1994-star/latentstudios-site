@@ -13,6 +13,9 @@ const MANAGER_PRODUCTS = new Map([
     packageFile(version) { return `Latent-Manager-${version}.zip`; },
   }],
 ]);
+// Manager 1.1.11 and later say why it fetches a package (X-Latent-Download), so a first install and an update
+// count apart; an older Manager says nothing and keeps the plain product/channel key (2026-10-19).
+const DOWNLOAD_REASONS = new Set(['install', 'update', 'repair']);
 const MAXIMUM_FEED_BYTES = 100_000;
 const MAXIMUM_CONTENT_FEED_BYTES = 256 * 1024;
 
@@ -184,7 +187,9 @@ export async function serveManagerPackage(context, product, channel, version) {
       `bytes ${requestedRange.offset}-${end}/${metadata.size}`,
     );
   }
-  countDownload(context, `${product}/${channel}`, version, requestedRange);
+  const reason = request.headers.get('X-Latent-Download')?.trim().toLowerCase();
+  const counted = DOWNLOAD_REASONS.has(reason) ? `${product}/${channel}/${reason}` : `${product}/${channel}`;
+  countDownload(context, counted, version, requestedRange);
   return new Response(object.body, {
     status: requestedRange ? 206 : 200,
     headers,

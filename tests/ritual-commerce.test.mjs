@@ -124,6 +124,6 @@ test('purchase copy explains install-first access and the lock boundary', async 
   }
   assert.match(purchase, /original files can always be revealed or copied out/i);
   assert.match(purchase, /yours forever, with every update to that version free/i);
-  assert.match(purchase, /Paddle handles the secure checkout/i);
+  assert.match(purchase, /the checkout is secure, by Stripe/i);
   assert.match(purchase, /There is no license key to copy/i);
 });
