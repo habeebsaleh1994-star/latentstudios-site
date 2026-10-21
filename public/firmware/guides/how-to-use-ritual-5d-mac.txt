@@ -1,0 +1,102 @@
+RITUAL FOR THE CANON EOS 5D (the first 5D, firmware 1.1.1)
+by Latent Studios · www.latentstudios.art
+This guide is kept up to date at www.latentstudios.art/firmware/guide
+
+You need: the 5D with a full battery, a CompactFlash card (8 GB or more), a Mac.
+Your photos are always Canon's own raw file (CR2, in DCIM), plus Ritual's photo on
+your film, in the RITUAL folder on the card.
+
+
+1. MAKE THE CARD (on the Mac)
+   - Copy any photos off the card. Put the card in the camera and format it
+     (MENU → Format).
+   - Put the card in the Mac (a card reader is fine) and open Make Ritual Card.
+   - Click "Make the card". It puts Ritual and its films on the card and checks
+     everything (a few minutes), then asks for the Mac's password once. It ejects
+     the card when it is done.
+
+
+2. THE FIRST TIME ONLY (in the camera)
+   - Put the card in the camera. MENU → Firmware Ver. 1.1.1 → OK.
+   - The camera finds LATBOOT1.FIR. Let it run: the red light blinks 3 times,
+     then pauses, again and again. Seen that a few rounds in a
+     row? It worked.
+     (4 blinks each time means it did not: tell us.)
+   - Take the battery out, wait a few seconds, put it back, then turn the camera
+     on, and press INFO: Ritual's film screen. Turn the dial to choose a film and
+     press SET. You are ready to shoot.
+   - You never need to do this again on this camera. With a normal card, the
+     camera works exactly like a normal Canon.
+
+
+3. SHOOTING
+   - Turn the camera on with the Ritual card in it: Ritual starts by itself.
+   - Press INFO to see Ritual's film screen. Turn the dial to choose a film,
+     press SET to load it. Press PLAY to see your photos.
+   - Shoot as usual. Each photo develops a few seconds after you stop shooting.
+     Leave the camera on for a moment after a burst so it can catch up.
+   - On a cine film (Kodak Vision3 250D or 500T) the film screen has a Halation
+     row: the red glow around lights, as the film has it without its backing.
+     Press ▼ to it and turn the dial: Soft, Medium or Full. It stays as you leave it.
+
+
+4. MORE FILMS LATER
+   - When there is a new Ritual, put your Ritual card in the Mac, open the new
+     Make Ritual Card and click "Make the card". Your photos stay.
+
+
+5. WORDS ON THE SCREEN
+   Film         The film each photo develops on. Turn the dial to choose, press
+                SET to load it.
+   Development  "Box speed", or the film pushed or pulled: developed longer or
+                shorter, as a lab does. Pushed: more contrast and grain.
+                Pulled: softer.
+   Paper        The paper the photo is printed on. Some black-and-white papers
+                also have a Grade (0 to 5): the higher, the more contrast.
+   Halation     Cine films only: the red glow around bright lights. Soft,
+                Medium or Full.
+   Light        The light Ritual develops for: your camera's white balance
+                (Auto shows the last light it measured, e.g. 4000 K).
+   Roll         Ritual counts your photos in rolls of 36, like film:
+                "Roll 3 · 12 of 36". A new roll starts by itself after 36,
+                or when you load another film.
+   Developing   The photo being made now. Its picture shows first, then its
+                full photo goes into the RITUAL folder.
+
+
+6. HOW LONG IT TAKES
+   - A photo's picture on the screen: about 15 seconds (up to a minute right
+     after a burst).
+   - Its full photo in the RITUAL folder: about 40 seconds more (a cine film
+     with its glow: about a minute).
+   - After a burst they develop one by one, the newest first. You can look at
+     them in PLAY meanwhile. Switched off before they are all done? They go on
+     the next time you turn the camera on: nothing is lost.
+
+
+7. IF SOMETHING GOES WRONG
+   - INFO is the key button. It opens Ritual's film screen, and it shows your
+     photos as they develop. If a photo hasn't appeared yet, press INFO.
+   - Sometimes the first photo after you turn the camera on doesn't show until
+     you take another one. Take a second photo and both appear.
+   - The camera freezes (the buttons do nothing, or the screen is stuck): wait
+     until the red card light is off, take the battery out for a few seconds,
+     put it back and turn the camera on. Nothing is lost: what was developing
+     goes on.
+   - Never take the card or the battery out while the red card light is on.
+   - A photo does not show yet: press INFO or PLAY. While Ritual's screen is
+     open, a cine photo shows first without its glow; the glowing one comes
+     once you close the screen.
+   - "Reading the card" when you turn the camera on: wait a few seconds.
+   - Still stuck? Write to us (www.latentstudios.art). The card keeps a log of
+     what happened: we may ask you for it.
+
+Do not format the Ritual card in the camera unless you want Ritual off it
+(you can always make it again with step 1).
+
+TO TURN RITUAL OFF FOR GOOD: copy LATBOOT0.FIR from the "Turn Ritual off" folder onto a card and run it
+from MENU → Firmware Ver. as in step 2 (the red light blinks 2 times, again and again;
+then take the battery out and put it back).
+
+The films work only inside Ritual on the camera, and only with this kit.
+You may share this download with friends, free and as you received it. Please read LICENCE.txt.
