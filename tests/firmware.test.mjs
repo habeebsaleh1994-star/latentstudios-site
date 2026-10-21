@@ -4,9 +4,10 @@ import test from 'node:test';
 
 import { firmware, firmwareAmount, firmwareDestination } from '../src/config/firmware.js';
 
-test('the firmware is not released: no checkout and no download until release day', () => {
-  assert.equal(firmware.released, false);
-  assert.equal(firmware.downloadHref, null);
+test('the firmware is released (21 Oct 2026): a $0 choice downloads from the site\'s own download page', () => {
+  assert.equal(firmware.released, true);
+  assert.equal(firmware.downloadHref, '/firmware/download');
+  assert.equal(firmwareDestination(0), '/firmware/download');
 });
 
 test('pay what you want: $0, or whole dollars from $5 to $100', () => {
