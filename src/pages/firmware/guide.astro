@@ -27,6 +27,7 @@ const cameras = [
   {
     id: 'five-d',
     name: 'Canon EOS 5D',
+    canon: [['Canon’s EOS 5D support page (Drivers, Software & Firmware)', 'https://asia.canon/en/support/EOS%205D/model']],
     steps: [
       ['The first time only', [
         'Put the card in the camera. MENU → Firmware Ver. 1.1.1 → OK.',
@@ -50,6 +51,7 @@ const cameras = [
   {
     id: 'mark-ii',
     name: 'Canon EOS 5D Mark II',
+    canon: [['Canon firmware 2.1.2 for Mac', 'https://asia.canon/en/support/0400048702'], ['Canon firmware 2.1.2 for Windows', 'https://asia.canon/en/support/0400048602']],
     steps: [
       ['The first time only', [
         'Put the card in the camera and turn it on. Press MENU, go to Firmware Ver. 2.1.2, press SET, then choose OK.',
@@ -130,7 +132,7 @@ const always = [
         <section class="ritual-block tight" id={camera.id}>
           <div class="ritual-words wide fw-guide">
             <div class="label">{camera.name}</div>
-            <p class="fact">Needs {firmwareNeeds[camera.name]} Check it in MENU &rarr; Firmware Ver.; if it shows another number, install Canon&rsquo;s from Canon&rsquo;s website first.</p>
+            <p class="fact">Needs {firmwareNeeds[camera.name]} Check it in MENU &rarr; Firmware Ver.; if it shows another number, install Canon&rsquo;s first: {camera.canon.map(([label, href], i) => <>{i > 0 && ' · '}<a href={href} rel="noopener">{label}</a></>)}.</p>
             {camera.steps.map(([title, items]) => (
               <div class="fw-step">
                 <h2 class="fw-step-title">{title}</h2>
