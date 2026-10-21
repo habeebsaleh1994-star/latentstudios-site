@@ -29,7 +29,7 @@ const doorLabel = (amount) => (amount === 0 ? 'Download' : `Pay $${amount} and d
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/cormorant-500-normal-latin.woff2" />
   </Fragment>
 
-  <div class="home ritual">
+  <div class="home ritual fw-page">
 
     <header class="home-header ritual-header">
       <a class="home-mark" href="/">Latent Studios<span class="home-berry" aria-hidden="true"></span></a>
@@ -129,7 +129,7 @@ const doorLabel = (amount) => (amount === 0 ? 'Download' : `Pay $${amount} and d
     .fw-fact { padding: 22px 22px 24px 0; }
     .fw-fact + .fw-fact { padding-left: 22px; border-left: 1px solid var(--hair); }
     .ritual .fw-fact .line { margin: 0; }
-    .fw-small { font-size: 13px; line-height: 1.6; color: var(--soft); max-width: 70ch; margin: 0; }
+    .fw-small { font-size: 15px; line-height: 1.6; color: var(--soft); max-width: 70ch; margin: 0; }
     @media (max-width: 720px) { .fw-fact + .fw-fact { padding-left: 0; border-left: 0; border-top: 1px solid var(--hair); } }
     .fw-amounts { display: flex; flex-wrap: wrap; gap: 10px; }
     .fw-amount, .fw-other { font: inherit; font-size: 19px; color: var(--ink); background: transparent; border: 1px solid rgba(212, 196, 176, 0.28); border-radius: 999px; padding: 12px 22px; min-height: 48px; cursor: pointer; }

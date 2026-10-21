@@ -270,3 +270,9 @@
 .ritual .ritual-fw-note { margin: 4px 0 0; font-size: 15px; line-height: 1.5; color: var(--soft); max-width: 36ch; }
 .ritual .ritual-fw-note a { color: var(--amber-accent); text-decoration: none; white-space: nowrap; }
 .ritual .ritual-fw-note a:hover { color: var(--ink-bright); }
+
+/* The firmware pages (/firmware, its download and its guide): read next to a camera, often on a phone, so a step larger. */
+.ritual.fw-page .label { font-size: 12px; }
+.ritual.fw-page .fact { font-size: 19.5px; line-height: 1.55; }
+.ritual.fw-page .line { font-size: 21px; }
+.ritual.fw-page .ritual-lede { font-size: clamp(22px, 2.2vw, 28px); }
