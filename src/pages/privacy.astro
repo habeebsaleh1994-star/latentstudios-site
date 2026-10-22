@@ -13,7 +13,7 @@ import Footer from '../components/Footer.astro';
   <main class="legal" id="main">
     <div class="legal-label">Privacy</div>
     <h1>Privacy Policy</h1>
-    <p class="legal-updated">Last updated 19 October 2026</p>
+    <p class="legal-updated">Last updated 22 October 2026</p>
 
     <p class="legal-lead">Privacy should be simple. We collect as little as possible, use it only when necessary, and never sell your information.</p>
 
@@ -30,7 +30,7 @@ import Footer from '../components/Footer.astro';
     <p>We keep an internal account identifier, the providers you connect, the preferred name you enter, installation identifiers, protected session records, and the dates needed to operate and secure the account. Sign-in challenges are short-lived, session secrets are stored only as protected hashes on our service, and the usable session token is kept in your Mac&rsquo;s Keychain.</p>
 
     <h2>Licensing and installations</h2>
-    <p>To activate, restore, and verify a product, we keep the minimum license record needed for that purpose: your internal Latent account identifier, product and plan, license status and relevant dates, Paddle customer, transaction, or subscription identifiers where a purchase is involved, and an installation public key and fingerprint for each authorized Mac. We also keep cryptographic hashes and audit records that let us issue, refresh, revoke, and defend a license without storing its private installation key.</p>
+    <p>To activate, restore, and verify a product, we keep the minimum license record needed for that purpose: your internal Latent account identifier, product and plan, license status and relevant dates, Stripe or Paddle customer, transaction, or subscription identifiers where a purchase is involved, and an installation public key and fingerprint for each authorized Mac. We also keep cryptographic hashes and audit records that let us issue, refresh, revoke, and defend a license without storing its private installation key.</p>
     <p>Your Mac creates and keeps its private installation key locally. Latent does not receive it. The licensing system never receives your photographs, footage, project files, or payment card details.</p>
 
     <h2>Your photographs</h2>
@@ -49,9 +49,9 @@ import Footer from '../components/Footer.astro';
     <p>You can take back a published post at any time, close a Circle you own, leave a Circle, and delete your community account entirely from inside the app. What you take back is removed from our service; a copy someone already saved to their own device is beyond our reach &mdash; as with anything shared.</p>
 
     <h2>Payments</h2>
-    <p>Purchases made on this website are processed by Stripe, through our authorized reseller. Stripe collects what it needs to take payment, issue a receipt, calculate tax, and handle refunds. We never receive your payment card details. Purchases made before 19 October 2026 were processed by Paddle.com.</p>
+    <p>Purchases made on this website are processed by Stripe and sold through Link, Stripe&rsquo;s payment service. Stripe and Link collect what they need to take payment, issue a receipt, calculate and pay tax, and handle refunds. We never receive your payment card details. Purchases made before 19 October 2026 were processed by Paddle.com.</p>
     <p>Stripe may share with us your email address, country, and what you bought, so we can send you the download and support the purchase. We use that only for fulfillment and support. We do not sell it.</p>
-    <p>Stripe&rsquo;s own privacy policy applies to the information they collect: <a href="https://stripe.com/privacy">stripe.com/privacy</a></p>
+    <p>Stripe&rsquo;s and Link&rsquo;s own privacy policies apply to the information they collect: <a href="https://stripe.com/privacy">stripe.com/privacy</a> and <a href="https://link.com/privacy">link.com/privacy</a></p>
     <p>Purchases made in the Mac App Store are processed by Apple, under Apple&rsquo;s terms and privacy policy. Apple handles the payment, tax, receipts, renewals, and refunds; we never receive your payment details. The app learns from Apple only which plan is active on your Mac, so it can remove the Latent mark.</p>
     <p>If you want a purchase record deleted, write to us at <a href="mailto:privacy@latentstudios.art">privacy@latentstudios.art</a>. Where Stripe (or, for earlier purchases, Paddle) holds the record, we will pass the request on.</p>
 
@@ -65,7 +65,7 @@ import Footer from '../components/Footer.astro';
       <li>Google for Sign in with Google.</li>
       <li>Apple for Sign in with Apple, push notifications, App Store services, and any Apple Photos or iCloud features you choose to use. Apple does not host Field or Circle content for Latent.</li>
       <li>Cloudflare, whose infrastructure runs this website and Latent&rsquo;s separate account, licensing, and community services.</li>
-      <li>Stripe, for website purchases, receipts, tax, and refunds (Paddle.com for purchases before 19 October 2026).</li>
+      <li>Stripe and Link, for website purchases, receipts, tax, and refunds (Paddle.com for purchases before 19 October 2026).</li>
       <li>Apple, for purchases made in the Mac App Store.</li>
     </ul>
     <p>Each service maintains its own privacy policy.</p>
