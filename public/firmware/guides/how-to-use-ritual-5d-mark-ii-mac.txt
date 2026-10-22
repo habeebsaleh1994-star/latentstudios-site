@@ -23,8 +23,8 @@ Canon's website first.
 2. THE FIRST TIME ONLY (in the camera)
    - Put the card in the camera and turn it on.
    - Press MENU, go to Firmware Ver. 2.1.2, press SET, then choose OK.
-   - Choose RITSETUP.FIR. The screen says "Set up Ritual on this camera".
-     Press SET to set it up (MENU: not now).
+   - The camera finds the setup by itself. When the screen says "Set up Ritual
+     on this camera", press SET (MENU: not now).
    - While it says "Setting up Ritual", do not switch off or take the battery out.
      It takes a few seconds.
    - When it says "Ritual is ready", switch the camera off, then on.
