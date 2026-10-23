@@ -270,6 +270,11 @@
 .ritual .ritual-fw-note { margin: 4px 0 0; font-size: 15px; line-height: 1.5; color: var(--soft); max-width: 36ch; }
 .ritual .ritual-fw-note a { color: var(--amber-accent); text-decoration: none; white-space: nowrap; }
 .ritual .ritual-fw-note a:hover { color: var(--ink-bright); }
+.ritual .ritual-windows { margin-top: 18px; max-width: 360px; }
+.ritual .ritual-windows-form { margin-top: 10px; border-bottom-color: rgba(212,196,176,0.28); }
+.ritual .ritual-windows-form input[type="email"] { font-size: 15px; }
+.ritual .ritual-windows-form .door { font-size: 11px; }
+.ritual .ritual-windows.is-done .ritual-windows-form { display: none; }
 
 /* The firmware pages (/firmware, its download and its guide): read next to a camera, often on a phone, so a step larger. */
 .ritual.fw-page .label { font-size: 12px; }

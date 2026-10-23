@@ -218,6 +218,19 @@ const stocks = [
                 <div class="label" data-mac-only>Free &middot; macOS 26 on Apple silicon &middot; <a href="#access">the plans</a></div>
                 <SendToMac id="send-mac-hero" />
                 <p class="ritual-fw-note">Looking for the Canon 5D firmware? It runs in the camera. <a href="/firmware">{firmware.released && firmware.downloadHref ? <>Get the firmware &rarr;</> : <>Coming soon &rarr;</>}</a></p>
+                <div class="ritual-windows" data-newsletter>
+                  <p class="ritual-fw-note">On Windows? The Ritual is coming. Leave an address and we&rsquo;ll write the day it&rsquo;s ready.</p>
+                  <form class="home-letters-form ritual-windows-form" action={SUBSCRIBE_ENDPOINT} method="post" data-newsletter-form>
+                    <label class="visually-hidden" for="windows-email">Email address</label>
+                    <input id="windows-email" type="email" name="email" required autocomplete="email" placeholder="your address" />
+                    <input type="hidden" name="list" value="ritual-windows" />
+                    <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+                           style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
+                    <button type="submit" class="door">Write to me</button>
+                  </form>
+                  <p class="ritual-fw-note" data-newsletter-error hidden role="alert">That email doesn&rsquo;t look right.</p>
+                  <p class="ritual-fw-note" data-newsletter-done hidden role="status" aria-live="polite">You&rsquo;re on the list. One letter, the day it&rsquo;s ready.</p>
+                </div>
               </>
             ) : (
               <>
