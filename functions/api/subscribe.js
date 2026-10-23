@@ -99,6 +99,9 @@ export const onRequestPost = async ({ request, env }) => {
   // Already on the list → Buttondown returns 400 with code "email_already_exists".
   // Match on the explicit code (not a loose word) so real failures aren't masked.
   if (status === 400 && (code === "email_already_exists" || /already (exists|subscribed)/i.test(body))) {
+    // Already a reader: the new list still has to reach their Buttondown profile, or a letter sent
+    // to that tag (the Windows list, Nera's opening) would miss the very people who asked twice.
+    if (tags.length) await addTagsToReader(apiKey, email, tags);
     await noteButtondown(db, email);
     return json({ ok: true, already: true });
   }
@@ -108,3 +111,22 @@ export const onRequestPost = async ({ request, env }) => {
   return refused(`${status} ${code || body.slice(0, 200)}`.trim(),
     json({ ok: false, error: "buttondown_error", status, code, detail: body.slice(0, 300) }, 502));
 };
+
+// Merges tags into an existing Buttondown subscriber, keeping the ones they have. Best effort: our own
+// store already holds the tags, so a failure here never fails the signup.
+async function addTagsToReader(apiKey, email, tags) {
+  const url = `https://api.buttondown.com/v1/subscribers/${encodeURIComponent(email)}`;
+  const headers = { Authorization: `Token ${apiKey}`, "Content-Type": "application/json" };
+  try {
+    const got = await fetch(url, { headers });
+    if (!got.ok) return console.warn("buttondown reader lookup failed", got.status);
+    const reader = await got.json();
+    const have = (reader.tags || []).map((t) => (typeof t === "string" ? t : t?.name)).filter(Boolean);
+    const merged = [...new Set([...have, ...tags])];
+    if (merged.length === have.length) return;
+    const put = await fetch(url, { method: "PATCH", headers, body: JSON.stringify({ tags: merged }) });
+    if (!put.ok) console.warn("buttondown reader tags not added", put.status);
+  } catch (error) {
+    console.warn("buttondown reader tags not added", String(error));
+  }
+}

@@ -86,3 +86,23 @@ test('without our database a refusal is still reported honestly, and bad input s
     assert.equal(db.sqlite.prepare("SELECT name FROM sqlite_master WHERE name = 'newsletter_signups'").get(), undefined);
   } finally { bd.restore(); }
 });
+
+test('already a reader: the new list is added to their Buttondown tags, keeping the ones they have', async () => {
+  const db = database();
+  const original = globalThis.fetch;
+  const calls = [];
+  globalThis.fetch = async (url, init = {}) => {
+    calls.push({ url: String(url), method: init.method || 'GET', body: init.body ? JSON.parse(init.body) : null });
+    if ((init.method || 'GET') === 'POST') return new Response('{"code":"email_already_exists"}', { status: 400 });
+    if ((init.method || 'GET') === 'GET') return new Response(JSON.stringify({ tags: ['firmware'] }), { status: 200 });
+    return new Response('{}', { status: 200 });
+  };
+  try {
+    const res = await onRequestPost({ request: post({ email: 'reader@example.com', list: 'ritual-windows' }), env: { DOWNLOAD_COUNTS: db, BUTTONDOWN_API_KEY: 'k' } });
+    assert.deepEqual(await res.json(), { ok: true, already: true });
+  } finally { globalThis.fetch = original; }
+  assert.deepEqual(calls.map((c) => c.method), ['POST', 'GET', 'PATCH']);
+  assert.equal(calls[1].url, 'https://api.buttondown.com/v1/subscribers/reader%40example.com');
+  assert.deepEqual(calls[2].body, { tags: ['firmware', 'ritual-windows'] });
+  assert.equal(rows(db)[0].tags, 'ritual-windows');
+});
