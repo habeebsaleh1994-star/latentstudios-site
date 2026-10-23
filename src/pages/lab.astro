@@ -50,7 +50,7 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
 
 <Base
   title="The Lab — Latent Print Engine for DaVinci Resolve"
-  description="Real film, simulated from light to print, in one node inside your grade. 83 film stocks from their makers' own data, printed on 18 papers and print films. Latent Print Engine for DaVinci Resolve Studio."
+  description="Real film, simulated from light to print, in one node inside your grade. 83 film stocks built the way film works, printed on 18 papers and print films. Latent Print Engine for DaVinci Resolve Studio."
   ogImage="/og-lab.png?v=2"
   ogImageAlt="The Lab — Latent Print Engine, in DaVinci Resolve"
   quiet={false}
@@ -86,7 +86,7 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
             <p class="ritual-lede">Real film, simulated from light to print &mdash; in one node inside your grade.</p>
           </div>
           <div class="ritual-hero-aside" data-reveal>
-            <p class="fact">This isn&rsquo;t a LUT. Each frame is exposed onto a film stock, developed, printed and viewed, the way the stock&rsquo;s own maker describes it &mdash; through the same engine as The Ritual.</p>
+            <p class="fact">This isn&rsquo;t a LUT. Each frame is exposed onto a film stock, developed, printed and viewed, as film is &mdash; through the same engine as The Ritual.</p>
             {labCommerce.storeOpen ? (
               <>
                 <a class="download" data-mac-only href={getHref}>Download for Mac<span class="download-arrow" aria-hidden="true">&darr;</span></a>
@@ -132,15 +132,15 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
       <section class="lab-pair">
         <div class="ritual-words" data-reveal>
           <div class="label">01 &middot; The negative</div>
-          <h2>Every stock, from its maker&rsquo;s own data.</h2>
-          <p class="fact">Eighty-three film stocks, each built from what its maker published: how each layer sees the spectrum, the dyes it forms, its characteristic curves, its grain. Nothing is matched to a look by eye and called a stock.</p>
+          <h2>Every stock, built the way film works.</h2>
+          <p class="fact">Eighty-three film stocks, each built layer by layer: how each layer sees the spectrum, the dyes it forms, its characteristic curves, its grain. Nothing is matched to a look by eye and called a stock.</p>
           <p class="fact">The film sees the light your footage was shot in. Tell it the camera&rsquo;s white balance and a daylight stock under tungsten goes warm, a tungsten stock in daylight goes blue &mdash; as on set.</p>
           <div class="label">{families.map((f) => `${f.name} ${f.count}`).join(' · ')}</div>
         </div>
         <figure class="lab-card" data-reveal>
-          <div class="lab-card-head"><span>Kodak Vision3 250D</span><span class="muted">Spectral sensitivity</span></div>
+          <div class="lab-card-head"><span>Vision3 250D</span><span class="muted">Spectral sensitivity</span></div>
           <svg class="lab-curve" viewBox={`0 0 ${sensitivity.width} ${sensitivity.height}`} role="img"
-               aria-label="Kodak Vision3 250D: the red, green and blue layers' spectral sensitivity, 380 to 780 nanometres">
+               aria-label="Vision3 250D: the red, green and blue layers' spectral sensitivity, 380 to 780 nanometres">
             {sensitivity.paths.map((d, i) => <path d={d} fill="none" stroke={layerColours[i]} stroke-width="2" stroke-linejoin="round" />)}
           </svg>
           <div class="lab-axis">{[400, 500, 600, 700].map((nm) => <span style={`left: ${((nm - 380) / 400) * 100}%`}>{nm === 700 ? '700 nm' : nm}</span>)}</div>
@@ -312,6 +312,7 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
               <a href="mailto:lab@latentstudios.art">Support</a>
             </nav>
             <p class="home-mark home-mark-foot">Latent Studios<span class="home-berry" aria-hidden="true"></span> &nbsp;&middot;&nbsp; &copy; 2026</p>
+            <p class="names-notice">Film and paper names are trademarks of their respective owners, used only to describe the look each one inspired. Latent is not affiliated with or endorsed by them.</p>
           </div>
         </div>
       </section>

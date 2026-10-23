@@ -87,11 +87,11 @@ const darkroomPairs = [
   { id: 'print', tab: 'Develop and print',
     before: { src: ui(10), label: 'Before', alt: 'A young woman by a window of icons, the raw before development' },
     after: { src: ui(9), label: 'Portra 400 · Endura Transparency', alt: 'The same portrait developed on Portra 400 and printed on Endura Transparency' },
-    note: 'The raw, exposed onto Portra 400, developed, and printed on Endura Transparency, every step from Kodak’s own data.' },
+    note: 'The raw, exposed onto Portra 400, developed, and printed on Endura Transparency, every step as the darkroom does it.' },
   { id: 'slide', tab: 'Slide film',
     before: { src: ui(17), label: 'Kodachrome 64 · as exposed', alt: 'A slide on Kodachrome 64, as exposed' },
-    after: { src: ui(18), label: 'Kodak’s correction applied', alt: 'The same slide with Kodak’s own correction applied: plus a third of a stop and a CC05R filter' },
-    note: 'A slide is the picture itself, with no print to time it. Where the film strays, Kodak’s own correction, a third of a stop and a CC05 red, is one press away.' },
+    after: { src: ui(18), label: 'Correction applied', alt: 'The same slide with its correction applied: plus a third of a stop and a CC05R filter' },
+    note: 'A slide is the picture itself, with no print to time it. Where the film strays, its correction, a third of a stop and a CC05 red, is one press away.' },
   { id: 'grain', tab: 'Grain',
     before: { src: ui(2), label: 'Before', alt: 'A portrait detail at full size on Portra 400, the grain raised' },
     after: { src: ui(3), label: 'After', alt: 'The same detail with a finer grain' },
@@ -170,7 +170,7 @@ const stocks = [
 
 <Base
   title="The Ritual — a revolutionary darkroom for your raw files"
-  description="Don’t edit it. Develop it. The Ritual is a darkroom for your raw files on Mac: its own raw engine, 83 real films from each maker’s data, developed, printed and retouched on the negative. Free to download."
+  description="Don’t edit it. Develop it. The Ritual is a darkroom for your raw files on Mac: its own raw engine, 83 real films built the way film works, developed, printed and retouched on the negative. Free to download."
   ogImage="/og-ritual.png?v=2"
   ogImageAlt="The Ritual — a complete photographic workroom for Mac, with iPad to follow"
   quiet={false}
@@ -208,7 +208,7 @@ const stocks = [
           <div class="ritual-hero-lead" data-reveal>
             <div class="label">The Ritual &middot; {truth.ritualPlatformStatus}</div>
             <h1 class="ritual-title">Don&rsquo;t edit it. Develop it.</h1>
-            <p class="ritual-lede">A revolutionary darkroom for your raw files: its own raw engine, real film from each maker&rsquo;s data, developed, printed and retouched on the negative. As organic as it gets: your photograph is never generated.</p>
+            <p class="ritual-lede">A revolutionary darkroom for your raw files: its own raw engine, real film built the way film works, developed, printed and retouched on the negative. As organic as it gets: your photograph is never generated.</p>
           </div>
           <div class="ritual-hero-aside" data-reveal>
             <p class="fact">Free to download &mdash; every film and every tool, with the Latent mark until you choose a plan.</p>
@@ -249,7 +249,7 @@ const stocks = [
         <div class="ritual-words" data-reveal>
           <div class="label">Revolution 02 &middot; The film</div>
           <h2>Real film. Really developed.</h2>
-          <p class="fact">One raw file, developed on ten of the 83 films on the shelf. Every stock begins from its maker&rsquo;s own data &mdash; curves, dyes, grain, sharpness, reciprocity &mdash; and develops in its own chemistry: colour negative, slide, Kodachrome, motion picture, black and white. Then it is printed on one of 21 papers, or scanned as a lab would.</p>
+          <p class="fact">One raw file, developed on ten of the 83 films on the shelf. Every stock is built the way film works &mdash; curves, dyes, grain, sharpness, reciprocity &mdash; and develops in its own chemistry: colour negative, slide, Kodachrome, motion picture, black and white. Then it is printed on one of 21 papers, or scanned as a lab would.</p>
         </div>
         <div class="ritual-filmshow" data-reveal>
           <figure class="ritual-plate ritual-filmshow-plate">
@@ -298,7 +298,7 @@ const stocks = [
         <div class="ritual-words" data-reveal>
           <div class="label">Revolution 04 &middot; The darkroom</div>
           <h2>Every choice a darkroom made.</h2>
-          <p class="fact">The film and its print, a slide and Kodak&rsquo;s own correction, the grain, the film&rsquo;s backing, the finish &mdash; each from the maker&rsquo;s own data. Drag across each frame; the panel shows what changed.</p>
+          <p class="fact">The film and its print, a slide and its correction filter, the grain, the film&rsquo;s backing, the finish &mdash; each as a darkroom made it. Drag across each frame; the panel shows what changed.</p>
         </div>
         <RitualCompare pairs={darkroomPairs} widths={[1280, 2560]} ratio="5344 / 2892" name="Inside the Darkroom" />
       </section>
@@ -508,6 +508,7 @@ const stocks = [
               <a href="mailto:ritual@latentstudios.art">Contact</a>
             </nav>
             <p class="home-mark home-mark-foot">Latent Studios<span class="home-berry" aria-hidden="true"></span> &nbsp;&middot;&nbsp; &copy; 2026</p>
+            <p class="names-notice">Film and paper names are trademarks of their respective owners, used only to describe the look each one inspired. Latent is not affiliated with or endorsed by them.</p>
           </div>
         </div>
       </section>

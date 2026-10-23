@@ -168,7 +168,7 @@
 .ritual .home-letters-form input[type="email"]::placeholder { color: var(--soft); }
 .ritual .home-letters-form .door { color: var(--amber-accent); }
 .ritual .home-letters-note { color: var(--soft); }
-.ritual .home-letters-colophon nav a, .ritual .home-mark-foot { color: var(--soft); }
+.ritual .home-letters-colophon nav a, .ritual .home-mark-foot, .ritual .names-notice { color: var(--soft); }
 
 @media (max-width: 720px) {
   .ritual-words, .ritual-words.right, .ritual-words.push, .ritual-words.wide { flex-basis: 100%; max-width: 100%; margin-left: 0; text-align: left; }
