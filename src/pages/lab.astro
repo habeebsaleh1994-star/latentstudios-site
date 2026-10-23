@@ -50,7 +50,7 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
 
 <Base
   title="The Lab — Latent Print Engine for DaVinci Resolve"
-  description="Real film, simulated from light to print, in one node inside your grade. 83 film stocks built the way film works, printed on 18 papers and print films. Latent Print Engine for DaVinci Resolve Studio."
+  description="Real film, simulated from light to print, in one node inside your grade. 83 film stocks in Latent’s own colour science, printed on 18 papers and print films. Latent Print Engine for DaVinci Resolve Studio."
   ogImage="/og-lab.png?v=2"
   ogImageAlt="The Lab — Latent Print Engine, in DaVinci Resolve"
   quiet={false}
@@ -132,19 +132,19 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
       <section class="lab-pair">
         <div class="ritual-words" data-reveal>
           <div class="label">01 &middot; The negative</div>
-          <h2>Every stock, built the way film works.</h2>
-          <p class="fact">Eighty-three film stocks, each built layer by layer: how each layer sees the spectrum, the dyes it forms, its characteristic curves, its grain. Nothing is matched to a look by eye and called a stock.</p>
+          <h2>Every stock, in our own colour science.</h2>
+          <p class="fact">Eighty-three film stocks, each one whole: the way it sees light, its colour, its grain. Nothing is matched to a look by eye and called a stock.</p>
           <p class="fact">The film sees the light your footage was shot in. Tell it the camera&rsquo;s white balance and a daylight stock under tungsten goes warm, a tungsten stock in daylight goes blue &mdash; as on set.</p>
           <div class="label">{families.map((f) => `${f.name} ${f.count}`).join(' · ')}</div>
         </div>
         <figure class="lab-card" data-reveal>
-          <div class="lab-card-head"><span>Vision3 250D</span><span class="muted">Spectral sensitivity</span></div>
+          <div class="lab-card-head"><span>Vision3 250D</span><span class="muted">How it sees light</span></div>
           <svg class="lab-curve" viewBox={`0 0 ${sensitivity.width} ${sensitivity.height}`} role="img"
-               aria-label="Vision3 250D: the red, green and blue layers' spectral sensitivity, 380 to 780 nanometres">
+               aria-label="Vision3 250D: how its red, green and blue see light, 380 to 780 nanometres">
             {sensitivity.paths.map((d, i) => <path d={d} fill="none" stroke={layerColours[i]} stroke-width="2" stroke-linejoin="round" />)}
           </svg>
           <div class="lab-axis">{[400, 500, 600, 700].map((nm) => <span style={`left: ${((nm - 380) / 400) * 100}%`}>{nm === 700 ? '700 nm' : nm}</span>)}</div>
-          <figcaption>The three layers of Vision3 250D as Kodak publishes them, drawn from the data the engine develops it with.</figcaption>
+          <figcaption>Vision3 250D, as the Latent engine sees light.</figcaption>
         </figure>
       </section>
 
@@ -233,7 +233,7 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
         <div class="ritual-words wide" data-reveal>
           <div class="label">One look, one engine</div>
           <h2 class="large">There is no second Latent.</h2>
-          <p class="fact">The Lab runs the same spectral engine as The Ritual, with no simplified approximation of it anywhere. A negative developed in Resolve and one developed in The Ritual pass through the same emulsion, the same print, the same scanner.</p>
+          <p class="fact">The Lab runs the same state-of-the-art engine as The Ritual, with no simplified approximation of it anywhere. A negative developed in Resolve and one developed in The Ritual pass through the same emulsion, the same print, the same scanner.</p>
         </div>
       </section>
 
