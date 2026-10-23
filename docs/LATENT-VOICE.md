@@ -4,6 +4,26 @@ How Latent Studios speaks, everywhere: the site, the apps (screens, hints, onboa
 App Store text, posts, captions, comments, letters and customer replies. Every session that writes copy reads
 this first. Decided with Habib Saleh; last updated 23 October 2026.
 
+## 0. How we write
+
+Philosophy, feeling and imagination: this is what we sell. One flowing paragraph that reads effortlessly and makes
+you want to keep reading. Abstract but tangible (material, colour, light, hands). Products appear as images (a darkroom,
+the pocket, the moving image), not as names, features or numbers. No slogans, no lists. Calm ego. One strong
+photograph, never cropped. Signed *Latent Studios*. The model, in Habib's words "this is how we write":
+
+> Filters, presets, looks: they have existed for as long as there have been screens to lay them on. We never set out
+> to make another one. We set out to make the thing itself, with the care it deserves: a material that answers the
+> light, a colour that holds what being there felt like, an instrument that stays out of the way. Nothing more than it
+> needs. Nothing less. The difference is rarely in what something does. It is in how it is made, and how it feels in
+> your hands.
+
+> So we began with a darkroom, because a photograph deserves to become, not to be corrected. Then we carried it
+> wherever it was missing: into the pocket, into the moving image, back into the cameras we never stopped loving.
+> Each one is the same idea, wearing a different body. And all of them are walking toward the same place: a camera of
+> our own, made the way everything else was. Slowly, carefully, until it is ours.
+
+Technical facts belong in product pages, guides and replies, never as the voice of a story.
+
 ## 1. We are a company, and the work is ours
 
 - Speak as Latent Studios, as "we". Never as one person, never "founded by a photographer".
