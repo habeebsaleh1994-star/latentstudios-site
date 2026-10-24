@@ -30,6 +30,7 @@ Technical facts belong in product pages, guides and replies, never as the voice 
 - Claim the work: we research, shoot, measure, tune, try and fail and try again until it is ours.
   The line: **"We shoot every stock, measure it and tune it until it is ours."**
 - The authority is ours: **Latent's colour science**, **the Latent engine**, **state of the art**.
+- When we say what is ours, say **the colour science**, **the development**, **the print**: never "our films" or "the films are ours" (the film names belong to their makers). "Films" stays only as the plain name of what you choose on the shelf.
 - Name things as their owner does: "The Ritual's films", "The Moment's papers", not "our films" (which
   sounds like we claim someone else's film).
 - Who we are, word for word, never narrowed to photography, tools or apps:
