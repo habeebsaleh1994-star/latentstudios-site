@@ -14,20 +14,19 @@ import '../styles/moment.css';
 const APP_STORE_URL = 'https://apps.apple.com/app/latent-the-moment/id6786220649';
 const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 
-// Nine screens, re-exported as WebP from the 1061×2340 App Store crops.
-const SCREEN_W = 1061;
-const SCREEN_H = 2340;
-const screens = {
-  camera:    { src: '/moment/01-camera.webp',    alt: 'The camera: Portra 400 loaded, frame 9' },
-  cartridge: { src: '/moment/02-cartridge.webp', alt: 'A Cartridge: Around the village, silent, 18 fps' },
-  tape:      { src: '/moment/03-tape.webp',      alt: 'Tape: Video8, recording' },
-  shelf:     { src: '/moment/04-filmshelf.webp', alt: 'The film shelf: Color Negative, Portra 400 selected' },
-  journal:   { src: '/moment/05-journal.webp',   alt: 'Moments: Down to the valley, late March, 9 frames' },
-  bench:     { src: '/moment/06-bench.webp',     alt: 'Develop: The dog in the road, frame 4 of 9, Gold 200' },
-  circle:    { src: '/moment/07-circle.webp',    alt: 'The Circle: five of you' },
-  field:     { src: '/moment/08-field.webp',     alt: 'The Field: latest, in time order' },
-  evening:   { src: '/moment/09-evening.webp',   alt: 'The Evening: earlier, July; 2025, 2024' },
-};
+// Eight screens from The Moment 1.5.1's App Store set, cut just below each headline (the page sets the words).
+const SCREEN_W = 1032;
+const SCREEN_H = 1709;
+const scenes = [
+  { kick: 'The Moment', head: 'Every photograph you take, developed through a film and a paper', src: '/moment/151-01.webp', alt: 'The camera with a film loaded, the shelf of films open beneath the photograph' },
+  { kick: 'Your days', head: 'Every day becomes a roll', src: '/moment/151-02.webp', alt: 'A roll for 23 October: a line about the evening, and every frame of the day' },
+  { kick: 'Films', head: 'Every film with a character of its own', src: '/moment/151-03.webp', alt: 'Two films side by side, Vision3 200T and Kodachrome 200' },
+  { kick: 'Prints', head: 'Prints that age the way paper does', src: '/moment/151-04.webp', alt: 'Two prints on a dark table, one in colour and one in black and white' },
+  { kick: 'The Field', head: 'Photographs from the people you love', src: '/moment/151-05.webp', alt: 'This week on the Field: prints from the people you follow' },
+  { kick: 'The Wall', head: 'One question a week, one photograph', src: '/moment/151-06.webp', alt: 'The Wall: this week, The last warm day by the sea' },
+  { kick: 'Homes', head: 'A home for your photographs', src: '/moment/151-07.webp', alt: 'A home: prints, films and places' },
+  { kick: 'The Window', head: 'Look into the windows of the homes you follow', src: '/moment/151-08.webp', alt: 'The Window: a photograph from a home you follow, and a letter to its maker' },
+];
 
 // The iPad set from the same listing, cropped to the tablet's edge (1600 wide); the page rounds the corners.
 const IPAD_W = 1600;
@@ -50,7 +49,7 @@ const ipads = {
 >
   <Fragment slot="head">
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/cormorant-500-normal-latin.woff2" />
-    <link rel="preload" as="image" href={screens.camera.src} />
+    <link rel="preload" as="image" href={scenes[0].src} />
   </Fragment>
   <div class="home moment">
 
@@ -84,95 +83,18 @@ const ipads = {
         </div>
       </section>
 
-      <section class="moment-scene day">
-        <div class="moment-wrap moment-row">
-          <div class="moment-words" data-reveal>
-            <h2>Load a film. Then take the picture.</h2>
-            <p>One release. One loaded stock. A counter that ticks.</p>
+      {scenes.map((scene, i) => (
+        <section class:list={['moment-scene', 'night', { first: i === 0 }]}>
+          <div class:list={['moment-wrap', 'moment-row', { reverse: i % 2 === 1 }]}>
+            {i % 2 === 1 && <figure class="moment-screen" data-reveal><img src={scene.src} alt={scene.alt} width={SCREEN_W} height={SCREEN_H} loading="lazy" /></figure>}
+            <div class="moment-words" data-reveal>
+              <div class="label">{scene.kick}</div>
+              <h2>{scene.head}</h2>
+            </div>
+            {i % 2 === 0 && <figure class="moment-screen" data-reveal><img src={scene.src} alt={scene.alt} width={SCREEN_W} height={SCREEN_H} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : undefined} /></figure>}
           </div>
-          <figure class="moment-screen" data-reveal><img src={screens.camera.src} alt={screens.camera.alt} width={SCREEN_W} height={SCREEN_H} loading="eager" fetchpriority="high" /></figure>
-        </div>
-      </section>
-
-      <section class="moment-scene day">
-        <div class="moment-wrap moment-row reverse">
-          <figure class="moment-screen" data-reveal><img src={screens.shelf.src} alt={screens.shelf.alt} width={SCREEN_W} height={SCREEN_H} loading="lazy" /></figure>
-          <div class="moment-words" data-reveal>
-            <h2>Choose how it will be remembered.</h2>
-            <p>The whole shelf travels with you. Change your mind after the shutter. The negative is still there.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="moment-scene day last">
-        <div class="moment-wrap moment-row">
-          <div class="moment-words" data-reveal>
-            <h2>Photographs arrive as rolls.</h2>
-            <p>A date, a sentence, and every frame that came off it.</p>
-          </div>
-          <figure class="moment-screen" data-reveal><img src={screens.journal.src} alt={screens.journal.alt} width={SCREEN_W} height={SCREEN_H} loading="lazy" /></figure>
-        </div>
-      </section>
-
-      <section class="moment-scene night first">
-        <div class="moment-wrap moment-row reverse">
-          <figure class="moment-screen" data-reveal><img src={screens.bench.src} alt={screens.bench.alt} width={SCREEN_W} height={SCREEN_H} loading="lazy" /></figure>
-          <div class="moment-words" data-reveal>
-            <h2>Then develop it the slow way.</h2>
-            <p>Push, exposure, contrast, halation. Named the way a darkroom names them.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="moment-scene night">
-        <div class="moment-wrap moment-row">
-          <div class="moment-words" data-reveal>
-            <h2>Silent films, made frame by frame.</h2>
-            <p>Capture Takes. Shape them into a Cartridge.</p>
-          </div>
-          <figure class="moment-screen" data-reveal><img src={screens.cartridge.src} alt={screens.cartridge.alt} width={SCREEN_W} height={SCREEN_H} loading="lazy" /></figure>
-        </div>
-      </section>
-
-      <section class="moment-scene night last">
-        <div class="moment-wrap moment-row reverse">
-          <figure class="moment-screen" data-reveal><img src={screens.tape.src} alt={screens.tape.alt} width={SCREEN_W} height={SCREEN_H} loading="lazy" /></figure>
-          <div class="moment-words" data-reveal>
-            <h2>Record life to Tape.</h2>
-            <p>Video8, VHS-C and Hi8, with sound and character.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="moment-scene day first last">
-        <div class="moment-wrap moment-row">
-          <div class="moment-words" data-reveal>
-            <h2>Some photographs are only for five people.</h2>
-            <p>A Circle is private, invite-only, and has no feed to perform for.</p>
-          </div>
-          <figure class="moment-screen" data-reveal><img src={screens.circle.src} alt={screens.circle.alt} width={SCREEN_W} height={SCREEN_H} loading="lazy" /></figure>
-        </div>
-      </section>
-
-      <section class="moment-scene night first">
-        <div class="moment-wrap moment-row reverse">
-          <figure class="moment-screen" data-reveal><img src={screens.field.src} alt={screens.field.alt} width={SCREEN_W} height={SCREEN_H} loading="lazy" /></figure>
-          <div class="moment-words" data-reveal>
-            <h2>And a wall for everyone else.</h2>
-            <p>The Field is public and in time order. No ranking, no algorithm.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="moment-scene night">
-        <div class="moment-wrap moment-row">
-          <div class="moment-words" data-reveal>
-            <h2>The album ages as you do.</h2>
-            <p>Two rooms. The Journal by day, the Evening after dark.</p>
-          </div>
-          <figure class="moment-screen" data-reveal><img src={screens.evening.src} alt={screens.evening.alt} width={SCREEN_W} height={SCREEN_H} loading="lazy" /></figure>
-        </div>
-      </section>
+        </section>
+      ))}
 
       <section class="moment-scene moment-ipad night last">
         <div class="moment-wrap">
