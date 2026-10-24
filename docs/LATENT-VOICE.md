@@ -62,6 +62,15 @@ Say what a thing does and how it feels. Never how it is built.
 - No added copy: no taglines, no invented vocabulary, no jargon. Use Habib's words and the photograph's real facts.
 - No film nostalgia as the hook (rolls, film romance). The Ritual speaks as itself.
 
+## 3b. When people ask about the camera firmware (or compare it with others)
+
+Always say three things, in our own words:
+- **It comes from our software for the Mac:** The Ritual's colour science and development, carried into the camera.
+- **It is not a LUT laid on top, not a look, not a filter.** Each photograph is developed from raw.
+- **An invitation:** try The Ritual on the Mac (and our other instruments) to see where it comes from.
+
+Never discuss other firmware, exploits or how the camera is opened.
+
 ## 4. Names and marks
 
 **Theirs.** Film and paper names stay (Portra 400, Tri-X, Velvia…). They name the look each one inspired.
