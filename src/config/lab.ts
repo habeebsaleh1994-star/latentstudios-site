@@ -8,6 +8,10 @@ export const labCommerce = {
   // No timed trial: Print Engine is free to use with the Latent mark on the picture until a plan is chosen.
   yearlyUsd: 199,
   lifetimeUsd: 499,
+  // Print Engine Monthly (owner, 25 Oct 2026). Shown only once it sells: open it together with the licensing
+  // switch PADDLE_PRINT_ENGINE_MONTHLY_PRICE_ID and the Latent Manager release that offers it (planned 1 Nov 2026).
+  monthlyOpen: false,
+  monthlyUsd: '19.99',
   version: '1.1.9',
   downloadHref: '/download/print-engine',
   // How it installs: the steps, Send to Mac, and where the node sits in a grade. The Lab's Download buttons go

@@ -157,6 +157,13 @@ const pipelines = [
               <p class="fact">A plan opens every stock and every control without the mark, with updates as they ship. Plans are chosen in Latent Manager, where the secure checkout opens and Manager activates your Mac &mdash; there is no key to copy. One account, up to two Macs.</p>
             </div>
             <div class="lab-plans install-plans">
+              {labCommerce.monthlyOpen && (
+              <div class="lab-row">
+                <span class="lab-plan-name">Monthly</span>
+                <span class="label right">Renews each month</span>
+                <span class="lab-plan-price">${labCommerce.monthlyUsd} / month</span>
+              </div>
+              )}
               <div class="lab-row">
                 <span class="lab-plan-name">Annual</span>
                 <span class="label right">Renews each year</span>
