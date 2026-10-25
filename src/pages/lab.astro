@@ -241,9 +241,16 @@ const layerColours = ['#d8604c', '#6fae72', '#5f86d6'];
         <div class="ritual-words wide" data-reveal>
           <div class="label">Latent Print Engine {labCommerce.version}</div>
           <h2 class="large">Film. Not a filter.</h2>
-          <p class="fact">For DaVinci Resolve Studio on an Apple silicon Mac. Free to install and use &mdash; every stock and every control &mdash; with the Latent mark on the picture until you choose a plan. Then keep it by the year or for good. One account, up to two Macs.</p>
+          <p class="fact">For DaVinci Resolve Studio on an Apple silicon Mac. Free to install and use &mdash; every stock and every control &mdash; with the Latent mark on the picture until you choose a plan. Then keep it {labCommerce.monthlyOpen ? 'by the month, by the year or for good' : 'by the year or for good'}. One account, up to two Macs.</p>
           <PurchasesPaused product="lab" id="plans-back-lab" />
           <div class="lab-plans">
+            {labCommerce.monthlyOpen && (
+            <div class="lab-row">
+              <span class="lab-plan-name">Monthly</span>
+              <span class="label right">Renews each month</span>
+              <span class="lab-plan-price">${labCommerce.monthlyUsd} / month</span>
+            </div>
+            )}
             <div class="lab-row">
               <span class="lab-plan-name">Annual</span>
               <span class="label right">Renews each year</span>
