@@ -8,7 +8,7 @@ export const labCommerce = {
   // No timed trial: Print Engine is free to use with the Latent mark on the picture until a plan is chosen.
   yearlyUsd: 199,
   lifetimeUsd: 499,
-  version: '1.1.9',
+  version: '1.1.10',
   downloadHref: '/download/print-engine',
   // How it installs: the steps, Send to Mac, and where the node sits in a grade. The Lab's Download buttons go
   // here with ?download, which starts the installer and keeps the steps in view.
