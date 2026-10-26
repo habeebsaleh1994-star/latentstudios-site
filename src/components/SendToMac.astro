@@ -12,7 +12,7 @@ const chosen = lab ? undefined : ritualPlan(plan);
 const plans = lab ? {} : Object.fromEntries(ritualCommerce.plans.map((p) => [p.id, ritualPlanSummary(p)]));
 const words = lab
   ? { other: 'Latent Print Engine is for DaVinci Resolve Studio on a Mac (Apple silicon)',
-      line: 'Print Engine runs in DaVinci Resolve on your Mac. Send yourself the link and open it there.',
+      line: 'Print Engine runs in DaVinci Resolve Studio on your Mac. Send yourself the link and open it there.',
       sender: 'lab@mail.latentstudios.art' }
   : { other: 'The Ritual is for Mac (macOS 26, Apple silicon)',
       line: 'The Ritual runs on your Mac. Send yourself the link and open it there.',
