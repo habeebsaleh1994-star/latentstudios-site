@@ -12,7 +12,7 @@ export const labCommerce = {
   // since 26 Oct at the owner's request.
   monthlyOpen: true,
   monthlyUsd: '19.99',
-  version: '1.1.11',
+  version: '1.1.12',
   downloadHref: '/download/print-engine',
   // How it installs: the steps, Send to Mac, and where the node sits in a grade. The Lab's Download buttons go
   // here with ?download, which starts the installer and keeps the steps in view.
