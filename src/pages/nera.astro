@@ -9,6 +9,11 @@ import '../styles/home.css';
 import '../styles/nera.css';
 
 const SUBSCRIBE_ENDPOINT = '/api/subscribe';
+
+// Hidden for now (owner, 26 Oct 2026): every link to Nera is gone and /nera sends visitors home.
+// To bring Nera back, set NERA_VISIBLE to true and restore the links (git log: "Hide Nera").
+const NERA_VISIBLE = false;
+if (!NERA_VISIBLE) return Astro.redirect('/', 302);
 ---
 
 <Base
