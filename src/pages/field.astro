@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base
+  room="paper"
+  title="The Field — Latent"
+  description="How we keep the Field, the gallery shared by The Moment and The Ritual."
+>
+  <Nav />
+  <main class="legal" id="main">
+    <div class="legal-label">The Field</div>
+    <h1>How we keep the gallery</h1>
+    <p class="legal-updated">Last updated 27 October 2026</p>
+
+    <p class="legal-lead">The Field is a gallery, not a feed. Everything on its walls was made by the person who hung it, and was hung because it is worth looking at. We look after it the way a gallery looks after its rooms: slowly, carefully, and with the right to say no. What follows is not a list of everything that is forbidden; it is a description of what belongs, and of the few things that never will.</p>
+
+    <h2>Hang your own work</h2>
+    <p>Publish only photographs you made yourself. Work that belongs to someone else, even with credit, is not yours to hang. Images made or remade by generative tools do not belong here; the Field is for photographs.</p>
+
+    <h2>Hang work, not updates</h2>
+    <p>A print on the Field should be something you would put on a wall. Screenshots, memes, images of text, promotions, product listings and posts made to reach people rather than to show them something do not belong here.</p>
+
+    <h2>The people in your photographs are trusted to you</h2>
+    <p>Photograph people with their knowledge, and publish nothing that exposes someone in a private or vulnerable moment they did not choose to share.</p>
+
+    <h2>Children are protected without exception</h2>
+    <p>No photograph of a child in a private setting, such as a bedroom or a bathroom, or in any state of undress, ever. Anything that sexualises a minor ends the account at once and is reported to the authorities.</p>
+
+    <h2>The body, but not exposed</h2>
+    <p>Boudoir, implied nudes and portraits of the body are welcome; exposed breasts, genitals, and sexual content are not. Everyone in the photograph is an adult who chose to be photographed.</p>
+
+    <h2>Nothing that shocks for its own sake</h2>
+    <p>No violence or gore, and nothing made only to shock.</p>
+
+    <h2>Notes are about the work</h2>
+    <p>Speak to the photograph and to the person who made it, with the respect you would show in a gallery. Harassment, hate, attacks on people, self-promotion and spam are removed.</p>
+
+    <h2>Be who you are</h2>
+    <p>One person, one account, under your own name or your own artist&rsquo;s name. Do not impersonate anyone.</p>
+
+    <h2>Keep private things private</h2>
+    <p>Do not publish other people&rsquo;s addresses, documents, or anything that identifies someone who did not choose to be found.</p>
+
+    <h2>How we look after it</h2>
+    <p>We care about the Field as a harmonious place, where artists share their work and are met with attention and respect. Rules cannot foresee everything, so we keep the right to take down anything we feel does not belong here, even when no rule above names it, as any gallery chooses what hangs on its walls.</p>
+    <p>You can report any print, note or member from inside the app, and block anyone whose work you do not want to see. We read every report and act on objectionable content within 24 hours. When we take a print down, we tell its maker privately and say why. A serious breach, or a pattern of smaller ones, ends the account. The Field is open to people aged 16 and over.</p>
+    <p>Questions about something taken down: <a href="mailto:support@latentstudios.art">support@latentstudios.art</a></p>
+    <p>&mdash; Latent Studios</p>
+  </main>
+  <Footer />
+
+  <style>
+    .legal { max-width: 720px; margin: 0 auto; padding: 140px 24px 120px; }
+    .legal-label { font-family: var(--font-label); font-weight: 300; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--amber-dim); margin-bottom: 20px; }
+    .legal h1 { font-family: var(--font-display); font-weight: 300; font-size: 40px; letter-spacing: -0.01em; color: var(--text-bright); margin-bottom: 12px; }
+    .legal-updated { font-family: var(--font-body); font-style: italic; font-size: 14px; color: var(--text-ghost); margin-bottom: 48px; }
+    .legal-lead { font-size: 18px !important; line-height: 1.75 !important; color: var(--text) !important; }
+    .legal h2 { font-family: var(--font-display); font-weight: 400; font-size: 21px; color: var(--text-bright); margin: 40px 0 12px; }
+    .legal p { font-family: var(--font-body); font-weight: 300; font-size: 16px; line-height: 1.7; color: var(--text-muted); margin-bottom: 14px; }
+    .legal a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--border-light); transition: color 0.3s ease, text-shadow 0.6s ease, border-color 0.6s ease; }
+    .legal a:hover { color: var(--text-bright); text-shadow: 0 0 16px rgba(232, 196, 160, 0.5); border-color: transparent; }
+  </style>
+</Base>
