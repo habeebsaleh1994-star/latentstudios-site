@@ -1,7 +1,7 @@
 ---
 // The Ritual, in the camera: the downloads (1.1). Make Ritual Card is small, one per camera and computer; each film is
 // its own file, so a fix to the app or to one film never means downloading every film again. The 1.0 downloads stay
-// below, as they were. Before release the page only points back to /firmware. The firmware is free; paying is
+// below, folded away, as they were (owner, 29 Oct: a way back if 1.1 gives trouble). Before release the page only points back to /firmware. The firmware is free; paying is
 // optional support, so nothing here reads as a price or a sale (the licence: "given to you free, not sold").
 import Base from '../../layouts/Base.astro';
 import { firmware, firmwareDownloads, firmwareEarlier, firmwareFilms, firmwareFilmsArriving, firmwareNeeds, firmwareVersion } from '../../config/firmware.js';
@@ -100,13 +100,15 @@ const films = (camera, shelf) => firmwareFilms.filter((film) => film.camera === 
       {released && (
       <section class="ritual-block tight">
         <div class="ritual-words wide fw-notes">
-          <div class="label">The Ritual 1.0</div>
-          <p class="fw-small">The first release, as it was: each download with the camera&rsquo;s 20 films inside. 1.1 is the one to use.</p>
-          <ul class="fw-films">
-            {firmwareEarlier.map((file) => (
-              <li><a href={`/download/firmware/${file.slug}`} download>{file.camera}, for {file.os}</a> <span class="fw-size">{size(file.bytes)}</span></li>
-            ))}
-          </ul>
+          <div class="fw-earlier">
+            <div class="fw-earlier-label">Earlier versions</div>
+            <p class="fw-small">If 1.1 gives you trouble, The Ritual 1.0 is still here, as it was: each download with the camera&rsquo;s 20 films and its own guide inside.</p>
+            <ul class="fw-rows">
+              {firmwareEarlier.map((file) => (
+                <li><span>The Ritual 1.0 &middot; {file.camera.replace('Canon EOS ', '')}, for {file.os}</span> <span class="fw-row-end"><span class="fw-size">{size(file.bytes)}</span><a href={`/download/firmware/${file.slug}`} download>Download</a></span></li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
       )}
@@ -129,5 +131,11 @@ const films = (camera, shelf) => firmwareFilms.filter((film) => film.camera === 
     .fw-films a { color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); }
     .fw-films .fw-size { font-size: 14px; }
     .fw-small { font-size: 15px; line-height: 1.6; color: var(--soft); max-width: 70ch; margin: 0; }
+    .fw-earlier { display: grid; gap: 10px; }
+    .fw-earlier-label { font-size: 15px; color: var(--soft); }
+    .fw-rows { list-style: none; margin: 0; padding: 0; display: grid; }
+    .fw-rows li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; border-top: 1px solid color-mix(in srgb, currentColor 10%, transparent); }
+    .fw-row-end { display: flex; align-items: baseline; gap: 16px; white-space: nowrap; }
+    .fw-rows a { color: var(--amber-accent); text-decoration: underline; text-underline-offset: 4px; }
   </style>
 </Base>
