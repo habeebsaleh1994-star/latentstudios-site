@@ -4,7 +4,7 @@
 // below, as they were. Before release the page only points back to /firmware. The firmware is free; paying is
 // optional support, so nothing here reads as a price or a sale (the licence: "given to you free, not sold").
 import Base from '../../layouts/Base.astro';
-import { firmware, firmwareDownloads, firmwareEarlier, firmwareFilms, firmwareNeeds, firmwareVersion } from '../../config/firmware.js';
+import { firmware, firmwareDownloads, firmwareEarlier, firmwareFilms, firmwareFilmsArriving, firmwareNeeds, firmwareVersion } from '../../config/firmware.js';
 import '../../styles/home.css';
 import '../../styles/ritual.css';
 
@@ -66,7 +66,9 @@ const films = (camera, shelf) => firmwareFilms.filter((film) => film.camera === 
                   <div class="fw-shelf-name">{shelf}</div>
                   <ul class="fw-films">
                     {films(camera, shelf).map((film) => (
-                      <li><a href={`/download/firmware/${film.slug}`} download>{film.title}</a> <span class="fw-size">{size(film.bytes)}</span></li>
+                      firmwareFilmsArriving.has(film.slug)
+                        ? <li><span aria-disabled="true">{film.title}</span> <span class="fw-size">arriving tonight</span></li>
+                        : <li><a href={`/download/firmware/${film.slug}`} download>{film.title}</a> <span class="fw-size">{size(film.bytes)}</span></li>
                     ))}
                   </ul>
                 </div>

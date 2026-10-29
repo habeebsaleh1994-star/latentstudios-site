@@ -71,6 +71,10 @@ export const firmwareEarlier = Object.freeze([
 
 export { firmwareFilms } from './firmware-films.js';
 
+/// Films still on their way to R2 on release day (29 Oct 2026, a slow line): shown as arriving tonight, not as a door.
+/// Empty this once they are up.
+export const firmwareFilmsArriving = Object.freeze(new Set(['classic-film-kodak-vision3-250d', 'classic-film-kodak-vision3-500t']));
+
 /// What each camera needs before installing (from the camera session).
 export const firmwareNeeds = Object.freeze({
   'Canon EOS 5D': 'Canon firmware 1.1.1, a full battery, and a CompactFlash card of 8 GB or more.',
