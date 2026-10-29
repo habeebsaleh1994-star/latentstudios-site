@@ -43,6 +43,17 @@ function validAssetFile(file) {
     && !file.includes('..');
 }
 
+// Small updates (docs/designs/SMALL_UPDATES.md in the Latent repository): an application's files, stored once each by
+// their SHA-256 and fetched by Manager when the installed application lacks them. Only the applications Manager installs
+// file by file; the name is exactly 64 lowercase hex, so no path can be named.
+const MANAGER_FILE_PRODUCTS = new Set(['latent-ritual', 'latent-manager']);
+
+export function managerFileKey(product, sha256) {
+  if (!MANAGER_FILE_PRODUCTS.has(product)) return null;
+  if (typeof sha256 !== 'string' || !/^[0-9a-f]{64}$/u.test(sha256)) return null;
+  return `manager/${product}/files/${sha256}`;
+}
+
 export function managerFeedKey(product, channel) {
   if (!MANAGER_PRODUCTS.has(product) || !validChannel(channel)) return null;
   return `manager/${product}/${channel}/release.json`;
@@ -227,6 +238,47 @@ export async function serveManagerContentAsset(
     requestedRange ? { range: requestedRange } : undefined,
   );
   if (!object?.body) return statusResponse('Asset unavailable', 503);
+  if (requestedRange) {
+    const end = requestedRange.offset + requestedRange.length - 1;
+    headers.set('Content-Range', `bytes ${requestedRange.offset}-${end}/${metadata.size}`);
+  }
+  return new Response(object.body, {
+    status: requestedRange ? 206 : 200,
+    headers,
+  });
+}
+
+// One file of an application, immutable by its name (its SHA-256): the same caching, ranges and headers as a package.
+// Not counted as a download: one update fetches many files, and the release record already says which were wanted.
+export async function serveManagerFile({ request, env }, product, sha256) {
+  const key = managerFileKey(product, sha256);
+  if (!key || (request.method !== 'GET' && request.method !== 'HEAD')) {
+    return statusResponse('Not found', 404);
+  }
+  const metadata = await env.LATENT_RELEASES.head(key);
+  if (!metadata || metadata.size <= 0) {
+    return statusResponse('File unavailable', 503);
+  }
+  const requestedRange = parseRange(request.headers.get('Range'), metadata.size);
+  if (requestedRange === false) {
+    const headers = boundaryHeaders('public, max-age=31536000, immutable');
+    headers.set('Accept-Ranges', 'bytes');
+    headers.set('Content-Range', `bytes */${metadata.size}`);
+    return new Response(null, { status: 416, headers });
+  }
+  const headers = boundaryHeaders('public, max-age=31536000, immutable');
+  headers.set('Accept-Ranges', 'bytes');
+  headers.set('Content-Type', 'application/octet-stream');
+  headers.set('Content-Disposition', `attachment; filename="${sha256}"`);
+  headers.set('Content-Length', String(requestedRange?.length ?? metadata.size));
+  if (metadata.httpEtag) headers.set('ETag', metadata.httpEtag);
+  if (request.method === 'HEAD') return new Response(null, { headers });
+
+  const object = await env.LATENT_RELEASES.get(
+    key,
+    requestedRange ? { range: requestedRange } : undefined,
+  );
+  if (!object?.body) return statusResponse('File unavailable', 503);
   if (requestedRange) {
     const end = requestedRange.offset + requestedRange.length - 1;
     headers.set('Content-Range', `bytes ${requestedRange.offset}-${end}/${metadata.size}`);

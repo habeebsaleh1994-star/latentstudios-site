@@ -9,7 +9,7 @@ export default defineConfig({
     sitemap({
       filter: (page) => {
         const path = new URL(page).pathname.replace(/\/$/, '');
-        return !['/print-engine/beta', '/checkout', '/moment/get'].includes(path)
+        return !['/print-engine/beta', '/checkout', '/moment/get', '/nera'].includes(path)
           && !path.startsWith('/moment/get/');
       },
     }),

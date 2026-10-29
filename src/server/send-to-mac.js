@@ -100,7 +100,7 @@ const RITUAL_COPY = {
 };
 const LAB_COPY = {
   subject: 'Open on your Mac: Latent Print Engine',
-  kicker: 'Latent Print Engine &middot; for DaVinci Resolve',
+  kicker: 'Latent Print Engine &middot; for DaVinci Resolve Studio',
   door: 'Get Latent Print Engine for Mac',
   steps: LAB_STEPS,
   needs: 'Latent Print Engine runs in DaVinci Resolve Studio on a Mac with Apple silicon and macOS 14 or later.',

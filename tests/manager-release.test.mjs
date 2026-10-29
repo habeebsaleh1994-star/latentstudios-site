@@ -29,6 +29,11 @@ import {
   onRequestHead as contentAssetHead,
 } from '../functions/api/manager/content/latent-print-engine/[channel]/[collection]/[version]/[file].js';
 
+import {
+  onRequestGet as fileGet,
+  onRequestHead as fileHead,
+} from '../functions/api/manager/files/[product]/[sha256].js';
+
 function environment(objects) {
   return {
     LATENT_RELEASES: {
@@ -313,4 +318,52 @@ test('counts a package as an install, update or repair when Manager says which, 
     'latent-ritual/production',
     'latent-ritual/production',
   ]);
+});
+
+test('serves an application file only by its exact SHA-256, with byte ranges, for the apps Manager assembles', async () => {
+  const sha = 'a'.repeat(64);
+  const body = new TextEncoder().encode('0123456789');
+  const objects = new Map([
+    [`manager/latent-ritual/files/${sha}`, { body, etag: 'file-etag' }],
+    [`manager/latent-manager/files/${sha}`, { body, etag: 'manager-file' }],
+  ]);
+  const env = environment(objects);
+  const url = (product, name) => `https://latentstudios.art/api/manager/files/${product}/${name}`;
+  const call = (handler, product, name, headers = {}, method = 'GET') => handler({
+    request: new Request(url(product, name), { method, headers }),
+    env,
+    params: { product, sha256: name },
+  });
+
+  const whole = await call(fileGet, 'latent-ritual', sha);
+  assert.equal(whole.status, 200);
+  assert.equal(whole.headers.get('Cache-Control'), 'public, max-age=31536000, immutable');
+  assert.equal(whole.headers.get('Accept-Ranges'), 'bytes');
+  assert.equal(whole.headers.get('Content-Length'), '10');
+  assert.equal(new TextDecoder().decode(await whole.arrayBuffer()), '0123456789');
+
+  const part = await call(fileGet, 'latent-ritual', sha, { Range: 'bytes=2-5' });
+  assert.equal(part.status, 206);
+  assert.equal(part.headers.get('Content-Range'), 'bytes 2-5/10');
+  assert.equal(new TextDecoder().decode(await part.arrayBuffer()), '2345');
+
+  const head = await call(fileHead, 'latent-manager', sha, {}, 'HEAD');
+  assert.equal(head.status, 200);
+  assert.equal(head.headers.get('Content-Length'), '10');
+
+  const outOfRange = await call(fileGet, 'latent-ritual', sha, { Range: 'bytes=20-30' });
+  assert.equal(outOfRange.status, 416);
+  assert.equal(outOfRange.headers.get('Content-Range'), 'bytes */10');
+
+  // Nothing but 64 lowercase hex names a file; no other product; nothing missing is invented.
+  for (const name of [
+    'A'.repeat(64), 'a'.repeat(63), 'a'.repeat(65), `${'a'.repeat(62)}..`, '../release.json',
+    `${'a'.repeat(63)}/`, '%2e%2e', '', `${'a'.repeat(63)}g`,
+  ]) {
+    assert.equal((await call(fileGet, 'latent-ritual', name)).status, 404, `refuses ${JSON.stringify(name)}`);
+  }
+  for (const product of ['latent-print-engine', 'latent-ritual/../latent-manager', 'other', '']) {
+    assert.equal((await call(fileGet, product, sha)).status, 404, `refuses product ${JSON.stringify(product)}`);
+  }
+  assert.equal((await call(fileGet, 'latent-ritual', 'b'.repeat(64))).status, 503, 'a file not uploaded');
 });
