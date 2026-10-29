@@ -46,18 +46,18 @@ test('1.1 lists four small app downloads, 1.0 kept beside them, served only once
   }
   assert.equal(firmwareEarlier.length, 4);
   for (const file of firmwareEarlier) assert.match(file.key, /^firmware\/the-ritual-5d\/1\.0\//u);
-  const bucket = { head: async () => ({ size: 787357 }), get: async (_k, o) => ({ body: 'x', range: o }) };
+  const bucket = { head: async () => ({ size: 791505 }), get: async (_k, o) => ({ body: 'x', range: o }) };
   const req = (h = {}) => new Request('https://latentstudios.art/download/firmware/mark-ii-mac', { headers: h });
   const ctx = (h) => ({ request: req(h), env: { LATENT_RELEASES: bucket } });
   assert.equal((await serveFirmwareFile(ctx(), 'mark-ii-mac', { released: false })).status, 404);
   assert.equal((await serveFirmwareFile(ctx(), 'nope', { released: true })).status, 404);
   const full = await serveFirmwareFile(ctx(), 'mark-ii-mac', { released: true });
   assert.equal(full.status, 200);
-  assert.equal(full.headers.get('Content-Length'), '787357');
+  assert.equal(full.headers.get('Content-Length'), '791505');
   assert.match(full.headers.get('Content-Disposition'), /Ritual-for-5D-Mark-II-1\.1\.dmg/u);
   const part = await serveFirmwareFile(ctx({ Range: 'bytes=100-199' }), 'mark-ii-mac', { released: true });
   assert.equal(part.status, 206);
-  assert.equal(part.headers.get('Content-Range'), 'bytes 100-199/787357');
+  assert.equal(part.headers.get('Content-Range'), 'bytes 100-199/791505');
   const first = firmwareEarlier.find((file) => file.slug === 'mark-ii-mac-1.0');
   const oldBucket = { head: async () => ({ size: first.bytes }), get: async () => ({ body: 'x' }) };
   const old = await serveFirmwareFile({ request: req(), env: { LATENT_RELEASES: oldBucket } }, 'mark-ii-mac-1.0', { released: true });
@@ -86,7 +86,7 @@ test('each film is its own download per camera, its name kept whole for the brow
 
 test('a download counts once when it starts, and once more only when its last byte is handed over', async () => {
   const { serveFirmwareFile } = await import('../src/server/firmware-release.js');
-  const size = 636102; // the 5D Mac file (1.1); the fake bucket streams a few small pieces in its place
+  const size = 636223; // the 5D Mac file (1.1); the fake bucket streams a few small pieces in its place
   const counted = [];
   const db = { prepare: () => ({ bind: (_day, product) => ({ run: async () => { counted.push(product); } }) }) };
   const stream = (n) => new ReadableStream({

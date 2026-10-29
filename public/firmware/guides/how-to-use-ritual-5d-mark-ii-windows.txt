@@ -51,8 +51,8 @@ Canon's website first.
    - Set the camera to RAW (MENU → Quality). RAW + JPEG works too.
    - Turn the camera on with the Ritual card in it. The red light comes on for a
      moment while Ritual starts. The back screen stays dark while you shoot.
-   - Press INFO to see Ritual's film screen. Turn the dial to choose a film,
-     press SET to load it.
+   - Press INFO to see Ritual's film screen, from anywhere in the camera. Turn the
+     dial to choose a film, press SET to load it.
    - Shoot as usual. A few seconds after each shot its picture is ready on the
      back screen, on the film you shot it on. Press INFO to see your photos.
      PLAY is Canon's own playback (your raws), as on any 5D Mark II.
@@ -103,6 +103,9 @@ Canon's website first.
                 development) starts a new roll at frame 1; after 36 frames the
                 screen says "Roll 3 finished · Roll 4 next". Each photo says the
                 roll and frame it was shot on. It is never a count of photos.
+                Each roll is its own folder in RITUAL (001_T500: roll 1, its
+                film), its photos named by frame, with its index print
+                (INDEX.JPG): the whole roll on one sheet.
    Size         Share size (2040 x 1360, quicker, for phones) or Full size
                 (2808 x 1872). Press SET on a photo to make its full size.
    Developing   The photo being made now. Its picture shows first, then its
@@ -114,7 +117,8 @@ Canon's website first.
    - Its share size in the RITUAL folder: about 40 seconds more (cine films with
      their glow a little longer). A full size takes about 40 seconds more again.
    - After a burst they develop one by one, the newest first. You can look at
-     them in PLAY meanwhile. Switched off before they are all done? They go on
+     them in INFO meanwhile; Canon's own PLAY pauses the developing until you
+     close it. Switched off before they are all done? They go on
      the next time you turn the camera on: nothing is lost.
 
 

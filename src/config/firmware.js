@@ -40,17 +40,17 @@ export function firmwareDestination(amount, config = firmware) {
 export const firmwareVersion = '1.1';
 export const firmwareDownloads = Object.freeze([
   Object.freeze({ slug: 'mark-ii-mac', camera: 'Canon EOS 5D Mark II', os: 'Mac', version: '1.1', filename: 'Ritual-for-5D-Mark-II-1.1.dmg',
-    key: 'firmware/the-ritual-5d/1.1/Ritual-for-5D-Mark-II-1.1.dmg', bytes: 787357,
-    sha256: '060032b56d731c2a80025ac226793dcaceeaa6a0f4b75f2914898775563d2dda' }),
+    key: 'firmware/the-ritual-5d/1.1/Ritual-for-5D-Mark-II-1.1.dmg', bytes: 791505,
+    sha256: 'f76ddcaee46dacd665eea6549c1c8466e49b659fdcd64a0ff6f308351a8b0597' }),
   Object.freeze({ slug: 'mark-ii-windows', camera: 'Canon EOS 5D Mark II', os: 'Windows', version: '1.1', filename: 'Ritual-for-5D-Mark-II-1.1-Windows.zip',
-    key: 'firmware/the-ritual-5d/1.1/Ritual-for-5D-Mark-II-1.1-Windows.zip', bytes: 335007,
-    sha256: '57a58573c587c26a763c776805182e7feb2942b5d880fd3f10fc6e8475996d4f' }),
+    key: 'firmware/the-ritual-5d/1.1/Ritual-for-5D-Mark-II-1.1-Windows.zip', bytes: 335133,
+    sha256: '35d9bccbd082d28beecee0939da15661695a81f926bce29f01e304c47ba0a9a2' }),
   Object.freeze({ slug: 'classic-mac', camera: 'Canon EOS 5D', os: 'Mac', version: '1.1', filename: 'Ritual-for-5D-Classic-1.1.dmg',
-    key: 'firmware/the-ritual-5d/1.1/Ritual-for-5D-Classic-1.1.dmg', bytes: 636102,
-    sha256: 'c1ade1012fdedfeb3b40dfbff15162b7cd47decb95dc902be681ff3614b760f8' }),
+    key: 'firmware/the-ritual-5d/1.1/Ritual-for-5D-Classic-1.1.dmg', bytes: 636223,
+    sha256: 'bf9e245620ca20fcc5002dc52b22993469ae04bfc616380e267ecad3608f02d0' }),
   Object.freeze({ slug: 'classic-windows', camera: 'Canon EOS 5D', os: 'Windows', version: '1.1', filename: 'Ritual-for-5D-Classic-1.1-Windows.zip',
-    key: 'firmware/the-ritual-5d/1.1/Ritual-for-5D-Classic-1.1-Windows.zip', bytes: 185993,
-    sha256: '917b7558f358de8401ed4c76931dff96257980aaa5a325ecfc98ad09088b679b' }),
+    key: 'firmware/the-ritual-5d/1.1/Ritual-for-5D-Classic-1.1-Windows.zip', bytes: 186087,
+    sha256: 'b60b1873a5de7db1805a1146672acf73bdacf4c14e1df3e17b6c174cb232ddc0' }),
 ]);
 
 /// The first release (1.0, 20 Oct 2026), kept (owner, 29 Oct): each carries the camera's 20 films (about 3.6 GB).

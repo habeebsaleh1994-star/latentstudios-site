@@ -41,8 +41,8 @@ your film, in the RITUAL folder on the card.
 3. SHOOTING
    - Set the camera to RAW (RAW + JPEG works too), in sRGB or Adobe RGB.
    - Turn the camera on with the Ritual card in it: Ritual starts by itself.
-   - Press INFO to see Ritual's film screen. Turn the dial to choose a film,
-     press SET to load it. Press INFO again to see your photos. PLAY is
+   - Press INFO to see Ritual's film screen, from anywhere in the camera. Turn the
+     dial to choose a film, press SET to load it. Press INFO again to see your photos. PLAY is
      Canon's own playback (your raws), as on any 5D.
    - Shoot as usual. Each photo develops a few seconds after you stop shooting.
      Leave the camera on after a burst so it can catch up. Canon's own playback
@@ -81,6 +81,9 @@ your film, in the RITUAL folder on the card.
                 development) starts a new roll at frame 1; after 36 frames the
                 screen says "Roll 3 finished · Roll 4 next". Each photo says the
                 roll and frame it was shot on. It is never a count of photos.
+                Each roll is its own folder in RITUAL (001_T500: roll 1, its
+                film), its photos named by frame, with its index print
+                (INDEX.JPG): the whole roll on one sheet.
    Developing   The photo being made now. Its picture shows first, then its
                 full photo goes into the RITUAL folder.
 
@@ -90,9 +93,9 @@ your film, in the RITUAL folder on the card.
      burst).
    - Its full photo in the RITUAL folder: about 40 seconds more (a cine film
      with its glow: about a minute).
-   - After a burst they develop one by one, the newest first. Looking at your
-     photos (INFO) or at Canon's playback (PLAY) pauses the developing; it goes
-     on when you close it. Switched off before they are all done? They go on
+   - After a burst they develop one by one, the newest first. They go on
+     developing while you look at your photos (INFO). Canon's own playback
+     (PLAY) and menus pause it; it goes on when you close them. Switched off before they are all done? They go on
      the next time you turn the camera on: nothing is lost.
 
 
@@ -103,9 +106,9 @@ your film, in the RITUAL folder on the card.
      safe, and what was developing goes on.
    - While the camera works normally, wait for the red card light to go off
      before you take the card out.
-   - A photo does not show yet: press INFO. While Ritual's screen is
-     open, a cine photo shows first without its glow; the glowing one comes
-     once you close the screen.
+   - A photo does not show yet: press INFO. A cine photo shows first
+     without its glow; the glowing one takes its place when its full photo
+     is ready.
    - "Reading the card" when you turn the camera on: wait a few seconds.
    - Still stuck? Write to us (www.latentstudios.art). The card keeps a log of
      what happened: we may ask you for it.
