@@ -1,16 +1,18 @@
 ---
-// The Ritual, in the camera: the downloads (first release, 1.0). Where a $0 choice and a paid checkout both land.
-// One door per camera and computer; each file is the camera's 20 films with the install steps and licence inside.
-// Before release the page only points back to /firmware. The firmware is free; paying is optional support, so
-// nothing here reads as a price or a sale (the licence: "given to you free, not sold").
+// The Ritual, in the camera: the downloads (1.1). Make Ritual Card is small, one per camera and computer; each film is
+// its own file, so a fix to the app or to one film never means downloading every film again. The 1.0 downloads stay
+// below, as they were. Before release the page only points back to /firmware. The firmware is free; paying is
+// optional support, so nothing here reads as a price or a sale (the licence: "given to you free, not sold").
 import Base from '../../layouts/Base.astro';
-import { firmware, firmwareDownloads, firmwareNeeds, firmwareVersion } from '../../config/firmware.js';
+import { firmware, firmwareDownloads, firmwareEarlier, firmwareFilms, firmwareNeeds, firmwareVersion } from '../../config/firmware.js';
 import '../../styles/home.css';
 import '../../styles/ritual.css';
 
 const released = firmware.released;
 const cameras = ['Canon EOS 5D Mark II', 'Canon EOS 5D'];
-const size = (bytes) => (bytes ? `${(bytes / 1e9).toFixed(1)} GB` : '');
+const shelves = ['Colour negative', 'Black and white', 'Colour reversal (slide)', 'Motion picture'];
+const size = (bytes) => (!bytes ? '' : bytes >= 1e9 ? `${(bytes / 1e9).toFixed(1)} GB` : bytes >= 1e6 ? `${Math.round(bytes / 1e6)} MB` : `${Math.round(bytes / 1e3)} KB`);
+const films = (camera, shelf) => firmwareFilms.filter((film) => film.camera === camera && film.shelf === shelf);
 ---
 
 <Base
@@ -38,7 +40,7 @@ const size = (bytes) => (bytes ? `${(bytes / 1e9).toFixed(1)} GB` : '');
           <div class="label">The Ritual, in the camera &middot; {firmwareVersion}</div>
           <h1 class="ritual-title">Choose your camera.</h1>
           {released
-            ? <p class="ritual-lede">One download for your camera and your computer. The steps to install it are inside, and <a href="/firmware/guide">online</a>.</p>
+            ? <p class="ritual-lede">Make Ritual Card for your computer, then the films you want, each its own file. The steps are inside, and <a href="/firmware/guide">online</a>.</p>
             : <p class="ritual-lede">Not ready yet. <a href="/firmware">Get one letter on the day it is &rarr;</a></p>}
         </div>
       </section>
@@ -50,6 +52,7 @@ const size = (bytes) => (bytes ? `${(bytes / 1e9).toFixed(1)} GB` : '');
             <div class="fw-camera">
               <div class="label">{camera}</div>
               <p class="fact">Needs {firmwareNeeds[camera]}</p>
+              <p class="fw-small">1. Make Ritual Card, for your computer:</p>
               <div class="fw-doors">
                 {firmwareDownloads.filter((file) => file.camera === camera).map((file) => (
                   file.sha256
@@ -57,6 +60,17 @@ const size = (bytes) => (bytes ? `${(bytes / 1e9).toFixed(1)} GB` : '');
                     : <span class="fw-door" aria-disabled="true">For {file.os} &middot; in a moment</span>
                 ))}
               </div>
+              <p class="fw-small">2. The films you want, each a file of its own. Add them in Make Ritual Card.</p>
+              {shelves.map((shelf) => films(camera, shelf).length > 0 && (
+                <div class="fw-shelf">
+                  <div class="fw-shelf-name">{shelf}</div>
+                  <ul class="fw-films">
+                    {films(camera, shelf).map((film) => (
+                      <li><a href={`/download/firmware/${film.slug}`} download>{film.title}</a> <span class="fw-size">{size(film.bytes)}</span></li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           ))}
         </div>
@@ -67,18 +81,30 @@ const size = (bytes) => (bytes ? `${(bytes / 1e9).toFixed(1)} GB` : '');
       <section class="ritual-block tight">
         <div class="ritual-words wide fw-notes">
           <div class="label">Good to know</div>
-          <p class="fact">Each download is about 3.6 GB: the camera&rsquo;s 20 films. Open &ldquo;How to use Ritual.txt&rdquo; inside before you start, or <a href="/firmware/guide">read the guide online</a>: it is kept up to date there.</p>
-          <p class="fact">Shoot in RAW only (MENU &rarr; Quality &rarr; RAW). The Ritual develops each photograph from Canon&rsquo;s raw file. For now, use RAW alone rather than RAW + JPEG.</p>
-          <p class="fact">On the 5D, set the colour space to sRGB (MENU &rarr; Color space &rarr; sRGB). With Adobe RGB, Canon names the raw files differently and the 5D doesn&rsquo;t find them yet; a fix is coming in the next update. Your raw files are the same either way.</p>
-          <p class="fact">Use a real CompactFlash card (8 GB or more). SD and microSD cards in a CF adapter may not work for now, even when the camera itself accepts them.</p>
-          <p class="fact">INFO is the key button. It opens Ritual&rsquo;s film screen, and it shows your photos as they develop. If a photo hasn&rsquo;t appeared yet, press INFO.</p>
-          <p class="fact">Installing on the 5D, the red light blinks 3 times, then pauses. Seen that a few rounds in a row? It worked: take the battery out and put it back. On the 5D Mark II, the screen tells you: wait for &ldquo;Ritual is ready&rdquo;, then switch the camera off and on.</p>
-          <p class="fact">On the 5D Mark II, set Auto power off to Off for now (MENU &rarr; Auto power off &rarr; Off). If the camera powers itself off while Ritual is working, it can stop with &ldquo;Err&rdquo; on the top screen and the red card light on; take the battery out for a few seconds and put it back, and nothing is lost. A fix is coming in the next update.</p>
-          <p class="fact">Sometimes the first photo after you turn the camera on doesn&rsquo;t show until you take another one. Take a second photo and both appear.</p>
-          <p class="fact">On a Mac, Make Ritual Card needs macOS 12 (Monterey) or later. On an older Mac, use a Windows PC: the card only needs making once.</p>
+          <p class="fact">Make Ritual Card is a small download; the films are their own files, from a few MB to 2 GB. Open &ldquo;How to use Ritual.txt&rdquo; inside before you start, or <a href="/firmware/guide">read the guide online</a>: it is kept up to date there.</p>
+          <p class="fact">Already on 1.0? Delete the old download from your computer, copy your photos off your Ritual card, format that card in the camera, then make it with the new Make Ritual Card and your films. The camera&rsquo;s first-time setup is not needed again.</p>
+          <p class="fact">To add a film later: download it, add it in Make Ritual Card, tick it and click &ldquo;Make the card&rdquo;. Only the new film is copied; the films already on the card and your photos stay.</p>
+          <p class="fact">Shoot in RAW; RAW + JPEG works too. The Ritual develops each photograph from Canon&rsquo;s raw file. sRGB and Adobe RGB both work.</p>
+          <p class="fact">Use a real CompactFlash card (8 GB or more). SD and microSD cards in a CF adapter may not work, even when the camera itself accepts them.</p>
+          <p class="fact">INFO is the key button. It opens Ritual&rsquo;s film screen from anywhere in the camera, and it shows your photos as they develop. If a photo hasn&rsquo;t appeared yet, press INFO.</p>
+          <p class="fact">Ritual keeps rolls, like a film camera: each film you load starts a roll, 36 frames, each roll its own folder on the card with its index print.</p>
+          <p class="fact">On a Mac, Make Ritual Card needs macOS 12 (Monterey) or later. On an older Mac, use a Windows PC.</p>
           <p class="fact">On Windows, the first time you open it Windows says &ldquo;Windows protected your PC&rdquo;. Choose More info, then Run anyway.</p>
           <p class="fact">If it earns a place in your camera, you can <a href="/firmware">pay what you want</a> any time. It helps bring The Ritual to more cameras.</p>
           <p class="fw-small">Not affiliated with or endorsed by Canon Inc. Canon and EOS are trademarks of Canon Inc. Custom firmware is installed at your own risk; follow the steps that come with it.</p>
+        </div>
+      </section>
+      )}
+      {released && (
+      <section class="ritual-block tight">
+        <div class="ritual-words wide fw-notes">
+          <div class="label">The Ritual 1.0</div>
+          <p class="fw-small">The first release, as it was: each download with the camera&rsquo;s 20 films inside. 1.1 is the one to use.</p>
+          <ul class="fw-films">
+            {firmwareEarlier.map((file) => (
+              <li><a href={`/download/firmware/${file.slug}`} download>{file.camera}, for {file.os}</a> <span class="fw-size">{size(file.bytes)}</span></li>
+            ))}
+          </ul>
         </div>
       </section>
       )}
@@ -95,6 +121,11 @@ const size = (bytes) => (bytes ? `${(bytes / 1e9).toFixed(1)} GB` : '');
     .fw-door { font-size: 18px; color: var(--ground, #1A1614); background: var(--amber-accent); border-radius: 999px; padding: 14px 28px; text-decoration: none; }
     .fw-door[aria-disabled="true"] { opacity: .4; }
     .fw-size { opacity: .7; margin-left: 8px; font-size: 15px; }
+    .fw-shelf { display: grid; gap: 6px; }
+    .fw-shelf-name { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--soft); }
+    .fw-films { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+    .fw-films a { color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); }
+    .fw-films .fw-size { font-size: 14px; }
     .fw-small { font-size: 15px; line-height: 1.6; color: var(--soft); max-width: 70ch; margin: 0; }
   </style>
 </Base>

@@ -1,6 +1,6 @@
 ---
-// The Ritual, in the camera: the guide, online. The same steps as "How to use Ritual.txt" in each download, kept
-// current here (a correction never waits for a new 3.6 GB file). One page, both cameras; Mac and Windows differ
+// The Ritual, in the camera: the guide, online. The same steps as "How to use Ritual.txt" in each download (1.1:
+// Camera/tools/kit/HOW-TO.txt, ports/5d2/kit/HOW-TO.txt), kept current here. One page, both cameras; Mac and Windows differ
 // only in making the card. Words are the guide's own, plus what the owner's own install taught (INFO, the blinks,
 // the first photo).
 import Base from '../../layouts/Base.astro';
@@ -9,18 +9,23 @@ import '../../styles/home.css';
 import '../../styles/ritual.css';
 
 const makeCard = [
-  'Copy any photos off the card. Put the card in the camera and format it (MENU → Format).',
-  'On a Mac (macOS 12 or later): put the card in the Mac (a card reader is fine) and open Make Ritual Card. Click “Make the card”. It puts Ritual and its films on the card and checks everything (a few minutes), then asks for the Mac’s password once. It ejects the card when it is done.',
-  'On Windows: right-click the zip you downloaded, choose Extract All, and open the new folder. Put the card in the PC and open Make Ritual Card. If Windows says “Windows protected your PC”, click More info, then Run anyway. Click “Make the card”; Windows asks once to allow it to mark the card: click Yes. It ejects the card when it is done.',
+  'Copy any photos off the card. Put the card in the camera and format it (MENU → Format), right before you make the card.',
+  'Download Make Ritual Card for your camera and computer, and the films you want: each film is a file of its own.',
+  'On a Mac (macOS 12 or later): open the download and open Make Ritual Card from it (never from the card). On Windows: right-click the zip, choose Extract All, and open Make Ritual Card from the new folder. If Windows says “Windows protected your PC”, click More info, then Run anyway.',
+  'Put the card in the computer (a card reader is fine). Add your films: click “Add films…” and choose them, or drag them onto the window. They stay on this computer for next time.',
+  'Tick the films for this card: the fewer films, the more room for photos (it says how many will fit).',
+  'Click “Make the card”. It puts Ritual and its films on the card and checks everything, then asks once to mark the card (the Mac’s password, or Windows’ Yes). It ejects the card when it is done.',
 ];
 
 const words = [
-  ['Film', 'The film each photo develops on. Turn the dial to choose, press SET to load it.'],
+  ['Film', 'The film each photo develops on. Turn the dial to choose, press SET to load it. The camera’s ISO follows the film you load.'],
   ['Development', '“Box speed”, or the film pushed or pulled: developed longer or shorter, as a lab does. Pushed: more contrast and grain. Pulled: softer.'],
   ['Paper', 'The paper the photo is printed on. Some black-and-white papers also have a Grade (0 to 5): the higher, the more contrast.'],
-  ['Halation', 'Cine films only (Kodak Vision3 250D and 500T): the red glow around bright lights. Soft, Medium or Full.'],
+  ['Halation', 'Cine films only: the red glow around bright lights. Soft, Medium or Full.'],
   ['Light', 'The light Ritual develops for: your camera’s white balance (Auto shows the last light it measured, e.g. 4000 K).'],
-  ['Roll', 'Ritual counts your photos in rolls of 36, like film: “Roll 3 · 12 of 36”. A new roll starts by itself after 36, or when you load another film.'],
+  ['Roll', 'Like a film camera’s frame counter: “Roll 3 · frame 12 next” is the frame your next shot will be. Loading another film starts a new roll at frame 1; after 36 frames the screen says “Roll 3 finished · Roll 4 next”. Each roll has its own folder in RITUAL, with its index print.'],
+  ['Size', '5D Mark II: Share size (2040 × 1360, quicker, for phones) or Full size (2808 × 1872). Press SET on a photo to make its full size.'],
+  ['Developing', 'The photo being made now. Its picture shows first, then its photo goes into the RITUAL folder.'],
 ];
 
 const cameras = [
@@ -31,20 +36,21 @@ const cameras = [
     steps: [
       ['The first time only', [
         'Put the card in the camera. MENU → Firmware Ver. 1.1.1 → OK.',
-        'The camera finds LATBOOT1.FIR. Let it run: the red light blinks 3 times, then pauses, again and again. Seen that a few rounds in a row? It worked. (4 blinks each time means it did not: tell us.)',
-        'Take the battery out, wait a few seconds, put it back, turn the camera on and press INFO: Ritual’s film screen. Turn the dial to choose a film and press SET. You are ready to shoot.',
+        'The camera finds LATBOOT1.FIR. Let it run: the red light blinks 3 times, then pauses, again and again. That means it worked. (4 blinks each time means it did not: tell us.)',
+        'Take the battery out, wait a few seconds, put it back, then turn the camera on and press INFO: Ritual’s film screen. Turn the dial to choose a film and press SET. You are ready to shoot.',
+        'If the camera says “Update file cannot be found”: format the card in the camera again, make it again, and put it straight in the camera. If it still says so, do this first time with a 4–8 GB card: after it, any card works for shooting.',
         'You never need to do this again on this camera. With a normal card, the camera works exactly like a normal Canon.',
       ]],
       ['Shooting', [
-        'Set the camera to RAW only: MENU → Quality → RAW (not RAW + JPEG, for now).',
-        'Set the colour space to sRGB: MENU → Color space → sRGB. With Adobe RGB, Canon names the raw files differently and the 5D doesn’t find them yet (a fix is coming in the next update). Your raw files are the same either way.',
+        'Set the camera to RAW (RAW + JPEG works too), in sRGB or Adobe RGB.',
         'Turn the camera on with the Ritual card in it: Ritual starts by itself.',
-        'Press INFO to see Ritual’s film screen. Turn the dial to choose a film, press SET to load it.',
-        'Shoot as usual. Each photo develops a few seconds after you stop shooting. Leave the camera on for a moment after a burst so it can catch up. Press INFO or PLAY to see your photos.',
-        'On a cine film the film screen has a Halation row. Press ▼ to it and turn the dial: Soft, Medium or Full. It stays as you leave it.',
+        'Press INFO to see Ritual’s film screen, from anywhere in the camera. Turn the dial to choose a film, press SET to load it. Press INFO again to see your photos. PLAY is Canon’s own playback (your raws), as on any 5D.',
+        'Shoot as usual. Each photo develops a few seconds after you stop shooting. Leave the camera on after a burst so it can catch up. Canon’s own playback and menus pause the developing; it carries on when you come back.',
+        'To delete a photo: delete it in the camera, not on a computer: the card keeps what belongs together.',
+        'On a cine film (Kodak Vision3 250D or 500T) the film screen has a Halation row. Press ▼ to it and turn the dial: Soft, Medium or Full. It stays as you leave it.',
       ]],
       ['How long it takes', [
-        'A photo’s picture on the screen: a few seconds (longer right after a burst).',
+        'A photo’s picture on the screen: about 12 seconds (longer right after a burst).',
         'Its full photo in the RITUAL folder: about 40 seconds more (a cine film with its glow: about a minute).',
       ]],
     ],
@@ -56,44 +62,42 @@ const cameras = [
     canon: [['Canon firmware 2.1.2 for Mac', 'https://asia.canon/en/support/0400048702'], ['Canon firmware 2.1.2 for Windows', 'https://asia.canon/en/support/0400048602']],
     steps: [
       ['The first time only', [
-        'Put the card in the camera and turn it on. Press MENU, go to Firmware Ver. 2.1.2, press SET, then choose OK.',
-        'The camera does the rest by itself; sometimes it shows a few words, sometimes nothing. If it asks you to set up Ritual, press SET (MENU: not now).',
+        'Put the card in the camera and turn it on. Press MENU, go to Firmware Ver. 2.1.2, press SET, then choose OK. There is no file to choose: the camera finds it on the card by itself.',
+        'The screen says “Set up Ritual on this camera”. Press SET to set it up (MENU: not now).',
         'While it says “Setting up Ritual”, do not switch off or take the battery out. It takes a few seconds.',
-        'When it is back on Canon’s screen, switch the camera off, then on, and press INFO. If The Ritual’s film screen opens, it worked.',
+        'When it says “Ritual is ready”, switch the camera off, then on. If it says “Ritual is already set up”, nothing needed changing: switch off, then on.',
         'If it says “This could not finish”, nothing was changed: write to us. If it says “The camera needs a quick repair”, keep the camera switched on and write to us.',
         'You never need to do this again on this camera. With a normal card, the camera works exactly like a normal Canon.',
       ]],
       ['Shooting', [
-        'Set the camera to RAW only: MENU → Quality → RAW (not RAW + JPEG, for now).',
-        'Set Auto power off to Off for now: MENU → Auto power off → Off. (A fix for Auto power off is coming in the next update.)',
+        'Set the camera to RAW (MENU → Quality). RAW + JPEG works too.',
         'Turn the camera on with the Ritual card in it. The red light comes on for a moment while Ritual starts. The back screen stays dark while you shoot: that is Ritual, as it should be.',
-        'Press INFO to see Ritual’s film screen. Turn the dial to choose a film, press SET to load it.',
-        'Shoot as usual. A few seconds after each shot its picture is ready, on the film you shot it on. Press INFO or PLAY to see your photos.',
+        'Press INFO to see Ritual’s film screen, from anywhere in the camera. Turn the dial to choose a film, press SET to load it.',
+        'Shoot as usual. A few seconds after each shot its picture is ready, on the film you shot it on. Press INFO to see your photos. PLAY is Canon’s own playback (your raws), as on any 5D Mark II.',
+        'Leave the camera on while your photos develop. It stays awake by itself until they are done, then sleeps as usual. Canon’s own playback and menus pause the developing; it carries on when you come back.',
         'Every photo is also saved on your film at a share size (2040 × 1360). For the full size (2808 × 1872) of one photo, press SET on it. For every photo at full size: on the film screen, press ▼ to the Size row and turn the dial to Full.',
-        'On a cine film the film screen has a Halation row. Press ▼ to it and turn the dial: Soft, Medium or Full. The photo shows first without the glow; the glowing one takes its place when its share size is ready.',
-        'To delete a photo: press the trash button on it, then SET.',
+        'On a cine film (Kodak Vision3 250D or 500T) the film screen has a Halation row. Press ▼ to it and turn the dial: Soft, Medium or Full. The photo shows first without the glow; the glowing one takes its place when its share size is ready.',
+        'To delete a photo: press the trash button on it, then SET. Delete photos in the camera, not on a computer: the card keeps what belongs together.',
       ]],
       ['How long it takes', [
-        'A photo’s picture on the screen: a few seconds.',
-        'Its share size in the RITUAL folder: about 35 seconds more (a minute in all, a cine film with its glow too). A full size takes a little longer.',
+        'A photo’s picture on the screen: a few seconds (about 7).',
+        'Its share size in the RITUAL folder: about 40 seconds more (cine films with their glow a little longer). A full size takes about 40 seconds more again.',
       ]],
     ],
-    off: null,
+    off: 'To turn Ritual off for good: format a card in the camera, copy RITUNSET.FIR from the “Turn Ritual off” folder onto it (nothing else), and run it from MENU → Firmware Ver., as in the first time. The screen says “Switch Ritual off on this camera”: press SET. When it says “Ritual is off”, switch the camera off, then on.',
   },
 ];
 
 const always = [
-  'Shoot in RAW only: MENU → Quality → RAW. The Ritual develops each photograph from Canon’s raw file. For now, use RAW alone rather than RAW + JPEG.',
-  'Use a real CompactFlash card (8 GB or more). SD and microSD cards in a CF adapter may not work for now, even when the camera itself accepts them.',
-  'INFO is the key button. It opens Ritual’s film screen, and it shows your photos as they develop. If a photo hasn’t appeared yet, press INFO.',
-  'Sometimes the first photo after you turn the camera on doesn’t show until you take another one. Take a second photo and both appear.',
+  'Use a real CompactFlash card (8 GB or more). SD and microSD cards in a CF adapter may not work, even when the camera itself accepts them.',
+  'INFO is the key button. It opens Ritual’s film screen from anywhere in the camera, and it shows your photos as they develop. If a photo hasn’t appeared yet, press INFO.',
   'After a burst, photos develop one by one, the newest first. Switched off before they are all done? They go on the next time you turn the camera on: nothing is lost.',
-  'The camera freezes (the buttons do nothing, or the screen is stuck): wait until the red card light is off, take the battery out for a few seconds, put it back and turn the camera on. Nothing is lost.',
-  'On the 5D Mark II, if Auto power off was on and the camera stopped with “Err” on the top screen and the red card light stays on: take the battery out for a few seconds and put it back. Nothing is lost.',
-  'Never take the card or the battery out while the red card light is on.',
+  'The camera freezes (the buttons do nothing, the screen is stuck, or “Err”): take the battery out for a few seconds, even if the red card light stays on, put it back and turn the camera on. Nothing is lost: your raws are safe, and what was developing goes on.',
+  'While the camera works normally, wait for the red card light to go off before you take the card out.',
   '“Reading the card” when you turn the camera on: wait a few seconds.',
   'Do not format the Ritual card in the camera unless you want Ritual off it. You can always make it again.',
-  'More films later: put your Ritual card in the computer, open the new Make Ritual Card and click “Make the card”. Your photos stay.',
+  'A new Ritual (from 1.0 too): the same card, made again. Delete the old download from your computer, copy your photos off your Ritual card, format that card in the camera, then make it with the new Make Ritual Card and its films. The first time is not needed again on a camera that has Ritual; doing it again does no harm.',
+  'To add a film: download it, add it in Make Ritual Card, tick it and click “Make the card”. Only the new film is copied; your photos stay. To take one off, untick it.',
 ];
 ---
 

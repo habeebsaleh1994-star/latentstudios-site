@@ -1,8 +1,8 @@
 RITUAL FOR THE CANON EOS 5D MARK II
 by Latent Studios · www.latentstudios.art
-This guide is kept up to date at www.latentstudios.art/firmware/guide
 
-You need: the 5D Mark II with a full battery, a CompactFlash card (8 GB or more), a Windows PC (Windows 10 or 11).
+You need: the 5D Mark II with a full battery, a real CompactFlash card (8 GB or more;
+an SD or microSD card in an adapter may not work), and a Windows PC (Windows 10 or 11).
 Your photos are always Canon's own raw file (CR2, in DCIM), plus Ritual's photo on
 your film, in the RITUAL folder on the card.
 
@@ -18,6 +18,12 @@ Canon's website first.
      downloaded (a zip: right-click it, choose Extract All, open the new
      folder) and open Make Ritual Card. If Windows says "Windows protected
      your PC", click More info, then Run anyway.
+     Open it from your computer, never from the card.
+   - Add your films: download the ones you want at latentstudios.art (each film
+     is a file of its own), then click "Add films…" and choose them, or drag them
+     onto the window. They stay on this computer for next time.
+   - Tick the films for this card: the fewer films, the more room for photos
+     (it says how many will fit).
    - Click "Make the card". It puts Ritual and its films on the card and checks
      everything (a few minutes), then Windows asks once to allow it to mark
      the card: click Yes. It ejects
@@ -26,9 +32,10 @@ Canon's website first.
 
 2. THE FIRST TIME ONLY (in the camera)
    - Put the card in the camera and turn it on.
-   - Press MENU, go to Firmware Ver. 2.1.2, press SET, then choose OK.
-   - The camera finds the setup by itself. When the screen says "Set up Ritual
-     on this camera", press SET (MENU: not now).
+   - Press MENU, go to Firmware Ver. 2.1.2, press SET, then choose OK. There is
+     no file to choose: the camera finds it on the card by itself.
+   - The screen says "Set up Ritual on this camera". Press SET to set it up
+     (MENU: not now).
    - While it says "Setting up Ritual", do not switch off or take the battery out.
      It takes a few seconds.
    - When it says "Ritual is ready", switch the camera off, then on.
@@ -41,12 +48,17 @@ Canon's website first.
 
 
 3. SHOOTING
+   - Set the camera to RAW (MENU → Quality). RAW + JPEG works too.
    - Turn the camera on with the Ritual card in it. The red light comes on for a
      moment while Ritual starts. The back screen stays dark while you shoot.
    - Press INFO to see Ritual's film screen. Turn the dial to choose a film,
      press SET to load it.
    - Shoot as usual. A few seconds after each shot its picture is ready on the
-     back screen, on the film you shot it on. Press INFO, or PLAY, to see your photos.
+     back screen, on the film you shot it on. Press INFO to see your photos.
+     PLAY is Canon's own playback (your raws), as on any 5D Mark II.
+   - Leave the camera on while your photos develop. It stays awake by itself until
+     they are done, then sleeps as usual. Canon's own playback and menus pause the
+     developing; it carries on when you come back.
    - Every photo is also saved on your film at a share size (2040 x 1360), made
      quietly in the background. The bottom of the photo screen says what is
      happening: "Share size next", "Share size developing", then
@@ -60,12 +72,18 @@ Canon's website first.
      Press ▼ to it and turn the dial: Soft, Medium or Full. It stays as you leave it.
      The photo shows first without it; the glowing one takes its place when its
      share size is ready.
-   - To delete a photo: press the trash button on it, then SET.
+   - To delete a photo: press the trash button on it, then SET. Delete photos in
+     the camera, not on a computer: the card keeps what belongs together.
 
 
-4. MORE FILMS LATER
-   - When there is a new Ritual, put your Ritual card in the PC, open the new
-     Make Ritual Card and click "Make the card". Your photos stay.
+4. A NEW RITUAL, MORE FILMS
+   - A new Ritual (from 1.0 too): the same card, made again. Delete the old
+     download from your computer, copy your photos off your Ritual card, format
+     that card in the camera (MENU → Format), then make it with the new Make
+     Ritual Card and its films, as in step 1. The first time (step 2) is not needed again on a
+     camera that has Ritual; doing it again does no harm.
+   - To add a film: download it, add it ("Add films…"), tick it and click "Make
+     the card". To take one off, untick it: it is taken off the card.
 
 
 5. WORDS ON THE SCREEN
@@ -80,9 +98,11 @@ Canon's website first.
                 Medium or Full.
    Light        The light Ritual develops for: your camera's white balance
                 (Auto shows the last light it measured, e.g. 4000 K).
-   Roll         Ritual counts your photos in rolls of 36, like film:
-                "Roll 3 · 12 of 36". A new roll starts by itself after 36,
-                or when you load another film.
+   Roll         Like a film camera's frame counter: "Roll 3 · frame 12 next" is
+                the frame your next shot will be. Loading another film (or
+                development) starts a new roll at frame 1; after 36 frames the
+                screen says "Roll 3 finished · Roll 4 next". Each photo says the
+                roll and frame it was shot on. It is never a count of photos.
    Size         Share size (2040 x 1360, quicker, for phones) or Full size
                 (2808 x 1872). Press SET on a photo to make its full size.
    Developing   The photo being made now. Its picture shows first, then its
@@ -90,25 +110,22 @@ Canon's website first.
 
 
 6. HOW LONG IT TAKES
-   - A photo's picture on the screen: a few seconds.
-   - Its share size in the RITUAL folder: about 35 seconds more (a minute in
-     all, a cine film with its glow too). A full size takes a little longer.
+   - A photo's picture on the screen: a few seconds (about 7).
+   - Its share size in the RITUAL folder: about 40 seconds more (cine films with
+     their glow a little longer). A full size takes about 40 seconds more again.
    - After a burst they develop one by one, the newest first. You can look at
      them in PLAY meanwhile. Switched off before they are all done? They go on
      the next time you turn the camera on: nothing is lost.
 
 
 7. IF SOMETHING GOES WRONG
-   - INFO is the key button. It opens Ritual's film screen, and it shows your
-     photos as they develop. If a photo hasn't appeared yet, press INFO.
-   - Sometimes the first photo after you turn the camera on doesn't show until
-     you take another one. Take a second photo and both appear.
-   - The camera freezes (the buttons do nothing, or the screen is stuck): wait
-     until the red card light is off, take the battery out for a few seconds,
-     put it back and turn the camera on. Nothing is lost: what was developing
-     goes on.
-   - Never take the card or the battery out while the red card light is on.
-   - A photo does not show yet: press INFO or PLAY. A cine photo shows first
+   - The camera freezes (the buttons do nothing, the screen is stuck, or "Err"):
+     take the battery out for a few seconds, even if the red card light stays
+     on, put it back and turn the camera on. Nothing is lost: your raws are
+     safe, and what was developing goes on.
+   - While the camera works normally, wait for the red card light to go off
+     before you take the card out.
+   - A photo does not show yet: press INFO. A cine photo shows first
      without its glow; the glowing one takes its place when its share size
      is ready.
    - The back screen stays dark while you shoot: that is Ritual, as it should be.
@@ -119,6 +136,11 @@ Canon's website first.
 Do not format the Ritual card in the camera unless you want Ritual off it
 (you can always make it again with step 1).
 With a normal card, the camera works exactly like a normal Canon.
+
+TO TURN RITUAL OFF FOR GOOD: format a card in the camera, copy RITUNSET.FIR from
+the "Turn Ritual off" folder onto it (nothing else), and run it from MENU →
+Firmware Ver. as in step 2. The screen says "Switch Ritual off on this camera":
+press SET. When it says "Ritual is off", switch the camera off, then on.
 
 The films work only inside Ritual on the camera, and only with this kit.
 You may share this download with friends, free and as you received it. Please read LICENCE.txt.

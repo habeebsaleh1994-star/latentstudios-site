@@ -36,28 +36,57 @@ test('the page keeps "get notified" until release, and never words payment as a 
   assert.doesNotMatch(page, /donat|crowdfund|pledge/iu);
 });
 
-test('the first release lists four downloads, served only once released, byte for byte', async () => {
-  const { firmwareDownloads } = await import('../src/config/firmware.js');
+test('1.1 lists four small app downloads, 1.0 kept beside them, served only once released, byte for byte', async () => {
+  const { firmwareDownloads, firmwareEarlier } = await import('../src/config/firmware.js');
   const { serveFirmwareFile } = await import('../src/server/firmware-release.js');
   assert.equal(firmwareDownloads.length, 4);
-  for (const file of firmwareDownloads) assert.match(file.key, /^firmware\/the-ritual-5d\/1\.0\//u);
-  const bucket = { head: async () => ({ size: 3567631531 }), get: async (_k, o) => ({ body: 'x', range: o }) };
+  for (const file of firmwareDownloads) {
+    assert.match(file.key, /^firmware\/the-ritual-5d\/1\.1\//u);
+    assert.ok(file.bytes < 1e6, `${file.slug} is the small app`);
+  }
+  assert.equal(firmwareEarlier.length, 4);
+  for (const file of firmwareEarlier) assert.match(file.key, /^firmware\/the-ritual-5d\/1\.0\//u);
+  const bucket = { head: async () => ({ size: 787357 }), get: async (_k, o) => ({ body: 'x', range: o }) };
   const req = (h = {}) => new Request('https://latentstudios.art/download/firmware/mark-ii-mac', { headers: h });
   const ctx = (h) => ({ request: req(h), env: { LATENT_RELEASES: bucket } });
   assert.equal((await serveFirmwareFile(ctx(), 'mark-ii-mac', { released: false })).status, 404);
   assert.equal((await serveFirmwareFile(ctx(), 'nope', { released: true })).status, 404);
   const full = await serveFirmwareFile(ctx(), 'mark-ii-mac', { released: true });
   assert.equal(full.status, 200);
-  assert.equal(full.headers.get('Content-Length'), '3567631531');
-  assert.match(full.headers.get('Content-Disposition'), /Ritual-for-5D-Mark-II-1\.0\.dmg/u);
+  assert.equal(full.headers.get('Content-Length'), '787357');
+  assert.match(full.headers.get('Content-Disposition'), /Ritual-for-5D-Mark-II-1\.1\.dmg/u);
   const part = await serveFirmwareFile(ctx({ Range: 'bytes=100-199' }), 'mark-ii-mac', { released: true });
   assert.equal(part.status, 206);
-  assert.equal(part.headers.get('Content-Range'), 'bytes 100-199/3567631531');
+  assert.equal(part.headers.get('Content-Range'), 'bytes 100-199/787357');
+  const first = firmwareEarlier.find((file) => file.slug === 'mark-ii-mac-1.0');
+  const oldBucket = { head: async () => ({ size: first.bytes }), get: async () => ({ body: 'x' }) };
+  const old = await serveFirmwareFile({ request: req(), env: { LATENT_RELEASES: oldBucket } }, 'mark-ii-mac-1.0', { released: true });
+  assert.equal(old.status, 200);
+  assert.match(old.headers.get('Content-Disposition'), /Ritual-for-5D-Mark-II-1\.0\.dmg/u);
+});
+
+test('each film is its own download per camera, its name kept whole for the browser', async () => {
+  const { firmwareFilms } = await import('../src/config/firmware.js');
+  const { serveFirmwareFile } = await import('../src/server/firmware-release.js');
+  assert.equal(firmwareFilms.length, 44);
+  assert.equal(new Set(firmwareFilms.map((film) => film.slug)).size, 44);
+  for (const film of firmwareFilms) {
+    assert.match(film.key, /^firmware\/the-ritual-5d\/1\.1\/films\/(5d-mark-ii|5d-classic)\/[a-z0-9-]+\.ritualfilm$/u);
+    assert.match(film.sha256, /^[0-9a-f]{64}$/u);
+  }
+  const film = firmwareFilms.find((f) => f.slug === 'mark-ii-film-cinestill-800t');
+  const bucket = { head: async () => ({ size: film.bytes }), get: async () => ({ body: 'x' }) };
+  const ctx = { request: new Request(`https://latentstudios.art/download/firmware/${film.slug}`), env: { LATENT_RELEASES: bucket } };
+  const res = await serveFirmwareFile(ctx, film.slug, { released: true });
+  assert.equal(res.status, 200);
+  const d = res.headers.get('Content-Disposition');
+  assert.match(d, /filename="[\x20-\x7e]+"/u);
+  assert.match(d, /filename\*=UTF-8''CineStill%20800T%20%C2%B7%205D%20Mark%20II\.ritualfilm/u);
 });
 
 test('a download counts once when it starts, and once more only when its last byte is handed over', async () => {
   const { serveFirmwareFile } = await import('../src/server/firmware-release.js');
-  const size = 3567532901; // the 5D Mac file; the fake bucket streams a few small pieces in its place
+  const size = 636102; // the 5D Mac file (1.1); the fake bucket streams a few small pieces in its place
   const counted = [];
   const db = { prepare: () => ({ bind: (_day, product) => ({ run: async () => { counted.push(product); } }) }) };
   const stream = (n) => new ReadableStream({

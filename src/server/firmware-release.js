@@ -1,7 +1,7 @@
 // The firmware downloads, served byte for byte from R2 (config/firmware.js lists them). Ranges are honoured so a
 // 3.6 GB download can resume; a download counts once, on the request that starts at the first byte.
 import { countDownload, countFinishedDownload } from './download-count.js';
-import { firmware, firmwareDownloads, firmwareVersion } from '../config/firmware.js';
+import { firmware, firmwareDownloads, firmwareEarlier, firmwareFilms } from '../config/firmware.js';
 
 function parseRange(value, size) {
   if (!value) return null;
@@ -23,8 +23,15 @@ function parseRange(value, size) {
   return { offset: start, length: end - start + 1 };
 }
 
+/// a door by its slug: this release's downloads, the first release's (kept), or a film of this release
 export function firmwareDownload(slug) {
-  return firmwareDownloads.find((item) => item.slug === slug) ?? null;
+  return [...firmwareDownloads, ...firmwareEarlier, ...firmwareFilms].find((item) => item.slug === slug) ?? null;
+}
+/// the file's name as saved: plain ASCII as it is, else an ASCII stand-in and its UTF-8 name (RFC 6266; a film's "·")
+function disposition(filename) {
+  const plain = filename.replace(/[^\x20-\x7e]/gu, '-').replace(/"/gu, '');
+  return plain === filename ? `attachment; filename="${filename}"`
+    : `attachment; filename="${plain}"; filename*=UTF-8''${encodeURIComponent(filename)}`;
 }
 
 export async function serveFirmwareFile(context, slug, { released = firmware.released } = {}) {
@@ -42,7 +49,7 @@ export async function serveFirmwareFile(context, slug, { released = firmware.rel
   const headers = new Headers({
     'Accept-Ranges': 'bytes',
     'Cache-Control': 'public, max-age=3600',
-    'Content-Disposition': `attachment; filename="${file.filename}"`,
+    'Content-Disposition': disposition(file.filename),
     'Content-Type': 'application/octet-stream',
     'X-Content-Type-Options': 'nosniff',
     'X-Latent-Release-SHA256': file.sha256,
@@ -58,9 +65,9 @@ export async function serveFirmwareFile(context, slug, { released = firmware.rel
   headers.set('Content-Length', String(length));
   if (range) headers.set('Content-Range', `bytes ${range.offset}-${range.offset + range.length - 1}/${metadata.size}`);
   const product = `the-ritual-5d/${slug}`;
-  countDownload(context, product, firmwareVersion, range);
+  countDownload(context, product, file.version ?? '1.1', range);
   const reachesEnd = !range || range.offset + range.length === metadata.size;
-  const body = reachesEnd ? whenDelivered(context, object.body, length, () => countFinishedDownload(context, product, firmwareVersion)) : object.body;
+  const body = reachesEnd ? whenDelivered(context, object.body, length, () => countFinishedDownload(context, product, file.version ?? '1.1')) : object.body;
   return new Response(body, { status: range ? 206 : 200, headers });
 }
 
