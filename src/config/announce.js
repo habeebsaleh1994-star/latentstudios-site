@@ -13,7 +13,7 @@ export const announce = Object.freeze(out ? {
   id: 'firmware-2026-10-release',
   href: '/firmware',
   lead: 'The Ritual for Canon 5D and 5D Mark II: the firmware is here.',
-  short: 'The Ritual for Canon 5D: the firmware is here.',
+  short: 'The Ritual for 5D and 5D Mark II: the firmware is here.',
   tail: 'It runs in the camera. Pay what you want.',
   door: 'Get the firmware',
 } : {
@@ -21,7 +21,7 @@ export const announce = Object.freeze(out ? {
   id: 'firmware-2026-10-b',
   href: '/firmware',
   lead: 'The Ritual for Canon 5D and 5D Mark II: firmware, coming soon.',
-  short: 'The Ritual for Canon 5D: firmware, coming soon.',
+  short: 'The Ritual for 5D and 5D Mark II: firmware, coming soon.',
   tail: 'It runs in the camera. The Ritual for Mac, the whole darkroom, is available now.',
   door: 'Get notified',
 });

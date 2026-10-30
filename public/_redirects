@@ -1,2 +1,7 @@
 /nera  /  302
 /nera/  /  302
+# The Moment left beta for the App Store (2026-10-20); Print Engine left its private beta for the Lab (1.1.12).
+/beta  /moment/  301
+/beta/  /moment/  301
+/print-engine/beta  /lab/  301
+/print-engine/beta/  /lab/  301

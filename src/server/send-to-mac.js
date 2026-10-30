@@ -74,7 +74,7 @@ export function labInstallLink() {
 }
 
 const STEPS = [
-  ['Download Latent Manager.', 'Open Latent Manager.dmg, drag it to Applications, and open it.'],
+  ['Download Latent Manager.', 'Open the Latent Manager disk image, drag Latent Manager to Applications, and open it.'],
   ['Sign in to your Latent account', 'with Apple or Google. Manager keeps your plan, your Macs and your updates together.'],
   ['Install The Ritual', 'from Manager, and open it.'],
   ['Use it free, with the Latent mark.', 'Choose a plan whenever you are ready; Paddle handles the secure checkout.'],
