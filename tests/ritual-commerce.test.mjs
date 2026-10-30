@@ -27,11 +27,11 @@ test('holds the exact Ritual plan contract, open for sale since 2026-10-12', () 
     'no plan carries a Paddle trial period',
   );
   assert.equal(ritualCommerce.supportedMacs, 2);
-  assert.equal(ritualCommerce.manager.version, '1.1.7');
-  assert.equal(ritualCommerce.manager.build, 242);
+  assert.equal(ritualCommerce.manager.version, '1.1.18');
+  assert.equal(ritualCommerce.manager.build, 255);
   assert.match(ritualCommerce.manager.sha256, /^[a-f0-9]{64}$/u);
   assert.match(ritualCommerce.manager.filename, /\.dmg$/u);
-  assert.match(ritualCommerce.manager.key, /\/Latent-Manager-1\.1\.7\.dmg$/u);
+  assert.match(ritualCommerce.manager.key, /\/Latent-Manager-1\.1\.18\.dmg$/u);
   assert.equal(truth.ritualStatus, 'Available now');
   assert.equal(truth.ritualPlatformStatus, 'Available now for Mac · iPad to follow');
 });
