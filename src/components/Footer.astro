@@ -1,60 +1,41 @@
 ---
-// Footer — the house's letters desk.
-//
-// Signups POST to our same-origin /api/subscribe proxy (a Cloudflare Pages
-// Function) which relays to Buttondown's API — bypassing the Turnstile gate on
-// the public embed form.
+// Footer — the house's letters desk and colophon, as the home page draws them (home.css). Signups POST to our
+// same-origin /api/subscribe proxy (a Cloudflare Pages Function), which relays to Buttondown.
 const SUBSCRIBE_ENDPOINT = '/api/subscribe';
 ---
 
-<footer id="letters">
-  <div class="footer-mark reveal">LATENT STUDIOS</div>
-  <div class="footer-links reveal" style="--reveal-delay: 160ms">
-    <a href="/ritual">The Ritual</a>
-    <a href="/moment">The Moment</a>
-    <a href="/lab">The Lab</a>
-    <a href="https://wall.latentstudios.art">The Wall</a>
-    <a href="/about">About</a>
-    <a href="mailto:hello@latentstudios.art">Contact</a>
-    <a href="https://instagram.com/bylatentstudios" target="_blank" rel="noopener noreferrer">Instagram</a>
-    <a href="/privacy">Privacy</a>
-    <a href="/terms">Terms</a>
-  </div>
-
-  <div class="footer-subscribe reveal" id="notify" style="--reveal-delay: 240ms" data-newsletter>
-    <p class="footer-subscribe-line">
-      Occasional letters from the studio. A room when it is built. A call
-      when it opens. Nothing else.
-    </p>
-    <form
-      class="footer-subscribe-form"
-      action={SUBSCRIBE_ENDPOINT}
-      method="post"
-      data-newsletter-form
-    >
-      <label class="visually-hidden" for="newsletter-email">Email address</label>
-      <input
-        id="newsletter-email"
-        class="footer-subscribe-input"
-        type="email"
-        name="email"
-        required
-        autocomplete="email"
-        placeholder="your address"
-      />
-      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
-             style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
-      <button type="submit" class="footer-subscribe-submit">Write to me</button>
-    </form>
-    <p class="footer-subscribe-error" data-newsletter-error hidden role="alert">
-      That email doesn't look right.
-    </p>
-    <p class="footer-subscribe-done" data-newsletter-done hidden role="status" aria-live="polite">
-      You&rsquo;re subscribed. Letters will be rare.
-    </p>
-  </div>
-
-  <p class="footer-meta reveal" style="--reveal-delay: 320ms">&copy; 2026 Latent Studios.</p>
-
-  <button class="footer-lamp" type="button" data-lamp aria-pressed="false" title="Warm the room after dark">Lamplight</button>
+<footer class="home-main site-foot">
+  <section id="letters" class="home-letters">
+    <div class="home-letters-desk" data-newsletter>
+      <p class="line">Occasional letters from the studio. A room when it opens. A call when it comes. Nothing else.</p>
+      <form class="home-letters-form" action={SUBSCRIBE_ENDPOINT} method="post" data-newsletter-form>
+        <label class="visually-hidden" for="newsletter-email">Email address</label>
+        <input id="newsletter-email" type="email" name="email" required autocomplete="email" placeholder="your address" />
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
+        <button type="submit" class="door">Write to us</button>
+      </form>
+      <p class="home-letters-note" data-newsletter-error hidden role="alert">That email doesn't look right.</p>
+      <p class="home-letters-note" data-newsletter-done hidden role="status" aria-live="polite">You&rsquo;re on the list. Letters will be rare.</p>
+    </div>
+    <div class="home-letters-colophon">
+      <nav aria-label="Site">
+        <a href="/ritual">The Ritual</a>
+        <a href="/moment">The Moment</a>
+        <a href="/lab">The Lab</a>
+        <a href="https://wall.latentstudios.art">The Wall</a>
+        <a href="/about">About</a>
+        <a href="/support">Support</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="mailto:hello@latentstudios.art">Contact</a>
+        <a href="https://instagram.com/bylatentstudios" target="_blank" rel="noopener noreferrer">Instagram</a>
+      </nav>
+      <p class="home-mark home-mark-foot">Latent Studios<span class="home-berry" aria-hidden="true"></span> &nbsp;&middot;&nbsp; &copy; 2026</p>
+    </div>
+  </section>
 </footer>
+
+<style>
+  .site-foot { padding-top: clamp(60px, 10vh, 120px); }
+</style>

@@ -1,103 +1,21 @@
 ---
-// Nav — global navigation for the house of three instruments.
-//
-// Over the homepage's full-bleed Develop hero, the nav sits transparent (no
-// dark band) and its small wordmark steps aside, because the giant hero
-// wordmark is right there. The moment you scroll past the hero, the nav fogs
-// in to its normal frosted bar and the wordmark fades up. On every other page
-// (no full-bleed hero) the nav behaves exactly as before — frosted from the top.
-//
-// The CTA is configurable per page: the house pages send visitors where the truth.ts label says
-// (the Ritual shop while it is open, /beta before); each instrument page anchors to its own close
-// section instead (label per its current release state).
-import { truth } from '../config/truth';
+// Nav — the site's header (2026-10-30): the Latent Studios mark and the rooms, as the home page and every instrument
+// page draw it (home.css). A page that uses it wraps its content in `<div class="home">`, with Footer at the end.
+import '../styles/home.css';
 
-interface Props {
-  cta?: { label: string; href: string };
-  /** The page opens with a full-bleed hero the nav should sit over transparently. */
-  overHero?: boolean;
-}
-
-const { cta = { label: truth.ctaLabel, href: truth.ctaHref }, overHero = false } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isHome = overHero;
-
-const links = [
+const rooms = [
   { label: 'The Ritual', href: '/ritual' },
   { label: 'The Moment', href: '/moment' },
   { label: 'The Lab', href: '/lab' },
   { label: 'The Wall', href: 'https://wall.latentstudios.art' },
-  { label: 'About', href: '/about' },
 ];
 ---
 
-<nav class={isHome ? 'over-hero' : ''} data-nav>
-  <a class="wordmark" href="/">LATENT STUDIOS</a>
-  <ul>
-    {links.map((l) => (
-      <li><a href={l.href} class={path === l.href ? 'is-active' : ''} aria-current={path === l.href ? 'page' : undefined}>{l.label}</a></li>
-    ))}
-    <li><a href={cta.href} class="cta">{cta.label}</a></li>
-  </ul>
-  <button class="nav-menu-btn" type="button" aria-expanded="false" aria-controls="nav-overlay" data-nav-menu>Menu</button>
-</nav>
-
-<div class="nav-overlay" id="nav-overlay" hidden data-nav-overlay>
-  <ul>
-    {links.map((l) => (
-      <li><a href={l.href} class={path === l.href ? 'is-active' : ''} aria-current={path === l.href ? 'page' : undefined}>{l.label}</a></li>
-    ))}
-    <li><a href={cta.href} class="cta">{cta.label}</a></li>
-  </ul>
-</div>
-
-<style>
-  /* Homepage, at the very top: dissolve the frosted bar so the photograph
-     reads full-bleed, and let the hero's wordmark carry the brand alone. */
-  nav.over-hero:not(.is-scrolled) {
-    background: transparent;
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    border-bottom-color: transparent;
-  }
-  nav.over-hero:not(.is-scrolled) .wordmark {
-    opacity: 0;
-    pointer-events: none;
-  }
-  nav.over-hero .wordmark {
-    transition: opacity 0.5s ease;
-  }
-</style>
-
-<script>
-  // Fog the nav in once the hero is behind you.
-  const nav = document.querySelector('nav.over-hero');
-  if (nav) {
-    const sync = () => nav.classList.toggle('is-scrolled', window.scrollY > 80);
-    sync();
-    window.addEventListener('scroll', sync, { passive: true });
-  }
-
-  // Mobile menu — wordmark + a Menu disclosure that opens a full-screen
-  // overlay of the same mono links, with the body scroll locked behind it.
-  const btn = document.querySelector('[data-nav-menu]');
-  const overlay = document.querySelector('[data-nav-overlay]');
-  if (btn instanceof HTMLElement && overlay instanceof HTMLElement) {
-    const setOpen = (open) => {
-      btn.setAttribute('aria-expanded', String(open));
-      btn.textContent = open ? 'Close' : 'Menu';
-      overlay.hidden = !open;
-      document.documentElement.classList.toggle('nav-locked', open);
-    };
-    btn.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
-    overlay.addEventListener('click', (e) => {
-      if (e.target instanceof Element && e.target.closest('a')) setOpen(false);
-    });
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
-        setOpen(false);
-        btn.focus();
-      }
-    });
-  }
-</script>
+<header class="home-header">
+  <a class="home-mark" href="/">Latent Studios<span class="home-berry" aria-hidden="true"></span></a>
+  <nav class="home-nav" aria-label="Rooms">
+    {rooms.map((r) => <a href={r.href} aria-current={path === r.href ? 'page' : undefined}>{r.label}</a>)}
+    <a href="#letters">Letters</a>
+  </nav>
+</header>
